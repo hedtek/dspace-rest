@@ -30,11 +30,7 @@ import org.mortbay.jetty.webapp.WebAppContext;
 
 public abstract class RestApiBaseTest {
   private static String apiHost = "localhost";
-  private static String apiMountPoint = "/dspace-rest";
   private static String apiProtocol = "http";
-  private static int apiPort = 9090;
-  private static String resourceBase = "target/testResources";
-  private static String webXmlLocation = "target/testWebapp/WEB-INF/web.xml";
   private static Server server;
   private HttpClient client;
 
@@ -53,19 +49,35 @@ public abstract class RestApiBaseTest {
   }
   
   protected String makeRequest(String endpoint, String queryString) throws Exception {
-	URI uri = URIUtils.createURI(apiProtocol, apiHost, apiPort, apiMountPoint + endpoint, queryString, null);
+	URI uri = URIUtils.createURI(apiProtocol, apiHost, jettyPort(), jettyPath() + endpoint, queryString, null);
 	HttpGet httpget = new HttpGet(uri);
 	httpget.addHeader("Accept", "application/json");
     ResponseHandler<String> responseHandler = new BasicResponseHandler();
     return client.execute(httpget, responseHandler);
   }
-  
+
   protected int getResponseCode(String endpoint, String queryString) throws Exception{
-	URI uri = URIUtils.createURI(apiProtocol, apiHost, apiPort, apiMountPoint + endpoint, queryString, null);
+	URI uri = URIUtils.createURI(apiProtocol, apiHost, jettyPort(), jettyPath() + endpoint, queryString, null);
 	HttpGet httpget = new HttpGet(uri);
 	httpget.addHeader("Accept", "application/json");
 	HttpResponse response = client.execute(httpget);
     return response.getStatusLine().getStatusCode();
+  }
+
+  protected static int jettyPort() {
+    return Integer.parseInt(System.getenv("jetty.port"));
+  }
+
+  protected static String jettyPath() {
+    return System.getenv("jetty.path");
+  }
+
+  protected static String resourceBase() {
+    return System.getenv("resource.base");
+  }
+
+  protected static String webXmlLocation() {
+    return System.getenv("webxml.location");
   }
 
   protected int getResponseCode(String endpoint) throws Exception{
@@ -73,27 +85,27 @@ public abstract class RestApiBaseTest {
   }
 
   private static void loadDatabase(String filename) throws Exception {
-    ConfigurationManager.loadConfig("target/testResources/config/dspace.cfg");
+    ConfigurationManager.loadConfig(resourceBase() + "/config/dspace.cfg");
     DatabaseManager.loadSql(new FileReader(new File(filename).getCanonicalPath()));
   }
 
   protected static void loadFixture(String fixtureName) throws Exception {
-    loadDatabase("src/test/resources/setup/cleardb.sql");
-    loadDatabase("src/test/resources/fixtures/" + fixtureName + ".sql");
-    //DatabaseManager.shutdown();
+    loadDatabase(resourceBase() + "/setup/cleardb.sql");
+    loadDatabase(resourceBase() + "/fixtures/" + fixtureName + ".sql");
+    DatabaseManager.shutdown();
   }
 
   protected static void startJetty() throws Exception {
       server = new Server();
       Connector connector = new SelectChannelConnector();
-      connector.setPort(apiPort);
+      connector.setPort(jettyPort());
       connector.setHost(apiHost);
       server.addConnector(connector);
        
       WebAppContext wac = new WebAppContext();
-      wac.setContextPath(apiMountPoint);
-      wac.setResourceBase(resourceBase);
-      wac.setDescriptor(webXmlLocation);
+      wac.setContextPath(jettyPath());
+      wac.setResourceBase(resourceBase());
+      wac.setDescriptor(webXmlLocation());
       wac.setParentLoaderPriority(true);
       server.setHandler(wac);
       server.setStopAtShutdown(true);
