@@ -21,16 +21,12 @@ public class SubCommunityDatabaseTest extends RestApiBaseTest {
 
 	@BeforeClass
     public static void createFixture() throws Exception {
-		System.out.println("++++++++++++++++++++++++++++++++++++++++before load fixture");
       loadFixture("subCommunityDatabase");
-		System.out.println("++++++++++++++++++++++++++++++++++++++++after load fixture");
       startJetty();
-		System.out.println("++++++++++++++++++++++++++++++++++++++++after startJetty");
     }
 	
 	@Test
-	public void subCommunityNotShownInTopLevelList() throws Exception {
-		System.out.println("++++++++++++++++++++++++++++++++++++++++test1");
+	public void subCommunityShouldNotBeShownInTopLevelList() throws Exception {
 	  String result = makeRequest("/communities");
 	  JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 	  JSONArray communityList = (JSONArray) resultJSON.get("communities_collection");
@@ -38,8 +34,7 @@ public class SubCommunityDatabaseTest extends RestApiBaseTest {
 	}
 
 	@Test
-	public void subCommunityIsShownInCompleteList() throws Exception {
-		System.out.println("++++++++++++++++++++++++++++++++++++++++test2");
+	public void subCommunityShouldBeShownInCompleteList() throws Exception {
 	  String result = makeRequest("/communities", "topLevelOnly=false");
 	  JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 	  JSONArray communityList = (JSONArray) resultJSON.get("communities_collection");
@@ -47,8 +42,7 @@ public class SubCommunityDatabaseTest extends RestApiBaseTest {
 	}
 
 	@Test
-	public void subCommunityHasParentInformation() throws Exception {
-		System.out.println("++++++++++++++++++++++++++++++++++++++++test3");
+	public void subCommunityShouldHaveParentInformation() throws Exception {
 	  String result = makeRequest("/communities", "topLevelOnly=false");
 	  JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 	  JSONArray communityList = (JSONArray) resultJSON.get("communities_collection");
@@ -59,8 +53,7 @@ public class SubCommunityDatabaseTest extends RestApiBaseTest {
 	}
 	  
 	@Test
-	public void topLevelCommunityHasSubCommunityInformation() throws Exception {
-		System.out.println("++++++++++++++++++++++++++++++++++++++++test4");
+	public void parentLevelCommunityShouldHaveSubCommunityInformation() throws Exception {
 	  String result = makeRequest("/communities", "topLevelOnly=false");
 	  JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 	  JSONArray communityList = (JSONArray) resultJSON.get("communities_collection");

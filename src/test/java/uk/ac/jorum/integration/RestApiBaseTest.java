@@ -80,7 +80,7 @@ public abstract class RestApiBaseTest {
   protected static void loadFixture(String fixtureName) throws Exception {
     loadDatabase("src/test/resources/setup/cleardb.sql");
     loadDatabase("src/test/resources/fixtures/" + fixtureName + ".sql");
-    DatabaseManager.shutdown();
+    //DatabaseManager.shutdown();
   }
 
   protected static void startJetty() throws Exception {
