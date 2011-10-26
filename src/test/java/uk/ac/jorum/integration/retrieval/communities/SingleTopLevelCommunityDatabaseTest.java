@@ -143,6 +143,12 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 	}
 	
 	@Test
+	public void showCommunityInvalidElementShouldReturnBadRequestStatusCode() throws Exception {
+		int result = getResponseCode("/communities/2/invalidelement");
+		assertThat(result, is(equalTo(400)));
+	}
+	
+	@Test
 	public void showCommunityWithIdOnlyShouldReturnOnlyIds() throws Exception {
 		String result = makeRequest("/communities/2", "idOnly=true");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
