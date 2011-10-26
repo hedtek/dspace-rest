@@ -19,21 +19,18 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.dspace.browse.IndexBrowse;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.storage.rdbms.DatabaseManager;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
+import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.nio.SelectChannelConnector;
-import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.webapp.WebAppContext;
 
 public abstract class RestApiBaseTest {
   private static String apiHost = "localhost";
-  private static String apiMountPoint = "/rest";
+  private static String apiMountPoint = "/dspace-rest";
   private static String apiProtocol = "http";
   private static int apiPort = 9090;
   private static String resourceBase = "target/testResources";
