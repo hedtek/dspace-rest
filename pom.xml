@@ -171,7 +171,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${basedir}/target/testResources</outputDirectory>
+              <outputDirectory>${resource.test.base}</outputDirectory>
 
               <resources>
                 <resource>
@@ -202,7 +202,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${basedir}/target/testWebapp</outputDirectory>
+              <outputDirectory>${webapp.test.base}</outputDirectory>
               <resources>
                 <resource>
                   <directory>src/test/webapp</directory>
@@ -234,6 +234,12 @@
               </goals>
               <configuration>
                 <skip>false</skip>
+                <environmentVariables>
+                  <jetty.port>${jetty.test.port}</jetty.port>
+                  <jetty.path>${jetty.test.path}</jetty.path>
+                  <resource.base>${resource.test.base}</resource.base>
+                  <webxml.location>${webapp.test.base}/WEB-INF/web.xml</webxml.location>
+                </environmentVariables>
                 <excludes>
                   <exclude>none</exclude>
                 </excludes>
@@ -298,6 +304,9 @@
       <test.db.username>dspace-integ</test.db.username>
       <test.db.password>dspace</test.db.password>
       <jetty.test.port>9090</jetty.test.port>
+      <jetty.test.path>/dspace-rest</jetty.test.path>
+      <resource.test.base>${basedir}/target/testResources</resource.test.base>
+      <webapp.test.base>${basedir}/target/testWebapp</webapp.test.base>
       <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
     </properties>
   </project>
