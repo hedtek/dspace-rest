@@ -10,17 +10,10 @@ package uk.ac.jorum.integration.retrieval.communities;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.containsJSONKey;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValue;
-import org.junit.BeforeClass;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.jorum.integration.RestApiBaseTest;
