@@ -63,5 +63,15 @@ public class SubCommunityDatabaseTest extends RestApiBaseTest {
 	  JSONObject subCommunity = (JSONObject) subCommunitiesList.get(0);
 	  assertThat(subCommunity, containsJSONKey("id", withValue(FOUR)));
 	}
+	
+	@Test
+	public void showCommunityAnchestorShouldHaveDataWithParentDetailsForSubcommunities() throws Exception {
+		String result = makeRequest("/communities/4/anchestor");
+		JSONObject community = (JSONObject) JSONValue.parse(result);
+		
+		assertThat(community, containsJSONKey("id", withValue(TWO)));
+	}
+	
+	
 	  
 }

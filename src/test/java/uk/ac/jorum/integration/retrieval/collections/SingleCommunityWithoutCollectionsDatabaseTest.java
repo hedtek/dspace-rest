@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.containsJSONKey;
+import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValue;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -36,4 +37,6 @@ public class SingleCommunityWithoutCollectionsDatabaseTest extends
 	  int result = getResponseCode("/collections", "");
 	  assertThat("200 is observed behaviour, should really be 204", result, is(equalTo(200)));
   	}
+	
+
 }

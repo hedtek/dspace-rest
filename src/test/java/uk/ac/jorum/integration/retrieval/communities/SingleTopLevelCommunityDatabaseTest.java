@@ -196,6 +196,13 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		entityAssertionsOn(community);
 	}
 	
+	@Test
+	public void showCommunityAnchestorShouldReturnNotFoundStatusCodeForTopLevelCommunity() throws Exception {
+		int result = getResponseCode("/collections/2/anchestor", "");
+		assertThat(result, is(equalTo(404)));
+
+	}
+	
 	private void entityAssertionsOn(JSONObject community) throws Exception{
 		assertThat(community, containsJSONKey("entityReference", withValue("/communities/2")));
 		assertThat(community, containsJSONKey("entityURL", withValue("http://localhost:8080/dspace-rest/communities/2")));
