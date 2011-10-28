@@ -3,8 +3,6 @@ package uk.ac.jorum.integration.retrieval.collections;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.containsJSONKey;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValue;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

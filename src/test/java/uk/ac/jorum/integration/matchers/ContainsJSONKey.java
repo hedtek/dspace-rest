@@ -9,30 +9,46 @@ import org.junit.internal.matchers.TypeSafeMatcher;
 public class ContainsJSONKey <T> extends TypeSafeMatcher<JSONObject> {
 
 	private String key;
-	private T value;
+	private T expectedValue;
+	private boolean shouldCheckValue;
+	private boolean isKeyPresent;
 	
 	@Override
 	public void describeTo(Description description) {
-		description.appendText("Key not present");
+		if(!isKeyPresent) {
+			description.appendText("Key not present: " + key);
+		} else {
+			description.appendText("Value of " + key + " to be " + expectedValue);
+		}
 	}
 
 	@Override
 	public boolean matchesSafely(JSONObject item) {
-		boolean isKeyPresent = item.containsKey(key);
-		if (value == null) {
-			return isKeyPresent;
-		} else {
-			return item.get(key).equals(value);
-		}
+		isKeyPresent = item.containsKey(key);
+		if(shouldCheckValue) {
+			if(!isKeyPresent) {
+				return isKeyPresent;
+			}
+
+			if (item.get(key) == null) {
+				return (expectedValue == null);
+			} 
+			
+			return item.get(key).equals(expectedValue);
+		} 
+		
+		return isKeyPresent;
 	}
 
 	private ContainsJSONKey(String key) {
         this.key = key;
+        shouldCheckValue = false;
     }
 	
 	private ContainsJSONKey(String key, T value) {
         this.key = key;
-        this.value = value;
+        this.expectedValue = value;
+        shouldCheckValue = true;
     }
 	
 	@Factory
