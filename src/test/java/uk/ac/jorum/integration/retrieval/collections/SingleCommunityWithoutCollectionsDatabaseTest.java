@@ -3,6 +3,7 @@ package uk.ac.jorum.integration.retrieval.collections;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -10,6 +11,7 @@ import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class SingleCommunityWithoutCollectionsDatabaseTest extends
@@ -33,7 +35,7 @@ public class SingleCommunityWithoutCollectionsDatabaseTest extends
 	@Test
   	public void emptyCollectionsListShouldReturnNoContentStatusCode() throws Exception{
 	  int result = getResponseCode("/collections", "");
-	  assertThat("200 is observed behaviour, should really be 204", result, is(equalTo(200)));
+	  assertThat("200 is observed behaviour, should really be 204", result, hasHTTPCode(HTTPStatusCode.SUCCESS));
   	}
 	
 

@@ -8,14 +8,14 @@
 
 package uk.ac.jorum.integration.retrieval.communities;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
+import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class EmptyDatabaseTest extends RestApiBaseTest {
@@ -36,7 +36,7 @@ public class EmptyDatabaseTest extends RestApiBaseTest {
 	@Test
   	public void emptyCommunitiesListShouldReturnNoContentStatusCode() throws Exception{
 	  int result = getResponseCode("/communities", "");
-	  assertThat("200 is observed behaviour, should really be 204", result, is(equalTo(200)));
+	  assertThat("200 is observed behaviour, should really be 204", result, hasHTTPCode(HTTPStatusCode.SUCCESS));
   	}
 
 }

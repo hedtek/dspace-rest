@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.containsJSONKey;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValue;
+import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -13,6 +14,7 @@ import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
@@ -29,7 +31,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 	@Test
 	public void collectionListShouldReturnSuccessStatusCode() throws Exception {
 		int result = getResponseCode("/collections", "");
-		assertThat(result, is(equalTo(200)));
+		assertThat(result,hasHTTPCode(HTTPStatusCode.SUCCESS));
 	}
 
 	@Test
@@ -63,17 +65,17 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 	private void structureAssertionsOn(JSONObject collection) throws Exception{
 		assertThat(collection, containsJSONKey("canEdit", withValue(false)));
 		assertThat(collection, containsJSONKey("communities"));
-		assertThat(collection, containsJSONKey("copyrightText", withValue(null))); //withValue("Side bar text for collection 1")));
+		assertThat("Correct behaviour should return: Copyright text for collection 1", collection, containsJSONKey("copyrightText", withValue(null)));
 		assertThat(collection, containsJSONKey("countItems"));
 		assertThat(collection, containsJSONKey("handle", withValue("123456789/6")));
 		assertThat(collection, containsJSONKey("id", withValue(ONE)));
-		assertThat(collection, containsJSONKey("introText",	withValue(null))); //withValue("Introductory Text for collection 1")));
+		assertThat("Correct behaviour should return: Introductory Text for collection 1", collection, containsJSONKey("introText",	withValue(null)));
 		assertThat(collection, containsJSONKey("items"));
 		assertThat(collection, containsJSONKey("licence", withValue("Licence for collection 1")));
 		assertThat(collection, containsJSONKey("name", withValue("Collection 1")));
-		assertThat(collection, containsJSONKey("provenance",withValue(null))); //withValue("Provenance for collection 1")));
-		assertThat(collection, containsJSONKey("shortDescription",withValue(null))); //withValue("Short Description for collection 1")));
-		assertThat(collection, containsJSONKey("sidebarText", withValue(null))); //withValue("Side bar text for collection 1")));
+		assertThat("Correct behaviour should return: Provenance for collection 1", collection, containsJSONKey("provenance",withValue(null)));
+		assertThat("Correct behaviour should return: Short Description for collection 1", collection, containsJSONKey("shortDescription",withValue(null)));
+		assertThat("Correct behaviour should return: Side bar text for collection 1", collection, containsJSONKey("sidebarText", withValue(null)));
 		assertThat(collection, containsJSONKey("type"));
 		assertThat(collection, containsJSONKey("entityReference", withValue("/collections/1")));
 		assertThat(collection, containsJSONKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));

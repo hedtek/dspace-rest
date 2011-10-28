@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.containsJSONKey;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValue;
+import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -13,6 +14,7 @@ import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
@@ -28,7 +30,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 	@Test
 	public void communityListShouldReturnSuccessStatusCode() throws Exception {
 		int result = getResponseCode("/communities", "");
-		assertThat(result, is(equalTo(200)));
+		assertThat(result, hasHTTPCode(HTTPStatusCode.SUCCESS));
 	}
 
 	@Test
@@ -67,17 +69,17 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		structureAssertionsOn(community);				
 	}
-
+	
 	@Test
 	public void showNonExistentCommunityShouldReturnNotFoundStatusCode() throws Exception {
 		int result = getResponseCode("/communities/1", "");
-		assertThat(result, is(equalTo(404)));
+		assertThat(result, hasHTTPCode(HTTPStatusCode.NOT_FOUND));
 	}
 	
 	@Test
 	public void showCommunityInvalidElementShouldReturnBadRequestStatusCode() throws Exception {
 		int result = getResponseCode("/communities/2/invalidelement");
-		assertThat(result, is(equalTo(400)));
+		assertThat(result, hasHTTPCode(HTTPStatusCode.BAD_REQUEST));
 	}
 	
 	@Test
@@ -199,7 +201,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 	@Test
 	public void showCommunityAnchestorShouldReturnNotFoundStatusCodeForTopLevelCommunity() throws Exception {
 		int result = getResponseCode("/collections/2/anchestor", "");
-		assertThat(result, is(equalTo(404)));
+		assertThat(result, hasHTTPCode(HTTPStatusCode.NOT_FOUND));
 
 	}
 	
