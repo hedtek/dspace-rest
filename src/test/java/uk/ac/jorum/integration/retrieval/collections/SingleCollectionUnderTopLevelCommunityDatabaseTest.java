@@ -85,7 +85,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		assertThat(collection, not(containsJSONKey("name")));
 		assertThat(collection, not(containsJSONKey("introductoryText")));
 		assertThat(collection, containsJSONKey("entityReference", withValue("/collections/1")));
-		assertThat(collection, containsJSONKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/2")));
+		assertThat(collection, containsJSONKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
 		assertThat(collection, containsJSONKey("entityId"));
 	}
 }
