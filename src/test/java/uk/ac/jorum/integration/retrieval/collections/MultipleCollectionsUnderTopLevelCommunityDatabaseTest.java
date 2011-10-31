@@ -5,8 +5,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.containsJSONKey;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValueIn;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,9 +19,6 @@ import org.junit.Test;
 import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class MultipleCollectionsUnderTopLevelCommunityDatabaseTest extends RestApiBaseTest {
-	
-	private static final Long ONE = new Long(1);
-	private static final Long TWO = new Long(2);
 
 	@BeforeClass
 	public static void createFixture() throws Exception {
@@ -43,10 +39,10 @@ public class MultipleCollectionsUnderTopLevelCommunityDatabaseTest extends RestA
 		String result = makeRequest("/collections");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 		JSONArray collectionsList = (JSONArray) resultJSON.get("collections_collection");
-		Long[] idValues = {ONE, TWO};
+		Integer[] idValues = {1, 2};
 		
 		for (Object collection : collectionsList) {
-			assertThat((JSONObject)collection, containsJSONKey("id", withValueIn(idValues)));
+			assertThat((JSONObject)collection, hasIdIn(idValues));
 		}
 	}
 	

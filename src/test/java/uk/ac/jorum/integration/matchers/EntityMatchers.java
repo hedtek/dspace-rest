@@ -24,6 +24,26 @@ public class EntityMatchers {
 	}
 	
 	@Factory
+	public static  Matcher<JSONObject> hasIdIn(Integer[] ids) {
+		Long[] long_ids = new Long[ids.length];
+		for(int i = 0; i < ids.length; i++) {
+			long_ids[i] = ids[i].longValue();
+		}
+		return hasKey("id", withValueIn(long_ids));
+		
+	}
+	
+	@Factory
+	public static  Matcher<JSONObject> hasIdIn(int[] ids) {
+		Long[] long_ids = new Long[ids.length];
+		for(int i = 0; i < ids.length; i++) {
+			long_ids[i] = new Long(ids[i]);
+		}
+		return hasKey("id", withValueIn(long_ids));
+		
+	}
+	
+	@Factory
 	public static Matcher<JSONObject> hasName(String name){
 		return hasKey("name", withValue(name));		
 	}

@@ -31,7 +31,7 @@ public class ContainsJSONKey <T> extends TypeSafeMatcher<JSONObject> {
 			return isKeyPresent;
 		}
 		
-		Object actualValue = item.get(key);
+		T actualValue = (T)item.get(key);
 
 		if(checkMode == Mode.VALUE) {
 			return compareWithExpectedValue(actualValue);
@@ -42,31 +42,28 @@ public class ContainsJSONKey <T> extends TypeSafeMatcher<JSONObject> {
 		return isKeyPresent;
 	}
 	
-	private boolean compareWithExpectedValue(Object actualValue) {
+	private boolean compareWithExpectedValue(T actualValue) {
 		if (actualValue == null) {
 			return (expectedValue == null);
 		} 
 		return actualValue.equals(expectedValue);
 	}
 	
-	private boolean findInExpectedValues(Object actualValue) {
-		boolean itemFound = false;
+	private boolean findInExpectedValues(T actualValue) {
 		if (actualValue == null) {
-			for(int i=0;i<expectedValues.length;i++) {
-				if(expectedValues[i]==null) {
-					itemFound = true;
-					break;
+			for (T expected: expectedValues) {
+				if(expected==null) {
+					return true;
 				}
 			} 
 		} else {
-			for(int i=0;i<expectedValues.length;i++) {
-				if(actualValue.equals(expectedValues[i])) {
-					itemFound = true;
-					break;
+			for (T expected: expectedValues) {
+				if(actualValue.equals(expected)) {
+					return true;
 				}
-			}
+			} 
 		}
-		return itemFound;
+		return false;
 	}
 
 	private ContainsJSONKey(String key) {
@@ -93,6 +90,11 @@ public class ContainsJSONKey <T> extends TypeSafeMatcher<JSONObject> {
 
 	@Factory
 	public static <T> Matcher<JSONObject> hasKey( String key, T value) {
+	    return new ContainsJSONKey<T>(key, value);
+	}
+	
+	@Factory
+	public static <T> Matcher<JSONObject> hasKey( String key, T[] value) {
 	    return new ContainsJSONKey<T>(key, value);
 	}
 }
