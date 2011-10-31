@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.containsJSONKey;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValue;
+import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValueIn;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -39,12 +40,10 @@ public class MultipleCollectionsUnderTopLevelCommunityDatabaseTest extends RestA
 		String result = makeRequest("/collections");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 		JSONArray collectionsList = (JSONArray) resultJSON.get("collections_collection");
+		Long[] idValues = {ONE, TWO};
 		
-		JSONObject firstCollection = (JSONObject) collectionsList.get(0);
-		assertThat(firstCollection, anyOf(containsJSONKey("id", withValue(ONE)), containsJSONKey("id", withValue(TWO))));
-		
-		JSONObject secondCollection = (JSONObject) collectionsList.get(1);
-		assertThat(secondCollection, anyOf(containsJSONKey("id", withValue(ONE)), containsJSONKey("id", withValue(TWO))));
+		for (Object collection : collectionsList) {
+			assertThat((JSONObject)collection, containsJSONKey("id", withValueIn(idValues)));
+		}
 	}
-
 }
