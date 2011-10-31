@@ -7,7 +7,6 @@ import org.json.simple.JSONObject;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
 public class ContainsJSONKey <T> {
-	
 	@Factory
 	public static Matcher<JSONObject> hasKey( String key ) {
 	    return new ContainsJSONKeyValue<Object>(key);
