@@ -72,7 +72,8 @@ public class SingleItemSingleCollectionTest extends RestApiBaseTest {
 		assertThat(item, cannotBeEdited());
 		//----assertThat(item, containsJSONKey("communities"));
 		//----assertThat(item, containsJSONKey("collections"));
-		assertThat(item, hasHandle("123456789/2"));
+		assertThat(item, hasHandle("123456789/7"));
+		assertThat(item, hasType(2));
 		
 		assertThat(item, hasId(1));
 		assertThat(item, hasKey("isArchived"));
@@ -82,7 +83,6 @@ public class SingleItemSingleCollectionTest extends RestApiBaseTest {
 		assertThat(item, hasName("First Upload"));
 		//----assertThat(item, containsJSONKey("owning_collection"));
 		//----assertThat(item, containsJSONKey("submitter"));
-		assertThat(item, hasKey("type"));
 		assertThat(item, hasEntityReference("/items/1"));
 		assertThat(item, hasEntityURL("http://localhost:8080/dspace-rest/items/1"));
 		assertThat(item, hasKey("entityId"));

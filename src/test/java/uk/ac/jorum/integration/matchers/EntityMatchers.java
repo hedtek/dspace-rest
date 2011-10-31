@@ -62,6 +62,11 @@ public class EntityMatchers {
 	public static Matcher<JSONObject> hasEntityURL(String entityURL){
 		return hasKey("entityURL", withValue(entityURL));		
 	}
+	
+	@Factory
+	public static Matcher<JSONObject> hasType(int type){
+		return hasKey("type", withValue(new Long(type)));		
+	}
 
 	@Factory
 	public static <T> T withValue(T value) {

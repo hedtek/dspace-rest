@@ -94,7 +94,7 @@ public class ContainsJSONKey <T> extends TypeSafeMatcher<JSONObject> {
 	}
 	
 	@Factory
-	public static <T> Matcher<JSONObject> hasKey( String key, T[] value) {
-	    return new ContainsJSONKey<T>(key, value);
+	public static <T> Matcher<JSONObject> hasKey( String key, T[] values) {
+	    return new ContainsJSONKey<T>(key, values);
 	}
 }
