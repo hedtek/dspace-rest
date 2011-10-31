@@ -25,4 +25,6 @@ public class TwoTopLevelCommunitiesDatabaseTest extends RestApiBaseTest {
 	  JSONArray communityList = (JSONArray) resultJSON.get("communities_collection");
 	  assertEquals(2, communityList.size());
   	}
+	
+	//TODO Check if its the correct communities 
 }

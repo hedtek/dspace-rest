@@ -1,12 +1,15 @@
 package uk.ac.jorum.integration.retrieval.collections;
 
-import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.containsJSONKey;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValue;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValueIn;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -44,6 +47,20 @@ public class MultipleCollectionsUnderTopLevelCommunityDatabaseTest extends RestA
 		
 		for (Object collection : collectionsList) {
 			assertThat((JSONObject)collection, containsJSONKey("id", withValueIn(idValues)));
+		}
+	}
+	
+	@Test
+	public void collectionListShouldContainUniqueCollections() throws Exception {
+		String result = makeRequest("/collections");
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		JSONArray collectionsList = (JSONArray) resultJSON.get("collections_collection");
+	
+		Set<Long> ids = new HashSet<Long>();
+		for (Object collection : collectionsList) {
+			Long id = (Long)((JSONObject)collection).get("id");
+			assertThat(ids, not(hasItem(id)));
+			ids.add(id);
 		}
 	}
 }
