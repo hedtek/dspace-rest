@@ -216,6 +216,17 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		entityAssertionsOn(collection);
 	}
 
+
+	@Test
+	public void communityOwningACollectionShouldContainCollectionInShowCommunityDetails() throws Exception {
+		String result = makeRequest("/communities/2");
+		JSONObject communityOwningACollection = (JSONObject) JSONValue.parse(result);
+		JSONArray collectionsList = (JSONArray)communityOwningACollection.get("collections");
+		JSONObject collection = (JSONObject)collectionsList.get(0);
+		
+		assertThat(collection, hasId(1));
+	}
+	
 	private void entityAssertionsOn(JSONObject collection) throws Exception{
 		assertThat(collection, hasKey("entityReference", withValue("/collections/1")));
 		assertThat(collection, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
