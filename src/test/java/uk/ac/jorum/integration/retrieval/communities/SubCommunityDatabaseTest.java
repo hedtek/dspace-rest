@@ -2,8 +2,7 @@ package uk.ac.jorum.integration.retrieval.communities;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.containsJSONKey;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValue;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,11 +13,7 @@ import org.junit.Test;
 import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class SubCommunityDatabaseTest extends RestApiBaseTest {
-
-	private static final Long TWO = new Long(2);
-	private static final Long FOUR = new Long(4);
-
-
+	
 	@BeforeClass
     public static void createFixture() throws Exception {
       loadFixture("subCommunityDatabase");
@@ -49,7 +44,7 @@ public class SubCommunityDatabaseTest extends RestApiBaseTest {
 	  
 	  JSONObject community = (JSONObject) communityList.get(1);
 	  JSONObject parentCommunity = (JSONObject) community.get("parentCommunity");
-	  assertThat(parentCommunity, containsJSONKey("id", withValue(TWO)));
+	  assertThat(parentCommunity, hasId(2));
 	}
 	  
 	@Test
@@ -61,7 +56,7 @@ public class SubCommunityDatabaseTest extends RestApiBaseTest {
 	  JSONObject community = (JSONObject) communityList.get(0);
 	  JSONArray subCommunitiesList = (JSONArray) community.get("subCommunities");
 	  JSONObject subCommunity = (JSONObject) subCommunitiesList.get(0);
-	  assertThat(subCommunity, containsJSONKey("id", withValue(FOUR)));
+	  assertThat(subCommunity, hasId(4));
 	}
 	
 	@Test
@@ -69,7 +64,7 @@ public class SubCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/4/anchestor");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(community, containsJSONKey("id", withValue(TWO)));
+		assertThat(community, hasId(2));
 	}
 	
 	

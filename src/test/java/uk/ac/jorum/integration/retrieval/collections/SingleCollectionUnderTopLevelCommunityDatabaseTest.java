@@ -4,8 +4,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.containsJSONKey;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValue;
+import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
 import org.json.simple.JSONArray;
@@ -94,7 +94,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/id");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(collection, containsJSONKey("data", withValue(ONE)));
+		assertThat(collection, hasKey("data", withValue(ONE)));
 		entityAssertionsOn(collection);
 	}
 	
@@ -103,7 +103,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/name");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(collection, containsJSONKey("data", withValue("Collection 1")));
+		assertThat(collection, hasKey("data", withValue("Collection 1")));
 		entityAssertionsOn(collection);
 	}
 	
@@ -112,7 +112,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/countItems");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		final Long ZERO = new Long(0);
-		assertThat(collection, containsJSONKey("data", withValue(ZERO)));
+		assertThat(collection, hasKey("data", withValue(ZERO)));
 		entityAssertionsOn(collection);		
 	}
 	
@@ -121,7 +121,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/handle");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(collection, containsJSONKey("data", withValue("123456789/6")));
+		assertThat(collection, hasKey("data", withValue("123456789/6")));
 		entityAssertionsOn(collection);		
 	}
 
@@ -131,7 +131,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		final Long THREE = new Long(3);
 		
-		assertThat(collection, containsJSONKey("data", withValue(THREE)));
+		assertThat(collection, hasKey("data", withValue(THREE)));
 		entityAssertionsOn(collection);		
 	}
 
@@ -140,7 +140,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/communities");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(collection, containsJSONKey("data"));
+		assertThat(collection, hasKey("data"));
 		entityAssertionsOn(collection);		
 	}
 	
@@ -149,7 +149,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/items");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(collection, containsJSONKey("data"));
+		assertThat(collection, hasKey("data"));
 		entityAssertionsOn(collection);		
 	}
 	
@@ -158,7 +158,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/canedit");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(collection, containsJSONKey("data", withValue(false)));
+		assertThat(collection, hasKey("data", withValue(false)));
 		entityAssertionsOn(collection);		
 	}
 	
@@ -167,7 +167,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/licence");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(collection, containsJSONKey("data", withValue("Licence for collection 1")));
+		assertThat(collection, hasKey("data", withValue("Licence for collection 1")));
 		entityAssertionsOn(collection);		
 	}
 	
@@ -176,7 +176,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/provenance");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(collection, containsJSONKey("data", withValue("Provenance for collection 1")));
+		assertThat(collection, hasKey("data", withValue("Provenance for collection 1")));
 		entityAssertionsOn(collection);		
 	}
 	
@@ -185,7 +185,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/shortDescription");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(collection, containsJSONKey("data", withValue("Short Description for Collection 1")));
+		assertThat(collection, hasKey("data", withValue("Short Description for Collection 1")));
 		entityAssertionsOn(collection);		
 	}
 	
@@ -194,7 +194,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/copyrightText");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(collection, containsJSONKey("data", withValue("Copyright information for collection 1")));
+		assertThat(collection, hasKey("data", withValue("Copyright information for collection 1")));
 		entityAssertionsOn(collection);		
 	}
 	
@@ -203,7 +203,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/sidebarText");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(collection, containsJSONKey("data", withValue("Side bar text for collection 1")));
+		assertThat(collection, hasKey("data", withValue("Side bar text for collection 1")));
 		entityAssertionsOn(collection);
 	}
 	
@@ -212,45 +212,45 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		String result = makeRequest("/collections/1/introText");
 		JSONObject collection = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(collection, containsJSONKey("data", withValue("Introductory Text for collection 1")));
+		assertThat(collection, hasKey("data", withValue("Introductory Text for collection 1")));
 		entityAssertionsOn(collection);
 	}
 
 	private void entityAssertionsOn(JSONObject collection) throws Exception{
-		assertThat(collection, containsJSONKey("entityReference", withValue("/collections/1")));
-		assertThat(collection, containsJSONKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
-		assertThat(collection, containsJSONKey("entityId"));
-		assertThat(collection, containsJSONKey("displayTitle"));
-		assertThat(collection, containsJSONKey("entityProperties"));
+		assertThat(collection, hasKey("entityReference", withValue("/collections/1")));
+		assertThat(collection, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
+		assertThat(collection, hasKey("entityId"));
+		assertThat(collection, hasKey("displayTitle"));
+		assertThat(collection, hasKey("entityProperties"));
 	}
 
 	private void structureAssertionsOn(JSONObject collection) throws Exception{
-		assertThat(collection, containsJSONKey("canEdit", withValue(false)));
-		assertThat(collection, containsJSONKey("communities"));
-		assertThat(collection, containsJSONKey("copyrightText", withValue("Copyright information for collection 1")));
-		assertThat(collection, containsJSONKey("countItems"));
-		assertThat(collection, containsJSONKey("handle", withValue("123456789/6")));
-		assertThat(collection, containsJSONKey("id", withValue(ONE)));
-		assertThat(collection, containsJSONKey("introText",	withValue("Introductory Text for collection 1")));
-		assertThat(collection, containsJSONKey("items"));
-		assertThat(collection, containsJSONKey("licence", withValue("Licence for collection 1")));
-		assertThat(collection, containsJSONKey("name", withValue("Collection 1")));
-		assertThat(collection, containsJSONKey("provenance",withValue("Provenance for collection 1")));
-		assertThat(collection, containsJSONKey("shortDescription",withValue("Short Description for Collection 1")));
-		assertThat(collection, containsJSONKey("sidebarText", withValue("Side bar text for collection 1")));
-		assertThat(collection, containsJSONKey("type"));
-		assertThat(collection, containsJSONKey("entityReference", withValue("/collections/1")));
-		assertThat(collection, containsJSONKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
-		assertThat(collection, containsJSONKey("entityId"));
+		assertThat(collection, cannotBeEdited());
+		assertThat(collection, hasId(1));
+		assertThat(collection, hasHandle("123456789/6"));
+		assertThat(collection, hasName("Collection 1"));
+		assertThat(collection, hasKey("communities"));
+		assertThat(collection, hasKey("copyrightText", withValue("Copyright information for collection 1")));
+		assertThat(collection, hasKey("countItems"));
+		assertThat(collection, hasKey("introText", withValue("Introductory Text for collection 1")));
+		assertThat(collection, hasKey("items"));
+		assertThat(collection, hasKey("licence", withValue("Licence for collection 1")));
+		assertThat(collection, hasKey("provenance",withValue("Provenance for collection 1")));
+		assertThat(collection, hasKey("shortDescription",withValue("Short Description for Collection 1")));
+		assertThat(collection, hasKey("sidebarText", withValue("Side bar text for collection 1")));
+		assertThat(collection, hasKey("type"));
+		assertThat(collection, hasKey("entityReference", withValue("/collections/1")));
+		assertThat(collection, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
+		assertThat(collection, hasKey("entityId"));
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject collection) throws Exception{
-		assertThat(collection, containsJSONKey("id", withValue(ONE)));
-		assertThat(collection, not(containsJSONKey("name")));
-		assertThat(collection, not(containsJSONKey("introductoryText")));
-		assertThat(collection, containsJSONKey("entityReference", withValue("/collections/1")));
-		assertThat(collection, containsJSONKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
-		assertThat(collection, containsJSONKey("entityId"));
+		assertThat(collection, hasId(1));
+		assertThat(collection, not(hasKey("name")));
+		assertThat(collection, not(hasKey("introductoryText")));
+		assertThat(collection, hasKey("entityReference", withValue("/collections/1")));
+		assertThat(collection, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
+		assertThat(collection, hasKey("entityId"));
 	}
 	
 	

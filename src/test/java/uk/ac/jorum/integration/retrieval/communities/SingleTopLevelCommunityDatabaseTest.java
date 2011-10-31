@@ -4,8 +4,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.containsJSONKey;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.withValue;
+import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
 import org.json.simple.JSONArray;
@@ -94,7 +94,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/2/id");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(community, containsJSONKey("data", withValue(TWO)));
+		assertThat(community, hasKey("data", withValue(TWO)));
 		entityAssertionsOn(community);
 	}
 	
@@ -103,7 +103,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/2/name");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(community, containsJSONKey("data", withValue("Community no 1")));
+		assertThat(community, hasKey("data", withValue("Community no 1")));
 		entityAssertionsOn(community);
 	}
 	
@@ -112,7 +112,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/2/countItems");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		final Long ZERO = new Long(0);
-		assertThat(community, containsJSONKey("data", withValue(ZERO)));
+		assertThat(community, hasKey("data", withValue(ZERO)));
 		entityAssertionsOn(community);		
 	}
 	
@@ -121,7 +121,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/2/handle");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(community, containsJSONKey("data", withValue("123456789/2")));
+		assertThat(community, hasKey("data", withValue("123456789/2")));
 		entityAssertionsOn(community);		
 	}
 
@@ -131,7 +131,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		final Long FOUR = new Long(4);
 		
-		assertThat(community, containsJSONKey("data", withValue(FOUR)));
+		assertThat(community, hasKey("data", withValue(FOUR)));
 		entityAssertionsOn(community);		
 	}
 
@@ -140,7 +140,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/2/collections");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(community, containsJSONKey("data"));
+		assertThat(community, hasKey("data"));
 		entityAssertionsOn(community);		
 	}
 	
@@ -149,7 +149,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/2/canedit");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(community, containsJSONKey("data", withValue(false)));
+		assertThat(community, hasKey("data", withValue(false)));
 		entityAssertionsOn(community);		
 	}
 	
@@ -158,7 +158,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/2/children");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(community, containsJSONKey("data"));
+		assertThat(community, hasKey("data"));
 		entityAssertionsOn(community);		
 	}
 	
@@ -167,7 +167,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/2/recent");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(community, containsJSONKey("data"));
+		assertThat(community, hasKey("data"));
 		entityAssertionsOn(community);		
 	}
 	
@@ -176,7 +176,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/2/shortDescription");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(community, containsJSONKey("data", withValue("Short description of community no 1")));
+		assertThat(community, hasKey("data", withValue("Short description of community no 1")));
 		entityAssertionsOn(community);		
 	}
 	
@@ -185,7 +185,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/2/copyrightText");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(community, containsJSONKey("data", withValue("Copyright information")));
+		assertThat(community, hasKey("data", withValue("Copyright information")));
 		entityAssertionsOn(community);		
 	}
 	
@@ -194,7 +194,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/2/sidebarText");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(community, containsJSONKey("data", withValue("Side bar text for community 1")));
+		assertThat(community, hasKey("data", withValue("Side bar text for community 1")));
 		entityAssertionsOn(community);
 	}
 	
@@ -203,7 +203,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/communities/2/introductoryText");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		
-		assertThat(community, containsJSONKey("data", withValue("Introductory text for community no 1")));
+		assertThat(community, hasKey("data", withValue("Introductory text for community no 1")));
 		entityAssertionsOn(community);
 	}
 	
@@ -215,44 +215,44 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 	}
 	
 	private void entityAssertionsOn(JSONObject community) throws Exception{
-		assertThat(community, containsJSONKey("entityReference", withValue("/communities/2")));
-		assertThat(community, containsJSONKey("entityURL", withValue("http://localhost:8080/dspace-rest/communities/2")));
-		assertThat(community, containsJSONKey("entityId"));
-		assertThat(community, containsJSONKey("displayTitle"));
-		assertThat(community, containsJSONKey("entityProperties"));
+		assertThat(community, hasKey("entityReference", withValue("/communities/2")));
+		assertThat(community, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/communities/2")));
+		assertThat(community, hasKey("entityId"));
+		assertThat(community, hasKey("displayTitle"));
+		assertThat(community, hasKey("entityProperties"));
 	}
 	
 	private void structureAssertionsOn(JSONObject community) throws Exception{
-		assertThat(community, containsJSONKey("id", withValue(TWO)));
-		assertThat(community, containsJSONKey("handle", withValue("123456789/2")));
-		assertThat(community, containsJSONKey("name", withValue("Community no 1")));
-		assertThat(community, containsJSONKey("introductoryText",	withValue("Introductory text for community no 1")));
-		assertThat(community, containsJSONKey("parentCommunity", withValue(null)));
-		assertThat(community, containsJSONKey("recentSubmissions"));
-		assertThat(community, containsJSONKey("shortDescription"));
-		assertThat(community, containsJSONKey("sidebarText"));
-		assertThat(community, containsJSONKey("subCommunities"));
-		assertThat(community, containsJSONKey("type"));
-		assertThat(community, containsJSONKey("administrators"));
-		assertThat(community, containsJSONKey("canEdit", withValue(false)));
-		assertThat(community, containsJSONKey("collections"));
-		assertThat(community, containsJSONKey("copyrightText"));
-		assertThat(community, containsJSONKey("countItems"));
-		assertThat(community, containsJSONKey("entityReference", withValue("/communities/2")));
-		assertThat(community, containsJSONKey("entityURL", withValue("http://localhost:8080/dspace-rest/communities/2")));
-		assertThat(community, containsJSONKey("entityId"));
-		assertThat(community, containsJSONKey("entityTitle"));
+		assertThat(community, hasKey("id", withValue(TWO)));
+		assertThat(community, hasKey("handle", withValue("123456789/2")));
+		assertThat(community, hasKey("name", withValue("Community no 1")));
+		assertThat(community, hasKey("introductoryText",	withValue("Introductory text for community no 1")));
+		assertThat(community, hasKey("parentCommunity", withValue(null)));
+		assertThat(community, hasKey("recentSubmissions"));
+		assertThat(community, hasKey("shortDescription"));
+		assertThat(community, hasKey("sidebarText"));
+		assertThat(community, hasKey("subCommunities"));
+		assertThat(community, hasKey("type"));
+		assertThat(community, hasKey("administrators"));
+		assertThat(community, hasKey("canEdit", withValue(false)));
+		assertThat(community, hasKey("collections"));
+		assertThat(community, hasKey("copyrightText"));
+		assertThat(community, hasKey("countItems"));
+		assertThat(community, hasKey("entityReference", withValue("/communities/2")));
+		assertThat(community, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/communities/2")));
+		assertThat(community, hasKey("entityId"));
+		assertThat(community, hasKey("entityTitle"));
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject community) throws Exception{
-		assertThat(community, containsJSONKey("id", withValue(TWO)));
-		assertThat(community, not(containsJSONKey("name")));
-		assertThat(community, not(containsJSONKey("introductoryText")));
-		assertThat(community, containsJSONKey("entityReference", withValue("/communities/2")));
-		assertThat(community, containsJSONKey("entityURL", withValue("http://localhost:8080/dspace-rest/communities/2")));
-		assertThat(community, not(containsJSONKey("parentCommunity")));
-		assertThat(community, containsJSONKey("entityId"));
-		assertThat(community, not(containsJSONKey("entityTitle")));	
+		assertThat(community, hasKey("id", withValue(TWO)));
+		assertThat(community, not(hasKey("name")));
+		assertThat(community, not(hasKey("introductoryText")));
+		assertThat(community, hasKey("entityReference", withValue("/communities/2")));
+		assertThat(community, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/communities/2")));
+		assertThat(community, not(hasKey("parentCommunity")));
+		assertThat(community, hasKey("entityId"));
+		assertThat(community, not(hasKey("entityTitle")));	
 	}
 }
 
