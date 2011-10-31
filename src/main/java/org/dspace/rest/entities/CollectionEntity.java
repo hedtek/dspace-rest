@@ -55,17 +55,8 @@ public class CollectionEntity {
     public CollectionEntity(String uid, Context context, int level, UserRequestParams uparams) throws SQLException {
         System.out.println("creating collection main");
         Collection res = Collection.find(context, Integer.parseInt(uid));
-        this.id = res.getID();
-        this.canEdit = res.canEditBoolean();
-        this.handle = res.getHandle();
-        this.name = res.getName();
-        this.type = res.getType();
-        this.licence = res.getLicense();
-        this.short_description = res.getMetadata("short_description");
-        this.intro_text = res.getMetadata("introductory_text");
-        this.copyright_text = res.getMetadata("copyright_text");
-        this.sidebar_text = res.getMetadata("side_bar_text");
-        this.provenance = res.getMetadata("provenance_description");
+        
+        loadCollectionData(res);
 
         //ItemIterator i = Item.findAll(context);
         ItemIterator i = res.getAllItems();
@@ -73,10 +64,6 @@ public class CollectionEntity {
         level++;
         if (level <= uparams.getDetail()) {
             includeFull = true;
-        }
-
-        if (res.getLogo() != null) {
-            this.logo = new BitstreamEntityId(Integer.toString(res.getLogo().getID()), context);
         }
 
         while (i.hasNext()) {
@@ -98,18 +85,8 @@ public class CollectionEntity {
             includeFull = true;
         }
 
-        this.canEdit = collection.canEditBoolean();
-        this.handle = collection.getHandle();
-        this.name = collection.getName();
-        this.type = collection.getType();
-        this.id = collection.getID();
-        this.countItems = collection.countItems();
-        this.licence = collection.getLicense();
-
-        if (collection.getLogo() != null) {
-            this.logo = new BitstreamEntityId(collection.getLogo());
-        }
-
+        loadCollectionData(collection);
+        
         ItemIterator i = collection.getAllItems();
         while (i.hasNext()) {
             items.add(includeFull ? new ItemEntity(i.next(), level, uparams) : new ItemEntityId(i.next()));
@@ -117,6 +94,23 @@ public class CollectionEntity {
 
         for (Community c : collection.getCommunities()) {
             communities.add(includeFull ? new CommunityEntity(c, level, uparams) : new CommunityEntityId(c));
+        }
+    }
+    
+    private void loadCollectionData(Collection collection) throws SQLException {
+    	this.id = collection.getID();
+        this.canEdit = collection.canEditBoolean();
+        this.handle = collection.getHandle();
+        this.name = collection.getName();
+        this.type = collection.getType();
+        this.licence = collection.getLicense();
+        this.short_description = collection.getMetadata("short_description");
+        this.intro_text = collection.getMetadata("introductory_text");
+        this.copyright_text = collection.getMetadata("copyright_text");
+        this.sidebar_text = collection.getMetadata("side_bar_text");
+        this.provenance = collection.getMetadata("provenance_description");
+        if (collection.getLogo() != null) {
+            this.logo = new BitstreamEntityId(collection.getLogo());
         }
     }
 

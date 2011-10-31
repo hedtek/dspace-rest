@@ -61,21 +61,29 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		JSONObject collection = (JSONObject) collectionsList.get(0);
 		idOnlyStructureAssertionsOn(collection);
 	}
+	
+	@Test
+	public void showCollectionShouldHaveCorrectStructure() throws Exception {
+
+		String result = makeRequest("/collections/1");
+		JSONObject collection = (JSONObject) JSONValue.parse(result);
+		structureAssertionsOn(collection);				
+	}
 
 	private void structureAssertionsOn(JSONObject collection) throws Exception{
 		assertThat(collection, containsJSONKey("canEdit", withValue(false)));
 		assertThat(collection, containsJSONKey("communities"));
-		assertThat("Correct behaviour should return: Copyright text for collection 1", collection, containsJSONKey("copyrightText", withValue(null)));
+		assertThat(collection, containsJSONKey("copyrightText", withValue("Copyright information for collection 1")));
 		assertThat(collection, containsJSONKey("countItems"));
 		assertThat(collection, containsJSONKey("handle", withValue("123456789/6")));
 		assertThat(collection, containsJSONKey("id", withValue(ONE)));
-		assertThat("Correct behaviour should return: Introductory Text for collection 1", collection, containsJSONKey("introText",	withValue(null)));
+		assertThat(collection, containsJSONKey("introText",	withValue("Introductory Text for collection 1")));
 		assertThat(collection, containsJSONKey("items"));
 		assertThat(collection, containsJSONKey("licence", withValue("Licence for collection 1")));
 		assertThat(collection, containsJSONKey("name", withValue("Collection 1")));
-		assertThat("Correct behaviour should return: Provenance for collection 1", collection, containsJSONKey("provenance",withValue(null)));
-		assertThat("Correct behaviour should return: Short Description for collection 1", collection, containsJSONKey("shortDescription",withValue(null)));
-		assertThat("Correct behaviour should return: Side bar text for collection 1", collection, containsJSONKey("sidebarText", withValue(null)));
+		assertThat(collection, containsJSONKey("provenance",withValue("Provenance for collection 1")));
+		assertThat(collection, containsJSONKey("shortDescription",withValue("Short Description for Collection 1")));
+		assertThat(collection, containsJSONKey("sidebarText", withValue("Side bar text for collection 1")));
 		assertThat(collection, containsJSONKey("type"));
 		assertThat(collection, containsJSONKey("entityReference", withValue("/collections/1")));
 		assertThat(collection, containsJSONKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
@@ -90,4 +98,6 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		assertThat(collection, containsJSONKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
 		assertThat(collection, containsJSONKey("entityId"));
 	}
+	
+	
 }
