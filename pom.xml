@@ -190,6 +190,7 @@
 										<include>**/*.xml</include>
 										<include>**/*.properties</include>
 										<include>**/*.cfg</include>
+										<include>**/*.sql</include>
 									</includes>
 								</resource>
 								<resource>
@@ -199,6 +200,7 @@
 										<exclude>**/*.xml</exclude>
 										<exclude>**/*.properties</exclude>
 										<exclude>**/*.cfg</exclude>
+										<exclude>**/*.sql</exclude>
 									</excludes>
 								</resource>
 							</resources>
