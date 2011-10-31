@@ -88,7 +88,16 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		JSONObject community = (JSONObject) JSONValue.parse(result);
 		idOnlyStructureAssertionsOn(community);		
 	}
-
+	
+	@Test
+	public void showCommunityIdShouldHaveDataFieldWithCorrectValue() throws Exception {
+		String result = makeRequest("/communities/2/id");
+		JSONObject community = (JSONObject) JSONValue.parse(result);
+		
+		assertThat(community, containsJSONKey("data", withValue(TWO)));
+		entityAssertionsOn(community);
+	}
+	
 	@Test
 	public void showCommunityNameShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/communities/2/name");
