@@ -1,8 +1,8 @@
 package uk.ac.jorum.integration.retrieval.collections;
 
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
@@ -225,32 +225,36 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 	}
 
 	private void structureAssertionsOn(JSONObject collection) throws Exception{
-		assertThat(collection, cannotBeEdited());
-		assertThat(collection, hasId(1));
-		assertThat(collection, hasHandle("123456789/6"));
-		assertThat(collection, hasName("Collection 1"));
-		assertThat(collection, hasKey("communities"));
-		assertThat(collection, hasKey("copyrightText", withValue("Copyright information for collection 1")));
-		assertThat(collection, hasKey("countItems"));
-		assertThat(collection, hasKey("introText", withValue("Introductory Text for collection 1")));
-		assertThat(collection, hasKey("items"));
-		assertThat(collection, hasKey("licence", withValue("Licence for collection 1")));
-		assertThat(collection, hasKey("provenance",withValue("Provenance for collection 1")));
-		assertThat(collection, hasKey("shortDescription",withValue("Short Description for Collection 1")));
-		assertThat(collection, hasKey("sidebarText", withValue("Side bar text for collection 1")));
-		assertThat(collection, hasKey("type"));
-		assertThat(collection, hasKey("entityReference", withValue("/collections/1")));
-		assertThat(collection, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
-		assertThat(collection, hasKey("entityId"));
+		assertThat(collection, is(allOf(
+				cannotBeEdited(),
+				hasId(1),
+				hasHandle("123456789/6"),
+				hasName("Collection 1"),
+				hasKey("communities"),
+				hasKey("copyrightText", withValue("Copyright information for collection 1")),
+				hasKey("countItems"),
+				hasKey("introText", withValue("Introductory Text for collection 1")),
+				hasKey("items"),
+				hasKey("licence", withValue("Licence for collection 1")),
+				hasKey("provenance",withValue("Provenance for collection 1")),
+				hasKey("shortDescription",withValue("Short Description for Collection 1")),
+				hasKey("sidebarText", withValue("Side bar text for collection 1")),
+				hasKey("type"),
+				hasEntityReference("/collections/1"),
+				hasEntityURL("http://localhost:8080/dspace-rest/collections/1"),
+				hasEntityId()
+				)));
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject collection) throws Exception{
-		assertThat(collection, hasId(1));
-		assertThat(collection, not(hasKey("name")));
-		assertThat(collection, not(hasKey("introductoryText")));
-		assertThat(collection, hasKey("entityReference", withValue("/collections/1")));
-		assertThat(collection, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
-		assertThat(collection, hasKey("entityId"));
+		assertThat(collection, is(allOf(
+				hasId(1),
+				hasNo("name"),
+				hasNo("introductoryText"),
+				hasEntityReference("/collections/1"),
+				hasEntityURL("http://localhost:8080/dspace-rest/collections/1"),
+				hasEntityId()
+				)));
 	}
 	
 	

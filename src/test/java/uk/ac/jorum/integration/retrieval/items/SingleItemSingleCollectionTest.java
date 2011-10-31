@@ -10,6 +10,7 @@ package uk.ac.jorum.integration.retrieval.items;
 
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
@@ -67,35 +68,38 @@ public class SingleItemSingleCollectionTest extends RestApiBaseTest {
 	}
 	
 	private void structureAssertionsOn(JSONObject item) throws Exception{
-		//----assertThat(item, containsJSONKey("bitstreams"));
-		//----assertThat(item, containsJSONKey("bundles"));
-		assertThat(item, cannotBeEdited());
-		//----assertThat(item, containsJSONKey("communities"));
-		//----assertThat(item, containsJSONKey("collections"));
-		assertThat(item, hasHandle("123456789/7"));
-		assertThat(item, hasType(2));
-		
-		assertThat(item, hasId(1));
-		assertThat(item, hasKey("isArchived"));
-		assertThat(item, hasKey("isWithdrawn"));
-		assertThat(item, hasKey("lastModified"));
-		//-----assertThat(item, containsJSONKey("metadata"));
-		assertThat(item, hasName("First Upload"));
-		//----assertThat(item, containsJSONKey("owning_collection"));
-		//----assertThat(item, containsJSONKey("submitter"));
-		assertThat(item, hasEntityReference("/items/1"));
-		assertThat(item, hasEntityURL("http://localhost:8080/dspace-rest/items/1"));
-		assertThat(item, hasKey("entityId"));
+		assertThat(item, is(allOf(
+				cannotBeEdited(),
+				hasHandle("123456789/7"),
+				hasType(2),
+				hasId(1),
+				hasName("First Upload"),
+				hasEntityReference("/items/1"),
+				hasEntityURL("http://localhost:8080/dspace-rest/items/1"),
+				hasEntityId(),
+				hasKey("isArchived"),
+				hasKey("isWithdrawn"),
+				hasKey("lastModified"),
+				hasKey("bitstreams"),
+				hasKey("bundles"),
+				hasKey("communities"),
+				hasKey("collections"),
+				hasKey("owningCollection"),
+				hasKey("submitter"),
+				hasKey("metadata")
+				)));
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject item) throws Exception{
-		assertThat(item, hasId(1));
-		assertThat(item, hasNo("name"));
-		assertThat(item, hasNo("owning_collection"));
-		assertThat(item, hasNo("collections"));
-		assertThat(item, hasNo("communities"));
-		assertThat(item, hasEntityReference("/items/1"));
-		assertThat(item, hasEntityURL("http://localhost:8080/dspace-rest/items/1"));
-		assertThat(item, hasKey("entityId"));
+		assertThat(item, is(allOf(
+				hasId(1),
+				hasNo("name"),
+				hasNo("owningCollection"),
+				hasNo("collections"),
+				hasNo("communities"),
+				hasEntityReference("/items/1"),
+				hasEntityURL("http://localhost:8080/dspace-rest/items/1"),
+				hasKey("entityId")
+				)));
 	}
 }

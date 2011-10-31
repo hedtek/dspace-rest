@@ -8,6 +8,8 @@ import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
+import static org.hamcrest.CoreMatchers.allOf;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -215,44 +217,50 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 	}
 	
 	private void entityAssertionsOn(JSONObject community) throws Exception{
-		assertThat(community, hasKey("entityReference", withValue("/communities/2")));
-		assertThat(community, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/communities/2")));
-		assertThat(community, hasKey("entityId"));
-		assertThat(community, hasKey("displayTitle"));
-		assertThat(community, hasKey("entityProperties"));
+		assertThat(community, is(allOf(
+				hasEntityReference("/communities/2"),
+				hasEntityURL("http://localhost:8080/dspace-rest/communities/2"),
+				hasEntityId(),
+				hasKey("displayTitle"),
+				hasKey("entityProperties")
+				)));
 	}
 	
 	private void structureAssertionsOn(JSONObject community) throws Exception{
-		assertThat(community, hasKey("id", withValue(TWO)));
-		assertThat(community, hasKey("handle", withValue("123456789/2")));
-		assertThat(community, hasKey("name", withValue("Community no 1")));
-		assertThat(community, hasKey("introductoryText",	withValue("Introductory text for community no 1")));
-		assertThat(community, hasKey("parentCommunity", withValue(null)));
-		assertThat(community, hasKey("recentSubmissions"));
-		assertThat(community, hasKey("shortDescription"));
-		assertThat(community, hasKey("sidebarText"));
-		assertThat(community, hasKey("subCommunities"));
-		assertThat(community, hasKey("type"));
-		assertThat(community, hasKey("administrators"));
-		assertThat(community, hasKey("canEdit", withValue(false)));
-		assertThat(community, hasKey("collections"));
-		assertThat(community, hasKey("copyrightText"));
-		assertThat(community, hasKey("countItems"));
-		assertThat(community, hasKey("entityReference", withValue("/communities/2")));
-		assertThat(community, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/communities/2")));
-		assertThat(community, hasKey("entityId"));
-		assertThat(community, hasKey("entityTitle"));
+		assertThat(community, is(allOf(
+				hasId(2),
+				hasHandle("123456789/2"),
+				hasName("Community no 1"),
+				hasKey("introductoryText",	withValue("Introductory text for community no 1")),
+				hasKey("parentCommunity", withValue(null)),
+				hasKey("recentSubmissions"),
+				hasKey("shortDescription"),
+				hasKey("sidebarText"),
+				hasKey("subCommunities"),
+				hasType(4),
+				hasKey("administrators"),
+				cannotBeEdited(),
+				hasKey("collections"),
+				hasKey("copyrightText"),
+				hasKey("countItems"),
+				hasEntityReference("/communities/2"),
+				hasEntityURL("http://localhost:8080/dspace-rest/communities/2"),
+				hasEntityId(),
+				hasKey("entityTitle")
+				)));
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject community) throws Exception{
-		assertThat(community, hasKey("id", withValue(TWO)));
-		assertThat(community, not(hasKey("name")));
-		assertThat(community, not(hasKey("introductoryText")));
-		assertThat(community, hasKey("entityReference", withValue("/communities/2")));
-		assertThat(community, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/communities/2")));
-		assertThat(community, not(hasKey("parentCommunity")));
-		assertThat(community, hasKey("entityId"));
-		assertThat(community, not(hasKey("entityTitle")));	
+		assertThat(community, is(allOf(
+				hasId(2),
+				hasNo("name"),
+				hasNo("introductoryText"),
+				hasEntityReference("/communities/2"),
+				hasEntityURL("http://localhost:8080/dspace-rest/communities/2"),
+				hasNo("parentCommunity"),
+				hasEntityId(),
+				hasNo("entityTitle")
+				)));	
 	}
 }
 

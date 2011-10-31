@@ -2,10 +2,15 @@ package uk.ac.jorum.integration.matchers;
 
 import static org.hamcrest.CoreMatchers.not;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
+import org.hamcrest.core.AllOf;
 import org.json.simple.JSONObject;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
+import static org.hamcrest.CoreMatchers.allOf;
 
 public class EntityMatchers {
 	@Factory
@@ -66,6 +71,11 @@ public class EntityMatchers {
 	@Factory
 	public static Matcher<JSONObject> hasType(int type){
 		return hasKey("type", withValue(new Long(type)));		
+	}
+	
+	@Factory
+	public static Matcher<JSONObject> hasEntityId() {
+		return hasKey("entityId");
 	}
 
 	@Factory
