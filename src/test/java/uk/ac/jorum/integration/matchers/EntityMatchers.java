@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.hamcrest.core.AllOf;
 import org.json.simple.JSONObject;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.anyOf;
 
 public class EntityMatchers {
 	@Factory
@@ -30,12 +30,11 @@ public class EntityMatchers {
 	
 	@Factory
 	public static  Matcher<JSONObject> hasIdIn(Integer[] ids) {
-		Long[] long_ids = new Long[ids.length];
-		for(int i = 0; i < ids.length; i++) {
-			long_ids[i] = ids[i].longValue();
-		}
-		return hasKey("id", withValueIn(long_ids));
-		
+    ArrayList<Matcher<JSONObject>> idMatchers = new ArrayList<Matcher<JSONObject>>();
+    for(Integer id : ids) {
+      idMatchers.add(hasKey("id", withValue(new Long(id))));
+    }
+    return anyOf((Iterable) idMatchers);
 	}
 	
 	@Factory
@@ -77,6 +76,15 @@ public class EntityMatchers {
 	public static Matcher<JSONObject> hasEntityId() {
 		return hasKey("entityId");
 	}
+
+  @Factory
+  public static Matcher<JSONObject> hasKeys(String[] keys) {
+    ArrayList<Matcher<JSONObject>> keyMatchers = new ArrayList<Matcher<JSONObject>>();
+    for(String key : keys) {
+      keyMatchers.add(hasKey(key));
+    }
+    return allOf((Iterable)keyMatchers);
+  }
 
 	@Factory
 	public static <T> T withValue(T value) {

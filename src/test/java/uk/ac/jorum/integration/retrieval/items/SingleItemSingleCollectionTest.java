@@ -77,17 +77,12 @@ public class SingleItemSingleCollectionTest extends RestApiBaseTest {
 				hasEntityReference("/items/1"),
 				hasEntityURL("http://localhost:8080/dspace-rest/items/1"),
 				hasEntityId(),
-				hasKey("isArchived"),
-				hasKey("isWithdrawn"),
-				hasKey("lastModified"),
-				hasKey("bitstreams"),
-				hasKey("bundles"),
-				hasKey("communities"),
-				hasKey("collections"),
-				hasKey("owningCollection"),
-				hasKey("submitter"),
-				hasKey("metadata")
-				)));
+        hasKeys(new String[]
+          {
+            "isArchived", "isWithdrawn", "lastModified",
+            "bitstreams", "bundles", "communities",
+            "owningCollection", "submitter", "metadata"
+          }))));
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject item) throws Exception{
