@@ -227,27 +227,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 	}
 	
 	private void structureAssertionsOn(JSONObject community) throws Exception{
-		assertThat(community, is(allOf(
-				hasId(2),
-				hasHandle("123456789/2"),
-				hasName("Community no 1"),
-				hasKey("introductoryText",	withValue("Introductory text for community no 1")),
-				hasKey("parentCommunity", withValue(null)),
-				hasKey("recentSubmissions"),
-				hasKey("shortDescription"),
-				hasKey("sidebarText"),
-				hasKey("subCommunities"),
-				hasType(4),
-				hasKey("administrators"),
-				cannotBeEdited(),
-				hasKey("collections"),
-				hasKey("copyrightText"),
-				hasKey("countItems"),
-				hasEntityReference("/communities/2"),
-				hasEntityURL("http://localhost:8080/dspace-rest/communities/2"),
-				hasEntityId(),
-				hasKey("entityTitle")
-				)));
+		assertThat(community, isCommunity(2, "Community no 1", "123456789/2", "Introductory text for community no 1", "Short description of community no 1", "Side bar text for community 1", "Copyright information", 0, null, null, null, null));
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject community) throws Exception{

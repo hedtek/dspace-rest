@@ -65,6 +65,11 @@ public class EntityMatchers {
 	public static Matcher<JSONObject> hasEntityURL(String entityURL){
 		return hasKey("entityURL", withValue(entityURL));		
 	}
+
+  @Factory
+  public static Matcher<JSONObject> hasEntityTitle() {
+    return hasKey("entityTitle");
+  }
 	
 	@Factory
 	public static Matcher<JSONObject> hasType(int type){
@@ -85,7 +90,40 @@ public class EntityMatchers {
     return allOf((Iterable)keyMatchers);
   }
 
-	@Factory
+  @Factory
+  public static Matcher<JSONObject> hasAnyKey(String[] keys) {
+    ArrayList<Matcher<JSONObject>> keyMatchers = new ArrayList<Matcher<JSONObject>>();
+    for(String key : keys) {
+      keyMatchers.add(hasKey(key));
+    }
+    return anyOf((Iterable)keyMatchers);
+  }
+
+  @Factory
+  public static Matcher<JSONObject> hasCopyrightText(String copyrightText) {
+    return hasKey("copyrightText", withValue(copyrightText));
+  }
+
+  @Factory
+  public static Matcher<JSONObject> hasIntroductoryText(String introText) {
+    return hasKey("introductoryText", withValue(introText));
+  }
+
+  @Factory
+  public static Matcher<JSONObject> hasSidebarText(String sidebarText) {
+    return hasKey("sidebarText", withValue(sidebarText));
+  }
+
+  @Factory
+  public static Matcher<JSONObject> hasShortDescription(String shortDescription) {
+    return hasKey("shortDescription", withValue(shortDescription));
+  }
+
+  @Factory
+  public static Matcher<JSONObject> hasItemCount(int itemCount) {
+    return hasKey("countItems", withValue(new Long(itemCount)));
+  }
+
 	public static <T> T withValue(T value) {
 		return value;
 	}
@@ -94,4 +132,46 @@ public class EntityMatchers {
 	public static <T> T[] withValueIn(T[] values) {
 		return values;
 	}
+
+  @Factory
+  public static Matcher<JSONObject> isCommunity(int id, String name, String handle, String introText, String shortDescription, String sidebarText, String copyrightText, int itemCount, Matcher<JSONObject> parentCommunity, Iterable<Matcher<JSONObject>> subCommunities, Iterable<Matcher<JSONObject>> recentSubmissions, Iterable<Matcher<JSONObject>> collections) {
+    return allOf(
+        cannotBeEdited(),
+        hasId(id),
+        hasType(4),
+        hasName(name),
+        hasItemCount(itemCount),
+        hasHandle(handle),
+        hasIntroductoryText(introText),
+        hasSidebarText(sidebarText),
+        hasShortDescription(shortDescription),
+        hasCopyrightText(copyrightText),
+        hasEntityReference("/communities/" + id),
+        hasEntityURL("http://localhost:8080/dspace-rest/communities/" + id),
+        hasEntityId(),
+        hasKeys(new String[] {
+          "recentSubmissions",
+          "subCommunities",
+          "parentCommunity",
+          "administrators",
+          "collections"
+        })
+      );
+  }
+
+  @Factory
+  public static Matcher<JSONObject> isCommunityId(int id) {
+    return allOf(
+      hasId(id),
+      hasEntityReference("/communities/" + id),
+      hasEntityURL("http://localhost:8080/dspace-rest/communities/" + id),
+      hasEntityId(),
+      not(hasAnyKey(new String[] {
+        "name",
+        "recentSubmissions",
+        "handle"
+      }))
+    );
+  }
+
 }
