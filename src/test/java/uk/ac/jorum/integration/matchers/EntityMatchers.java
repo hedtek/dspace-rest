@@ -1,14 +1,13 @@
 package uk.ac.jorum.integration.matchers;
 
 import static org.hamcrest.CoreMatchers.not;
+import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.json.simple.JSONObject;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anyOf;
 

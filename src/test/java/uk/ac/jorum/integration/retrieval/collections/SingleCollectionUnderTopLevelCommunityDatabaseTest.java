@@ -5,7 +5,15 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.cannotBeEdited;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityId;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityReference;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityURL;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasHandle;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasId;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasName;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasNo;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.withValue;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
 import org.json.simple.JSONArray;

@@ -1,8 +1,14 @@
 package uk.ac.jorum.integration.retrieval.collections;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -20,12 +26,19 @@ public class CollectionUnderTopLevelAndSubCommunityDatabaseTest extends
 	
 	@Test
 	public void collectionListShouldReturnSuccessStatusCode() throws Exception {
-		int result = getResponseCode("/collections", "");
+		int result = getResponseCode("/collections");
 		assertThat(result,hasHTTPCode(HTTPStatusCode.SUCCESS));
 	}
 	
+	@Test
 	public void subCommunityCollectionShouldHaveMoreThanOneCommunityOwners() throws Exception {
-		//TODO subCommunityCollectionShouldHaveMoreThanOneCommunityOwners
+		String result = makeRequest("/collections");
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		JSONArray collectionsList = (JSONArray)resultJSON.get("collections_collection");
+		JSONObject collection = (JSONObject) collectionsList.get(collectionsList.size() - 1);
+		JSONArray communitiesList = (JSONArray)collection.get("communities");
+
+		assertThat(communitiesList.size(), is(greaterThan(1)));
 	}
 	
 	public void topLevelCommunityCollectionsShouldNotListSubCommunityCollections() throws Exception {
