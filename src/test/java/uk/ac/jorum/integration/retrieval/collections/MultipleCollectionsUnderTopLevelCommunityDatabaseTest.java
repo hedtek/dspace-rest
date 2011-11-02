@@ -39,7 +39,10 @@ public class MultipleCollectionsUnderTopLevelCommunityDatabaseTest extends RestA
 		String result = makeRequest("/collections");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 		JSONArray collectionsList = (JSONArray) resultJSON.get("collections_collection");
-		Integer[] idValues = {1, 2};
+		final int COLLECTION_ONE_ID = 1;
+		final int COLLECTION_TWO_ID = 2;
+
+		Integer[] idValues = {COLLECTION_ONE_ID,COLLECTION_TWO_ID};
 		
 		for (Object collection : collectionsList) {
 			assertThat((JSONObject)collection, hasIdIn(idValues));
