@@ -239,7 +239,15 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 	}
 
 	private void structureAssertionsOn(JSONObject collection) throws Exception{
-		assertThat(collection, isCollection(1, "Collection 1", "123456789/6", "Introductory Text for collection 1", "Short Description for Collection 1", "Side bar text for collection 1", "Copyright information for collection 1", "Licence for collection 1", "Provenance for collection 1", 0, null, null));
+		assertThat(
+				collection,
+				isCollection(1, "Collection 1", "123456789/6",
+						"Introductory Text for collection 1",
+						"Short Description for Collection 1",
+						"Side bar text for collection 1",
+						"Copyright information for collection 1",
+						"Licence for collection 1",
+						"Provenance for collection 1", 0, null, null));
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject collection) throws Exception{

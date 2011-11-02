@@ -23,7 +23,7 @@ public class MatchJSONSubObject <T> extends TypeSafeMatcher<JSONObject> {
 		if(!isKeyPresent) {
 			return false;
 		}
-    return matcher.matches((T) item.get(key));
+		return matcher.matches((T) item.get(key));
 	}
 
 	MatchJSONSubObject(String key, Matcher<T> matcher) {
