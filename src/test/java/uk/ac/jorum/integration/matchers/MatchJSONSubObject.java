@@ -13,6 +13,7 @@ public class MatchJSONSubObject <T> extends TypeSafeMatcher<JSONObject> {
 	
 	@Override
 	public void describeTo(Description description) {
+    description.appendText("Expected " + key + " to match submatcher: ");
     matcher.describeTo(description);
 	}
 

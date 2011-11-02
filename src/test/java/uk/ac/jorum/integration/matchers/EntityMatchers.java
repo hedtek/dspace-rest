@@ -20,12 +20,18 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.nullValue;
 
 public class EntityMatchers {
 	@Factory
 	public static Matcher<JSONObject> cannotBeEdited() {
 		return hasKey("canEdit", withValue(false));
 	}
+
+  @Factory
+  public static Matcher<JSONObject>[] emptyMatcherList() {
+    return new ContainsJSONKey[0];
+  }
 	
 	@Factory
 	public static Matcher<JSONObject> hasHandle(String handle) {
@@ -150,11 +156,20 @@ public class EntityMatchers {
 
   @Factory
   public static Matcher<JSONObject> hasSubObject(String key, Matcher<JSONObject> matcher) {
+    if (matcher == null)
+      return new MatchJSONSubObject(key, nullValue(JSONObject.class));
     return new MatchJSONSubObject(key, matcher);
   }
 
   @Factory
-  public static Matcher<JSONObject> isCommunity(int id, String name, String handle, String introText, String shortDescription, String sidebarText, String copyrightText, int itemCount, Matcher<JSONObject> parentCommunity, Iterable<Matcher<JSONObject>> subCommunities, Iterable<Matcher<JSONObject>> recentSubmissions, Iterable<Matcher<JSONObject>> collections) {
+  public static Matcher<JSONObject> hasArray(String key, Matcher<JSONObject>[] matchers) {
+    if (matchers == null)
+      return new MatchJSONSubObject(key, nullValue(JSONObject.class));
+    return new MatchJSONArray(key, matchers);
+  }
+
+  @Factory
+  public static Matcher<JSONObject> isCommunity(int id, String name, String handle, String introText, String shortDescription, String sidebarText, String copyrightText, int itemCount, Matcher<JSONObject> parentCommunity, Matcher<JSONObject>[] subCommunities, Matcher<JSONObject>[] recentSubmissions, Matcher<JSONObject>[] collections) {
     return allOf(
         cannotBeEdited(),
         hasId(id),
@@ -169,13 +184,11 @@ public class EntityMatchers {
         hasEntityReference("/communities/" + id),
         hasEntityURL("http://localhost:8080/dspace-rest/communities/" + id),
         hasEntityId(),
-        hasKeys(new String[] {
-          "recentSubmissions",
-          "subCommunities",
-          "administrators",
-          "collections"
-        }),
-        hasSubObject("parentCommunity", parentCommunity)
+        hasSubObject("parentCommunity", parentCommunity),
+        hasArray("recentSubmissions", recentSubmissions),
+        hasArray("subCommunities", subCommunities),
+        hasArray("collections", collections),
+        hasArray("administrators", null)
       );
   }
 
