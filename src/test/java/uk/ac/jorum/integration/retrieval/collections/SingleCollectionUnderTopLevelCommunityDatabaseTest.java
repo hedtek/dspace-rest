@@ -5,15 +5,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.cannotBeEdited;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityId;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityReference;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityURL;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasHandle;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasId;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasName;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasNo;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.withValue;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
+
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
 import org.json.simple.JSONArray;
@@ -236,45 +229,21 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 	}
 	
 	private void entityAssertionsOn(JSONObject collection) throws Exception{
-		assertThat(collection, hasKey("entityReference", withValue("/collections/1")));
-		assertThat(collection, hasKey("entityURL", withValue("http://localhost:8080/dspace-rest/collections/1")));
-		assertThat(collection, hasKey("entityId"));
-		assertThat(collection, hasKey("displayTitle"));
-		assertThat(collection, hasKey("entityProperties"));
+		assertThat(collection, is(allOf(
+				hasEntityReference("/collections/1"),
+				hasEntityURL("http://localhost:8080/dspace-rest/collections/1"),
+				hasEntityId(), 
+				hasKey("displayTitle"),
+				hasKey("entityProperties")
+				)));
 	}
 
 	private void structureAssertionsOn(JSONObject collection) throws Exception{
-		assertThat(collection, is(allOf(
-				cannotBeEdited(),
-				hasId(1),
-				hasHandle("123456789/6"),
-				hasName("Collection 1"),
-				hasKey("communities"),
-				hasKey("copyrightText", withValue("Copyright information for collection 1")),
-				hasKey("countItems"),
-				hasKey("introText", withValue("Introductory Text for collection 1")),
-				hasKey("items"),
-				hasKey("licence", withValue("Licence for collection 1")),
-				hasKey("provenance",withValue("Provenance for collection 1")),
-				hasKey("shortDescription",withValue("Short Description for Collection 1")),
-				hasKey("sidebarText", withValue("Side bar text for collection 1")),
-				hasKey("type"),
-				hasEntityReference("/collections/1"),
-				hasEntityURL("http://localhost:8080/dspace-rest/collections/1"),
-				hasEntityId()
-				)));
+		assertThat(collection, isCollection(1, "Collection 1", "123456789/6", "Introductory Text for collection 1", "Short Description for Collection 1", "Side bar text for collection 1", "Copyright information for collection 1", "Licence for collection 1", "Provenance for collection 1", 0, null, null));
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject collection) throws Exception{
-		assertThat(collection, is(allOf(
-				hasId(1),
-				hasNo("name"),
-				hasNo("introductoryText"),
-				hasEntityReference("/collections/1"),
-				hasEntityURL("http://localhost:8080/dspace-rest/collections/1"),
-				hasEntityId()
-				)));
+		assertThat(collection, isCollectionId(1));
 	}
-	
-	
+		
 }

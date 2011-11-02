@@ -2,6 +2,14 @@ package uk.ac.jorum.integration.matchers;
 
 import static org.hamcrest.CoreMatchers.not;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.cannotBeEdited;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityId;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityReference;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityURL;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasHandle;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasId;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasName;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.withValue;
 
 import java.util.ArrayList;
 
@@ -10,6 +18,8 @@ import org.hamcrest.Matcher;
 import org.json.simple.JSONObject;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class EntityMatchers {
 	@Factory
@@ -29,11 +39,11 @@ public class EntityMatchers {
 	
 	@Factory
 	public static  Matcher<JSONObject> hasIdIn(Integer[] ids) {
-    ArrayList<Matcher<JSONObject>> idMatchers = new ArrayList<Matcher<JSONObject>>();
-    for(Integer id : ids) {
-      idMatchers.add(hasKey("id", withValue(new Long(id))));
-    }
-    return anyOf((Iterable) idMatchers);
+	    ArrayList<Matcher<JSONObject>> idMatchers = new ArrayList<Matcher<JSONObject>>();
+	    for(Integer id : ids) {
+	      idMatchers.add(hasKey("id", withValue(new Long(id))));
+	    }
+	    return anyOf((Iterable) idMatchers);
 	}
 	
 	@Factory
@@ -110,6 +120,11 @@ public class EntityMatchers {
   }
 
   @Factory
+  public static Matcher<JSONObject> hasIntroText(String introText) {
+    return hasKey("introText", withValue(introText));
+  }
+  
+  @Factory
   public static Matcher<JSONObject> hasSidebarText(String sidebarText) {
     return hasKey("sidebarText", withValue(sidebarText));
   }
@@ -174,6 +189,47 @@ public class EntityMatchers {
       not(hasAnyKey(new String[] {
         "name",
         "recentSubmissions",
+        "handle"
+      }))
+    );
+  }
+  
+  @Factory
+  public static Matcher<JSONObject> isCollection(int id, String name, String handle, String introText, String shortDescription, String sidebarText, String copyrightText, String licence, String provenance, int itemCount, Iterable<Matcher<JSONObject>> communities, Iterable<Matcher<JSONObject>> items) {
+    return allOf(
+        cannotBeEdited(),
+        hasId(id),
+        hasType(3),
+        hasName(name),
+        hasItemCount(itemCount),
+        hasHandle(handle),
+        hasIntroText(introText),
+        hasSidebarText(sidebarText),
+        hasShortDescription(shortDescription),
+        hasCopyrightText(copyrightText),
+        hasKey("licence", withValue(licence)),
+        hasKey("provenance", withValue(provenance)),
+        hasEntityReference("/collections/" + id),
+        hasEntityURL("http://localhost:8080/dspace-rest/collections/" + id),
+        hasEntityId(),
+        hasKeys(new String[] {
+          "communities",
+          "items"
+        })
+      );
+  }
+  
+    
+  
+  @Factory
+  public static Matcher<JSONObject> isCollectionId(int id) {
+    return allOf(
+      hasId(id),
+      hasEntityReference("/collections/" + id),
+      hasEntityURL("http://localhost:8080/dspace-rest/collections/" + id),
+      hasEntityId(),
+      not(hasAnyKey(new String[] {
+        "name",
         "handle"
       }))
     );
