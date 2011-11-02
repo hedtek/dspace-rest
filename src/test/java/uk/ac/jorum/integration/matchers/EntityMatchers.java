@@ -134,6 +134,11 @@ public class EntityMatchers {
 	}
 
   @Factory
+  public static Matcher<JSONObject> hasSubObject(String key, Matcher<JSONObject> matcher) {
+    return new MatchJSONSubObject(key, matcher);
+  }
+
+  @Factory
   public static Matcher<JSONObject> isCommunity(int id, String name, String handle, String introText, String shortDescription, String sidebarText, String copyrightText, int itemCount, Matcher<JSONObject> parentCommunity, Iterable<Matcher<JSONObject>> subCommunities, Iterable<Matcher<JSONObject>> recentSubmissions, Iterable<Matcher<JSONObject>> collections) {
     return allOf(
         cannotBeEdited(),
@@ -152,10 +157,10 @@ public class EntityMatchers {
         hasKeys(new String[] {
           "recentSubmissions",
           "subCommunities",
-          "parentCommunity",
           "administrators",
           "collections"
-        })
+        }),
+        hasSubObject("parentCommunity", parentCommunity)
       );
   }
 

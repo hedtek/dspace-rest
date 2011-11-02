@@ -3,6 +3,7 @@ package uk.ac.jorum.integration.retrieval.communities;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
@@ -227,7 +228,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 	}
 	
 	private void structureAssertionsOn(JSONObject community) throws Exception{
-		assertThat(community, isCommunity(2, "Community no 1", "123456789/2", "Introductory text for community no 1", "Short description of community no 1", "Side bar text for community 1", "Copyright information", 0, null, null, null, null));
+  	assertThat(community, isCommunity(2, "Community no 1", "123456789/2", "Introductory text for community no 1", "Short description of community no 1", "Side bar text for community 1", "Copyright information", 0, nullValue(JSONObject.class), null, null, null));
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject community) throws Exception{
