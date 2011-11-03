@@ -36,8 +36,6 @@ public class CollectionMatchers {
   
   @Factory
   public static Matcher<JSONObject> isCollectionId(int id) {
-    return allOf(
-      hasId(id)
-    );
+    return hasId(id);
   }
 }

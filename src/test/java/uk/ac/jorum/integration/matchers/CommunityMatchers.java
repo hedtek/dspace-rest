@@ -40,8 +40,7 @@ public class CommunityMatchers {
 
   @Factory
   public static Matcher<JSONObject> isCommunityId(int id) {
-    return allOf(
-      hasId(id)
-    );
+    return hasId(id);
   }
+  
 }
