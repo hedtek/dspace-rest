@@ -19,7 +19,6 @@ import org.json.simple.JSONObject;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.nullValue;
 
 public class EntityMatchers {
@@ -167,76 +166,4 @@ public class EntityMatchers {
       return new MatchJSONSubObject(key, nullValue(JSONObject.class));
     return new MatchJSONArray(key, matchers);
   }
-
-  @Factory
-	public static Matcher<JSONObject> isCommunity(int id, String name,
-			String handle, String introText, String shortDescription,
-			String sidebarText, String copyrightText, int itemCount,
-			Matcher<JSONObject> parentCommunity,
-			ArrayList<Matcher<JSONObject>> subCommunities,
-			ArrayList<Matcher<JSONObject>> recentSubmissions,
-			ArrayList<Matcher<JSONObject>> collections) {
-    return allOf(
-        cannotBeEdited(),
-        hasId(id),
-        hasType(4),
-        hasName(name),
-        hasItemCount(itemCount),
-        hasHandle(handle),
-        hasIntroductoryText(introText),
-        hasSidebarText(sidebarText),
-        hasShortDescription(shortDescription),
-        hasCopyrightText(copyrightText),
-        hasSubObject("parentCommunity", parentCommunity),
-        hasArray("recentSubmissions", recentSubmissions),
-        hasArray("subCommunities", subCommunities),
-        hasArray("collections", collections),
-        hasArray("administrators", null)
-      );
-  }
-
-  @Factory
-  public static Matcher<JSONObject> isCommunityId(int id) {
-    return allOf(
-      hasId(id)
-    );
-  }
-  
-  @Factory
-	public static Matcher<JSONObject> isCollection(int id, String name,
-			String handle, String introText, String shortDescription,
-			String sidebarText, String copyrightText, String licence,
-			String provenance, int itemCount,
-			ArrayList<Matcher<JSONObject>> communities, ArrayList<Matcher<JSONObject>> items) {
-    return allOf(
-        cannotBeEdited(),
-        hasId(id),
-        hasType(3),
-        hasName(name),
-        hasItemCount(itemCount),
-        hasHandle(handle),
-        hasIntroText(introText),
-        hasSidebarText(sidebarText),
-        hasShortDescription(shortDescription),
-        hasCopyrightText(copyrightText),
-        hasKey("licence", withValue(licence)),
-        hasKey("provenance", withValue(provenance)),
-        hasArray("communities", communities),
-        hasArray("items", items)
-      );
-  }
-  
-    
-  
-  @Factory
-  public static Matcher<JSONObject> isCollectionId(int id) {
-    return allOf(
-      hasId(id),
-      not(hasAnyKey(new String[] {
-        "name",
-        "handle"
-      }))
-    );
-  }
-
 }

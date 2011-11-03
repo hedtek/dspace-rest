@@ -1,10 +1,10 @@
 package uk.ac.jorum.integration.retrieval.communities;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.*;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.emptyMatcherList;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
 import static org.hamcrest.CoreMatchers.is;
-
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class SubCommunityDatabaseTest extends RestApiBaseTest {
 	
-	private ArrayList<Matcher<JSONObject>> subCommunityListMatchers = new ArrayList<Matcher<JSONObject>>() {
+	private final ArrayList<Matcher<JSONObject>> subCommunityListMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
 			add(isCommunityId(4));
 		}
@@ -38,6 +38,19 @@ public class SubCommunityDatabaseTest extends RestApiBaseTest {
 			"This is a sub-community for a top-level community",
 			"",	"", 0, parentCommunity, emptyMatcherList(),
 			emptyMatcherList(), emptyMatcherList());
+
+  private final ArrayList<Matcher<JSONObject>> topLevelCommunities = new ArrayList<Matcher<JSONObject>>() { 
+    {
+      add(parentCommunity);
+    }
+  };
+
+  private final ArrayList<Matcher<JSONObject>> allCommunities = new ArrayList<Matcher<JSONObject>>() {
+    {
+      add(parentCommunity);
+      add(community);
+    }
+  };
 	
 	@BeforeClass
     public static void createFixture() throws Exception {
@@ -49,29 +62,15 @@ public class SubCommunityDatabaseTest extends RestApiBaseTest {
 	public void subCommunityShouldNotBeShownInTopLevelList() throws Exception {
 	  String result = makeRequest("/communities");
 	  JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-	  JSONArray communityList = (JSONArray) resultJSON.get("communities_collection");
-	  assertEquals(1, communityList.size());
+    assertThat(resultJSON, hasArray("communities_collection", topLevelCommunities));
 	}
 
 	@Test
 	public void subCommunityShouldBeShownInCompleteList() throws Exception {
 	  String result = makeRequest("/communities", "topLevelOnly=false");
 	  JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-	  JSONArray communityList = (JSONArray) resultJSON.get("communities_collection");
-	  assertEquals(2, communityList.size());
-	}
-
-	@Test
-	public void subCommunityInListShouldHaveParentInformation() throws Exception {
-	  String result = makeRequest("/communities", "topLevelOnly=false");
-	  JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 	  	  
-	  ArrayList<Matcher<JSONObject>> communityListMatchers = new ArrayList<Matcher<JSONObject>>() {{
-		add(parentCommunity);
-		add(community);
-	  }};
-	  
-	  assertThat(resultJSON, hasArray("communities_collection", communityListMatchers));
+	  assertThat(resultJSON, hasArray("communities_collection", allCommunities));
 	}
 	  
 	@Test
