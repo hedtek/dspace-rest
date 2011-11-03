@@ -5,11 +5,18 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
+import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollection;
+import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollectionId;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunity;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityId;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hamcrest.Matcher;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -20,6 +27,54 @@ import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class MultipleCollectionsUnderTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 
+
+
+	private final ArrayList<Matcher<JSONObject>> collectionListWithIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
+		{
+			add(isCollectionId(1));
+			add(isCollectionId(2));
+		}
+	};
+	
+	private final Matcher<JSONObject> parentCommunity = isCommunity(2,
+		"Community no 1", "123456789/2",
+		"Introductory text for community no 1",
+		"Short description of community no 1",
+		"Side bar text for community 1", "Copyright information", 0,
+		null, new ArrayList<Matcher<JSONObject>>() {{ add(isCommunityId(4)); }}, 
+		emptyMatcherList(), collectionListWithIdOnlyMatchers);
+	
+	
+	private final ArrayList<Matcher<JSONObject>> communityListMatchers = new ArrayList<Matcher<JSONObject>>() {
+		{
+			add(parentCommunity);
+		}
+	};
+
+	private final Matcher<JSONObject> collectionOne = isCollection(1, "Collection 1", "123456789/6",
+			"Introductory Text for collection 1",
+			"Short Description for Collection 1",
+			"Side bar text for collection 1",
+			"Copyright information for collection 1",
+			"Licence for collection 1",
+			"Provenance for collection 1", 0, communityListMatchers, emptyMatcherList());
+
+	private final Matcher<JSONObject> collectionTwo = isCollection(2, "Collection 2", "123456789/7",
+			"Introductory Text for collection 2",
+			"Short Description for Collection 2",
+			"Side bar text for collection 2",
+			"Copyright text for collection 2",
+			"Licence text for collection 2",
+			"Provenance text for collection 2", 0, communityListMatchers, emptyMatcherList());
+	
+	
+	private final ArrayList<Matcher<JSONObject>> collectionListMatchers = new ArrayList<Matcher<JSONObject>>() {
+		{
+			add(collectionOne);
+			add(collectionTwo);
+		}
+	};
+	
 	@BeforeClass
 	public static void createFixture() throws Exception {
 		loadFixture("twoCollectionsUnderTopLevelCommunityDatabase");
@@ -38,28 +93,7 @@ public class MultipleCollectionsUnderTopLevelCommunityDatabaseTest extends RestA
 	public void collectionListShouldContainTheCorrectCollections() throws Exception {
 		String result = makeRequest("/collections");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		JSONArray collectionsList = (JSONArray) resultJSON.get("collections_collection");
-		final int COLLECTION_ONE_ID = 1;
-		final int COLLECTION_TWO_ID = 2;
-
-		Integer[] idValues = {COLLECTION_ONE_ID,COLLECTION_TWO_ID};
-		
-		for (Object collection : collectionsList) {
-			assertThat((JSONObject)collection, hasIdIn(idValues));
-		}
+		assertThat(resultJSON, hasArray("collections_collection", collectionListMatchers));
 	}
 	
-	@Test
-	public void collectionListShouldContainUniqueCollections() throws Exception {
-		String result = makeRequest("/collections");
-		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		JSONArray collectionsList = (JSONArray) resultJSON.get("collections_collection");
-	
-		Set<Long> ids = new HashSet<Long>();
-		for (Object collection : collectionsList) {
-			Long id = (Long)((JSONObject)collection).get("id");
-			assertThat(ids, not(hasItem(id)));
-			ids.add(id);
-		}
-	}
 }
