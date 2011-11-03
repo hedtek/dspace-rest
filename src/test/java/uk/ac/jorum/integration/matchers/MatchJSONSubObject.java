@@ -6,28 +6,38 @@ import org.hamcrest.Matcher;
 import org.json.simple.JSONObject;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
-public class MatchJSONSubObject <T> extends TypeSafeMatcher<JSONObject> {
-  private Matcher<T> matcher;
-  private String key;
+public class MatchJSONSubObject<T> extends TypeSafeMatcher<JSONObject> {
+	private Matcher<T> matcher;
+	private String key;
 	private boolean isKeyPresent;
-	
+	private boolean run = false;
+	private boolean success;
+
 	@Override
 	public void describeTo(Description description) {
-    description.appendText("Expected " + key + " to match submatcher: ");
-    matcher.describeTo(description);
+		if (!run || success)
+			return;
+		description.appendText("Expected " + key + " to match submatcher: ");
+		matcher.describeTo(description);
 	}
 
 	@Override
 	public boolean matchesSafely(JSONObject item) {
+		run = true;
+		success = runMatch(item);
+		return success;
+	}
+
+	private boolean runMatch(JSONObject item) {
 		isKeyPresent = item.containsKey(key);
-		if(!isKeyPresent) {
+		if (!isKeyPresent) {
 			return false;
 		}
 		return matcher.matches((T) item.get(key));
 	}
 
 	MatchJSONSubObject(String key, Matcher<T> matcher) {
-    this.key = key;
-    this.matcher = matcher;
-  }
+		this.key = key;
+		this.matcher = matcher;
+	}
 }

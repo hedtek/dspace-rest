@@ -6,56 +6,63 @@ import org.hamcrest.Matcher;
 import static org.hamcrest.CoreMatchers.anyOf;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
-public class MatchJSONArray <T> extends TypeSafeMatcher<JSONObject> {
-  private Matcher<T>[] matchers;
-  private String key;
+public class MatchJSONArray<T> extends TypeSafeMatcher<JSONObject> {
+	private ArrayList<Matcher<JSONObject>> matchers;
+	private String key;
 	private boolean isKeyPresent;
-  private JSONArray array;
-  private Matcher<T> anyOfmatcher;
-	
+	private boolean run = false;
+	private JSONArray array;
+	private Matcher<T> anyOfmatcher;
+
 	@Override
 	public void describeTo(Description description) {
-    if (array.size() == 0) {
-      description.appendText("Expected a non-empty array");
-    } else if (matchers.length == 0) {
-      description.appendText("Expected an empty array");
-    } else {
-      description.appendText("Array match failed with ");
-      anyOfmatcher.describeTo(description);
-    }
+		if (!run) return;
+		if(!isKeyPresent) {
+			description.appendText("Key " + key + " was not present in the json object");
+		} else if (array.size() == 0) {
+			description.appendText("Expected a non-empty array for key " + key);
+		} else if (matchers.size() == 0) {
+			description.appendText("Expected an empty array for key " + key);
+		} else {
+			description.appendText("Array match failed with ");
+			anyOfmatcher.describeTo(description);
+		}
 	}
 
 	@Override
 	public boolean matchesSafely(JSONObject item) {
+		run = true;
 		isKeyPresent = item.containsKey(key);
-		if(!isKeyPresent) {
+		if (!isKeyPresent) {
 			return false;
 		}
 
-    array = (JSONArray) item.get(key);
+		array = (JSONArray) item.get(key);
 
-    if(array.size() == 0 && matchers.length == 0) {
-      return true;
-    } else if (array.size() == 0 && matchers.length > 0) {
-      return false;
-    } else if (array.size() > 0 && matchers.length == 0) {
-      return false;
-    }
+		if (array.size() == 0 && matchers.size() == 0) {
+			return true;
+		} else if (array.size() == 0 && matchers.size() > 0) {
+			return false;
+		} else if (array.size() > 0 && matchers.size() == 0) {
+			return false;
+		}
 
-    anyOfmatcher = anyOf((Iterable)Arrays.asList(matchers));
-    for(Object obj : array) {
-      if(!anyOfmatcher.matches((JSONObject)obj)) {
-        return false;
-      }
-    }
-    return true;
+		anyOfmatcher = anyOf((Iterable)matchers);
+		for (Object obj : array) {
+			if (!anyOfmatcher.matches((JSONObject) obj)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
-	MatchJSONArray(String key, Matcher<T>[] matchers) {
-    this.key = key;
-    this.matchers = matchers;
-  }
+	MatchJSONArray(String key, ArrayList<Matcher<JSONObject>> matchers) {
+		this.key = key;
+		this.matchers = matchers;
+	}
 }

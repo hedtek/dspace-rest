@@ -20,9 +20,12 @@ public class ContainsJSONKey <T> extends TypeSafeMatcher<JSONObject> {
 	private String key;
 	private T expectedValue;
 	private boolean isKeyPresent;
+	private boolean run = false;
+	private boolean success;
 	
 	@Override
 	public void describeTo(Description description) {
+		if (!run || success) return;
 		if(!isKeyPresent) {
 			description.appendText("Key not present: " + key);
 		} else {
@@ -32,6 +35,12 @@ public class ContainsJSONKey <T> extends TypeSafeMatcher<JSONObject> {
 
 	@Override
 	public boolean matchesSafely(JSONObject item) {
+		run = true;
+		success =  runMatch(item);
+		return success;
+	}
+
+	private boolean runMatch(JSONObject item) {
 		isKeyPresent = item.containsKey(key);
 		if(!isKeyPresent) {
 			return false;

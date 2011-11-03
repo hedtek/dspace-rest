@@ -29,8 +29,8 @@ public class EntityMatchers {
 	}
 
   @Factory
-  public static Matcher<JSONObject>[] emptyMatcherList() {
-    return new ContainsJSONKey[0];
+  public static ArrayList<Matcher<JSONObject>> emptyMatcherList() {
+    return new ArrayList<Matcher<JSONObject>>();
   }
 	
 	@Factory
@@ -162,14 +162,20 @@ public class EntityMatchers {
   }
 
   @Factory
-  public static Matcher<JSONObject> hasArray(String key, Matcher<JSONObject>[] matchers) {
+  public static Matcher<JSONObject> hasArray(String key, ArrayList<Matcher<JSONObject>> matchers) {
     if (matchers == null)
       return new MatchJSONSubObject(key, nullValue(JSONObject.class));
     return new MatchJSONArray(key, matchers);
   }
 
   @Factory
-  public static Matcher<JSONObject> isCommunity(int id, String name, String handle, String introText, String shortDescription, String sidebarText, String copyrightText, int itemCount, Matcher<JSONObject> parentCommunity, Matcher<JSONObject>[] subCommunities, Matcher<JSONObject>[] recentSubmissions, Matcher<JSONObject>[] collections) {
+	public static Matcher<JSONObject> isCommunity(int id, String name,
+			String handle, String introText, String shortDescription,
+			String sidebarText, String copyrightText, int itemCount,
+			Matcher<JSONObject> parentCommunity,
+			ArrayList<Matcher<JSONObject>> subCommunities,
+			ArrayList<Matcher<JSONObject>> recentSubmissions,
+			ArrayList<Matcher<JSONObject>> collections) {
     return allOf(
         cannotBeEdited(),
         hasId(id),
@@ -181,9 +187,6 @@ public class EntityMatchers {
         hasSidebarText(sidebarText),
         hasShortDescription(shortDescription),
         hasCopyrightText(copyrightText),
-        hasEntityReference("/communities/" + id),
-        hasEntityURL("http://localhost:8080/dspace-rest/communities/" + id),
-        hasEntityId(),
         hasSubObject("parentCommunity", parentCommunity),
         hasArray("recentSubmissions", recentSubmissions),
         hasArray("subCommunities", subCommunities),
@@ -195,20 +198,16 @@ public class EntityMatchers {
   @Factory
   public static Matcher<JSONObject> isCommunityId(int id) {
     return allOf(
-      hasId(id),
-      hasEntityReference("/communities/" + id),
-      hasEntityURL("http://localhost:8080/dspace-rest/communities/" + id),
-      hasEntityId(),
-      not(hasAnyKey(new String[] {
-        "name",
-        "recentSubmissions",
-        "handle"
-      }))
+      hasId(id)
     );
   }
   
   @Factory
-  public static Matcher<JSONObject> isCollection(int id, String name, String handle, String introText, String shortDescription, String sidebarText, String copyrightText, String licence, String provenance, int itemCount, Iterable<Matcher<JSONObject>> communities, Iterable<Matcher<JSONObject>> items) {
+	public static Matcher<JSONObject> isCollection(int id, String name,
+			String handle, String introText, String shortDescription,
+			String sidebarText, String copyrightText, String licence,
+			String provenance, int itemCount,
+			ArrayList<Matcher<JSONObject>> communities, ArrayList<Matcher<JSONObject>> items) {
     return allOf(
         cannotBeEdited(),
         hasId(id),
@@ -222,13 +221,8 @@ public class EntityMatchers {
         hasCopyrightText(copyrightText),
         hasKey("licence", withValue(licence)),
         hasKey("provenance", withValue(provenance)),
-        hasEntityReference("/collections/" + id),
-        hasEntityURL("http://localhost:8080/dspace-rest/collections/" + id),
-        hasEntityId(),
-        hasKeys(new String[] {
-          "communities",
-          "items"
-        })
+        hasArray("communities", communities),
+        hasArray("items", items)
       );
   }
   
@@ -238,9 +232,6 @@ public class EntityMatchers {
   public static Matcher<JSONObject> isCollectionId(int id) {
     return allOf(
       hasId(id),
-      hasEntityReference("/collections/" + id),
-      hasEntityURL("http://localhost:8080/dspace-rest/collections/" + id),
-      hasEntityId(),
       not(hasAnyKey(new String[] {
         "name",
         "handle"

@@ -1,14 +1,18 @@
 package uk.ac.jorum.integration.retrieval.communities;
 
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.emptyMatcherList;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityId;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityReference;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityURL;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.isCommunity;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.isCommunityId;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.withValue;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
-
-import static org.hamcrest.CoreMatchers.allOf;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -227,7 +231,14 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 	}
 	
 	private void structureAssertionsOn(JSONObject community) throws Exception{
-  	assertThat(community, isCommunity(2, "Community no 1", "123456789/2", "Introductory text for community no 1", "Short description of community no 1", "Side bar text for community 1", "Copyright information", 0, null, emptyMatcherList(), emptyMatcherList(), emptyMatcherList()));
+		assertThat(
+				community,
+				isCommunity(2, "Community no 1", "123456789/2",
+						"Introductory text for community no 1",
+						"Short description of community no 1",
+						"Side bar text for community 1",
+						"Copyright information", 0, null, emptyMatcherList(),
+						emptyMatcherList(), emptyMatcherList()));
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject community) throws Exception{	
