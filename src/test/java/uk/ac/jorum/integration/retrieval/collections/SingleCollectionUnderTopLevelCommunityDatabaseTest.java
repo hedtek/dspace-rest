@@ -4,12 +4,17 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunity;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityId;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 import static uk.ac.jorum.integration.matchers.CollectionMatchers.*;
 
+import java.util.ArrayList;
+
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
+import org.hamcrest.Matcher;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -22,7 +27,32 @@ import uk.ac.jorum.integration.RestApiBaseTest;
 public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		RestApiBaseTest {
 
-	private static final Long ONE = new Long(1);
+	private final ArrayList<Matcher<JSONObject>> subCommunityListMatchers = new ArrayList<Matcher<JSONObject>>() {
+		{
+			add(isCommunityId(4));
+		}
+	};
+
+	private final ArrayList<Matcher<JSONObject>> collectionListMatchers = new ArrayList<Matcher<JSONObject>>() {
+		{
+			add(isCollectionId(1));
+		}
+	};
+	
+	private final Matcher<JSONObject> parentCommunity = isCommunity(2,
+			"Community no 1", "123456789/2",
+			"Introductory text for community no 1",
+			"Short description of community no 1",
+			"Side bar text for community 1", "Copyright information", 0,
+			null, subCommunityListMatchers, emptyMatcherList(),
+			collectionListMatchers);
+	
+	private final ArrayList<Matcher<JSONObject>> communityListMatchers = new ArrayList<Matcher<JSONObject>>() {
+		{
+			add(parentCommunity);
+		}
+	};
+	
 
 	@BeforeClass
 	public static void createFixture() throws Exception {
@@ -94,128 +124,100 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 	@Test
 	public void showCollectionIdShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/collections/1/id");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		
-		assertThat(collection, hasKey("data", withValue(ONE)));
-		entityAssertionsOn(collection);
+		JSONObject resutJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resutJSON, isEntityElement(1, "collections", 1));	
 	}
 	
 	@Test
 	public void showCollectionNameShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/collections/1/name");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		
-		assertThat(collection, hasKey("data", withValue("Collection 1")));
-		entityAssertionsOn(collection);
+		JSONObject resutJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resutJSON, isEntityElement(1, "collections", "Collection 1"));
 	}
 	
 	@Test
 	public void showCollectionCountItemsShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/collections/1/countItems");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		final Long ZERO = new Long(0);
-		assertThat(collection, hasKey("data", withValue(ZERO)));
-		entityAssertionsOn(collection);		
+		JSONObject resutJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resutJSON, isEntityElement(1, "collections", 0));
 	}
 	
 	@Test
 	public void showCollectionHandleShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/collections/1/handle");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		
-		assertThat(collection, hasKey("data", withValue("123456789/6")));
-		entityAssertionsOn(collection);		
+		JSONObject resutJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resutJSON, isEntityElement(1, "collections", "123456789/6"));
+
 	}
 
 	@Test
 	public void showCollectionTypeShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/collections/1/type");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		final Long THREE = new Long(3);
-		
-		assertThat(collection, hasKey("data", withValue(THREE)));
-		entityAssertionsOn(collection);		
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, isEntityElement(1, "collections", 3));
 	}
 
 	@Test
 	public void showCollectionCommunitiesShouldHaveDataField() throws Exception {
-		String result = makeRequest("/collections/1/communities");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		
-		assertThat(collection, hasKey("data"));
-		entityAssertionsOn(collection);		
+				String result = makeRequest("/collections/1/communities");
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, isEntityElementWithArray(1, "collections", communityListMatchers));
 	}
 	
 	@Test
 	public void showCollectionItemsShouldHaveDataField() throws Exception {
 		String result = makeRequest("/collections/1/items");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		
-		assertThat(collection, hasKey("data"));
-		entityAssertionsOn(collection);		
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, isEntityElementWithArray(1, "collections", emptyMatcherList()));
 	}
 	
 	@Test
 	public void showCollectionCanEditShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/collections/1/canedit");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		
-		assertThat(collection, hasKey("data", withValue(false)));
-		entityAssertionsOn(collection);		
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, isEntityElement(1, "collections", false));
 	}
 	
 	@Test
 	public void showCollectionLicenceShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/collections/1/licence");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		
-		assertThat(collection, hasKey("data", withValue("Licence for collection 1")));
-		entityAssertionsOn(collection);		
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, isEntityElement(1, "collections", "Licence for collection 1"));
 	}
 	
 	@Test
 	public void showCollectionProvenanceShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/collections/1/provenance");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		
-		assertThat(collection, hasKey("data", withValue("Provenance for collection 1")));
-		entityAssertionsOn(collection);		
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);	
+		assertThat(resultJSON, isEntityElement(1, "collections", "Provenance for collection 1"));
 	}
 	
 	@Test
 	public void showCollectionShortDescriptionShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/collections/1/shortDescription");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		
-		assertThat(collection, hasKey("data", withValue("Short Description for Collection 1")));
-		entityAssertionsOn(collection);		
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);	
+		assertThat(resultJSON, isEntityElement(1, "collections", "Short Description for Collection 1"));
 	}
 	
 	@Test
 	public void showCollectionCopyrightTextShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/collections/1/copyrightText");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		
-		assertThat(collection, hasKey("data", withValue("Copyright information for collection 1")));
-		entityAssertionsOn(collection);		
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, isEntityElement(1, "collections", "Copyright information for collection 1"));
 	}
 	
 	@Test
 	public void showCollectionSidebarTextShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/collections/1/sidebarText");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		
-		assertThat(collection, hasKey("data", withValue("Side bar text for collection 1")));
-		entityAssertionsOn(collection);
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, isEntityElement(1, "collections", "Side bar text for collection 1"));
 	}
 	
 	@Test
 	public void showCollectionIntroductoryTextShouldHaveDataFieldWithCorrectValue() throws Exception {
 		String result = makeRequest("/collections/1/introText");
-		JSONObject collection = (JSONObject) JSONValue.parse(result);
-		
-		assertThat(collection, hasKey("data", withValue("Introductory Text for collection 1")));
-		entityAssertionsOn(collection);
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+	    assertThat(resultJSON, isEntityElement(1, "collections", "Introductory Text for collection 1"));
 	}
 
 
@@ -223,21 +225,9 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 	public void communityOwningACollectionShouldContainCollectionInShowCommunityDetails() throws Exception {
 		String result = makeRequest("/communities/2");
 		JSONObject communityOwningACollection = (JSONObject) JSONValue.parse(result);
-		JSONArray collectionsList = (JSONArray)communityOwningACollection.get("collections");
-		JSONObject collection = (JSONObject)collectionsList.get(0);
-		
-		assertThat(collection, hasId(1));
+		assertThat(communityOwningACollection, is(parentCommunity));
 	}
 	
-	private void entityAssertionsOn(JSONObject collection) throws Exception{
-		assertThat(collection, is(allOf(
-				hasEntityReference("/collections/1"),
-				hasEntityURL("http://localhost:8080/dspace-rest/collections/1"),
-				hasEntityId(), 
-				hasKey("displayTitle"),
-				hasKey("entityProperties")
-				)));
-	}
 
 	private void structureAssertionsOn(JSONObject collection) throws Exception{
 		assertThat(
@@ -248,11 +238,10 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 						"Side bar text for collection 1",
 						"Copyright information for collection 1",
 						"Licence for collection 1",
-						"Provenance for collection 1", 0, null, null));
+						"Provenance for collection 1", 0, communityListMatchers, emptyMatcherList()));
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject collection) throws Exception{
 		assertThat(collection, isCollectionId(1));
 	}
-		
 }
