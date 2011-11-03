@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
+import static uk.ac.jorum.integration.matchers.CollectionMatchers.*;
 
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 

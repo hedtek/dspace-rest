@@ -9,10 +9,9 @@ import static uk.ac.jorum.integration.matchers.EntityMatchers.emptyMatcherList;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityId;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityReference;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityURL;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.isCommunity;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.isCommunityId;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.withValue;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.*;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
