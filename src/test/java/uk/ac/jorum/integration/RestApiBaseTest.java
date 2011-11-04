@@ -47,20 +47,20 @@ public abstract class RestApiBaseTest {
   protected String makeRequest(String endpoint) throws Exception {
     return makeRequest(endpoint, null);
   }
-  
+
   protected String makeRequest(String endpoint, String queryString) throws Exception {
-	URI uri = URIUtils.createURI(apiProtocol, apiHost, jettyPort(), jettyPath() + endpoint, queryString, null);
-	HttpGet httpget = new HttpGet(uri);
-	httpget.addHeader("Accept", "application/json");
+    URI uri = URIUtils.createURI(apiProtocol, apiHost, jettyPort(), jettyPath() + endpoint, queryString, null);
+    HttpGet httpget = new HttpGet(uri);
+    httpget.addHeader("Accept", "application/json");
     ResponseHandler<String> responseHandler = new BasicResponseHandler();
     return client.execute(httpget, responseHandler);
   }
 
   protected int getResponseCode(String endpoint, String queryString) throws Exception{
-	URI uri = URIUtils.createURI(apiProtocol, apiHost, jettyPort(), jettyPath() + endpoint, queryString, null);
-	HttpGet httpget = new HttpGet(uri);
-	httpget.addHeader("Accept", "application/json");
-	HttpResponse response = client.execute(httpget);
+    URI uri = URIUtils.createURI(apiProtocol, apiHost, jettyPort(), jettyPath() + endpoint, queryString, null);
+    HttpGet httpget = new HttpGet(uri);
+    httpget.addHeader("Accept", "application/json");
+    HttpResponse response = client.execute(httpget);
     return response.getStatusLine().getStatusCode();
   }
 
@@ -81,7 +81,7 @@ public abstract class RestApiBaseTest {
   }
 
   protected int getResponseCode(String endpoint) throws Exception{
-	return getResponseCode(endpoint, null);
+    return getResponseCode(endpoint, null);
   }
 
   private static void loadDatabase(String filename) throws Exception {
@@ -92,25 +92,24 @@ public abstract class RestApiBaseTest {
   protected static void loadFixture(String fixtureName) throws Exception {
     loadDatabase(resourceBase() + "/setup/cleardb.sql");
     loadDatabase(resourceBase() + "/fixtures/" + fixtureName + ".sql");
-    DatabaseManager.shutdown();
   }
 
   protected static void startJetty() throws Exception {
-      server = new Server();
-      Connector connector = new SelectChannelConnector();
-      connector.setPort(jettyPort());
-      connector.setHost(apiHost);
-      server.addConnector(connector);
-       
-      WebAppContext wac = new WebAppContext();
-      wac.setContextPath(jettyPath());
-      wac.setResourceBase(resourceBase());
-      wac.setDescriptor(webXmlLocation());
-      wac.setParentLoaderPriority(true);
-      server.setHandler(wac);
-      server.setStopAtShutdown(true);
-       
-      server.start();
-      while (!wac.isStarted()) {}
+    server = new Server();
+    Connector connector = new SelectChannelConnector();
+    connector.setPort(jettyPort());
+    connector.setHost(apiHost);
+    server.addConnector(connector);
+
+    WebAppContext wac = new WebAppContext();
+    wac.setContextPath(jettyPath());
+    wac.setResourceBase(resourceBase());
+    wac.setDescriptor(webXmlLocation());
+    wac.setParentLoaderPriority(true);
+    server.setHandler(wac);
+    server.setStopAtShutdown(true);
+
+    server.start();
+    while (!wac.isStarted()) {}
   }
 }

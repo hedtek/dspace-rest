@@ -13,7 +13,6 @@
 --
 --    This should be kept in sync if database_schema.sql is updated.
 
-
 -- Drop the views
 DROP VIEW CommunityItemsBySubject;
 DROP VIEW CollectionItemsBySubject;
