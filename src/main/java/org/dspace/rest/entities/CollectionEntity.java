@@ -69,6 +69,7 @@ public class CollectionEntity {
         while (i.hasNext()) {
             items.add(includeFull ? new ItemEntity(i.next(), level, uparams) : new ItemEntityId(i.next()));
         }
+        this.countItems = items.size();
 
         for (Community c : res.getCommunities()) {
             this.communities.add(includeFull ? new CommunityEntity(c, level, uparams) : new CommunityEntityId(c));
@@ -91,6 +92,7 @@ public class CollectionEntity {
         while (i.hasNext()) {
             items.add(includeFull ? new ItemEntity(i.next(), level, uparams) : new ItemEntityId(i.next()));
         }
+        this.countItems = items.size();
 
         for (Community c : collection.getCommunities()) {
             communities.add(includeFull ? new CommunityEntity(c, level, uparams) : new CommunityEntityId(c));
@@ -112,6 +114,7 @@ public class CollectionEntity {
         if (collection.getLogo() != null) {
             this.logo = new BitstreamEntityId(collection.getLogo());
         }
+        
     }
 
     public CollectionEntity() {
