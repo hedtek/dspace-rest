@@ -6,9 +6,9 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollection;
-import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollectionId;
+import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollectionWithId;
 import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunity;
-import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityId;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWithId;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 
 
@@ -31,8 +31,8 @@ public class MultipleCollectionsUnderTopLevelCommunityDatabaseTest extends RestA
 
 	private final ArrayList<Matcher<JSONObject>> collectionListWithIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isCollectionId(1));
-			add(isCollectionId(2));
+			add(isCollectionWithId(1));
+			add(isCollectionWithId(2));
 		}
 	};
 	
@@ -41,7 +41,7 @@ public class MultipleCollectionsUnderTopLevelCommunityDatabaseTest extends RestA
 		"Introductory text for community no 1",
 		"Short description of community no 1",
 		"Side bar text for community 1", "Copyright information", 0,
-		null, new ArrayList<Matcher<JSONObject>>() {{ add(isCommunityId(4)); }}, 
+		null, new ArrayList<Matcher<JSONObject>>() {{ add(isCommunityWithId(4)); }}, 
 		emptyMatcherList(), collectionListWithIdOnlyMatchers);
 	
 	

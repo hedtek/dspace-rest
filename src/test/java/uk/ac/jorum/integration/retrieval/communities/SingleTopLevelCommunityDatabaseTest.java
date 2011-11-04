@@ -4,7 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunity;
-import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityId;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWithId;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.emptyMatcherList;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.isEntityElement;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.isEntityElementWithArray;
@@ -199,7 +199,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject community) throws Exception{	
-		assertThat(community, isCommunityId(2));
+		assertThat(community, isCommunityWithId(2));
 	}
 }
 

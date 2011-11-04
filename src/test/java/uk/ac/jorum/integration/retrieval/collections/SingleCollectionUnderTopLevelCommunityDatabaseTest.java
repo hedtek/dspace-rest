@@ -5,7 +5,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunity;
-import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityId;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWithId;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 import static uk.ac.jorum.integration.matchers.CollectionMatchers.*;
@@ -29,13 +29,13 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 
 	private final ArrayList<Matcher<JSONObject>> subCommunityListMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isCommunityId(4));
+			add(isCommunityWithId(4));
 		}
 	};
 
 	private final ArrayList<Matcher<JSONObject>> collectionListMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isCollectionId(1));
+			add(isCollectionWithId(1));
 		}
 	};
 	
@@ -242,6 +242,6 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 	}
 	
 	private void idOnlyStructureAssertionsOn(JSONObject collection) throws Exception{
-		assertThat(collection, isCollectionId(1));
+		assertThat(collection, isCollectionWithId(1));
 	}
 }

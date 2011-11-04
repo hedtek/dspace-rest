@@ -39,7 +39,7 @@ public class CommunityMatchers {
   }
 
   @Factory
-  public static Matcher<JSONObject> isCommunityId(int id) {
+  public static Matcher<JSONObject> isCommunityWithId(int id) {
     return hasId(id);
   }
   

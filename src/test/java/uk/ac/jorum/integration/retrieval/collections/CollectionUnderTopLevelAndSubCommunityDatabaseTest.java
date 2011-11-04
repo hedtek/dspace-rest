@@ -4,8 +4,8 @@ import static org.hamcrest.CoreMatchers.is;
 
 import java.util.ArrayList;
 
-import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollectionId;
-import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityId;
+import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollectionWithId;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWithId;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.greaterThan;
@@ -30,14 +30,14 @@ public class CollectionUnderTopLevelAndSubCommunityDatabaseTest extends
 
 	private final ArrayList<Matcher<JSONObject>> collectionListWithIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(not(isCollectionId(3)));
+			add(not(isCollectionWithId(3)));
 		}
 	};
 	
 	private final ArrayList<Matcher<JSONObject>> communityListWithIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isCommunityId(2));
-			add(isCommunityId(4));
+			add(isCommunityWithId(2));
+			add(isCommunityWithId(4));
 		}
 	};
 	

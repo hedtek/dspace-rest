@@ -21,7 +21,7 @@ public class SubCommunityDatabaseTest extends RestApiBaseTest {
 	
 	private final ArrayList<Matcher<JSONObject>> subCommunityListMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isCommunityId(4));
+			add(isCommunityWithId(4));
 		}
 	};
 

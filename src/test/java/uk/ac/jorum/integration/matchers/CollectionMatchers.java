@@ -35,7 +35,7 @@ public class CollectionMatchers {
   }
   
   @Factory
-  public static Matcher<JSONObject> isCollectionId(int id) {
+  public static Matcher<JSONObject> isCollectionWithId(int id) {
     return hasId(id);
   }
 }

@@ -2,8 +2,8 @@ package uk.ac.jorum.integration.retrieval.collections;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
-import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollectionId;
-import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityId;
+import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollectionWithId;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWithId;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
 
 import java.util.ArrayList;
@@ -22,13 +22,13 @@ public class CollectionsInSiblingCommunitiesDatabaseTest extends
 
 	private final ArrayList<Matcher<JSONObject>> collectionListWithIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(not(isCollectionId(6)));
+			add(not(isCollectionWithId(6)));
 		}
 	};
 	
 	private final ArrayList<Matcher<JSONObject>> communityListWithIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(not(isCommunityId(6)));
+			add(not(isCommunityWithId(6)));
 		}
 	};
 	
