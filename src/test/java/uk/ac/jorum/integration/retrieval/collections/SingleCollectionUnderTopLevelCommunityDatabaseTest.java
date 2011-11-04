@@ -221,7 +221,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 	}
 
 
-	//@Test
+	@Test
 	public void communityOwningACollectionShouldContainCollectionInShowCommunityDetails() throws Exception {
 		String result = makeRequest("/communities/2");
 		JSONObject communityOwningACollection = (JSONObject) JSONValue.parse(result);
