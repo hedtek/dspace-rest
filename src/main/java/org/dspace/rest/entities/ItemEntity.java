@@ -102,8 +102,6 @@ public class ItemEntity extends ItemEntityId {
         {
             this.metadata.add(includeFull ? new MetadataEntity(dcValue, level, uparams) : new MetadataEntityId(dcValue));
         }
-
-        context.complete();
     }
 
     public ItemEntity(Item item, int level, UserRequestParams uparams) throws SQLException {
