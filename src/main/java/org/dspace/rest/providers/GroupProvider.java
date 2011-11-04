@@ -115,33 +115,36 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
             throw new EntityException("Internal server error", "SQL error", 500);
         }
 
-        UserRequestParams uparams;
-        uparams = refreshParams(context);
+        try {
+            UserRequestParams uparams;
+            uparams = refreshParams(context);
 
-        // sample entity
-        if (reference.getId().equals(":ID:")) {
-            return new GroupEntity();
-        }
-
-
-        if (reference.getId() == null) {
-            return new GroupEntity();
-        }
-
-        if (entityExists(reference.getId())) {
-            try {
-                if (idOnly) {
-                    return new GroupEntityId(reference.getId(), context);
-                } else {
-                    return new GroupEntity(reference.getId(), context,1, uparams);
-                }
-            } catch (SQLException ex) {
-                throw new IllegalArgumentException("Invalid id:" + reference.getId());
+            // sample entity
+            if (reference.getId().equals(":ID:")) {
+                return new GroupEntity();
             }
-        }
 
-        removeConn(context);
-        throw new IllegalArgumentException("Invalid id:" + reference.getId());
+
+            if (reference.getId() == null) {
+                return new GroupEntity();
+            }
+
+            if (entityExists(reference.getId())) {
+                try {
+                    if (idOnly) {
+                        return new GroupEntityId(reference.getId(), context);
+                    } else {
+                        return new GroupEntity(reference.getId(), context,1, uparams);
+                    }
+                } catch (SQLException ex) {
+                    throw new IllegalArgumentException("Invalid id:" + reference.getId());
+                }
+            }
+
+            throw new IllegalArgumentException("Invalid id:" + reference.getId());
+        } finally {
+            removeConn(context);
+        }
     }
 
     /**
@@ -160,33 +163,36 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
         } catch (SQLException ex) {
             throw new EntityException("Internal server error", "SQL error", 500);
         }
-
-        // extract and prepare query parameters
-        UserRequestParams uparams;
-        uparams = refreshParams(context);
-        List<Object> entities = new ArrayList<Object>();
-
         try {
-            Group[] groups;
-            groups = Group.findAll(context, Group.NAME);
-            if (groups != null) {
-                for (int x = 0; x < groups.length; x++) {
-                    entities.add(idOnly ? new GroupEntityId(groups[x]) : new GroupEntity(groups[x],1, uparams));
+
+            // extract and prepare query parameters
+            UserRequestParams uparams;
+            uparams = refreshParams(context);
+            List<Object> entities = new ArrayList<Object>();
+
+            try {
+                Group[] groups;
+                groups = Group.findAll(context, Group.NAME);
+                if (groups != null) {
+                    for (int x = 0; x < groups.length; x++) {
+                        entities.add(idOnly ? new GroupEntityId(groups[x]) : new GroupEntity(groups[x],1, uparams));
+                    }
                 }
+            } catch (SQLException ex) {
+                throw new EntityException("Internal server error", "SQL erorr", 500);
             }
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL erorr", 500);
+
+
+            // do sorting and limiting if necessary
+            if (!idOnly && sortOptions.size() > 0) {
+                Collections.sort(entities, new GenComparator(sortOptions));
+            }
+            removeTrailing(entities);
+
+            return entities;
+        } finally {
+            removeConn(context);
         }
-
-        removeConn(context);
-
-        // do sorting and limiting if necessary
-        if (!idOnly && sortOptions.size() > 0) {
-            Collections.sort(entities, new GenComparator(sortOptions));
-        }
-        removeTrailing(entities);
-
-        return entities;
     }
 
     /**

@@ -93,36 +93,39 @@ public class StatsProvider extends AbstractBaseProvider implements CoreEntityPro
             throw new EntityException("Internal server error", "SQL error", 500);
         }
 
-        refreshParams(context);
-
-        List<Object> stat = new ArrayList<Object>();
-        File reportDir = new File(ConfigurationManager.getProperty("log.dir"));
-
-        ReportGenerator rg = new ReportGenerator();
-        // iterate through files in report directory and load each
-        File[] reports = reportDir.listFiles();
         try {
-            for (File report : reports) {
-                Matcher genMatcher = analysisGeneralPattern.matcher(report.getName());
-                Matcher monMatcher = analysisMonthlyPattern.matcher(report.getName());
-                StatReport statReport = new StatReport();
-                if (genMatcher.matches()) {
-                    statReport.setType("general");
-                    rg.processReport(context, statReport, report.getAbsolutePath());
-                    stat.add(statReport);
-                } else if (monMatcher.matches()) {
-                    statReport.setType("monthly");
-                    rg.processReport(context, statReport, report.getAbsolutePath());
-                    stat.add(statReport);
-                }
-            }
+            refreshParams(context);
 
+            List<Object> stat = new ArrayList<Object>();
+            File reportDir = new File(ConfigurationManager.getProperty("log.dir"));
+
+            ReportGenerator rg = new ReportGenerator();
+            // iterate through files in report directory and load each
+            File[] reports = reportDir.listFiles();
+            try {
+                for (File report : reports) {
+                    Matcher genMatcher = analysisGeneralPattern.matcher(report.getName());
+                    Matcher monMatcher = analysisMonthlyPattern.matcher(report.getName());
+                    StatReport statReport = new StatReport();
+                    if (genMatcher.matches()) {
+                        statReport.setType("general");
+                        rg.processReport(context, statReport, report.getAbsolutePath());
+                        stat.add(statReport);
+                    } else if (monMatcher.matches()) {
+                        statReport.setType("monthly");
+                        rg.processReport(context, statReport, report.getAbsolutePath());
+                        stat.add(statReport);
+                    }
+                }
+
+                return stat;
+            } catch (SQLException ex) {
+                throw new EntityException("Internal Server Error", "SQL Problem", 500);
+            } catch (Exception ex) {
+                throw new EntityException("Internal Server Error", "Log file Problem", 500);
+            }
+        } finally {
             removeConn(context);
-            return stat;
-        } catch (SQLException ex) {
-            throw new EntityException("Internal Server Error", "SQL Problem", 500);
-        } catch (Exception ex) {
-            throw new EntityException("Internal Server Error", "Log file Problem", 500);
         }
     }
 

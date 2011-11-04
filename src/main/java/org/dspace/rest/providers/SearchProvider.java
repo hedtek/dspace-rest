@@ -68,109 +68,113 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         } catch (SQLException ex) {
             throw new EntityException("Internal server error", "SQL error", 500);
         }
-
-        // refresh parameters for this request
-        UserRequestParams uparams;
-        uparams = refreshParams(context);
-        List<Object> entities = new ArrayList<Object>();
-
         try {
-            // extract query arguments from the request
-            // deprecated - this is now handled at the end of function
-            QueryArgs arg = new QueryArgs();
-            arg.setQuery(query);
 
-            if (_perpage > 0) {
-                arg.setPageSize(_perpage);
-            }
-            arg.setStart(_start);
+            // refresh parameters for this request
+            UserRequestParams uparams;
+            uparams = refreshParams(context);
+            List<Object> entities = new ArrayList<Object>();
 
-            if ((_order.equalsIgnoreCase("descending")) || (_order.equalsIgnoreCase("desc"))) {
-                arg.setSortOrder(SortOption.DESCENDING);
-            } else {
-                arg.setSortOrder(SortOption.ASCENDING);
-            }
+            try {
+                // extract query arguments from the request
+                // deprecated - this is now handled at the end of function
+                QueryArgs arg = new QueryArgs();
+                arg.setQuery(query);
 
-            QueryResults qre;
-
-            /**
-             * search can be performed only on community or collection selected
-             * or all, not on the both in same time; check this requirement
-             */
-            if (_community != null) {
-                qre = DSQuery.doQuery(context, arg, _community);
-            } else if (_collection != null) {
-                qre = DSQuery.doQuery(context, arg, _collection);
-            } else {
-                qre = DSQuery.doQuery(context, arg);
-            }
-            entities.add(new SearchResultsInfoEntity(qre.getHitCount() - 1, qre.getHitTypes(), qre.getHitHandles(), qre.getHitIds()));
-
-            /**
-             * check returned objects, recognize them and put in result
-             * list as expected
-             */
-            for (int x = 0; x < qre.getHitTypes().size(); x++) {
-                switch ((Integer) (qre.getHitTypes().get(x))) {
-                    case Constants.ITEM:
-                         {
-                            entities.add(idOnly ? new ItemEntityId(qre.getHitIds().get(x).toString(), context) : new ItemEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
-                        }
-                        break;
-
-                    case Constants.COMMUNITY:
-                         {
-                            entities.add(idOnly ? new CommunityEntityId(qre.getHitIds().get(x).toString(), context) : new CommunityEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
-                        }
-                        break;
-
-                    case Constants.COLLECTION:
-                         {
-                            entities.add(idOnly ? new CollectionEntityId(qre.getHitIds().get(x).toString(), context) : new CollectionEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
-                        }
-                        break;
-
-                    case Constants.BITSTREAM:
-                         {
-                            entities.add(idOnly ? new BitstreamEntityId(qre.getHitIds().get(x).toString(), context) : new BitstreamEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
-                        }
-                        break;
-
-                    case Constants.BUNDLE:
-                         {
-                            entities.add(idOnly ? new BundleEntityId(qre.getHitIds().get(x).toString(), context) : new BundleEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
-                        }
-                        break;
-
-                    case Constants.EPERSON:
-                         {
-                            entities.add(idOnly ? new UserEntityId(qre.getHitIds().get(x).toString(), context) : new UserEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
-                        }
-                        break;
-
+                if (_perpage > 0) {
+                    arg.setPageSize(_perpage);
                 }
+                arg.setStart(_start);
+
+                if ((_order.equalsIgnoreCase("descending")) || (_order.equalsIgnoreCase("desc"))) {
+                    arg.setSortOrder(SortOption.DESCENDING);
+                } else {
+                    arg.setSortOrder(SortOption.ASCENDING);
+                }
+
+                QueryResults qre;
+
+                /**
+                 * search can be performed only on community or collection selected
+                 * or all, not on the both in same time; check this requirement
+                 */
+                if (_community != null) {
+                    qre = DSQuery.doQuery(context, arg, _community);
+                } else if (_collection != null) {
+                    qre = DSQuery.doQuery(context, arg, _collection);
+                } else {
+                    qre = DSQuery.doQuery(context, arg);
+                }
+                entities.add(new SearchResultsInfoEntity(qre.getHitCount() - 1, qre.getHitTypes(), qre.getHitHandles(), qre.getHitIds()));
+
+                /**
+                 * check returned objects, recognize them and put in result
+                 * list as expected
+                 */
+                for (int x = 0; x < qre.getHitTypes().size(); x++) {
+                    switch ((Integer) (qre.getHitTypes().get(x))) {
+                        case Constants.ITEM:
+                            {
+                                entities.add(idOnly ? new ItemEntityId(qre.getHitIds().get(x).toString(), context) : new ItemEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
+                            }
+                            break;
+
+                        case Constants.COMMUNITY:
+                            {
+                                entities.add(idOnly ? new CommunityEntityId(qre.getHitIds().get(x).toString(), context) : new CommunityEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
+                            }
+                            break;
+
+                        case Constants.COLLECTION:
+                            {
+                                entities.add(idOnly ? new CollectionEntityId(qre.getHitIds().get(x).toString(), context) : new CollectionEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
+                            }
+                            break;
+
+                        case Constants.BITSTREAM:
+                            {
+                                entities.add(idOnly ? new BitstreamEntityId(qre.getHitIds().get(x).toString(), context) : new BitstreamEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
+                            }
+                            break;
+
+                        case Constants.BUNDLE:
+                            {
+                                entities.add(idOnly ? new BundleEntityId(qre.getHitIds().get(x).toString(), context) : new BundleEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
+                            }
+                            break;
+
+                        case Constants.EPERSON:
+                            {
+                                entities.add(idOnly ? new UserEntityId(qre.getHitIds().get(x).toString(), context) : new UserEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
+                            }
+                            break;
+
+                    }
+                }
+
+            } catch (SQLException sql) {
+                throw new EntityException("Internal Server Error", "SQL Problem", 500);
+            } catch (IOException io) {
+                throw new EntityException("Internal Server Error", "Could not execute query", 500);
             }
 
-        } catch (SQLException sql) {
-            throw new EntityException("Internal Server Error", "SQL Problem", 500);
-        } catch (IOException io) {
-            throw new EntityException("Internal Server Error", "Could not execute query", 500);
+            /**
+             * if the full info are requested and there are sorting requirements
+             * process entities through sorting filter first
+             */
+            if (!idOnly && sortOptions.size() > 0) {
+                Collections.sort(entities, new GenComparator(sortOptions));
+            }
+
+            /**
+             * process entities according to _limit, _perpage etc
+             */
+            removeTrailing(entities);
+
+            return entities;
+        } finally {
+            removeConn(context);
         }
-
-        /**
-         * if the full info are requested and there are sorting requirements
-         * process entities through sorting filter first
-         */
-        if (!idOnly && sortOptions.size() > 0) {
-            Collections.sort(entities, new GenComparator(sortOptions));
-        }
-
-        /**
-         * process entities according to _limit, _perpage etc
-         */
-        removeTrailing(entities);
-
-        return entities;
     }
 
     /**

@@ -133,31 +133,34 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
         } catch (SQLException ex) {
             throw new EntityException("Internal server error", "SQL error", 500);
         }
+        try {
 
-        UserRequestParams uparams;
-        uparams = refreshParams(context);
+            UserRequestParams uparams;
+            uparams = refreshParams(context);
 
-        // sample entity
-        if (reference.getId().equals(":ID:")) {
-            return new ItemEntity();
-        }
-
-        if (entityExists(reference.getId())) {
-            try {
-
-                // return basic or full info, according to requirements
-                if (idOnly) {
-                    return new ItemEntityId(reference.getId(), context);
-                } else {
-                    return new ItemEntity(reference.getId(), context, 1, uparams);
-                }
-            } catch (SQLException ex) {
-                throw new IllegalArgumentException("Invalid id:" + reference.getId());
+            // sample entity
+            if (reference.getId().equals(":ID:")) {
+                return new ItemEntity();
             }
-        }
 
-        removeConn(context);
-        throw new IllegalArgumentException("Invalid id:" + reference.getId());
+            if (entityExists(reference.getId())) {
+                try {
+
+                    // return basic or full info, according to requirements
+                    if (idOnly) {
+                        return new ItemEntityId(reference.getId(), context);
+                    } else {
+                        return new ItemEntity(reference.getId(), context, 1, uparams);
+                    }
+                } catch (SQLException ex) {
+                    throw new IllegalArgumentException("Invalid id:" + reference.getId());
+                }
+            }
+
+            throw new IllegalArgumentException("Invalid id:" + reference.getId());
+        } finally {
+            removeConn(context);
+        }
     }
 
     public List<?> getEntities(EntityReference ref, Search search) {
@@ -169,27 +172,30 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
         } catch (SQLException ex) {
             throw new EntityException("Internal server error", "SQL error", 500);
         }
-
-        UserRequestParams uparams;
-        uparams = refreshParams(context);
-        List<Object> entities = new ArrayList<Object>();
-
         try {
-            ItemIterator items = Item.findAll(context);
-            while (items.hasNext()) {
-                entities.add(idOnly ? new ItemEntityId(items.next()) : new ItemEntity(items.next(), 1, uparams));
+
+            UserRequestParams uparams;
+            uparams = refreshParams(context);
+            List<Object> entities = new ArrayList<Object>();
+
+            try {
+                ItemIterator items = Item.findAll(context);
+                while (items.hasNext()) {
+                    entities.add(idOnly ? new ItemEntityId(items.next()) : new ItemEntity(items.next(), 1, uparams));
+                }
+            } catch (SQLException ex) {
+                throw new EntityException("Internal server error", "SQL error", 500);
             }
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
 
-        removeConn(context);
-        if (!idOnly && sortOptions.size() > 0) {
-            Collections.sort(entities, new GenComparator(sortOptions));
-        }
+            if (!idOnly && sortOptions.size() > 0) {
+                Collections.sort(entities, new GenComparator(sortOptions));
+            }
 
-        removeTrailing(entities);
-        return entities;
+            removeTrailing(entities);
+            return entities;
+        } finally {
+            removeConn(context);
+        }
     }
 
     /**

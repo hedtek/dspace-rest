@@ -64,49 +64,53 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
             throw new EntityException("Internal server error", "SQL error", 500);
         }
 
-        UserRequestParams uparams;
-        uparams = refreshParams(context);
-        List<Object> entities = new ArrayList<Object>();
-        List<HarvestedItemInfo> res = new ArrayList<HarvestedItemInfo>();
-
-        /**
-         * check requirement for communities and collections, they should be
-         * mutually excluded as underlying architecture accepts searching
-         * in only one subject (community or collection)
-         */
         try {
-            if (_community != null) {
-                res = Harvest.harvest(context, _community, _sdate, _edate, _start, _limit, true, true, withdrawn, true);
-            } else if (_collection != null) {
-                res = Harvest.harvest(context, _collection, _sdate, _edate, _start, _limit, true, true, withdrawn, true);
-            } else {
-                res = Harvest.harvest(context, null, _sdate, _edate, _start, _limit, true, true, withdrawn, true);
+            UserRequestParams uparams;
+            uparams = refreshParams(context);
+            List<Object> entities = new ArrayList<Object>();
+            List<HarvestedItemInfo> res = new ArrayList<HarvestedItemInfo>();
+
+            /**
+             * check requirement for communities and collections, they should be
+             * mutually excluded as underlying architecture accepts searching
+             * in only one subject (community or collection)
+             */
+            try {
+                if (_community != null) {
+                    res = Harvest.harvest(context, _community, _sdate, _edate, _start, _limit, true, true, withdrawn, true);
+                } else if (_collection != null) {
+                    res = Harvest.harvest(context, _collection, _sdate, _edate, _start, _limit, true, true, withdrawn, true);
+                } else {
+                    res = Harvest.harvest(context, null, _sdate, _edate, _start, _limit, true, true, withdrawn, true);
+                }
+            } catch (ParseException ex) {
+                throw new EntityException("Bad request", "Incompatible date format", 400);
+            } catch (SQLException sq) {
+                throw new EntityException("Internal Server Error", "SQL Problem", 500);
             }
-        } catch (ParseException ex) {
-            throw new EntityException("Bad request", "Incompatible date format", 400);
-        } catch (SQLException sq) {
-            throw new EntityException("Internal Server Error", "SQL Problem", 500);
-        }
 
-        // check results and add entities
-        try {
-            entities.add(new HarvestResultsInfoEntity(res.size()));
-            for (int x = 0; x < res.size(); x++) {
-                entities.add(idOnly ? new ItemEntityId(res.get(x).item) : new ItemEntity(res.get(x).item, 1, uparams));
+            // check results and add entities
+            try {
+                entities.add(new HarvestResultsInfoEntity(res.size()));
+                for (int x = 0; x < res.size(); x++) {
+                    entities.add(idOnly ? new ItemEntityId(res.get(x).item) : new ItemEntity(res.get(x).item, 1, uparams));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+
+            // sort entities if the full info are requested and there are sorting fields
+            if (!idOnly && sortOptions.size() > 0)
+                Collections.sort(entities, new GenComparator(sortOptions));
+
+            // format results accordint to _limit, _perpage etc
+            removeTrailing(entities);
+
+            return entities;
+        } finally {
+            removeConn(context);
         }
-
-
-        // sort entities if the full info are requested and there are sorting fields
-        if (!idOnly && sortOptions.size() > 0)
-            Collections.sort(entities, new GenComparator(sortOptions));
-
-        // format results accordint to _limit, _perpage etc
-        removeTrailing(entities);
-
-        return entities;
     }
 
     /**

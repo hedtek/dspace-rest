@@ -114,34 +114,37 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
         } catch (SQLException ex) {
             throw new EntityException("Internal server error", "SQL error", 500);
         }
+        try {
 
-        UserRequestParams uparams;
-        uparams = refreshParams(context);
+            UserRequestParams uparams;
+            uparams = refreshParams(context);
 
-        // sample entity
-        if (reference.getId().equals(":ID:")) {
-            return new UserEntity();
-        }
-
-
-        if (reference.getId() == null) {
-            return new UserEntity();
-        }
-
-        if (entityExists(reference.getId())) {
-            try {
-                if (idOnly) {
-                    return new UserEntityId(reference.getId(), context);
-                } else {
-                    return new UserEntity(reference.getId(), context, 1, uparams);
-                }
-            } catch (SQLException ex) {
-                throw new IllegalArgumentException("Invalid id:" + reference.getId());
+            // sample entity
+            if (reference.getId().equals(":ID:")) {
+                return new UserEntity();
             }
-        }
 
-        removeConn(context);
-        throw new IllegalArgumentException("Invalid id:" + reference.getId());
+
+            if (reference.getId() == null) {
+                return new UserEntity();
+            }
+
+            if (entityExists(reference.getId())) {
+                try {
+                    if (idOnly) {
+                        return new UserEntityId(reference.getId(), context);
+                    } else {
+                        return new UserEntity(reference.getId(), context, 1, uparams);
+                    }
+                } catch (SQLException ex) {
+                    throw new IllegalArgumentException("Invalid id:" + reference.getId());
+                }
+            }
+
+            throw new IllegalArgumentException("Invalid id:" + reference.getId());
+        } finally {
+            removeConn(context);
+        }
     }
 
     /**
@@ -160,30 +163,33 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
         } catch (SQLException ex) {
             throw new EntityException("Internal server error", "SQL error", 500);
         }
-
-        // extract and prepare query parameters
-        refreshParams(context);
-        List<Object> entities = new ArrayList<Object>();
-
         try {
-            EPerson[] epersons = null;
-            epersons = EPerson.findAll(context, EPerson.ID);
-            for (int x = 0; x < epersons.length; x++) {
-                entities.add(idOnly ? new UserEntityId(epersons[x]) : new UserEntity(epersons[x]));
+
+            // extract and prepare query parameters
+            refreshParams(context);
+            List<Object> entities = new ArrayList<Object>();
+
+            try {
+                EPerson[] epersons = null;
+                epersons = EPerson.findAll(context, EPerson.ID);
+                for (int x = 0; x < epersons.length; x++) {
+                    entities.add(idOnly ? new UserEntityId(epersons[x]) : new UserEntity(epersons[x]));
+                }
+            } catch (SQLException ex) {
+                throw new EntityException("Internal server error", "SQL erorr", 500);
             }
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL erorr", 500);
+
+
+            // do sorting and limiting if necessary
+            if (!idOnly && sortOptions.size() > 0) {
+                Collections.sort(entities, new GenComparator(sortOptions));
+            }
+            removeTrailing(entities);
+
+            return entities;
+        } finally {
+            removeConn(context);
         }
-
-        removeConn(context);
-
-        // do sorting and limiting if necessary
-        if (!idOnly && sortOptions.size() > 0) {
-            Collections.sort(entities, new GenComparator(sortOptions));
-        }
-        removeTrailing(entities);
-
-        return entities;
     }
 
     /**

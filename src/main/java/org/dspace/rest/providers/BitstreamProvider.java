@@ -79,52 +79,55 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
      * @throws org.dspace.rest.util.RecentSubmissionsException
      */
     @EntityCustomAction(action = "receive", viewKey = EntityView.VIEW_SHOW)
-    public Object receive(EntityReference reference, EntityView view, Map<String, Object> params) throws SQLException, RecentSubmissionsException {
-        log.info(userInfo() + "receive_action:" + reference.getId());
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
+        public Object receive(EntityReference reference, EntityView view, Map<String, Object> params) throws SQLException, RecentSubmissionsException {
+            log.info(userInfo() + "receive_action:" + reference.getId());
+            Context context;
+            try {
+                context = new Context();
+            } catch (SQLException ex) {
+                throw new EntityException("Internal server error", "SQL error", 500);
+            }
+
+            try{
+                // refresh query parameters and transfer to local variables
+                UserRequestParams uparam;
+                uparam = refreshParams(context);
+
+                Bitstream bst = Bitstream.find(context, Integer.parseInt(reference.getId()));
+
+                /**
+                 * Define stream, headers, file.. and send
+                 */
+                HttpServletResponse response = this.entityProviderManager.getRequestGetter().getResponse();
+                try {
+                    ServletOutputStream stream = response.getOutputStream();
+                    response.setContentType(bst.getFormat().getMIMEType());
+                    response.addHeader("Content-Disposition", "attachment; filename=" + bst.getName());
+                    response.setContentLength((int) bst.getSize());
+                    BufferedInputStream buf = new BufferedInputStream(bst.retrieve());
+
+                    int readBytes = 0;
+                    while ((readBytes = buf.read()) != -1) {
+                        stream.write(readBytes);
+                    }
+
+                    if (stream != null) {
+                        stream.close();
+                    }
+                    if (buf != null) {
+                        buf.close();
+                    }
+                } catch (IOException ex) {
+                    throw new EntityException("Internal Server error", "Unable to open file", 500);
+                } catch (AuthorizeException ae) {
+                    throw new EntityException("Forbidden", "The resource is not available for current user", 403);
+                }
+
+                throw new IllegalArgumentException("Invalid id:" + reference.getId());
+            } finally {
+                removeConn(context);
+            }
         }
-
-        // refresh query parameters and transfer to local variables
-        UserRequestParams uparam;
-        uparam = refreshParams(context);
-
-        Bitstream bst = Bitstream.find(context, Integer.parseInt(reference.getId()));
-
-        /**
-         * Define stream, headers, file.. and send
-         */
-        HttpServletResponse response = this.entityProviderManager.getRequestGetter().getResponse();
-        try {
-            ServletOutputStream stream = response.getOutputStream();
-            response.setContentType(bst.getFormat().getMIMEType());
-            response.addHeader("Content-Disposition", "attachment; filename=" + bst.getName());
-            response.setContentLength((int) bst.getSize());
-            BufferedInputStream buf = new BufferedInputStream(bst.retrieve());
-
-            int readBytes = 0;
-            while ((readBytes = buf.read()) != -1) {
-                stream.write(readBytes);
-            }
-
-            if (stream != null) {
-                stream.close();
-            }
-            if (buf != null) {
-                buf.close();
-            }
-        } catch (IOException ex) {
-            throw new EntityException("Internal Server error", "Unable to open file", 500);
-        } catch (AuthorizeException ae) {
-            throw new EntityException("Forbidden", "The resource is not available for current user", 403);
-        }
-
-        removeConn(context);
-        throw new IllegalArgumentException("Invalid id:" + reference.getId());
-    }
 
     /**
      * Standard method for checking if required entity is available
@@ -188,32 +191,35 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
             throw new EntityException("Internal server error", "SQL error", 500);
         }
 
-        UserRequestParams uparams;
-        uparams = refreshParams(context);
-        log.info(userInfo() + "get_entity:" + reference.getId());
+        try {
+            UserRequestParams uparams;
+            uparams = refreshParams(context);
+            log.info(userInfo() + "get_entity:" + reference.getId());
 
-        // sample entity
-        if (reference.getId().equals(":ID:")) {
-            return new CommunityEntity();
-        }
-
-        if (reference.getId() == null) {
-            return new BitstreamEntity();
-        }
-        if (entityExists(reference.getId())) {
-            try {
-                if (idOnly) {
-                    return new BitstreamEntityId(reference.getId(), context);
-                } else {
-                    return new BitstreamEntity(reference.getId(), context,1, uparams);
-                }
-            } catch (SQLException ex) {
-                throw new IllegalArgumentException("sql!Invalid id:" + reference.getId());
+            // sample entity
+            if (reference.getId().equals(":ID:")) {
+                return new CommunityEntity();
             }
-        }
 
-        removeConn(context);
-        throw new IllegalArgumentException("Invalid id:" + reference.getId());
+            if (reference.getId() == null) {
+                return new BitstreamEntity();
+            }
+            if (entityExists(reference.getId())) {
+                try {
+                    if (idOnly) {
+                        return new BitstreamEntityId(reference.getId(), context);
+                    } else {
+                        return new BitstreamEntity(reference.getId(), context,1, uparams);
+                    }
+                } catch (SQLException ex) {
+                    throw new IllegalArgumentException("sql!Invalid id:" + reference.getId());
+                }
+            }
+
+            throw new IllegalArgumentException("Invalid id:" + reference.getId());
+        } finally {
+            removeConn(context);
+        }
     }
 
     /**
