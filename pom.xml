@@ -234,10 +234,6 @@
 					<environmentVariables>
 						<jetty.port>${jetty.test.port}</jetty.port>
 						<jetty.path>${jetty.test.path}</jetty.path>
-            <database.cmdline>${test.db.cmdline}</database.cmdline>
-            <database.username>${test.db.username}</database.username>
-            <database.password>${test.db.password}</database.password>
-            <database.dbname>${test.db.dbname}</database.dbname>
 						<resource.base>${resource.test.base}</resource.base>
 						<webxml.location>${webapp.test.base}/WEB-INF/web.xml</webxml.location>
 					</environmentVariables>
@@ -290,7 +286,6 @@
 		</profile>
 	</profiles>
 	<properties>
-    <test.db.cmdline>/usr/local/bin/psql</test.db.cmdline>
 		<test.db.name>postgres</test.db.name>
 		<test.db.driver>org.postgresql.Driver</test.db.driver>
     <test.db.dbname>dspace-integ</test.db.dbname>
