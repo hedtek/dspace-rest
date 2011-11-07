@@ -103,13 +103,13 @@ public class SingleItemSingleCollectionTest extends RestApiBaseTest {
       startJetty();
     }
 	
-	//@Test
+	@Test
 	public void itemsListShouldReturnSuccessStatusCode() throws Exception {
 		int result = getResponseCode("/items");
 		assertThat(result,hasHTTPCode(HTTPStatusCode.SUCCESS));
 	}
 
-	//@Test
+	@Test
 	public void itemsListSizeShouldBeOne() throws Exception {
 		String result = makeRequest("/items");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
@@ -118,14 +118,14 @@ public class SingleItemSingleCollectionTest extends RestApiBaseTest {
 		assertThat(itemsList.size(), is(equalTo(1)));
 	}
 	
-	//@Test
+	@Test
 	public void itemsListItemShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 		assertThat(resultJSON, hasArray("items_collection", itemMatchers));
 	}
 
-	//@Test
+	@Test
 	public void itemListWithIdOnlyShouldReturnOnlyIds() throws Exception {
 		String result = makeRequest("/items", "idOnly=true");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);

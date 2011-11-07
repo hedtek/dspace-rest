@@ -67,7 +67,7 @@ public class ItemEntity extends ItemEntityId {
         this.type = res.getType();
         this.lastModified = res.getLastModified();
         this.isArchived = res.isArchived();
-        this.isArchived = res.isWithdrawn();
+        this.isWithdrawn = res.isWithdrawn();
         this.submitter = new UserEntity(res.getSubmitter());
 
         Bundle[] bun = res.getBundles();
