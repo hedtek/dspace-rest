@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import org.hamcrest.Matcher;
 import org.json.simple.JSONObject;
-
 public class TwoItemsInTwoDifferentCollectionsUnderSameCommunity {
 	
 	

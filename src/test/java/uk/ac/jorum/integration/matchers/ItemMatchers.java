@@ -22,8 +22,7 @@ import org.json.simple.JSONObject;
 
 public class ItemMatchers {
 
-    
-    static final ArrayList<Matcher<JSONObject>> metadataMatchers = new ArrayList<Matcher<JSONObject>>() {
+	static final ArrayList<Matcher<JSONObject>> metadataMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
 			add((isMetadataItem(0, "contributor", "author")));
 			add((isMetadataItem(0, "date", "accessioned")));
@@ -38,46 +37,67 @@ public class ItemMatchers {
 			add((isMetadataItem(0, "subject", nullValue(JSONObject.class))));
 			add((isMetadataItem(0, "title", nullValue(JSONObject.class))));
 		}
-	 };
-	 
-	 @Factory
-		public static Matcher<JSONObject> isItem(int id, String name,
-				String handle, boolean isArchived, boolean isWithdrawn,
-				Matcher<JSONObject> owningCollection,
-				Matcher<JSONObject> submitter,
-				ArrayList<Matcher<JSONObject>> communities,
-				ArrayList<Matcher<JSONObject>> collections,
-				ArrayList<Matcher<JSONObject>> bundles,
-				ArrayList<Matcher<JSONObject>> bitstreams)
+	};
+	
+	static final ArrayList<Matcher<JSONObject>> metadataIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-	     String [] keys = {"submitter", "lastModified"};
-	     
-	     return allOf(
-	        cannotBeEdited(),
-	        hasId(id),
-	        hasType(2),
-	        hasName(name),
-	        hasHandle(handle),
-	        hasKey("isArchived", withValue(isArchived)),
-	        hasKey("isWithdrawn", withValue(isWithdrawn)),
-	        hasSubObject("owningCollection", owningCollection),
-	        hasSubObject("submitter", submitter),
-	        hasArray("metadata", metadataMatchers),
-	        hasArray("communities", communities),
-	        hasArray("collections", collections),
-	        hasArray("bundles", bundles),
-	        hasArray("bitstreams", bitstreams),
-	        hasKeys(keys)
-	      );
-	  }
+			add(hasId(0));
+		}
+	};
 
-	  @Factory
-	  public static Matcher<JSONObject> isItemWithId(int id) {
-	    return hasId(id);
-	  }
-	  
-	  @Factory
-	  public static ArrayList<Matcher<JSONObject>> getMetadataMatchers() {
-		  return metadataMatchers;
-	  }
+	@Factory
+	public static Matcher<JSONObject> isItem(int id, String name,
+			String handle, boolean isArchived, boolean isWithdrawn,
+			Matcher<JSONObject> owningCollection,
+			Matcher<JSONObject> submitter,
+			ArrayList<Matcher<JSONObject>> communities,
+			ArrayList<Matcher<JSONObject>> collections,
+			ArrayList<Matcher<JSONObject>> bundles,
+			ArrayList<Matcher<JSONObject>> bitstreams) {
+		String[] keys = { "submitter", "lastModified" };
+
+		return allOf(cannotBeEdited(), hasId(id), hasType(2), hasName(name),
+				hasHandle(handle), hasKey("isArchived", withValue(isArchived)),
+				hasKey("isWithdrawn", withValue(isWithdrawn)),
+				hasSubObject("owningCollection", owningCollection),
+				hasSubObject("submitter", submitter),
+				hasArray("metadata", metadataMatchers),
+				hasArray("communities", communities),
+				hasArray("collections", collections),
+				hasArray("bundles", bundles),
+				hasArray("bitstreams", bitstreams), hasKeys(keys));
+	}
+
+	@Factory
+	public static Matcher<JSONObject> isItemWithMetadataId(int id, String name,
+			String handle, boolean isArchived, boolean isWithdrawn,
+			Matcher<JSONObject> owningCollection,
+			Matcher<JSONObject> submitter,
+			ArrayList<Matcher<JSONObject>> communities,
+			ArrayList<Matcher<JSONObject>> collections,
+			ArrayList<Matcher<JSONObject>> bundles,
+			ArrayList<Matcher<JSONObject>> bitstreams) {
+		String[] keys = { "lastModified" };
+
+		return allOf(cannotBeEdited(), hasId(id), hasType(2), hasName(name),
+				hasHandle(handle), hasKey("isArchived", withValue(isArchived)),
+				hasKey("isWithdrawn", withValue(isWithdrawn)),
+				hasSubObject("owningCollection", owningCollection),
+				hasSubObject("submitter", submitter),
+				hasArray("metadata", metadataIdMatchers),
+				hasArray("communities", communities),
+				hasArray("collections", collections),
+				hasArray("bundles", bundles),
+				hasArray("bitstreams", bitstreams), hasKeys(keys));
+	}
+
+	@Factory
+	public static Matcher<JSONObject> isItemWithId(int id) {
+		return hasId(id);
+	}
+
+	@Factory
+	public static ArrayList<Matcher<JSONObject>> getMetadataMatchers() {
+		return metadataMatchers;
+	}
 }

@@ -4,28 +4,31 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
-import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsInTwoDifferentCollectionsUnderSameCommunity.*;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleItemInTwoCollectionsOneTopLevelCommunity.item;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleItemInTwoCollectionsOneTopLevelCommunity.itemForCollectionMatchers;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleItemInTwoCollectionsOneTopLevelCommunity.itemMatchers;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import uk.ac.jorum.integration.RestApiBaseTest;
 
-public class TwoItemsTwoCollectionsTest extends RestApiBaseTest {
+public class SingleItemInTwoCollectionsTest extends RestApiBaseTest {
 	@BeforeClass
-    public static void createFixture() throws Exception {
-      loadFixture("twoItemsInTwoDifferentCollectionsUnderSameCommunity");
-      startJetty();
-    }
+	public static void createFixture() throws Exception {
+		loadFixture("singleItemInTwoCollectionsOneTopLevelCommunity");
+		startJetty();
+	}
 	
 	@Test
 	public void itemsListSizeShouldBeTwo() throws Exception {
 		String result = makeRequest("/items");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 		JSONArray itemsList = (JSONArray) resultJSON.get("items_collection");
-		assertThat(itemsList.size(), is(equalTo(2)));
+		assertThat(itemsList.size(), is(equalTo(1)));
 	}
 	
 	@Test
@@ -39,13 +42,20 @@ public class TwoItemsTwoCollectionsTest extends RestApiBaseTest {
 	public void showItem1ShouldHaveCorrectStructure() throws Exception{
 		String result = makeRequest("/items/1");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, firstItem);
+		assertThat(resultJSON, item);
 	}
 	
 	@Test
-	public void showItem2ShouldHaveCorrectStructure() throws Exception{
-		String result = makeRequest("/items/2");
+	public void collectionOneItemsShouldHaveTheItem() throws Exception {
+		String result = makeRequest("/collections/1/items");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, secondItem);
+		assertThat(resultJSON, hasArray("data", itemForCollectionMatchers));
+	}
+	
+	@Test
+	public void collectionTwoItemsShouldHaveTheItem() throws Exception {
+		String result = makeRequest("/collections/2/items");
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, hasArray("data", itemForCollectionMatchers));
 	}
 }
