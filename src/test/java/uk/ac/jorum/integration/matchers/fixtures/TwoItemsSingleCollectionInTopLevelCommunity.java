@@ -95,18 +95,18 @@ public class TwoItemsSingleCollectionInTopLevelCommunity {
 		}
 	};
 
-	public static final Matcher<JSONObject> item1 = isItem(1, "First Upload",
+	public static final Matcher<JSONObject> firstItem = isItem(1, "First Upload",
 			"123456789/7", true, false, owningCollection, submitter,
 			communityListMatchers, collectionListMatchers, bundleMatchersForItem1, bitstreamMatchersForItem1);
 
-	public static final Matcher<JSONObject> item2 = isItem(2, "Second upload",
+	public static final Matcher<JSONObject> secondItem = isItem(2, "Second upload",
 			"123456789/8", true, false, owningCollection, submitter,
 			communityListMatchers, collectionListMatchers, bundleMatchersForItem2, bitstreamMatchersForItem2);
 
 	public static final ArrayList<Matcher<JSONObject>> itemMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(item1);
-			add(item2);
+			add(firstItem);
+			add(secondItem);
 		}
 	};
 }

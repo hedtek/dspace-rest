@@ -4,24 +4,21 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
-import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsSingleCollectionInTopLevelCommunity.firstItem;
-import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsSingleCollectionInTopLevelCommunity.secondItem;
-import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsSingleCollectionInTopLevelCommunity.itemMatchers;
+import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsInTwoDifferentCollectionsUnderSameCommunity.*;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import uk.ac.jorum.integration.RestApiBaseTest;
 
-public class TwoItemsSingleCollectionTest extends RestApiBaseTest {
+public class TwoItemsTwoCollectionsTest extends RestApiBaseTest {
 	@BeforeClass
-	public static void createFixture() throws Exception {
-		loadFixture("twoItemsSingleCollectionInTopLevelCommunity");
-		startJetty();
-	}
+    public static void createFixture() throws Exception {
+      loadFixture("twoItemsInTwoDifferentCollectionsUnderSameCommunity");
+      startJetty();
+    }
 	
 	@Test
 	public void itemsListSizeShouldBeTwo() throws Exception {
