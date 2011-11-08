@@ -38,7 +38,7 @@ public class ItemMatchers {
 			add((isMetadataItem(0, "title", nullValue(JSONObject.class))));
 		}
 	};
-	
+
 	static final ArrayList<Matcher<JSONObject>> metadataIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
 			add(hasId(0));
@@ -47,7 +47,7 @@ public class ItemMatchers {
 
 	@Factory
 	public static Matcher<JSONObject> isItem(int id, String name,
-			String handle, boolean isArchived, boolean isWithdrawn,
+			boolean isArchived, boolean isWithdrawn,
 			Matcher<JSONObject> owningCollection,
 			Matcher<JSONObject> submitter,
 			ArrayList<Matcher<JSONObject>> communities,
@@ -57,7 +57,7 @@ public class ItemMatchers {
 		String[] keys = { "submitter", "lastModified" };
 
 		return allOf(cannotBeEdited(), hasId(id), hasType(2), hasName(name),
-				hasHandle(handle), hasKey("isArchived", withValue(isArchived)),
+				hasKey("isArchived", withValue(isArchived)),
 				hasKey("isWithdrawn", withValue(isWithdrawn)),
 				hasSubObject("owningCollection", owningCollection),
 				hasSubObject("submitter", submitter),
@@ -70,7 +70,7 @@ public class ItemMatchers {
 
 	@Factory
 	public static Matcher<JSONObject> isItemWithMetadataId(int id, String name,
-			String handle, boolean isArchived, boolean isWithdrawn,
+			boolean isArchived, boolean isWithdrawn,
 			Matcher<JSONObject> owningCollection,
 			Matcher<JSONObject> submitter,
 			ArrayList<Matcher<JSONObject>> communities,
@@ -80,7 +80,7 @@ public class ItemMatchers {
 		String[] keys = { "lastModified" };
 
 		return allOf(cannotBeEdited(), hasId(id), hasType(2), hasName(name),
-				hasHandle(handle), hasKey("isArchived", withValue(isArchived)),
+				hasKey("isArchived", withValue(isArchived)),
 				hasKey("isWithdrawn", withValue(isWithdrawn)),
 				hasSubObject("owningCollection", owningCollection),
 				hasSubObject("submitter", submitter),

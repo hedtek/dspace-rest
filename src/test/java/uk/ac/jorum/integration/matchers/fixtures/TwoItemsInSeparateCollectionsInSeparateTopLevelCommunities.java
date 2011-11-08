@@ -24,26 +24,7 @@ public class TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities {
 
 	public static final ArrayList<Matcher<JSONObject>> firstCollectionListWithIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isCollectionWithId(1));
-		}
-	};
-
-	public static final ArrayList<Matcher<JSONObject>> firstItemListWithIdMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(isItemWithId(1));
-		}
-	};
-
-	public static final ArrayList<Matcher<JSONObject>> firstBundleIdMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(isBundleWithId(1));
-			add(isBundleWithId(2));
-		}
-	};
-
-	public static final ArrayList<Matcher<JSONObject>> firstBitstreamIdMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(isBitstreamWithId(1));
+			add(AllCollectionMatchers.firstCollectionId());
 		}
 	};
 
@@ -55,28 +36,21 @@ public class TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities {
 
 	public static final ArrayList<Matcher<JSONObject>> secondCollectionListWithIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isCollectionWithId(2));
+			add(AllCollectionMatchers.secondCollectionId());
 		}
 	};
 
 	public static final ArrayList<Matcher<JSONObject>> secondItemListWithIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isItemWithId(2));
+			add(AllItemMatchers.secondItemId());
 		}
 	};
 
-	public static final ArrayList<Matcher<JSONObject>> secondBundleIdMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(isBundleWithId(3));
-			add(isBundleWithId(4));
-		}
-	};
+	public static final ArrayList<Matcher<JSONObject>> secondBundleIdMatchers = AllBundleMatchers
+			.secondBundleIdList();
 
-	public static final ArrayList<Matcher<JSONObject>> secondBitstreamIdMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(isBitstreamWithId(3));
-		}
-	};
+	public static final ArrayList<Matcher<JSONObject>> secondBitstreamIdMatchers = AllBitstreamMatchers
+			.secondBitstreamIdList();
 
 	public static final Matcher<JSONObject> submitter = AllUserMatchers
 			.firstUser();
@@ -104,7 +78,7 @@ public class TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities {
 	public static final Matcher<JSONObject> firstOwningCollection = isCollection(
 			1, "Collection 1", "123456789/4", "Collection 1", "Collection 1",
 			"Collection 1", "Collection 1", "Collection 1", "Collection 1", 1,
-			firstCommunityListIdMatchers, firstItemListWithIdMatchers);
+			firstCommunityListIdMatchers, AllItemMatchers.firstItemIdList());
 
 	public static final Matcher<JSONObject> secondOwningCollection = isCollection(
 			2, "Collection 2", "123456789/5", "Collection 2", "Collection 2",
@@ -123,36 +97,25 @@ public class TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities {
 		}
 	};
 
-	public static final ArrayList<Matcher<JSONObject>> bundleMatchersForItem1 = TwoItemsSingleCollectionInTopLevelCommunity.bundleMatchersForItem1;
+	public static final Matcher<JSONObject> firstItem = AllItemMatchers
+			.firstItem(firstOwningCollection, firstCommunityMatcherList,
+					firstCollectionMatcherList);
 
-	public static final ArrayList<Matcher<JSONObject>> bitstreamMatchersForItem1 = TwoItemsSingleCollectionInTopLevelCommunity.bitstreamMatchersForItem1;
+	public static final Matcher<JSONObject> secondItem = AllItemMatchers
+			.secondItem(secondOwningCollection, secondCommunityMatcherList,
+					secondCollectionMatcherList);
 
-	public static final ArrayList<Matcher<JSONObject>> bundleMatchersForItem2 = TwoItemsSingleCollectionInTopLevelCommunity.bundleMatchersForItem2;
+	public static final Matcher<JSONObject> itemInFirstCollection = AllItemMatchers
+			.firstItemWithIdOnlyMetadata(
+					AllCollectionMatchers.firstCollectionId(),
+					firstCommunityListIdMatchers,
+					firstCollectionListWithIdMatchers);
 
-	public static final ArrayList<Matcher<JSONObject>> bitstreamMatchersForItem2 = TwoItemsSingleCollectionInTopLevelCommunity.bitstreamMatchersForItem2;
-
-	public static final Matcher<JSONObject> firstItem = isItem(1,
-			"First Upload", "123456789/6", true, false, firstOwningCollection,
-			submitter, firstCommunityMatcherList, firstCollectionMatcherList,
-			bundleMatchersForItem1, bitstreamMatchersForItem1);
-
-	public static final Matcher<JSONObject> secondItem = isItem(2,
-			"Second Upload", "123456789/7", true, false,
-			secondOwningCollection, submitter, secondCommunityMatcherList,
-			secondCollectionMatcherList, bundleMatchersForItem2,
-			bitstreamMatchersForItem2);
-
-	public static final Matcher<JSONObject> itemInFirstCollection = isItemWithMetadataId(
-			1, "First Upload", "123456789/6", true, false,
-			isCollectionWithId(1), submitter, firstCommunityListIdMatchers,
-			firstCollectionListWithIdMatchers, firstBundleIdMatchers,
-			firstBitstreamIdMatchers);
-
-	public static final Matcher<JSONObject> itemInSecondCollection = isItemWithMetadataId(
-			2, "Second Upload", "123456789/7", true, false,
-			isCollectionWithId(2), submitter, secondCommunityListIdMatchers,
-			secondCollectionListWithIdMatchers, secondBundleIdMatchers,
-			secondBitstreamIdMatchers);
+	public static final Matcher<JSONObject> itemInSecondCollection = AllItemMatchers
+			.secondItemWithIdOnlyMetadata(
+					AllCollectionMatchers.secondCollectionId(),
+					secondCommunityListIdMatchers,
+					secondCollectionListWithIdMatchers);
 
 	public static final ArrayList<Matcher<JSONObject>> itemMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{

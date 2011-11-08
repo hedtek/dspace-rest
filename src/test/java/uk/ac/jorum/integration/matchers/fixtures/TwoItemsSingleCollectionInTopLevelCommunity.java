@@ -62,46 +62,10 @@ public class TwoItemsSingleCollectionInTopLevelCommunity {
 			add(parentCommunity);
 		}
 	};
-	
-	public static final Matcher<JSONObject> submitter = SingleItemSingleCollectionTopLevelCommunity.submitter;
-	
-	public static final ArrayList<Matcher<JSONObject>> bundleMatchersForItem1 = SingleItemSingleCollectionTopLevelCommunity.bundleMatchers;
-	
-	public static final ArrayList<Matcher<JSONObject>> bitstreamMatchersForItem1 = SingleItemSingleCollectionTopLevelCommunity.bitstreamMatchers;
-	
-	public static final ArrayList<Matcher<JSONObject>> bitstreamIdMatchersForItem2 = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(isBitstreamWithId(3));
-			add(isBitstreamWithId(4));
-		}
-	};
-	
-	public static final ArrayList<Matcher<JSONObject>> bundleMatchersForItem2 = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(isBundle(3, "ORIGINAL", itemListWithIdMatchers, bitstreamIdMatchersForItem2));
-			add(isBundle(4, "LICENSE", itemListWithIdMatchers, bitstreamIdMatchersForItem2));
-		}
-	};
-	
-	public static final ArrayList<Matcher<JSONObject>> bundleIdMatchersForItem2 = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(isBundleWithId(3));
-		}
-	};
-	
-	public static final ArrayList<Matcher<JSONObject>> bitstreamMatchersForItem2 = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(isBitstream(3, "secondUpload.txt", "Text", "text/plain", bundleIdMatchersForItem2));
-		}
-	};
 
-	public static final Matcher<JSONObject> firstItem = isItem(1, "First Upload",
-			"123456789/7", true, false, owningCollection, submitter,
-			communityListMatchers, collectionListMatchers, bundleMatchersForItem1, bitstreamMatchersForItem1);
+	public static final Matcher<JSONObject> firstItem = AllItemMatchers.firstItem(owningCollection, communityListMatchers, collectionListMatchers);
 
-	public static final Matcher<JSONObject> secondItem = isItem(2, "Second upload",
-			"123456789/8", true, false, owningCollection, submitter,
-			communityListMatchers, collectionListMatchers, bundleMatchersForItem2, bitstreamMatchersForItem2);
+	public static final Matcher<JSONObject> secondItem = AllItemMatchers.secondItem(owningCollection, communityListMatchers, collectionListMatchers);
 
 	public static final ArrayList<Matcher<JSONObject>> itemMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{

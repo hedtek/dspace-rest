@@ -1833,7 +1833,7 @@ INSERT INTO metadatavalue VALUES (11, 1, 15, '2011-10-31T14:30:54Z', NULL, 1);
 INSERT INTO metadatavalue VALUES (12, 1, 25, 'http://hdl.handle.net/123456789/7', NULL, 1);
 INSERT INTO metadatavalue VALUES (13, 1, 28, 'Made available in DSpace on 2011-10-31T14:30:54Z (GMT). No. of bitstreams: 1
 firstUpload.txt: 13 bytes, checksum: 581ab2d89f05c294d4fe69c623bdef83 (MD5)', 'en', 2);
-INSERT INTO metadatavalue VALUES (14, 2, 64, 'Second upload', 'en_US', 1);
+INSERT INTO metadatavalue VALUES (14, 2, 64, 'Second Upload', 'en_US', 1);
 INSERT INTO metadatavalue VALUES (15, 2, 28, 'Submitted by dspace dspace (dspace@example.com) on 2011-11-07T11:36:48Z
 No. of bitstreams: 1
 secondUpload.txt: 18 bytes, checksum: 47fd9f911dc1d5694305b85f0c6120a3 (MD5)', 'en', 1);

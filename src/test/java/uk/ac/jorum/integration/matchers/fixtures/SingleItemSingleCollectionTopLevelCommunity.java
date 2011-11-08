@@ -22,72 +22,42 @@ public class SingleItemSingleCollectionTopLevelCommunity {
 
 	public static final ArrayList<Matcher<JSONObject>> subCommunityListWithIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isCommunityWithId(4));
+			add(AllCommunityMatchers.thirdCommunityId());
 		}
 	};
 
 	public static final ArrayList<Matcher<JSONObject>> collectionListWithIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isCollectionWithId(1));
+			add(AllCollectionMatchers.firstCollectionId());
 		}
 	};
 
 	public static final ArrayList<Matcher<JSONObject>> communityListWithIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isCommunityWithId(2));
+			add(AllCommunityMatchers.firstCommunityId());
 		}
 	};
 
 	public static final ArrayList<Matcher<JSONObject>> itemListWithIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isItemWithId(1));
+			add(AllItemMatchers.firstItemId());
 		}
 	};
-	public static final Matcher<JSONObject> owningCollection = isCollection(1,
-			"Collection 1", "123456789/6",
-			"Introductory Text for collection 1",
-			"Short Description for Collection 1",
-			"Side bar text for collection 1",
-			"Copyright information for collection 1",
-			"Licence for collection 1", "Provenance for collection 1", 1,
-			communityListWithIdMatchers, itemListWithIdMatchers);
-
-	public static final ArrayList<Matcher<JSONObject>> bundleIdMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(isBundleWithId(1));
-		}
-	};
+	public static final Matcher<JSONObject> owningCollection = AllCollectionMatchers
+			.firstCollection(1, communityListWithIdMatchers,
+					itemListWithIdMatchers);
 
 	public static final Matcher<JSONObject> submitter = AllUserMatchers
 			.firstUser();
 
-	public static final Matcher<JSONObject> bitstream = isBitstream(1,
-			"firstUpload.txt", "Text", "text/plain", bundleIdMatchers);
+	public static final ArrayList<Matcher<JSONObject>> bitstreamMatchers = AllBitstreamMatchers
+			.firstBitstreamList();
 
-	public static final ArrayList<Matcher<JSONObject>> bitstreamMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(bitstream);
-		}
-	};
+	public static final ArrayList<Matcher<JSONObject>> bitstreamIdMatchers = AllBitstreamMatchers
+			.firstBitstreamIdList();
 
-	public static final ArrayList<Matcher<JSONObject>> bitstreamIdMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(isBitstreamWithId(1));
-			add(isBitstreamWithId(2));
-		}
-	};
-
-	public static final Matcher<JSONObject> bundle1 = isBundle(1, "ORIGINAL",
-			itemListWithIdMatchers, bitstreamIdMatchers);
-	public static final Matcher<JSONObject> bundle2 = isBundle(2, "LICENSE",
-			itemListWithIdMatchers, bitstreamIdMatchers);
-
-	public static final ArrayList<Matcher<JSONObject>> bundleMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(bundle1);
-			add(bundle2);
-		}
-	};
+	public static final ArrayList<Matcher<JSONObject>> bundleMatchers = AllBundleMatchers
+			.firstBundleList();
 
 	public static final ArrayList<Matcher<JSONObject>> collectionListMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
@@ -103,10 +73,8 @@ public class SingleItemSingleCollectionTopLevelCommunity {
 		}
 	};
 
-	public static final Matcher<JSONObject> item = isItem(1, "First Upload",
-			"123456789/7", true, false, owningCollection, submitter,
-			communityListMatchers, collectionListMatchers, bundleMatchers,
-			bitstreamMatchers);
+	public static final Matcher<JSONObject> item = AllItemMatchers.firstItem(
+			owningCollection, communityListMatchers, collectionListMatchers);
 
 	public static final ArrayList<Matcher<JSONObject>> itemMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
