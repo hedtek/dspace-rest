@@ -46,12 +46,27 @@ public class AllCommunityMatchers {
 		return isCommunity(4, "Sub-community", "123456789/4",
 				"Introductory text for the sub-community",
 				"This is a sub-community for a top-level community", "", "", 0,
-				parent, subCommunities, recentSubmissions,
-				collections);
+				parent, subCommunities, recentSubmissions, collections);
 	}
 
 	public static final Matcher<JSONObject> thirdCommunityId() {
 		return isCommunityWithId(4);
+	}
+
+	public static final ArrayList<Matcher<JSONObject>> communityListWithIdMatchers() {
+		return new ArrayList<Matcher<JSONObject>>() {
+			{
+				add(AllCommunityMatchers.firstCommunityId());
+			}
+		};
+	}
+
+	public static final ArrayList<Matcher<JSONObject>> subCommunityListWithIdMatchers() {
+		return new ArrayList<Matcher<JSONObject>>() {
+			{
+				add(AllCommunityMatchers.thirdCommunityId());
+			}
+		};
 	}
 
 }

@@ -43,5 +43,32 @@ public class AllCollectionMatchers {
 	public static Matcher<JSONObject> secondCollectionId() {
 		return isCollectionWithId(2);
 	}
+	
+	public static Matcher<JSONObject> thirdCollection(int itemCount,
+			ArrayList<Matcher<JSONObject>> communities,
+			ArrayList<Matcher<JSONObject>> items ) {
+		
+		return isCollection(
+				1, "Collection 1", "123456789/4", "Collection 1", "Collection 1",
+				"Collection 1", "Collection 1", "Collection 1", "Collection 1", itemCount,
+				communities, items);
+	}
+	
+	
+	public static Matcher<JSONObject> fourthCollection(int itemCount,
+			ArrayList<Matcher<JSONObject>> communities,
+			ArrayList<Matcher<JSONObject>> items) {
 
+		return isCollection(2, "Collection 2", "123456789/5", "Collection 2",
+				"Collection 2", "Collection 2", "Collection 2", "Collection 2",
+				"Collection 2", itemCount, communities, items);
+	}
+
+	public static final ArrayList<Matcher<JSONObject>> collectionListWithIdMatchers() {
+		return new ArrayList<Matcher<JSONObject>>() {
+			{
+				add(AllCollectionMatchers.firstCollectionId());
+			}
+		};
+	}
 }

@@ -75,15 +75,13 @@ public class TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities {
 		}
 	};
 
-	public static final Matcher<JSONObject> firstOwningCollection = isCollection(
-			1, "Collection 1", "123456789/4", "Collection 1", "Collection 1",
-			"Collection 1", "Collection 1", "Collection 1", "Collection 1", 1,
-			firstCommunityListIdMatchers, AllItemMatchers.firstItemIdList());
+	public static final Matcher<JSONObject> firstOwningCollection = AllCollectionMatchers
+			.thirdCollection(1, firstCommunityListIdMatchers,
+					AllItemMatchers.firstItemIdList());
 
-	public static final Matcher<JSONObject> secondOwningCollection = isCollection(
-			2, "Collection 2", "123456789/5", "Collection 2", "Collection 2",
-			"Collection 2", "Collection 2", "Collection 2", "Collection 2", 1,
-			secondCommunityListIdMatchers, secondItemListWithIdMatchers);;
+	public static final Matcher<JSONObject> secondOwningCollection = AllCollectionMatchers
+			.fourthCollection(1, secondCommunityListIdMatchers,
+					secondItemListWithIdMatchers);
 
 	public static final ArrayList<Matcher<JSONObject>> firstCollectionMatcherList = new ArrayList<Matcher<JSONObject>>() {
 		{

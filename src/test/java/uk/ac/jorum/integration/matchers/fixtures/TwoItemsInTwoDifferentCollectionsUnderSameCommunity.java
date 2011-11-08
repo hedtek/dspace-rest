@@ -21,13 +21,9 @@ public class TwoItemsInTwoDifferentCollectionsUnderSameCommunity {
 	public static final ArrayList<Matcher<JSONObject>> subCommunityListWithIdMatchers = TwoCollectionsUnderTopLevelCommunity.subCommunityListWithIdMatchers;
 	public static final ArrayList<Matcher<JSONObject>> collectionListWithIdMatchers = TwoCollectionsUnderTopLevelCommunity.collectionListWithIdOnlyMatchers;
 
-	public static final Matcher<JSONObject> parentCommunity = isCommunity(2,
-			"Community no 1", "123456789/2",
-			"Introductory text for community no 1",
-			"Short description of community no 1",
-			"Side bar text for community 1", "Copyright information", 2, null,
-			subCommunityListWithIdMatchers, emptyMatcherList(),
-			collectionListWithIdMatchers);
+	public static final Matcher<JSONObject> parentCommunity = AllCommunityMatchers
+			.firstCommunity(2, subCommunityListWithIdMatchers,
+					emptyMatcherList(), collectionListWithIdMatchers);
 
 	public static final ArrayList<Matcher<JSONObject>> communityListMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
@@ -53,23 +49,13 @@ public class TwoItemsInTwoDifferentCollectionsUnderSameCommunity {
 		}
 	};
 
-	public static final Matcher<JSONObject> owningCollectionForFirstItem = isCollection(
-			1, "Collection 1", "123456789/6",
-			"Introductory Text for collection 1",
-			"Short Description for Collection 1",
-			"Side bar text for collection 1",
-			"Copyright information for collection 1",
-			"Licence for collection 1", "Provenance for collection 1", 1,
-			communityListIdMatchers, itemIdMatchersFirstCollection);
+	public static final Matcher<JSONObject> owningCollectionForFirstItem = AllCollectionMatchers
+			.firstCollection(1, communityListIdMatchers,
+					itemIdMatchersFirstCollection);
 
-	public static final Matcher<JSONObject> owningCollectionForSecondItem = isCollection(
-			2, "Collection 2", "123456789/7",
-			"Introductory Text for collection 2",
-			"Short Description for Collection 2",
-			"Side bar text for collection 2",
-			"Copyright text for collection 2", "Licence text for collection 2",
-			"Provenance text for collection 2", 1, communityListIdMatchers,
-			itemIdMatchersSecondCollection);
+	public static final Matcher<JSONObject> owningCollectionForSecondItem = AllCollectionMatchers
+			.secondCollection(1, communityListIdMatchers,
+					itemIdMatchersSecondCollection);
 
 	public static final ArrayList<Matcher<JSONObject>> collectionListMatchersForFirstItem = new ArrayList<Matcher<JSONObject>>() {
 		{
@@ -87,7 +73,9 @@ public class TwoItemsInTwoDifferentCollectionsUnderSameCommunity {
 			.firstItem(owningCollectionForFirstItem, communityListMatchers,
 					collectionListMatchersForFirstItem);
 
-	public static final Matcher<JSONObject> secondItem = AllItemMatchers.secondItem(owningCollectionForSecondItem, communityListMatchers, collectionListMatchersForSecondItem);
+	public static final Matcher<JSONObject> secondItem = AllItemMatchers
+			.secondItem(owningCollectionForSecondItem, communityListMatchers,
+					collectionListMatchersForSecondItem);
 
 	public static final ArrayList<Matcher<JSONObject>> itemMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{

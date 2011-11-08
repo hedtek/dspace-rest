@@ -20,23 +20,11 @@ import org.json.simple.JSONObject;
 
 public class SingleItemSingleCollectionTopLevelCommunity {
 
-	public static final ArrayList<Matcher<JSONObject>> subCommunityListWithIdMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(AllCommunityMatchers.thirdCommunityId());
-		}
-	};
+	public static final ArrayList<Matcher<JSONObject>> subCommunityListWithIdMatchers = AllCommunityMatchers.subCommunityListWithIdMatchers();
 
-	public static final ArrayList<Matcher<JSONObject>> collectionListWithIdMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(AllCollectionMatchers.firstCollectionId());
-		}
-	};
+	public static final ArrayList<Matcher<JSONObject>> collectionListWithIdMatchers = AllCollectionMatchers.collectionListWithIdMatchers();
 
-	public static final ArrayList<Matcher<JSONObject>> communityListWithIdMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(AllCommunityMatchers.firstCommunityId());
-		}
-	};
+	public static final ArrayList<Matcher<JSONObject>> communityListWithIdMatchers = AllCommunityMatchers.communityListWithIdMatchers();
 
 	public static final ArrayList<Matcher<JSONObject>> itemListWithIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
@@ -47,8 +35,7 @@ public class SingleItemSingleCollectionTopLevelCommunity {
 			.firstCollection(1, communityListWithIdMatchers,
 					itemListWithIdMatchers);
 
-	public static final Matcher<JSONObject> submitter = AllUserMatchers
-			.firstUser();
+	public static final Matcher<JSONObject> submitter = AllUserMatchers.firstUser();
 
 	public static final ArrayList<Matcher<JSONObject>> bitstreamMatchers = AllBitstreamMatchers
 			.firstBitstreamList();
