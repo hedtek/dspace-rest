@@ -25,7 +25,6 @@ import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollecti
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.itemListWithIdMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.itemMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.owningCollection;
-import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.submitter;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -35,6 +34,7 @@ import org.junit.Test;
 
 import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
+import uk.ac.jorum.integration.matchers.fixtures.AllUserMatchers;
 
 
 public class SingleItemSingleCollectionTest extends RestApiBaseTest {
@@ -91,7 +91,7 @@ public class SingleItemSingleCollectionTest extends RestApiBaseTest {
 	public void showItemSubmitterShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/submitter");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, submitter);
+		assertThat(resultJSON, AllUserMatchers.firstUser());
 	}
 	
 	@Test
