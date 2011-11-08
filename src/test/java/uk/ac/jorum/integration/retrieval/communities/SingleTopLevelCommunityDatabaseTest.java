@@ -18,9 +18,9 @@ import org.junit.Test;
 
 import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
+import uk.ac.jorum.integration.matchers.fixtures.AllCommunityMatchers;
 
 public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
-
 	@BeforeClass
 	public static void createFixture() throws Exception {
 		loadFixture("singleTopLevelCommunityDatabase");
@@ -49,76 +49,84 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 		JSONArray communityList = (JSONArray) resultJSON
 				.get("communities_collection");
 		JSONObject community = (JSONObject) communityList.get(0);
-		structureAssertionsOn(community);		
+		structureAssertionsOn(community);
 	}
 
 	@Test
 	public void communityListWithIdOnlyShouldReturnOnlyIds() throws Exception {
 		String result = makeRequest("/communities", "idOnly=true");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		JSONArray communityList = (JSONArray) resultJSON.get("communities_collection");
+		JSONArray communityList = (JSONArray) resultJSON
+				.get("communities_collection");
 		JSONObject community = (JSONObject) communityList.get(0);
 		idOnlyStructureAssertionsOn(community);
 	}
 
-	
 	@Test
 	public void showCommunityShouldHaveCorrectStructure() throws Exception {
 
 		String result = makeRequest("/communities/2");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
-		structureAssertionsOn(community);				
+		structureAssertionsOn(community);
 	}
-	
+
 	@Test
-	public void showNonExistentCommunityShouldReturnNotFoundStatusCode() throws Exception {
+	public void showNonExistentCommunityShouldReturnNotFoundStatusCode()
+			throws Exception {
 		int result = getResponseCode("/communities/1", "");
 		assertThat(result, hasHTTPCode(HTTPStatusCode.NOT_FOUND));
 	}
-	
+
 	@Test
-	public void showCommunityInvalidElementShouldReturnBadRequestStatusCode() throws Exception {
+	public void showCommunityInvalidElementShouldReturnBadRequestStatusCode()
+			throws Exception {
 		int result = getResponseCode("/communities/2/invalidelement");
 		assertThat(result, hasHTTPCode(HTTPStatusCode.BAD_REQUEST));
 	}
-	
+
 	@Test
 	public void showCommunityWithIdOnlyShouldReturnOnlyIds() throws Exception {
 		String result = makeRequest("/communities/2", "idOnly=true");
 		JSONObject community = (JSONObject) JSONValue.parse(result);
-		idOnlyStructureAssertionsOn(community);		
+		idOnlyStructureAssertionsOn(community);
 	}
-	
+
 	@Test
-	public void showCommunityIdShouldHaveDataFieldWithCorrectValue() throws Exception {
+	public void showCommunityIdShouldHaveDataFieldWithCorrectValue()
+			throws Exception {
 		String result = makeRequest("/communities/2/id");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 		assertThat(resultJSON, isEntityElement(2, "communities", 2));
 	}
-	
+
 	@Test
-	public void showCommunityNameShouldHaveDataFieldWithCorrectValue() throws Exception {
+	public void showCommunityNameShouldHaveDataFieldWithCorrectValue()
+			throws Exception {
 		String result = makeRequest("/communities/2/name");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, isEntityElement(2, "communities", "Community no 1"));
+		assertThat(resultJSON,
+				isEntityElement(2, "communities", "Community no 1"));
 	}
-	
+
 	@Test
-	public void showCommunityCountItemsShouldHaveDataFieldWithCorrectValue() throws Exception {
+	public void showCommunityCountItemsShouldHaveDataFieldWithCorrectValue()
+			throws Exception {
 		String result = makeRequest("/communities/2/countItems");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 		assertThat(resultJSON, isEntityElement(2, "communities", 0));
 	}
-	
+
 	@Test
-	public void showCommunityHandleShouldHaveDataFieldWithCorrectValue() throws Exception {
+	public void showCommunityHandleShouldHaveDataFieldWithCorrectValue()
+			throws Exception {
 		String result = makeRequest("/communities/2/handle");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 		assertThat(resultJSON, isEntityElement(2, "communities", "123456789/2"));
 	}
 
 	@Test
-	public void showCommunityTypeShouldHaveDataFieldWithCorrectValue() throws Exception {
+	public void showCommunityTypeShouldHaveDataFieldWithCorrectValue()
+			throws Exception {
 		String result = makeRequest("/communities/2/type");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 		assertThat(resultJSON, isEntityElement(2, "communities", 4));
@@ -128,78 +136,91 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 	public void showCommunityCollectionShouldHaveDataField() throws Exception {
 		String result = makeRequest("/communities/2/collections");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, isEntityElementWithArray(2, "communities", emptyMatcherList()));
+		assertThat(resultJSON,
+				isEntityElementWithArray(2, "communities", emptyMatcherList()));
 	}
-	
+
 	@Test
-	public void showCommunityCanEditShouldHaveDataFieldWithCorrectValue() throws Exception {
+	public void showCommunityCanEditShouldHaveDataFieldWithCorrectValue()
+			throws Exception {
 		String result = makeRequest("/communities/2/canedit");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 		assertThat(resultJSON, isEntityElement(2, "communities", false));
 	}
-	
+
 	@Test
 	public void showCommunityChildrenShouldHaveDataField() throws Exception {
 		String result = makeRequest("/communities/2/children");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, isEntityElementWithArray(2, "communities", emptyMatcherList()));
+		assertThat(resultJSON,
+				isEntityElementWithArray(2, "communities", emptyMatcherList()));
 	}
-	
+
 	@Test
 	public void showCommunityRecentShouldHaveDataField() throws Exception {
 		String result = makeRequest("/communities/2/recent");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, isEntityElementWithArray(2, "communities", emptyMatcherList()));
+		assertThat(resultJSON,
+				isEntityElementWithArray(2, "communities", emptyMatcherList()));
 	}
-	
+
 	@Test
-	public void showCommunityShortDescriptionShouldHaveDataFieldWithCorrectValue() throws Exception {
+	public void showCommunityShortDescriptionShouldHaveDataFieldWithCorrectValue()
+			throws Exception {
 		String result = makeRequest("/communities/2/shortDescription");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, isEntityElement(2, "communities", "Short description of community no 1"));
+		assertThat(
+				resultJSON,
+				isEntityElement(2, "communities",
+						"Short description of community no 1"));
 	}
-	
+
 	@Test
-	public void showCommunityCopyrightTextShouldHaveDataFieldWithCorrectValue() throws Exception {
+	public void showCommunityCopyrightTextShouldHaveDataFieldWithCorrectValue()
+			throws Exception {
 		String result = makeRequest("/communities/2/copyrightText");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, isEntityElement(2, "communities", "Copyright information"));
+		assertThat(resultJSON,
+				isEntityElement(2, "communities", "Copyright information"));
 	}
-	
+
 	@Test
-	public void showCommunitySidebarTextShouldHaveDataFieldWithCorrectValue() throws Exception {
+	public void showCommunitySidebarTextShouldHaveDataFieldWithCorrectValue()
+			throws Exception {
 		String result = makeRequest("/communities/2/sidebarText");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, isEntityElement(2, "communities", "Side bar text for community 1"));
+		assertThat(
+				resultJSON,
+				isEntityElement(2, "communities",
+						"Side bar text for community 1"));
 	}
-	
+
 	@Test
-	public void showCommunityIntroductoryTextShouldHaveDataFieldWithCorrectValue() throws Exception {
+	public void showCommunityIntroductoryTextShouldHaveDataFieldWithCorrectValue()
+			throws Exception {
 		String result = makeRequest("/communities/2/introductoryText");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, isEntityElement(2, "communities", "Introductory text for community no 1"));
+		assertThat(
+				resultJSON,
+				isEntityElement(2, "communities",
+						"Introductory text for community no 1"));
 	}
-	
+
 	@Test
-	public void showCommunityAnchestorShouldReturnNotFoundStatusCodeForTopLevelCommunity() throws Exception {
+	public void showCommunityAnchestorShouldReturnNotFoundStatusCodeForTopLevelCommunity()
+			throws Exception {
 		int result = getResponseCode("/collections/2/anchestor", "");
 		assertThat(result, hasHTTPCode(HTTPStatusCode.NOT_FOUND));
 
 	}
-		
-	private void structureAssertionsOn(JSONObject community) throws Exception{
-		assertThat(
-				community,
-				isCommunity(2, "Community no 1", "123456789/2",
-						"Introductory text for community no 1",
-						"Short description of community no 1",
-						"Side bar text for community 1",
-						"Copyright information", 0, null, emptyMatcherList(),
-						emptyMatcherList(), emptyMatcherList()));
+
+	private void structureAssertionsOn(JSONObject community) throws Exception {
+		assertThat(community, is(AllCommunityMatchers.firstCommunity(0,
+				emptyMatcherList(), emptyMatcherList(), emptyMatcherList())));
 	}
-	
-	private void idOnlyStructureAssertionsOn(JSONObject community) throws Exception{	
-		assertThat(community, isCommunityWithId(2));
+
+	private void idOnlyStructureAssertionsOn(JSONObject community)
+			throws Exception {
+		assertThat(community, is(AllCommunityMatchers.firstCommunityId()));
 	}
 }
-

@@ -1,21 +1,13 @@
 package uk.ac.jorum.integration.retrieval.collections;
 
 import static org.hamcrest.CoreMatchers.is;
-
-import java.util.ArrayList;
-
-import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollectionWithId;
-import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWithId;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasIdIn;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasId;
+import static uk.ac.jorum.integration.matchers.fixtures.CollectionUnderTopLevelAndSubCommunity.collectionListWithIdOnlyMatchers;
+import static uk.ac.jorum.integration.matchers.fixtures.CollectionUnderTopLevelAndSubCommunity.communityListWithIdOnlyMatchers;
 
-
-import org.hamcrest.Matcher;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -26,22 +18,7 @@ import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class CollectionUnderTopLevelAndSubCommunityDatabaseTest extends
-		RestApiBaseTest {
-
-	private final ArrayList<Matcher<JSONObject>> collectionListWithIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(not(isCollectionWithId(3)));
-		}
-	};
-	
-	private final ArrayList<Matcher<JSONObject>> communityListWithIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(isCommunityWithId(2));
-			add(isCommunityWithId(4));
-		}
-	};
-	
-	
+		RestApiBaseTest {	
 	@BeforeClass
 	public static void createFixture() throws Exception {
 		loadFixture("collectionUnderTopLevelAndSubCommunityDatabase");

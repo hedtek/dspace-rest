@@ -61,7 +61,7 @@ public class SingleItemInTwoCollectionsOneTopLevelCommunity {
 		}
 	};
 
-	public static final Matcher<JSONObject> submitter = SingleItemSingleCollectionTopLevelCommunity.submitter;
+	public static final Matcher<JSONObject> submitter = AllUserMatchers.firstUser();
 
 	public static final ArrayList<Matcher<JSONObject>> bundleIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{

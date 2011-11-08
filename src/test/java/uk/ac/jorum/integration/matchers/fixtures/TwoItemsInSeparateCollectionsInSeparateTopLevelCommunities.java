@@ -18,7 +18,7 @@ import org.json.simple.JSONObject;
 public class TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities {
 	public static final ArrayList<Matcher<JSONObject>> firstCommunityListIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isCommunityWithId(2));
+			add(AllCommunityMatchers.firstCommunityId());
 		}
 	};
 
@@ -49,7 +49,7 @@ public class TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities {
 
 	public static final ArrayList<Matcher<JSONObject>> secondCommunityListIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(isCommunityWithId(3));
+			add(AllCommunityMatchers.secondCommunityId());
 		}
 	};
 
@@ -78,20 +78,16 @@ public class TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities {
 		}
 	};
 
-	public static final Matcher<JSONObject> submitter = AllUserMatchers.firstUser;
+	public static final Matcher<JSONObject> submitter = AllUserMatchers
+			.firstUser();
 
-	public static final Matcher<JSONObject> firstCommunity = isCommunity(2,
-			"Community no 1", "123456789/2",
-			"Introductory text for community no 1",
-			"Short description of community no 1",
-			"Side bar text for community 1", "Copyright information", 1, null,
-			emptyMatcherList(), emptyMatcherList(),
-			firstCollectionListWithIdMatchers);
+	public static final Matcher<JSONObject> firstCommunity = AllCommunityMatchers
+			.firstCommunity(1, emptyMatcherList(), emptyMatcherList(),
+					firstCollectionListWithIdMatchers);
 
-	public static final Matcher<JSONObject> secondCommunity = isCommunity(3,
-			"Top level community no 2", "123456789/3", null, null, null, null,
-			1, null, emptyMatcherList(), emptyMatcherList(),
-			secondCollectionListWithIdMatchers);
+	public static final Matcher<JSONObject> secondCommunity = AllCommunityMatchers
+			.secondCommunity(1, emptyMatcherList(), emptyMatcherList(),
+					secondCollectionListWithIdMatchers);
 
 	public static final ArrayList<Matcher<JSONObject>> firstCommunityMatcherList = new ArrayList<Matcher<JSONObject>>() {
 		{

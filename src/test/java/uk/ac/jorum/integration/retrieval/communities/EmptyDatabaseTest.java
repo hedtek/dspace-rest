@@ -19,8 +19,6 @@ import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class EmptyDatabaseTest extends RestApiBaseTest {
-
-
 	@BeforeClass
     public static void createFixture() throws Exception {
       loadFixture("emptyDatabase");
