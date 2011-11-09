@@ -173,7 +173,7 @@ public class EntityMatchers {
 	
 	@Factory
 	public static Matcher<JSONObject> isEntityElement(int id,
-			String entityType, int data) {
+			String entityType, long data) {
 		return allOf(hasKey("data", withValue(new Long(data))), entityElementMatch(id, entityType));
 	}
 	
@@ -181,6 +181,12 @@ public class EntityMatchers {
 	public static Matcher<JSONObject> isEntityElement(int id,
 			String entityType, String data) {
 		return allOf(hasKey("data", withValue(data)), entityElementMatch(id, entityType));
+	}
+	
+	@Factory
+	public static Matcher<JSONObject> isEntityElement(int id,
+			String entityType, Matcher<JSONObject> dataMatcher) {
+		return allOf(hasSubObject("data", dataMatcher), entityElementMatch(id, entityType));
 	}
 	
 	@Factory

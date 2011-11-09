@@ -14,6 +14,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.isEntityElement;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.isEntityElementWithArray;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.withValue;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 import static uk.ac.jorum.integration.matchers.ItemMatchers.getMetadataMatchers;
@@ -77,111 +79,111 @@ public class SingleItemSingleCollectionTest extends RestApiBaseTest {
 	public void showItemShouldHaveCorrectStructure() throws Exception{
 		String result = makeRequest("/items/1");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, item);
+		assertThat(resultJSON, is(item));
 	}
 	
 	@Test
 	public void showItemMetadataShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/metadata");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasArray("data", getMetadataMatchers()));
+		assertThat(resultJSON, isEntityElementWithArray(1, "items", getMetadataMatchers()));
 	}
 	
 	@Test
 	public void showItemSubmitterShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/submitter");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, AllUserMatchers.firstUser());
+		assertThat(resultJSON, is(AllUserMatchers.firstUser()));
 	}
 	
 	@Test
 	public void showItemIsArchivedShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/isArchived");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasKey("data", withValue(true)));
+		assertThat(resultJSON, isEntityElement(1, "items", true));
 	}
 	
 	@Test
 	public void showItemIsWithdrawnShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/isWithdrawn");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasKey("data", withValue(false)));
+		assertThat(resultJSON, isEntityElement(1, "items", false));
 	}
 	
 	@Test
 	public void showItemOwningCollectionShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/owningCollection");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, owningCollection);
+		assertThat(resultJSON, is(owningCollection));
 	}
 	
 	@Test
 	public void showItemLastModifiedShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/lastModified");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasKey("data", withValue(1320071454211L)));
+		assertThat(resultJSON, isEntityElement(1, "items", 1320071454211L));
 	}
 	
 	@Test
 	public void showItemCollectionsShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/collections");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasArray("data", collectionListMatchers));
+		assertThat(resultJSON, isEntityElementWithArray(1, "items", collectionListMatchers));
 	}
 	
 	@Test
 	public void showItemCommunitiesShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/communities");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasArray("data", communityListMatchers));
+		assertThat(resultJSON, isEntityElementWithArray(1, "items", communityListMatchers));
 	}
 	
 	@Test
 	public void showItemNameShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/name");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasKey("data", withValue("First Upload")));
+		assertThat(resultJSON, isEntityElement(1, "items", "First Upload"));
 	}
 	
 	@Test
 	public void showItemBitstreamsShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/bitstreams");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasArray("data", bitstreamMatchers));
+		assertThat(resultJSON, isEntityElementWithArray(1, "items", bitstreamMatchers));
 	}
 	
 	@Test
 	public void showItemHandleShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/handle");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasKey("data", withValue("123456789/7")));
+		assertThat(resultJSON, isEntityElement(1, "items", "123456789/7"));
 	}
 	
 	@Test
 	public void showItemCaneditShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/canedit");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasKey("data", withValue(false)));
+		assertThat(resultJSON, isEntityElement(1, "items", false));
 	}
 	
 	@Test
 	public void showItemIdShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/id");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasKey("data", withValue(new Long(1))));
+		assertThat(resultJSON, isEntityElement(1, "items", 1));
 	}
 	
 	@Test
 	public void showItemTypeShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/type");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasKey("data", withValue(new Long(2))));
+		assertThat(resultJSON, isEntityElement(1, "items", 2));
 	}
 	
 	@Test
 	public void showItemBundlesShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items/1/bundles");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasArray("data", bundleMatchers));
+		assertThat(resultJSON, isEntityElementWithArray(1, "items", bundleMatchers));
 	}
 }
