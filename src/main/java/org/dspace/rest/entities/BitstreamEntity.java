@@ -64,7 +64,7 @@ public class BitstreamEntity extends BitstreamEntityId {
            this.bundles.add(includeFull ? new BundleEntity(b, level, uparams) : new BundleEntityId(b));
         }
         this.mimeType = res.getFormat().getMIMEType();
-        context.complete();
+        //context.complete(); <---important!!!!
     }
 
     public BitstreamEntity(Bitstream bitstream, int level, UserRequestParams uparams) throws SQLException {

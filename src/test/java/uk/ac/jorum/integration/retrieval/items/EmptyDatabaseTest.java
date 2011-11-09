@@ -46,5 +46,12 @@ public class EmptyDatabaseTest extends RestApiBaseTest {
 		assertThat("200 is observed behaviour, should really be 204", result,
 				hasHTTPCode(HTTPStatusCode.SUCCESS));
 	}
+	
+	@Test
+	public void requestingNonExistantItemShouldReturnNotFound()
+			throws Exception {
+		int result = getResponseCode("/items/1");
+		assertThat(result, hasHTTPCode(HTTPStatusCode.NOT_FOUND));
+	}
 
 }
