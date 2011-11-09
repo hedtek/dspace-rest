@@ -10,9 +10,9 @@ import org.json.simple.JSONObject;
 
 public class AllBitstreamMatchers {
 
-	public static final Matcher<JSONObject> firstBitstream() {
+	public static final Matcher<JSONObject> firstBitstream(ArrayList<Matcher<JSONObject>> bundleList) {
 		return isBitstream(1, "firstUpload.txt", "Text", "text/plain",
-				AllBundleMatchers.firstBundleIdList());
+				bundleList);
 	}
 
 	public static final Matcher<JSONObject> firstBitstreamId() {
@@ -39,7 +39,7 @@ public class AllBitstreamMatchers {
 	public static final ArrayList<Matcher<JSONObject>> firstBitstreamList() {
 		return new ArrayList<Matcher<JSONObject>>() {
 			{
-				add(firstBitstream());
+				add(firstBitstream(AllBundleMatchers.firstBundleIdWithLicenceList()));
 			}
 		};
 	}

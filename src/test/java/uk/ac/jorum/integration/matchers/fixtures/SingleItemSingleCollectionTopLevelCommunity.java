@@ -44,7 +44,7 @@ public class SingleItemSingleCollectionTopLevelCommunity {
 			.firstBitstreamIdList();
 
 	public static final ArrayList<Matcher<JSONObject>> bundleMatchers = AllBundleMatchers
-			.firstBundleList();
+			.firstBundleWithLicenceList();
 
 	public static final ArrayList<Matcher<JSONObject>> collectionListMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{

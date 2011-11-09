@@ -51,12 +51,20 @@ public class AllBundleMatchers {
 		return new ArrayList<Matcher<JSONObject>>() {
 			{
 				add(firstBundle());
+			}
+		};
+	}
+
+	public static ArrayList<Matcher<JSONObject>> firstBundleWithLicenceList() {
+		return new ArrayList<Matcher<JSONObject>>() {
+			{
+				add(firstBundle());
 				add(secondBundle());
 			}
 		};
 	}
 
-	public static ArrayList<Matcher<JSONObject>> firstBundleIdList() {
+	public static ArrayList<Matcher<JSONObject>> firstBundleIdWithLicenceList() {
 		return new ArrayList<Matcher<JSONObject>>() {
 			{
 				add(firstBundleId());

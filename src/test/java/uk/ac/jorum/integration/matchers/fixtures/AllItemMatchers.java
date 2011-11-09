@@ -16,7 +16,7 @@ public class AllItemMatchers {
 			ArrayList<Matcher<JSONObject>> collections) {
 		return isItem(1, "First Upload", true, false, owningCollection,
 				AllUserMatchers.firstUser(), communities, collections,
-				AllBundleMatchers.firstBundleList(),
+				AllBundleMatchers.firstBundleWithLicenceList(),
 				AllBitstreamMatchers.firstBitstreamList());
 	}
 
@@ -26,7 +26,7 @@ public class AllItemMatchers {
 			ArrayList<Matcher<JSONObject>> collections) {
 		return isItemWithMetadataId(1, "First Upload", true, false,
 				owningCollection, AllUserMatchers.firstUser(), communities,
-				collections, AllBundleMatchers.firstBundleIdList(),
+				collections, AllBundleMatchers.firstBundleIdWithLicenceList(),
 				AllBitstreamMatchers.firstBitstreamIdList());
 	}
 
