@@ -6,6 +6,8 @@ import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollectionWi
 import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWithId;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
 
+import static uk.ac.jorum.integration.matchers.fixtures.CollectionsInSiblingCommunities.*;
+
 import java.util.ArrayList;
 
 import org.hamcrest.Matcher;
@@ -15,23 +17,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.jorum.integration.RestApiBaseTest;
+import uk.ac.jorum.integration.matchers.fixtures.AllCommunityMatchers;
 
 public class CollectionsInSiblingCommunitiesDatabaseTest extends
 		RestApiBaseTest {
 
-
-	private final ArrayList<Matcher<JSONObject>> collectionListWithIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(not(isCollectionWithId(6)));
-		}
-	};
-	
-	private final ArrayList<Matcher<JSONObject>> communityListWithIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(not(isCommunityWithId(6)));
-		}
-	};
-	
 	
 	@BeforeClass
 	public static void createFixture() throws Exception {

@@ -1,6 +1,7 @@
 package uk.ac.jorum.integration.retrieval.collections;
 
 import static org.hamcrest.CoreMatchers.allOf;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -9,6 +10,10 @@ import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWith
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 import static uk.ac.jorum.integration.matchers.CollectionMatchers.*;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleCollectionUnderTopLevelCommunity.collectionListMatchers;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleCollectionUnderTopLevelCommunity.communityListMatchers;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleCollectionUnderTopLevelCommunity.parentCommunity;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleCollectionUnderTopLevelCommunity.subCommunityListMatchers;
 
 import java.util.ArrayList;
 
@@ -29,27 +34,7 @@ import uk.ac.jorum.integration.matchers.fixtures.AllCommunityMatchers;
 public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		RestApiBaseTest {
 
-	private final ArrayList<Matcher<JSONObject>> subCommunityListMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(AllCommunityMatchers.thirdCommunityId());
-		}
-	};
 
-	private final ArrayList<Matcher<JSONObject>> collectionListMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(AllCollectionMatchers.firstCollectionId());
-		}
-	};
-
-	private final Matcher<JSONObject> parentCommunity = AllCommunityMatchers
-			.firstCommunity(0, subCommunityListMatchers, emptyMatcherList(),
-					collectionListMatchers);
-
-	private final ArrayList<Matcher<JSONObject>> communityListMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(parentCommunity);
-		}
-	};
 
 	@BeforeClass
 	public static void createFixture() throws Exception {
