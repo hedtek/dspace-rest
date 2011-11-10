@@ -184,7 +184,7 @@
 
 							<resources>
 								<resource>
-									<directory>src/test/resources</directory>
+                                    <directory>src/test/resources-${dspace.version}</directory>
 									<filtering>true</filtering>
 									<includes>
 										<include>**/*.xml</include>
@@ -194,7 +194,7 @@
 									</includes>
 								</resource>
 								<resource>
-									<directory>src/test/resources</directory>
+                                    <directory>src/test/resources-${dspace.version}</directory>
 									<filtering>false</filtering>
 									<excludes>
 										<exclude>**/*.xml</exclude>
@@ -293,7 +293,8 @@
 		<test.db.username>dspace-integ</test.db.username>
 		<test.db.password>dspace</test.db.password>
 		<jetty.test.port>9090</jetty.test.port>
-		<jetty.test.path>/dspace-rest</jetty.test.path>
+        <jetty.test.path>/dspace-rest</jetty.test.path>
+        <dspace.version>1.5.2</dspace.version>
 		<resource.test.base>${basedir}/target/testResources</resource.test.base>
 		<webapp.test.base>${basedir}/target/testWebapp</webapp.test.base>
 		<netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
