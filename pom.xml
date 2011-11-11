@@ -227,6 +227,19 @@
 					</execution>
 				</executions>
 			</plugin>
+      <plugin>
+        <groupId>com.google.code.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
+        <version>1.4.0</version>
+        <configuration>
+          <excludes>
+            <exclude>src/test/resources-*/upload</exclude>
+            <exclude>src/test/resources-*/search</exclude>
+            <exclude>src/test/resources-*/assetstore</exclude>
+          </excludes>
+        </configuration>
+
+      </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>

@@ -1,3 +1,10 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree and available online at
+ *
+ * http://www.dspace.org/license/
+ */
 package uk.ac.jorum.integration.retrieval.bitstreams;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -148,8 +155,6 @@ public class SingleBitstreamInItemDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/bitstream/1/receive");
 		assertThat(result, hasFileContent(getSource("firstUpload.txt")));
 	}
-	
-	
 	
 	private static String getUploadDir() {
 		return System.getenv("resource.base") + "/upload/";
