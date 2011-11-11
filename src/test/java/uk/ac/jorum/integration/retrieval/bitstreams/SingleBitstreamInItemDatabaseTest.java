@@ -153,7 +153,7 @@ public class SingleBitstreamInItemDatabaseTest extends RestApiBaseTest {
 	@Test
 	public void requestingReceiveOnExistingBitstreamShouldHaveCorrectContent() throws Exception {
 		String result = makeRequest("/bitstream/1/receive");
-		assertThat(result, hasFileContent(getSource("firstUpload.txt")));
+		assertThat(result, hasFileContent(getSource("firstUpload")));
 	}
 	
 	private static String getUploadDir() {
