@@ -147,6 +147,11 @@ public class EntityMatchers {
 		return hasKey("countItems", withValue(new Long(itemCount)));
 	}
 
+	@Factory
+	public static Matcher<JSONObject> hasResultsCount(int resultsCount) {
+		return hasKey("resultsCount", withValue(new Long(resultsCount)));
+	}
+	
 	public static <T> T withValue(T value) {
 		return value;
 	}
@@ -165,13 +170,21 @@ public class EntityMatchers {
 	}
 
 	@Factory
-	public static Matcher<JSONObject> hasArray(String key,
-			ArrayList<Matcher<JSONObject>> matchers) {
+	public static <T> Matcher<T> hasArray(String key,
+			ArrayList<Matcher<T>> matchers) {
 		if (matchers == null)
 			return new MatchJSONSubObject(key, nullValue(JSONObject.class));
 		return new MatchJSONArray(key, matchers);
 	}
 
+//	@Factory
+//	public static Matcher<JSONObject> hasArray(String key,
+//			ArrayList<Matcher<Long>> matchers) {
+//		if (matchers == null)
+//			return new MatchJSONSubObject(key, nullValue(JSONObject.class));
+//		return new MatchJSONArray(key, matchers);
+//	}
+	
 	@Factory
 	public static Matcher<JSONObject> isEntityElement(int id,
 			String entityType, boolean data) {

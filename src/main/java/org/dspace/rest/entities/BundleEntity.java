@@ -60,7 +60,6 @@ public class BundleEntity extends BundleEntityId {
         for (Item i : itm) {
             this.items.add(includeFull ? new ItemEntity(i, level, uparams) : new ItemEntityId(i));
         }
-        context.complete();
     }
 
     public BundleEntity(Bundle bundle, int level, UserRequestParams uparams) throws SQLException {
