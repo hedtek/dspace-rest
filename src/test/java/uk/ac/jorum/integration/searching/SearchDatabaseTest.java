@@ -19,6 +19,7 @@ import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.search
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithSinatraCollectionId;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithTutorialItem;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithScrumTutorialItem;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithPomSprintItems;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -180,5 +181,13 @@ public class SearchDatabaseTest extends RestApiBaseTest {
 	public void searchItemWithinCommunityAndCollectionShouldReturnBadRequestResponseCode() throws Exception {
 		int result = getResponseCode("/search", "query=product_backlog&community=3&collection=6");
 		assertThat(result, hasHTTPCode(HTTPStatusCode.BAD_REQUEST));
+	}
+
+	@Test
+	public void searchShouldReturnItemsMatchingMultipleKeywords() throws Exception {
+		String result = makeRequest("/search", "query=pom%20sprint");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 2", resultJSON, hasArray("search_collection", searchResultListWithPomSprintItems));
 	}
 }

@@ -91,4 +91,15 @@ public class AllSearchMatchers {
 		add(isItemSearchResult(19, "Scrum Tutorials"));
 	}};
 	
+
+	private static final int[] resultIdsForPomSprintItems = { 12, 17 };
+	private static final Matcher<JSONObject> searchResultInfoWithPomSprintItems = isSearchResultInfoWith(1, resultIdsForPomSprintItems);
+
+	public static final ArrayList<Matcher<JSONObject>> searchResultListWithPomSprintItems = new ArrayList<Matcher<JSONObject>>(){{
+		add(searchResultInfoWithPomSprintItems);
+		add(isItemSearchResult(12, "Check out my POM"));
+		add(isItemSearchResult(17, "Jamaican Sprints"));
+	}};
+	
+	
 }
