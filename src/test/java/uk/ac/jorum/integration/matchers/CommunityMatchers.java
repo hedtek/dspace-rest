@@ -41,7 +41,7 @@ public class CommunityMatchers {
         hasArray("recentSubmissions", recentSubmissions),
         hasArray("subCommunities", subCommunities),
         hasArray("collections", collections),
-        hasArray("administrators", null)
+        hasKey("administrators", null)
       );
   }
 

@@ -12,10 +12,6 @@ import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityId;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityReference;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasEntityURL;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.withValue;
 
 import java.util.ArrayList;
 
