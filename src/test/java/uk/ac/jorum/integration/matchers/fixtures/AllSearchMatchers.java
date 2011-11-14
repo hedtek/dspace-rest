@@ -7,6 +7,7 @@
  */
 package uk.ac.jorum.integration.matchers.fixtures;
 import static uk.ac.jorum.integration.matchers.SearchMatchers.isSearchResultInfoWith;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,10 +17,17 @@ import org.json.simple.JSONObject;
 
 public class AllSearchMatchers {
 	
-	public static final Matcher<Serializable> emptySearchResult = isSearchResultInfoWith(-1, new int [0]);
+	private static final Matcher<JSONObject> emptySearchResultInfo = isSearchResultInfoWith(-1, new int [0]);
 	
-	public static final ArrayList<Matcher<Serializable>> emptySearchResultList = new ArrayList<Matcher<Serializable>>(){{
-		add(emptySearchResult);
-	}
-	};
+	public static final ArrayList<Matcher<JSONObject>> emptySearchResultList = new ArrayList<Matcher<JSONObject>>(){{
+		add(emptySearchResultInfo);
+	}};
+	
+	private static final int[] resultIdsForJavaCommunityId = {2};
+	private static final Matcher<JSONObject> searchResultInfoWithJavaCommunity = isSearchResultInfoWith(0, resultIdsForJavaCommunityId);
+
+	public static final ArrayList<Matcher<JSONObject>> searchResultListWithJavaCommunity = new ArrayList<Matcher<JSONObject>>(){{
+		add(searchResultInfoWithJavaCommunity);
+		add(isCommunitySearchResultWithId(2, "Java Community"));
+	}};
 }

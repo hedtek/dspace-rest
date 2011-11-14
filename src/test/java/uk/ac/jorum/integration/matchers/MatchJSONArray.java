@@ -19,7 +19,7 @@ import java.util.Arrays;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
 public class MatchJSONArray<T> extends TypeSafeMatcher<JSONObject> {
-	private ArrayList<Matcher<JSONObject>> matchers;
+	private ArrayList<Matcher<T>> matchers;
 	private String key;
 	private boolean isKeyPresent;
 	private boolean run = false;
@@ -61,14 +61,14 @@ public class MatchJSONArray<T> extends TypeSafeMatcher<JSONObject> {
 
 		anyOfmatcher = anyOf((Iterable)matchers);
 		for (Object obj : array) {
-			if (!anyOfmatcher.matches((JSONObject) obj)) {
+			if (!anyOfmatcher.matches((T) obj)) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	MatchJSONArray(String key, ArrayList<Matcher<JSONObject>> matchers) {
+	MatchJSONArray(String key, ArrayList<Matcher<T>> matchers) {
 		this.key = key;
 		this.matchers = matchers;
 	}

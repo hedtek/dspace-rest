@@ -10,6 +10,7 @@ package uk.ac.jorum.integration.matchers;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
@@ -45,6 +46,20 @@ public class CommunityMatchers {
       );
   }
 
+  @Factory
+	public static Matcher<JSONObject> isCommunitySearchResultWithId(int id,
+			String name) {
+		final String[] communityKeys = { "administrators", "canEdit",
+				"collections", "collections", "copyrightText", "countItems",
+				"handle", "introductoryText", "logo", "parentCommunity",
+				"recentSubmissions", "shortDescription", "sidebarText",
+				"subCommunities" };
+		return allOf(hasId(id), 
+					hasName(name), 
+					hasKeys(communityKeys),
+					hasType(4));
+  }
+  
   @Factory
   public static Matcher<JSONObject> isCommunityWithId(int id) {
     return hasId(id);

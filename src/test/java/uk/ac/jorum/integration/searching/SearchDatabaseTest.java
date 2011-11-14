@@ -11,6 +11,7 @@ import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.emptySearchResultList;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithJavaCommunity;;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
 
 import static org.hamcrest.core.Is.is;
@@ -57,4 +58,12 @@ public class SearchDatabaseTest extends RestApiBaseTest {
 	  
 	  assertThat("Result count should be 0", resultJSON, hasArray("search_collection", emptySearchResultList));
   	}
+	
+	@Test
+	public void searchForCommunityShouldReturnCommunityWithCorrectStructure() throws Exception{
+		String result = makeRequest("/search", "query=java");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithJavaCommunity));
+	}
 }

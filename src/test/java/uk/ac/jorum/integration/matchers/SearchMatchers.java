@@ -23,7 +23,7 @@ import org.json.simple.JSONObject;
 
 public class SearchMatchers {
 	@Factory
-	public static Matcher<Serializable> isSearchResultInfoWith(int resultsCount, int[] resultIds) {
+	public static Matcher<JSONObject> isSearchResultInfoWith(int resultsCount, int[] resultIds) {
 		String[] searchResultKeys = { "id", "name", "resultHandles", "resultTypes" };
 		ArrayList<Matcher<Long>> ids = new ArrayList<Matcher<Long>>();
 		for(int id:resultIds) {

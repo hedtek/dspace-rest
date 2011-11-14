@@ -166,11 +166,11 @@ public class EntityMatchers {
 	}
 
 	@Factory
-	public static <T> Matcher<T> hasArray(String key,
+	public static <T> Matcher<JSONObject> hasArray(String key,
 			ArrayList<Matcher<T>> matchers) {
 		if (matchers == null)
 			return new MatchJSONSubObject(key, nullValue(JSONObject.class));
-		return new MatchJSONArray(key, matchers);
+		return new MatchJSONArray<T>(key, matchers);
 	}
 
 //	@Factory
