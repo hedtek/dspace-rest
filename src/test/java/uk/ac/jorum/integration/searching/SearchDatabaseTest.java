@@ -145,7 +145,7 @@ public class SearchDatabaseTest extends RestApiBaseTest {
 	}
 	
 	@Test
-	public void searchShouldReturnMultipleItemsMatchingTheQuery() throws Exception {
+	public void searchShouldReturnMultipleIteItemsMatchingQueryFromSpecifiedCollectionmsMatchingTheQuery() throws Exception {
 		String result = makeRequest("/search", "query=tutorial");
 		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
 		
@@ -174,5 +174,11 @@ public class SearchDatabaseTest extends RestApiBaseTest {
 		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
 		
 		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithScrumTutorialItem));
+	}
+	
+	@Test
+	public void searchItemWithinCommunityAndCollectionShouldReturnBadRequestResponseCode() throws Exception {
+		int result = getResponseCode("/search", "query=product_backlog&community=3&collection=6");
+		assertThat(result, hasHTTPCode(HTTPStatusCode.BAD_REQUEST));
 	}
 }
