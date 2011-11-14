@@ -6,10 +6,14 @@
  * http://www.dspace.org/license/
  */
 package uk.ac.jorum.integration.matchers.fixtures;
+import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollectionSearchResult;
+import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollectionWithId;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunitySearchResult;
+import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWithId;
+import static uk.ac.jorum.integration.matchers.ItemMatchers.isItemSearchResult;
+import static uk.ac.jorum.integration.matchers.ItemMatchers.isItemWithId;
 import static uk.ac.jorum.integration.matchers.SearchMatchers.isSearchResultInfoWith;
-import static uk.ac.jorum.integration.matchers.CommunityMatchers.*;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.hamcrest.Matcher;
@@ -23,11 +27,68 @@ public class AllSearchMatchers {
 		add(emptySearchResultInfo);
 	}};
 	
-	private static final int[] resultIdsForJavaCommunityId = {2};
-	private static final Matcher<JSONObject> searchResultInfoWithJavaCommunity = isSearchResultInfoWith(0, resultIdsForJavaCommunityId);
+	private static final int[] resultIdsForJavaCommunity = {2};
+	private static final Matcher<JSONObject> searchResultInfoWithJavaCommunity = isSearchResultInfoWith(0, resultIdsForJavaCommunity);
 
 	public static final ArrayList<Matcher<JSONObject>> searchResultListWithJavaCommunity = new ArrayList<Matcher<JSONObject>>(){{
 		add(searchResultInfoWithJavaCommunity);
-		add(isCommunitySearchResultWithId(2, "Java Community"));
+		add(isCommunitySearchResult(2, "Java Community"));
 	}};
+	
+	public static final ArrayList<Matcher<JSONObject>> searchResultListWithJavaCommunityId = new ArrayList<Matcher<JSONObject>>(){{
+		add(searchResultInfoWithJavaCommunity);
+		add(isCommunityWithId(2));
+	}};
+	
+	private static final int[] resultIdsForSinatraCollection = {2, 5};
+	private static final Matcher<JSONObject> searchResultInfoWithSinatraCollection = isSearchResultInfoWith(1, resultIdsForSinatraCollection);
+
+	public static final ArrayList<Matcher<JSONObject>> searchResultListWithSinatraCollection = new ArrayList<Matcher<JSONObject>>(){{
+		add(searchResultInfoWithSinatraCollection);
+		add(isCollectionSearchResult(2, "Sinatra"));
+		add(isItemSearchResult(5, "sinatra tutorials by fankie"));
+	}};
+	
+	public static final ArrayList<Matcher<JSONObject>> searchResultListWithSinatraCollectionId = new ArrayList<Matcher<JSONObject>>(){{
+		add(searchResultInfoWithSinatraCollection);
+		add(isCollectionWithId(2));
+		add(isItemWithId(5));
+	}};
+
+	private static final int[] resultIdsForProductBacklogItem = { 18 };
+	private static final Matcher<JSONObject> searchResultInfoWithProductBacklogItem = isSearchResultInfoWith(0, resultIdsForProductBacklogItem);
+
+	public static final ArrayList<Matcher<JSONObject>> searchResultListWithProductBacklogItem = new ArrayList<Matcher<JSONObject>>(){{
+		add(searchResultInfoWithProductBacklogItem);
+		add(isItemSearchResult(18, "Product Backlog book"));
+	}};
+	
+	public static final ArrayList<Matcher<JSONObject>> searchResultListWithProductBacklogItemId = new ArrayList<Matcher<JSONObject>>(){{
+		add(searchResultInfoWithProductBacklogItem);
+		add(isItemWithId(18));
+	}};
+	
+	private static final int[] resultIdsForTutorialItems = { 5,	3, 7, 10, 14, 19, 23, 24 };
+	private static final Matcher<JSONObject> searchResultInfoWithTutorialItems = isSearchResultInfoWith(7, resultIdsForTutorialItems);
+	
+	public static final ArrayList<Matcher<JSONObject>> searchResultListWithTutorialItem = new ArrayList<Matcher<JSONObject>>(){{
+		add(searchResultInfoWithTutorialItems);
+		add(isItemSearchResult(5, "sinatra tutorials by fankie"));
+		add(isItemSearchResult(3, "rails tutorial"));
+		add(isItemSearchResult(7, "guides and tutorials"));
+		add(isItemSearchResult(10, "Hibernate tutorials"));
+		add(isItemSearchResult(14, "Maven tutorials"));
+		add(isItemSearchResult(19, "Scrum Tutorials"));
+		add(isItemSearchResult(23, "XP Tutorial"));
+		add(isItemSearchResult(24, "Waterfall Model Tutorial"));
+	}};
+	
+	private static final int[] resultIdsForScrumTutorialItems = { 19 };
+	private static final Matcher<JSONObject> searchResultInfoWithScrumTutorialItems = isSearchResultInfoWith(0, resultIdsForScrumTutorialItems);
+
+	public static final ArrayList<Matcher<JSONObject>> searchResultListWithScrumTutorialItem = new ArrayList<Matcher<JSONObject>>(){{
+		add(searchResultInfoWithScrumTutorialItems);
+		add(isItemSearchResult(19, "Scrum Tutorials"));
+	}};
+	
 }

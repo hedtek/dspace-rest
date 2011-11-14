@@ -40,6 +40,18 @@ public class CollectionMatchers {
         hasArray("items", items)
       );
   }
+
+  	@Factory
+	public static Matcher<JSONObject> isCollectionSearchResult(int id,
+			String name) {
+		final String[] collectionKeys = { "canEdit", "communities",
+				"copyrightText", "countItems", "handle", "introText", "items",
+				"logo", "provenance", "shortDescription", "sidebarText" };
+		return allOf(hasId(id), 
+					hasName(name), 
+					hasKeys(collectionKeys),
+					hasType(3));
+  	}
   
   @Factory
   public static Matcher<JSONObject> isCollectionWithId(int id) {

@@ -8,13 +8,18 @@
 package uk.ac.jorum.integration.searching;
 
 import static org.junit.Assert.assertThat;
-import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
-
-import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.emptySearchResultList;
-import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithJavaCommunity;;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
+import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.emptySearchResultList;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithJavaCommunity;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithJavaCommunityId;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithProductBacklogItem;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithProductBacklogItemId;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithSinatraCollection;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithSinatraCollectionId;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithTutorialItem;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithScrumTutorialItem;
 
-import static org.hamcrest.core.Is.is;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
@@ -65,5 +70,109 @@ public class SearchDatabaseTest extends RestApiBaseTest {
 		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
 		
 		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithJavaCommunity));
+	}
+	
+	@Test
+	public void searchForCommunityInIdOnlyModeShouldReturnCommunityWithCorrectStructure() throws Exception{
+		String result = makeRequest("/search", "query=java&idOnly=true");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithJavaCommunityId));
+	}
+	
+	@Test
+	public void searchForCollectionShouldReturnCollectionWithCorrectStructure() throws Exception {
+		String result = makeRequest("/search", "query=sinatra");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 2", resultJSON, hasArray("search_collection", searchResultListWithSinatraCollection));
+	}
+	
+	@Test
+	public void searchForCollectionInIdOnlyModeShouldReturnCollectionWithCorrectStructure() throws Exception {
+		String result = makeRequest("/search", "query=sinatra&idOnly=true");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 2", resultJSON, hasArray("search_collection", searchResultListWithSinatraCollectionId));
+	}
+	
+	@Test
+	public void searchForItemTitleShouldReturnItemWithCorrectStructure() throws Exception {
+		String result = makeRequest("/search", "query=product%20backlog");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithProductBacklogItem));
+	}
+	
+	@Test
+	public void searchForItemInIdOnlyModeShouldReturnCollectionWithCorrectStructure() throws Exception {
+		String result = makeRequest("/search", "query=product%20backlog&idOnly=true");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithProductBacklogItemId));
+	}
+	
+	@Test
+	public void searchForItemBitstreamTitleShouldReturnItemWithCorrectStructure() throws Exception {
+		String result = makeRequest("/search", "query=product_backlog");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithProductBacklogItem));
+	}
+	
+	@Test
+	public void searchForItemBitstreamTitleInIdOnlyModeShouldReturnCollectionWithCorrectStructure() throws Exception {
+		String result = makeRequest("/search", "query=product_backlog&idOnly=true");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithProductBacklogItemId));
+	}
+	
+	@Test
+	public void searchForItemAuthorShouldReturnItemWithCorrectStructure() throws Exception {
+		String result = makeRequest("/search", "query=alan%20sugar");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithProductBacklogItem));
+	}
+	
+	@Test
+	public void searchForItemAuthorInIdOnlyModeShouldReturnCollectionWithCorrectStructure() throws Exception {
+		String result = makeRequest("/search", "query=alan%20sugar&idOnly=true");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithProductBacklogItemId));
+	}
+	
+	@Test
+	public void searchShouldReturnMultipleItemsMatchingTheQuery() throws Exception {
+		String result = makeRequest("/search", "query=tutorial");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 8", resultJSON, hasArray("search_collection", searchResultListWithTutorialItem));
+	}
+
+	@Test
+	public void searchShouldReturnItemsMatchingConjunctionQuery() throws Exception {
+		String result = makeRequest("/search", "query=tutorial%20AND%20scrum");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithScrumTutorialItem));
+	}
+	
+	@Test
+	public void searchShouldReturnItemsMatchingQueryFromSpecifiedCommunity() throws Exception {
+		String result = makeRequest("/search", "query=product_backlog&community=3");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithProductBacklogItem));
+	}
+	
+	@Test
+	public void searchShouldReturnItemsMatchingQueryFromSpecifiedCollection() throws Exception {
+		String result = makeRequest("/search", "query=tutorial&collection=6");
+		JSONObject resultJSON = (JSONObject)JSONValue.parse(result);
+		
+		assertThat("Result count should be 1", resultJSON, hasArray("search_collection", searchResultListWithScrumTutorialItem));
 	}
 }

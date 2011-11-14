@@ -107,4 +107,17 @@ public class ItemMatchers {
 	public static ArrayList<Matcher<JSONObject>> getMetadataMatchers() {
 		return metadataMatchers;
 	}
+	
+  	@Factory
+	public static Matcher<JSONObject> isItemSearchResult(int id,
+			String name) {
+		final String[] itemKeys = { "bitstreams", "bundles", "canEdit",
+				"collections", "communities", "handle", "isArchived",
+				"isWithdrawn", "lastModified", "metadata", "owningCollection",
+				"submitter" };
+		return allOf(hasId(id), 
+					hasName(name), 
+					hasKeys(itemKeys),
+					hasType(2));
+  	} 
 }

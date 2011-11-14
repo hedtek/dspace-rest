@@ -47,7 +47,7 @@ public class CommunityMatchers {
   }
 
   @Factory
-	public static Matcher<JSONObject> isCommunitySearchResultWithId(int id,
+	public static Matcher<JSONObject> isCommunitySearchResult(int id,
 			String name) {
 		final String[] communityKeys = { "administrators", "canEdit",
 				"collections", "collections", "copyrightText", "countItems",
