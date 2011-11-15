@@ -12,6 +12,7 @@ import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunitySear
 import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWithId;
 import static uk.ac.jorum.integration.matchers.ItemMatchers.isItemSearchResult;
 import static uk.ac.jorum.integration.matchers.ItemMatchers.isItemWithId;
+import static uk.ac.jorum.integration.matchers.SearchMatchers.isHarvestResultInfoWith;
 import static uk.ac.jorum.integration.matchers.SearchMatchers.isSearchResultInfoWith;
 
 import java.util.ArrayList;
@@ -101,5 +102,58 @@ public class AllSearchMatchers {
 		add(isItemSearchResult(17, "Jamaican Sprints"));
 	}};
 	
+
+	public static final ArrayList<Matcher<JSONObject>> harvestResultListWithAllItems = new ArrayList<Matcher<JSONObject>>(){{
+		add(isHarvestResultInfoWith(22));
+		add(isItemSearchResult(1, "rails guide"));
+		add(isItemSearchResult(2, "rails 3 in action"));
+		add(isItemSearchResult(3, "rails tutorial"));
+		add(isItemSearchResult(4, "agile web development with rails"));
+		add(isItemSearchResult(5, "sinatra tutorials by fankie"));
+		add(isItemSearchResult(6, "ioc and di"));
+		add(isItemSearchResult(7, "guides and tutorials"));
+		add(isItemSearchResult(8, "OMG its ORM!!!"));
+		add(isItemSearchResult(9, "JDBC Zuck's"));
+		add(isItemSearchResult(10, "Hibernate tutorials"));
+		add(isItemSearchResult(11, "SQL and Driver"));
+		add(isItemSearchResult(12, "Check out my POM"));
+		add(isItemSearchResult(13, "Dependencies guide"));
+		add(isItemSearchResult(14, "Maven tutorials"));
+		add(isItemSearchResult(16, "Scrum Master Certification Guide"));
+		add(isItemSearchResult(17, "Jamaican Sprints"));
+		add(isItemSearchResult(18, "Product Backlog book"));
+		add(isItemSearchResult(19, "Scrum Tutorials"));
+		add(isItemSearchResult(21, "Programming in Pairs"));
+		add(isItemSearchResult(22, "TDD by example"));
+		add(isItemSearchResult(23, "XP Tutorial"));
+		add(isItemSearchResult(24, "Waterfall Model Tutorial"));
+	}};
 	
+	public static final ArrayList<Matcher<JSONObject>> emptyHarvestResultList = new ArrayList<Matcher<JSONObject>>(){{
+		add(isHarvestResultInfoWith(0));
+	}};
+	
+	
+
+	public static final ArrayList<Matcher<JSONObject>> harvestResultListWithItemsAfterTenth = new ArrayList<Matcher<JSONObject>>(){{
+		add(isHarvestResultInfoWith(18));
+		add(isItemSearchResult(2, "rails 3 in action"));
+		add(isItemSearchResult(3, "rails tutorial"));
+		add(isItemSearchResult(5, "sinatra tutorials by fankie"));
+		add(isItemSearchResult(6, "ioc and di"));
+		add(isItemSearchResult(7, "guides and tutorials"));
+		add(isItemSearchResult(9, "JDBC Zuck's"));
+		add(isItemSearchResult(10, "Hibernate tutorials"));
+		add(isItemSearchResult(12, "Check out my POM"));
+		add(isItemSearchResult(13, "Dependencies guide"));
+		add(isItemSearchResult(14, "Maven tutorials"));
+		add(isItemSearchResult(16, "Scrum Master Certification Guide"));
+		add(isItemSearchResult(17, "Jamaican Sprints"));
+		add(isItemSearchResult(18, "Product Backlog book"));
+		add(isItemSearchResult(19, "Scrum Tutorials"));
+		add(isItemSearchResult(21, "Programming in Pairs"));
+		add(isItemSearchResult(22, "TDD by example"));
+		add(isItemSearchResult(23, "XP Tutorial"));
+		add(isItemSearchResult(24, "Waterfall Model Tutorial"));
+	}};
 }

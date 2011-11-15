@@ -36,4 +36,12 @@ public class SearchMatchers {
 	        hasKeys(searchResultKeys)
         );
 	}
+	
+	@Factory
+	public static Matcher<JSONObject> isHarvestResultInfoWith(int resultsCount) {
+		return allOf(	        
+	        hasId(0),
+	        hasResultsCount(resultsCount)
+        );
+	}
 }
