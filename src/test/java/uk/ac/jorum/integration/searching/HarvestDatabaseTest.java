@@ -16,6 +16,11 @@ import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.emptyH
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithItemsAfterTenth;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithItemsBeforeTenth;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithItemsBetweenNinthTenth;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithinRubyCommunity;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithinRubyCommunityBetweenNinthTenth;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithinRailsCollection;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithinRailsCollectionBetweenNinthTenth;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithAllItemsIdOnly;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -140,5 +145,65 @@ public class HarvestDatabaseTest extends RestApiBaseTest {
 		String result = makeRequest("/harvest", "startdate=2011-11-11&enddate=2011-11-10");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
 		assertThat(resultJSON, hasArray("harvest_collection", emptyHarvestResultList));
+	}
+	
+	@Test
+	public void harvestItemsInSpecificCommunityShouldReturnCorrectItems() throws Exception {
+		String result = makeRequest("/harvest", "community=1");
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, hasArray("harvest_collection", harvestResultListWithinRubyCommunity));
+	}
+
+	@Test
+	public void harvestWithInvalidCommunityIdShouldReturnBadRequestStatusCode() throws Exception {
+		int result = getResponseCode("/harvest", "community=10");
+		assertThat(result, hasHTTPCode(HTTPStatusCode.BAD_REQUEST));
+	}
+	
+	@Test
+	public void harvestItemsInSpecificCommunityBetweenNinthTenthShouldReturnCorrectItems() throws Exception {
+		String result = makeRequest("/harvest", "community=1&startdate=2011-11-09&enddate=2011-11-10");
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, hasArray("harvest_collection", harvestResultListWithinRubyCommunityBetweenNinthTenth));
+	}
+	
+	@Test
+	public void harvestItemsInSpecificCollectionShouldReturnCorrectItems() throws Exception {
+		String result = makeRequest("/harvest", "collection=1");
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, hasArray("harvest_collection", harvestResultListWithinRailsCollection));
+	}
+
+	@Test
+	public void harvestWithInvalidCollectionIdShouldReturnBadRequestStatusCode() throws Exception {
+		int result = getResponseCode("/harvest", "collection=10");
+		assertThat(result, hasHTTPCode(HTTPStatusCode.BAD_REQUEST));
+	}
+	
+	@Test
+	public void harvestItemsInSpecificCollectionBetweenNinthTenthShouldReturnCorrectItems() throws Exception {
+		String result = makeRequest("/harvest", "collection=1&startdate=2011-11-09&enddate=2011-11-10");
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, hasArray("harvest_collection", harvestResultListWithinRubyCommunityBetweenNinthTenth));
+	}
+	
+	@Test
+	public void harvestWithCommunityAndCollectionTogetherShouldReturnBadRequestStatusCode() throws Exception {
+		int result = getResponseCode("/harvest", "community=1&collection=1");
+		assertThat(result, hasHTTPCode(HTTPStatusCode.BAD_REQUEST));
+	}
+	
+	@Test
+	public void harvestWithIdOnlyShouldReturnCorrectStructureWithAllItems() throws Exception {
+		String result = makeRequest("/harvest", "idOnly=true");
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat(resultJSON, hasArray("harvest_collection", harvestResultListWithAllItemsIdOnly));
+	}
+	
+	@Test
+	public void harvestWithWithdrawnTrueShouldReturnEmptyResult() throws Exception {
+		String result = makeRequest("/harvest");
+		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
+		assertThat("Expected behaviour should return empty list", resultJSON, hasArray("harvest_collection", harvestResultListWithAllItems));
 	}
 }

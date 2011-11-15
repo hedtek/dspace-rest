@@ -129,6 +129,33 @@ public class AllSearchMatchers {
 		add(isItemSearchResult(24, "Waterfall Model Tutorial"));
 	}};
 	
+	public static final ArrayList<Matcher<JSONObject>> harvestResultListWithAllItemsIdOnly = new ArrayList<Matcher<JSONObject>>(){{
+		add(isHarvestResultInfoWith(22));
+		add(isItemWithId(1));
+		add(isItemWithId(2));
+		add(isItemWithId(3));
+		add(isItemWithId(4));
+		add(isItemWithId(5));
+		add(isItemWithId(6));
+		add(isItemWithId(7));
+		add(isItemWithId(8));
+		add(isItemWithId(9));
+		add(isItemWithId(10));
+		add(isItemWithId(11));
+		add(isItemWithId(12));
+		add(isItemWithId(13));
+		add(isItemWithId(14));
+		add(isItemWithId(16));
+		add(isItemWithId(17));
+		add(isItemWithId(18));
+		add(isItemWithId(19));
+		add(isItemWithId(21));
+		add(isItemWithId(22));
+		add(isItemWithId(23));
+		add(isItemWithId(24));
+	}};
+	
+	
 	public static final ArrayList<Matcher<JSONObject>> emptyHarvestResultList = new ArrayList<Matcher<JSONObject>>(){{
 		add(isHarvestResultInfoWith(0));
 	}};
@@ -170,4 +197,28 @@ public class AllSearchMatchers {
 		add(isItemSearchResult(1, "rails guide"));
 		add(isItemSearchResult(8, "OMG its ORM!!!"));
 	}};
+
+	public static final ArrayList<Matcher<JSONObject>> harvestResultListWithinRubyCommunity = new ArrayList<Matcher<JSONObject>>(){{
+		add(isHarvestResultInfoWith(5));
+		add(isItemSearchResult(1, "rails guide"));
+		add(isItemSearchResult(2, "rails 3 in action"));
+		add(isItemSearchResult(3, "rails tutorial"));
+		add(isItemSearchResult(4, "agile web development with rails"));
+		add(isItemSearchResult(5, "sinatra tutorials by fankie"));
+	}};
+	
+	public static final ArrayList<Matcher<JSONObject>> harvestResultListWithinRubyCommunityBetweenNinthTenth = new ArrayList<Matcher<JSONObject>>(){{
+		add(isHarvestResultInfoWith(1));
+		add(isItemSearchResult(1, "rails guide"));
+	}};
+	
+	public static final ArrayList<Matcher<JSONObject>> harvestResultListWithinRailsCollection = new ArrayList<Matcher<JSONObject>>(){{
+		add(isHarvestResultInfoWith(4));
+		add(isItemSearchResult(1, "rails guide"));
+		add(isItemSearchResult(2, "rails 3 in action"));
+		add(isItemSearchResult(3, "rails tutorial"));
+		add(isItemSearchResult(4, "agile web development with rails"));
+	}};
+	
+	public static final ArrayList<Matcher<JSONObject>> harvestResultListWithinRailsCollectionBetweenNinthTenth = harvestResultListWithinRubyCommunityBetweenNinthTenth;
 }
