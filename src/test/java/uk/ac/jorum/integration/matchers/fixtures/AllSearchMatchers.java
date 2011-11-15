@@ -156,4 +156,18 @@ public class AllSearchMatchers {
 		add(isItemSearchResult(23, "XP Tutorial"));
 		add(isItemSearchResult(24, "Waterfall Model Tutorial"));
 	}};
+	
+	public static final ArrayList<Matcher<JSONObject>> harvestResultListWithItemsBeforeTenth = new ArrayList<Matcher<JSONObject>>(){{
+		add(isHarvestResultInfoWith(4));
+		add(isItemSearchResult(1, "rails guide"));
+		add(isItemSearchResult(4, "agile web development with rails"));
+		add(isItemSearchResult(8, "OMG its ORM!!!"));
+		add(isItemSearchResult(11, "SQL and Driver"));
+	}};
+	
+	public static final ArrayList<Matcher<JSONObject>> harvestResultListWithItemsBetweenNinthTenth = new ArrayList<Matcher<JSONObject>>(){{
+		add(isHarvestResultInfoWith(2));
+		add(isItemSearchResult(1, "rails guide"));
+		add(isItemSearchResult(8, "OMG its ORM!!!"));
+	}};
 }
