@@ -243,7 +243,8 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
+        <configuration>
+          <skipTests>${skipTests}</skipTests>
 					<environmentVariables>
 						<jetty.port>${jetty.test.port}</jetty.port>
 						<jetty.path>${jetty.test.path}</jetty.path>
@@ -299,6 +300,7 @@
 		</profile>
 	</profiles>
 	<properties>
+    <skipTests>true</skipTests>
 		<test.db.name>postgres</test.db.name>
 		<test.db.driver>org.postgresql.Driver</test.db.driver>
     <test.db.dbname>dspace-integ</test.db.dbname>
