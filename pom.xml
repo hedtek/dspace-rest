@@ -14,11 +14,11 @@
 	<packaging>war</packaging>
 	<version>1.5.2</version>
 
-	<parent>
-		<artifactId>dspace-pom</artifactId>
-		<groupId>org.dspace</groupId>
-		<version>10</version>
-	</parent>
+   <parent>
+      <groupId>org.dspace</groupId>
+      <artifactId>dspace-parent</artifactId>
+      <version>1.5.2</version>
+   </parent>
 
 	<repositories>
 
