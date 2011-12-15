@@ -57,7 +57,7 @@ import java.io.IOException;
  * @see CommunityEntity
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class CommunitiesProvider extends AbstractBaseProvider implements CoreEntityProvider, Importable, Deleteable, Updateable, Createable { //updateable
+public class CommunitiesProvider extends AbstractBaseProvider implements CoreEntityProvider {
 
     private static Logger log = Logger.getLogger(CommunitiesProvider.class);
 
@@ -81,20 +81,20 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
         func2actionMapGET.put("getSidebarText", "sidebarText");
         func2actionMapGET.put("getIntroductoryText", "introductoryText");
         func2actionMapGET.put("getLogo", "logo");
-        func2actionMapPUT.put("setName", "name");
-        func2actionMapPUT.put("setShortDescription", "shortDescription");
-        func2actionMapPUT.put("setCopyrightText", "copyrightText");
-        func2actionMapPUT.put("setSidebarText", "sidebarText");
-        func2actionMapPUT.put("setIntroductoryText", "introductoryText");
-        func2actionMapPUT.put("addCollection", "collections");
-        func2actionMapPUT.put("addSubcommunity", "children");
-        func2actionMapPOST.put("createCollection", "createCollection");
-        inputParamsPOST.put("createCollection", new String[]{"name", "id"});
-        func2actionMapPOST.put("createSubcommunity", "createSubcommunity");
-        inputParamsPOST.put("createSubcommunity", new String[]{"name", "id"});
-        func2actionMapDELETE.put("removeChildren", "children");
-        func2actionMapDELETE.put("removeSubcollections", "collections");
-        func2actionMapDELETE.put("delete", "");
+//        func2actionMapPUT.put("setName", "name");
+//        func2actionMapPUT.put("setShortDescription", "shortDescription");
+//        func2actionMapPUT.put("setCopyrightText", "copyrightText");
+//        func2actionMapPUT.put("setSidebarText", "sidebarText");
+//        func2actionMapPUT.put("setIntroductoryText", "introductoryText");
+//        func2actionMapPUT.put("addCollection", "collections");
+//        func2actionMapPUT.put("addSubcommunity", "children");
+//        func2actionMapPOST.put("createCollection", "createCollection");
+//        inputParamsPOST.put("createCollection", new String[]{"name", "id"});
+//        func2actionMapPOST.put("createSubcommunity", "createSubcommunity");
+//        inputParamsPOST.put("createSubcommunity", new String[]{"name", "id"});
+//        func2actionMapDELETE.put("removeChildren", "children");
+//        func2actionMapDELETE.put("removeSubcollections", "collections");
+//        func2actionMapDELETE.put("delete", "");
         entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, UserRequestParams.class});
         initMappings(processedEntity);
         //createActions(processedEntity);

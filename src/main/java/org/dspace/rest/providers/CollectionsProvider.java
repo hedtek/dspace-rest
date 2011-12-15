@@ -38,7 +38,7 @@ import java.util.Collections;
  * @see CollectionEntityId
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class CollectionsProvider extends AbstractBaseProvider implements CoreEntityProvider, Createable, Updateable, Deleteable {
+public class CollectionsProvider extends AbstractBaseProvider implements CoreEntityProvider {
 
     private static Logger log = Logger.getLogger(CollectionsProvider.class);
 
@@ -61,21 +61,21 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         func2actionMapGET.put("getSidebarText", "sidebarText");
         func2actionMapGET.put("getProvenance", "provenance");
         func2actionMapGET.put("getLogo", "logo");
-        func2actionMapPUT.put("setShortDescription", "shortDescription");
-        func2actionMapPUT.put("setIntroText", "introText");
-        func2actionMapPUT.put("setCopyrightText", "copyrightText");
-        func2actionMapPUT.put("setSidebarText", "sidebarText");
-        func2actionMapPUT.put("setProvenance", "provenance");
-        func2actionMapPUT.put("setLicence", "licence");
-        func2actionMapPUT.put("setName", "name");
-        func2actionMapPOST.put("createSubmitters", "createSubmitters");
-        inputParamsPOST.put("createSubmitters", new String[]{"id"});
-        func2actionMapPOST.put("createTemplateItem", "createTemplateItem");
-        inputParamsPOST.put("createTemplateItem", new String[]{"id"});
-        func2actionMapPOST.put("createWorkflowGroup", "createWorkflowGroup");
-        inputParamsPOST.put("createWorkflowGroup", new String[]{"id", "step"});
-        func2actionMapDELETE.put("removeTemplateItem", "templateitem");
-        func2actionMapDELETE.put("removeSubmitters", "submitters");
+//        func2actionMapPUT.put("setShortDescription", "shortDescription");
+//        func2actionMapPUT.put("setIntroText", "introText");
+//        func2actionMapPUT.put("setCopyrightText", "copyrightText");
+//        func2actionMapPUT.put("setSidebarText", "sidebarText");
+//        func2actionMapPUT.put("setProvenance", "provenance");
+//        func2actionMapPUT.put("setLicence", "licence");
+//        func2actionMapPUT.put("setName", "name");
+//        func2actionMapPOST.put("createSubmitters", "createSubmitters");
+//        inputParamsPOST.put("createSubmitters", new String[]{"id"});
+//        func2actionMapPOST.put("createTemplateItem", "createTemplateItem");
+//        inputParamsPOST.put("createTemplateItem", new String[]{"id"});
+//        func2actionMapPOST.put("createWorkflowGroup", "createWorkflowGroup");
+//        inputParamsPOST.put("createWorkflowGroup", new String[]{"id", "step"});
+//        func2actionMapDELETE.put("removeTemplateItem", "templateitem");
+//        func2actionMapDELETE.put("removeSubmitters", "submitters");
         entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, UserRequestParams.class});
         initMappings(processedEntity);
 

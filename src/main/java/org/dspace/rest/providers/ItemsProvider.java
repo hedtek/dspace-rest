@@ -39,7 +39,7 @@ import org.dspace.rest.util.UserRequestParams;
  * @see ItemEntity
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class ItemsProvider extends AbstractBaseProvider implements CoreEntityProvider, Updateable, Createable {
+public class ItemsProvider extends AbstractBaseProvider implements CoreEntityProvider {
 
     private static Logger log = Logger.getLogger(ItemsProvider.class);
 
@@ -67,9 +67,9 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
         func2actionMapGET.put("getId", "id");
         func2actionMapGET.put("getType", "type");
         func2actionMapGET.put("getBundles", "bundles");
-        func2actionMapPUT.put("addBundle", "bundles");
-        func2actionMapPOST.put("createBundle", "createBundle");
-        inputParamsPOST.put("createBundle", new String[]{"name", "id"});
+//        func2actionMapPUT.put("addBundle", "bundles");
+//        func2actionMapPOST.put("createBundle", "createBundle");
+//        inputParamsPOST.put("createBundle", new String[]{"name", "id"});
 
         entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, UserRequestParams.class});
         initMappings(processedEntity);
