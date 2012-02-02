@@ -69,29 +69,6 @@ public class ItemMatchers {
 	}
 
 	@Factory
-	public static Matcher<JSONObject> isItemWithMetadataId(int id, String name,
-			boolean isArchived, boolean isWithdrawn,
-			Matcher<JSONObject> owningCollection,
-			Matcher<JSONObject> submitter,
-			ArrayList<Matcher<JSONObject>> communities,
-			ArrayList<Matcher<JSONObject>> collections,
-			ArrayList<Matcher<JSONObject>> bundles,
-			ArrayList<Matcher<JSONObject>> bitstreams) {
-		String[] keys = { "lastModified" };
-
-		return allOf(cannotBeEdited(), hasId(id), hasType(2), hasName(name),
-				hasKey("isArchived", withValue(isArchived)),
-				hasKey("isWithdrawn", withValue(isWithdrawn)),
-				hasSubObject("owningCollection", owningCollection),
-				hasSubObject("submitter", submitter),
-				hasArray("metadata", metadataMatchers),
-				hasArray("communities", communities),
-				hasArray("collections", collections),
-				hasArray("bundles", bundles),
-				hasArray("bitstreams", bitstreams), hasKeys(keys));
-	}
-
-	@Factory
 	public static Matcher<JSONObject> isItemWithId(int id) {
 		return hasId(id);
 	}

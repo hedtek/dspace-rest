@@ -9,7 +9,6 @@ package uk.ac.jorum.integration.matchers.fixtures;
 
 import static uk.ac.jorum.integration.matchers.ItemMatchers.isItem;
 import static uk.ac.jorum.integration.matchers.ItemMatchers.isItemWithId;
-import static uk.ac.jorum.integration.matchers.ItemMatchers.isItemWithMetadataId;
 
 import java.util.ArrayList;
 
@@ -31,7 +30,7 @@ public class AllItemMatchers {
 			Matcher<JSONObject> owningCollection,
 			ArrayList<Matcher<JSONObject>> communities,
 			ArrayList<Matcher<JSONObject>> collections) {
-		return isItemWithMetadataId(1, "First Upload", true, false,
+		return isItem(1, "First Upload", true, false,
 				owningCollection, AllUserMatchers.firstUser(), communities,
 				collections, AllBundleMatchers.firstBundleIdWithLicenceList(),
 				AllBitstreamMatchers.firstBitstreamIdList());
@@ -63,7 +62,7 @@ public class AllItemMatchers {
 			Matcher<JSONObject> owningCollection,
 			ArrayList<Matcher<JSONObject>> communities,
 			ArrayList<Matcher<JSONObject>> collections) {
-		return isItemWithMetadataId(2, "Second Upload", true, false,
+		return isItem(2, "Second Upload", true, false,
 				owningCollection, AllUserMatchers.firstUser(), communities,
 				collections, AllBundleMatchers.secondBundleIdList(),
 				AllBitstreamMatchers.secondBitstreamIdList());
