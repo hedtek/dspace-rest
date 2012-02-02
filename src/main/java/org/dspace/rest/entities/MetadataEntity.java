@@ -30,56 +30,28 @@ import java.util.*;
  * @author Bojan Suzic, bojan.suzic@gmail.com
  * @author Robin Taylor
  */
-public class MetadataEntity extends MetadataEntityId {
+public class MetadataEntity {
 
-    @EntityId
-    private int id;
-    @EntityFieldRequired
-    private String name;
+    private final String element;
+    private final String qualifier;
+    private final String schema;
+    private final String value;
 
-    private String element;
-    private String qualifier;
-    private String schema;
-    private String value;
-
-    /** log4j category */
-    private static final Logger log = Logger.getLogger(MetadataEntity.class);
-
-
-    public MetadataEntity(String uid, Context context, int level, UserRequestParams uparams) throws SQLException
+    public MetadataEntity(DCValue dcValue)
     {
-        // DSpace doesn't currently allow for the instantiation of DCValue outwith an Item,
-        // so we should never get here.
-
-        log.error("Error - illegal instantiation of MetadataEntity");
-        throw new EntityException("Error - illegal instantiation of MetadataEntity", null);
-
+    	this(dcValue.element, dcValue.qualifier,  dcValue.schema, dcValue.value);
     }
 
-    public MetadataEntity(DCValue dcValue, int level, UserRequestParams uparams) throws SQLException
-    {
-        // check calling package/class in order to prevent chaining
+    public MetadataEntity(String element, String qualifier, String schema,
+			String value) {
+		super();
+		this.element = element;
+		this.qualifier = qualifier;
+		this.schema = schema;
+		this.value = value;
+	}
 
-        this.element = dcValue.element;
-        this.qualifier = dcValue.qualifier;
-        this.schema = dcValue.schema;
-        this.value = dcValue.value;
-
-    }
-
-    public MetadataEntity()
-    {
-        // check calling package/class in order to prevent chaining
-
-        this.element = "example element";
-        this.qualifier = "example qualifier";
-        this.schema = "example schema";
-        this.value = "example value";
-
-    }
-
-
-    public String getElement()
+	public String getElement()
     {
         return this.element;
     }
@@ -99,9 +71,13 @@ public class MetadataEntity extends MetadataEntityId {
         return value;
     }
 
-    @Override
-    public String toString() {
-        return "id:" + this.id + ", stuff.....";
-    }
+	@Override
+	public String toString() {
+		return "MetadataEntity [element=" + element + ", qualifier="
+				+ qualifier + ", schema=" + schema + ", value=" + value + "]";
+	}
 
+	public int getId() {
+		return 0;
+	}
 }

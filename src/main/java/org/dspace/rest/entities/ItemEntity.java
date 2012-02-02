@@ -45,11 +45,11 @@ public class ItemEntity extends ItemEntityId {
     private Boolean canEdit;
     private String handle;
     private int type;
-    List<Object> bundles = new ArrayList<Object>();
-    List<Object> bitstreams = new ArrayList<Object>();
+    List<BundleEntityId> bundles = new ArrayList<BundleEntityId>();
+    List<BitstreamEntityId> bitstreams = new ArrayList<BitstreamEntityId>();
     List<Object> collections = new ArrayList<Object>();
-    List<Object> communities = new ArrayList<Object>();
-    List<Object> metadata = new ArrayList<Object>();
+    List<CommunityEntityId> communities = new ArrayList<CommunityEntityId>();
+    List<MetadataEntity> metadata = new ArrayList<MetadataEntity>();
     //String metadata;
     Date lastModified;
     Object owningCollection;
@@ -100,7 +100,7 @@ public class ItemEntity extends ItemEntityId {
         DCValue[] dcValues = res.getMetadata(Item.ANY, Item.ANY, Item.ANY, Item.ANY);
         for (DCValue dcValue : dcValues)
         {
-            this.metadata.add(includeFull ? new MetadataEntity(dcValue, level, uparams) : new MetadataEntityId(dcValue));
+            this.metadata.add(new MetadataEntity(dcValue));
         }
     }
 
@@ -146,65 +146,27 @@ public class ItemEntity extends ItemEntityId {
         DCValue[] dcValues = item.getMetadata(Item.ANY, Item.ANY, Item.ANY, Item.ANY);
         for (DCValue dcValue : dcValues)
         {
-            this.metadata.add(includeFull ? new MetadataEntity(dcValue, level, uparams) : new MetadataEntityId(dcValue));
+            this.metadata.add(new MetadataEntity(dcValue));
         }
 
     }
 
     public ItemEntity() {
         // check calling package/class in order to prevent chaining
-        boolean includeFull = false;
         this.canEdit = false;
         this.handle = "123456789/0";
         this.name = "Item";
         this.type = 3;
         this.id = 22;
-        this.bundles.add(includeFull ? new BundleEntity() : new BundleEntityId());
-        this.bitstreams.add(includeFull ? new BitstreamEntity() : new BundleEntityId());
-        this.collections.add(includeFull ? new CollectionEntity() : new BundleEntityId());
-        this.communities.add(includeFull ? new CommunityEntity() : new BundleEntityId());
-        this.metadata.add(includeFull ? new MetadataEntity() : new MetadataEntityId());
-    }
-
-    /*
-    // taken from jspui handle implementation
-    // it should be probably properly formated, as HashMap
-    // for example but currently HashMap is not supported
-    public String prepareMetadata(Item res) {
-        String headMetadata = "";
-
-        try {
-            xHTMLHeadCrosswalk = new XHTMLHeadDisseminationCrosswalk();
-            List l = xHTMLHeadCrosswalk.disseminateList(res);
-            StringWriter sw = new StringWriter();
-
-            XMLOutputter xmlo = new XMLOutputter();
-            for (int i = 0; i < l.size(); i++) {
-                Element e = (Element) l.get(i);
-                // FIXME: we unset the Namespace so it's not printed.
-                // This is fairly yucky, but means the same crosswalk should
-                // work for Manakin as well as the JSP-based UI.
-                e.setNamespace(null);
-                xmlo.output(e, sw);
-
-            }
-            headMetadata = sw.toString();
-        } catch (Exception ce) {
-            ce.printStackTrace();
-        }
-
-        return headMetadata;
+        this.bundles.add(new BundleEntityId());
+        this.bitstreams.add(new BitstreamEntityId());
+        this.collections.add(new CollectionEntityId());
+        this.communities.add(new CommunityEntityId());
+        this.metadata.add(new MetadataEntity("","","",""));
     }
 
 
-
-    public String getMetadata() {
-        return this.metadata;
-    }
-    */
-
-
-    public List getMetadata()
+    public List<MetadataEntity> getMetadata()
     {
         return this.metadata;
     }
@@ -229,11 +191,11 @@ public class ItemEntity extends ItemEntityId {
         return this.lastModified;
     }
 
-    public List getCollections() {
+    public List<Object> getCollections() {
         return this.collections;
     }
 
-    public List getCommunities() {
+    public List<CommunityEntityId> getCommunities() {
         return this.communities;
     }
 
@@ -241,7 +203,7 @@ public class ItemEntity extends ItemEntityId {
         return this.name;
     }
 
-    public List getBitstreams() {
+    public List<BitstreamEntityId> getBitstreams() {
         return this.bitstreams;
     }
 
@@ -261,64 +223,12 @@ public class ItemEntity extends ItemEntityId {
         return this.type;
     }
 
-    public List getBundles() {
+    public List<BundleEntityId> getBundles() {
         return this.bundles;
     }
 
     @Override
     public String toString() {
         return "id:" + this.id + ", stuff.....";
-    }
-
-    public Object addBundle(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        if (inputVar.containsKey("id")) {
-            try {
-                Item item = Item.find(context, Integer.parseInt(ref.getId().toString()));
-                Bundle bundle = Bundle.find(context, Integer.parseInt(inputVar.get("id").toString()));
-                if ((item != null) && (item != null)) {
-                    item.addBundle(bundle);
-                    return bundle.getID();
-                } else {
-                    throw new EntityException("Not found", "Entity not found", 404);
-                }
-            } catch (SQLException ex) {
-                throw new EntityException("Internal server error", "SQL error", 500);
-            } catch (AuthorizeException ex) {
-                throw new EntityException("Forbidden", "Forbidden", 403);
-            }
-        } else {
-            throw new EntityException("Bad request", "Value not included", 400);
-        }
-    }
-
-    public String createBundle(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        String result = "";
-        String id = "";
-        String name = "";
-        try {
-            id = (String) inputVar.get("id");
-            name = (String) inputVar.get("name");
-        } catch (NullPointerException ex) {
-            throw new EntityException("Bad request", "Value not included", 400);
-        }
-
-        try {
-            Item item = Item.find(context, Integer.parseInt(id));
-            if (item != null) {
-                //Bundle bundle = item.createBundle(name);
-                //bundle.setName(name);
-                //item.update();
-                //result = Integer.toString(bundle.getID());
-            } else {
-                throw new EntityException("Internal server error", "Could not create subcommunity", 500);
-            }
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-            //}        catch (AuthorizeException ex) {
-            //throw new EntityException("Forbidden", "Forbidden", 403);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return result;
     }
 }
