@@ -45,12 +45,6 @@ public class ItemMatchers {
 		}
 	};
 
-	static final ArrayList<Matcher<JSONObject>> metadataIdMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(hasId(0));
-		}
-	};
-
 	@Factory
 	public static Matcher<JSONObject> isItem(int id, String name,
 			boolean isArchived, boolean isWithdrawn,
@@ -90,7 +84,7 @@ public class ItemMatchers {
 				hasKey("isWithdrawn", withValue(isWithdrawn)),
 				hasSubObject("owningCollection", owningCollection),
 				hasSubObject("submitter", submitter),
-				hasArray("metadata", metadataIdMatchers),
+				hasArray("metadata", metadataMatchers),
 				hasArray("communities", communities),
 				hasArray("collections", collections),
 				hasArray("bundles", bundles),

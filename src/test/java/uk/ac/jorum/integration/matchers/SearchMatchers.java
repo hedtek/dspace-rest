@@ -14,6 +14,8 @@ import static uk.ac.jorum.integration.matchers.EntityMatchers.hasId;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasKeys;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasResultsCount;
 
+import java.util.ArrayList;
+
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.json.simple.JSONObject;
