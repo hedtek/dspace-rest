@@ -105,7 +105,7 @@ public class ItemEntity extends ItemEntityId {
     }
 
     public ItemEntity(Item item, int level, UserRequestParams uparams) throws SQLException {
-        // check calling package/class in order to prevent chaining
+        // Don't include full details for items deep in the data tree.
         boolean includeFull = false;
         level++;
         if (level <= uparams.getDetail()) {
@@ -152,7 +152,6 @@ public class ItemEntity extends ItemEntityId {
     }
 
     public ItemEntity() {
-        // check calling package/class in order to prevent chaining
         this.canEdit = false;
         this.handle = "123456789/0";
         this.name = "Item";
