@@ -12,8 +12,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
 import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsSingleCollectionInTopLevelCommunity.firstItem;
-import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsSingleCollectionInTopLevelCommunity.secondItem;
 import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsSingleCollectionInTopLevelCommunity.itemMatchers;
+import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsSingleCollectionInTopLevelCommunity.secondItem;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

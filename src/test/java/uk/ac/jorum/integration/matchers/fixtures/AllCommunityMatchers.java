@@ -9,7 +9,6 @@ package uk.ac.jorum.integration.matchers.fixtures;
 
 import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunity;
 import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWithId;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.emptyMatcherList;
 
 import java.util.ArrayList;
 

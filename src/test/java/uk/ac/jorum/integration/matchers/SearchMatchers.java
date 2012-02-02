@@ -9,13 +9,10 @@ package uk.ac.jorum.integration.matchers;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasId;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasKeys;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasResultsCount;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;

@@ -9,18 +9,17 @@
 package uk.ac.jorum.integration.searching;
 
 import static org.junit.Assert.assertThat;
-import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
-import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithAllItems;
+import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.emptyHarvestResultList;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithAllItems;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithAllItemsIdOnly;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithItemsAfterTenth;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithItemsBeforeTenth;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithItemsBetweenNinthTenth;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithinRailsCollection;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithinRubyCommunity;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithinRubyCommunityBetweenNinthTenth;
-import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithinRailsCollection;
-import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithinRailsCollectionBetweenNinthTenth;
-import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithAllItemsIdOnly;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;

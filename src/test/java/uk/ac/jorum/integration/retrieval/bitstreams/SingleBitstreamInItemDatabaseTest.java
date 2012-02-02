@@ -9,11 +9,12 @@ package uk.ac.jorum.integration.retrieval.bitstreams;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.isEntityElement;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.isEntityElementWithArray;
+import static uk.ac.jorum.integration.matchers.HasFileContent.hasFileContent;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 import static uk.ac.jorum.integration.matchers.fixtures.AllBitstreamMatchers.firstBitstream;
-import static uk.ac.jorum.integration.matchers.fixtures.AllBundleMatchers.*;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
-import static uk.ac.jorum.integration.matchers.HasFileContent.*;
+import static uk.ac.jorum.integration.matchers.fixtures.AllBundleMatchers.firstBundleList;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;

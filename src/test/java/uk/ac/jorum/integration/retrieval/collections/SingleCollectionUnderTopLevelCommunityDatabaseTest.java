@@ -7,26 +7,16 @@
  */
 package uk.ac.jorum.integration.retrieval.collections;
 
-import static org.hamcrest.CoreMatchers.allOf;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunity;
-import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWithId;
-import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
-import static uk.ac.jorum.integration.matchers.CollectionMatchers.*;
-import static uk.ac.jorum.integration.matchers.fixtures.SingleCollectionUnderTopLevelCommunity.collectionListMatchers;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.emptyMatcherList;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.isEntityElement;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.isEntityElementWithArray;
+import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleCollectionUnderTopLevelCommunity.communityListMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleCollectionUnderTopLevelCommunity.parentCommunity;
-import static uk.ac.jorum.integration.matchers.fixtures.SingleCollectionUnderTopLevelCommunity.subCommunityListMatchers;
 
-import java.util.ArrayList;
-
-import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
-
-import org.hamcrest.Matcher;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -36,7 +26,6 @@ import org.junit.Test;
 import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
 import uk.ac.jorum.integration.matchers.fixtures.AllCollectionMatchers;
-import uk.ac.jorum.integration.matchers.fixtures.AllCommunityMatchers;
 
 public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 		RestApiBaseTest {

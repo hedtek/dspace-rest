@@ -7,14 +7,27 @@
  */
 package uk.ac.jorum.integration.matchers;
 
-import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
+import static org.hamcrest.CoreMatchers.allOf;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.cannotBeEdited;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasCopyrightText;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasHandle;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasId;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasIntroText;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasItemCount;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasKeys;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasName;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasShortDescription;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasSidebarText;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasType;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.withValue;
 
 import java.util.ArrayList;
+
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.json.simple.JSONObject;
-import static org.hamcrest.CoreMatchers.allOf;
 
 public class CollectionMatchers {
   @Factory

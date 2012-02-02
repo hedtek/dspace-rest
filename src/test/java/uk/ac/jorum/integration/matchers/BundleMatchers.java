@@ -7,12 +7,14 @@
  */
 package uk.ac.jorum.integration.matchers;
 
+import static org.hamcrest.CoreMatchers.allOf;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasId;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasName;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasType;
 
 import java.util.ArrayList;
 
-import static org.hamcrest.CoreMatchers.allOf;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.json.simple.JSONObject;

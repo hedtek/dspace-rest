@@ -12,7 +12,6 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.cannotBeEdited;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasHandle;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasId;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasKeys;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasName;

@@ -8,8 +8,9 @@
 package uk.ac.jorum.integration.matchers;
 
 import static org.hamcrest.CoreMatchers.allOf;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.*;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasId;
+import static uk.ac.jorum.integration.matchers.EntityMatchers.hasType;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;

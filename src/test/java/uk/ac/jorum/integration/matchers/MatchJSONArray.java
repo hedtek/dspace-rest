@@ -7,15 +7,14 @@
  */
 package uk.ac.jorum.integration.matchers;
 
-import org.hamcrest.Description;
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
 import static org.hamcrest.CoreMatchers.anyOf;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
 public class MatchJSONArray<T> extends TypeSafeMatcher<JSONObject> {

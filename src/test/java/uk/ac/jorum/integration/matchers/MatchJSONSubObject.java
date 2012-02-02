@@ -8,7 +8,6 @@
 package uk.ac.jorum.integration.matchers;
 
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.json.simple.JSONObject;
 import org.junit.internal.matchers.TypeSafeMatcher;

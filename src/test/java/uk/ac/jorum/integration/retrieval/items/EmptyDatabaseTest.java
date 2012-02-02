@@ -11,7 +11,6 @@ package uk.ac.jorum.integration.retrieval.items;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.containsString;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 
 import org.json.simple.JSONArray;

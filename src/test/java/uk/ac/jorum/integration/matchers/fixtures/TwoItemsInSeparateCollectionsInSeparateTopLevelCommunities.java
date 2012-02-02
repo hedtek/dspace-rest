@@ -7,18 +7,10 @@
  */
 package uk.ac.jorum.integration.matchers.fixtures;
 
+import static uk.ac.jorum.integration.matchers.EntityMatchers.emptyMatcherList;
+
 import java.util.ArrayList;
 
-import static uk.ac.jorum.integration.matchers.BundleMatchers.isBundleWithId;
-import static uk.ac.jorum.integration.matchers.BitstreamsMatchers.isBitstreamWithId;
-import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollection;
-import static uk.ac.jorum.integration.matchers.CollectionMatchers.isCollectionWithId;
-import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunity;
-import static uk.ac.jorum.integration.matchers.CommunityMatchers.isCommunityWithId;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.emptyMatcherList;
-import static uk.ac.jorum.integration.matchers.ItemMatchers.isItem;
-import static uk.ac.jorum.integration.matchers.ItemMatchers.isItemWithId;
-import static uk.ac.jorum.integration.matchers.ItemMatchers.isItemWithMetadataId;
 import org.hamcrest.Matcher;
 import org.json.simple.JSONObject;
 

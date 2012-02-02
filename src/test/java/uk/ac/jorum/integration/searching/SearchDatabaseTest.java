@@ -13,13 +13,13 @@ import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.emptySearchResultList;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithJavaCommunity;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithJavaCommunityId;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithPomSprintItems;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithProductBacklogItem;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithProductBacklogItemId;
+import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithScrumTutorialItem;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithSinatraCollection;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithSinatraCollectionId;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithTutorialItem;
-import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithScrumTutorialItem;
-import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithPomSprintItems;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
