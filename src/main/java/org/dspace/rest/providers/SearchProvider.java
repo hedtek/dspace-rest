@@ -145,7 +145,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
 
                         case Constants.EPERSON:
                             {
-                                entities.add(idOnly ? new UserEntityId(qre.getHitIds().get(x).toString(), context) : new UserEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
+                                entities.add(idOnly ? new UserEntityId(qre.getHitIds().get(x).toString()) : new UserEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
                             }
                             break;
 

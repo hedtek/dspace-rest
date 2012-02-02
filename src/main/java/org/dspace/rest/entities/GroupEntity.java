@@ -53,7 +53,7 @@ public class GroupEntity extends GroupEntityId {
         }
 
         for (EPerson member : res.getMembers()) {
-            members.add(includeFull ? new UserEntity(member) : new UserEntityId(member));
+            members.add(includeFull ? new UserEntity(member) : new UserEntityId(member.getID()));
         }
         for (Group group : res.getMemberGroups()) {
             memberGroups.add(includeFull ? new GroupEntity(group, level, uparams) : new GroupEntityId(group));
@@ -74,7 +74,7 @@ public class GroupEntity extends GroupEntityId {
         this.type = egroup.getType();
         this.isEmpty = egroup.isEmpty();
         for (EPerson member : egroup.getMembers()) {
-            members.add(includeFull ? new UserEntity(member) : new UserEntityId(member));
+            members.add(includeFull ? new UserEntity(member) : new UserEntityId(member.getID()));
         }
         for (Group group : egroup.getMemberGroups()) {
             memberGroups.add(includeFull ? new GroupEntity(group, level, uparams) : new GroupEntityId(group));

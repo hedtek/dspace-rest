@@ -8,26 +8,23 @@
 
 package org.dspace.rest.entities;
 
-import org.dspace.content.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.dspace.content.Bitstream;
+import org.dspace.content.Bundle;
 import org.dspace.content.Collection;
+import org.dspace.content.Community;
+import org.dspace.content.DCValue;
+import org.dspace.content.Item;
+import org.dspace.content.crosswalk.DisseminationCrosswalk;
+import org.dspace.core.Context;
+import org.dspace.eperson.EPerson;
+import org.dspace.rest.util.UserRequestParams;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
-import org.sakaiproject.entitybus.exception.EntityException;
-import org.dspace.authorize.AuthorizeException;
-
-import java.util.*;
-
-import org.dspace.content.crosswalk.*;
-import org.sakaiproject.entitybus.EntityView;
-import org.sakaiproject.entitybus.EntityReference;
-import org.dspace.core.Context;
-
-import java.sql.SQLException;
-import java.io.StringWriter;
-import org.jdom.output.XMLOutputter;
-import org.jdom.Element;
-import org.dspace.rest.util.UtilHelper;
-import org.dspace.rest.util.UserRequestParams;
 
 /**
  * Entity describing item
@@ -37,6 +34,16 @@ import org.dspace.rest.util.UserRequestParams;
  */
 public class ItemEntity extends ItemEntityId {
 
+    private static UserEntity buildUserEntity(Item item) throws SQLException {
+        final EPerson submitter = item.getSubmitter();
+        if(submitter == null) {
+            return null;
+        }
+        else {
+            return new UserEntity(submitter);
+        }
+    }
+    
     @EntityId
     private int id;
     @EntityFieldRequired
@@ -68,7 +75,7 @@ public class ItemEntity extends ItemEntityId {
         this.lastModified = res.getLastModified();
         this.isArchived = res.isArchived();
         this.isWithdrawn = res.isWithdrawn();
-        this.submitter = new UserEntity(res.getSubmitter());
+        this.submitter = buildUserEntity(res);
 
         Bundle[] bun = res.getBundles();
         Bitstream[] bst = res.getNonInternalBitstreams();
@@ -102,7 +109,7 @@ public class ItemEntity extends ItemEntityId {
         {
             this.metadata.add(new MetadataEntity(dcValue));
         }
-    }
+    } 
 
     public ItemEntity(Item item, int level, UserRequestParams uparams) throws SQLException {
         // Don't include full details for items deep in the data tree.
@@ -124,7 +131,8 @@ public class ItemEntity extends ItemEntityId {
         }
         this.isArchived = item.isArchived();
         this.isWithdrawn = item.isWithdrawn();
-        this.submitter = new UserEntity(item.getSubmitter());
+        
+        this.submitter = buildUserEntity(item);
 
         Bundle[] bun = item.getBundles();
         Bitstream[] bst = item.getNonInternalBitstreams();
@@ -148,7 +156,6 @@ public class ItemEntity extends ItemEntityId {
         {
             this.metadata.add(new MetadataEntity(dcValue));
         }
-
     }
 
     public ItemEntity() {

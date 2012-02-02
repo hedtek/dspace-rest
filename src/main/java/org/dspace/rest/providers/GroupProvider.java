@@ -21,6 +21,8 @@ import java.sql.SQLException;
 import org.dspace.rest.entities.*;
 import org.apache.log4j.Logger;
 import java.util.Collections;
+
+import static org.dspace.rest.util.ExceptionHelper.*;
 import org.dspace.rest.util.UserRequestParams;
 import org.dspace.rest.util.GenComparator;
 
@@ -66,12 +68,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
             return true;
         }
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
         refreshParams(context);
 
@@ -87,6 +84,16 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
 
         removeConn(context);
         return result;
+    }
+
+    private Context context() {
+        Context context;
+        try {
+            context = new Context();
+        } catch (SQLException ex) {
+            throw toEntityException("Cannot create context for GroupProvider", ex);
+        }
+        return context;
     }
 
     /**
@@ -108,12 +115,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
             return super.getEntity(reference);
         }
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
         try {
             UserRequestParams uparams;
@@ -157,12 +159,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
     public List<?> getEntities(EntityReference ref, Search search) {
         log.info(userInfo() + "list_entities:");
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
         try {
 
             // extract and prepare query parameters

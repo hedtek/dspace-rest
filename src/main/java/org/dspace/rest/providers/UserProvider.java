@@ -23,6 +23,9 @@ import org.apache.log4j.Logger;
 import java.util.Collections;
 import org.dspace.rest.util.UserRequestParams;
 import org.dspace.rest.util.GenComparator;
+import static org.dspace.rest.util.ExceptionHelper.*;
+
+
 
 /**
  * Provides interface for access to user info entities
@@ -66,12 +69,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
             return true;
         }
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
         refreshParams(context);
 
@@ -108,12 +106,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
             return super.getEntity(reference);
         }
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
         try {
 
             UserRequestParams uparams;
@@ -132,7 +125,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
             if (entityExists(reference.getId())) {
                 try {
                     if (idOnly) {
-                        return new UserEntityId(reference.getId(), context);
+                        return new UserEntityId(reference.getId());
                     } else {
                         return new UserEntity(reference.getId(), context, 1, uparams);
                     }
@@ -147,6 +140,16 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
         }
     }
 
+    private Context context() {
+        Context context;
+        try {
+            context = new Context();
+        } catch (SQLException ex) {
+            throw toEntityException("Cannot create context for user provider.", ex);
+        }
+        return context;
+    }
+
     /**
      * Returns the list of users on the system using UserEntity
      * @see UserEntity
@@ -157,12 +160,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
     public List<?> getEntities(EntityReference ref, Search search) {
         log.info(userInfo() + "list_entities:");
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
         try {
 
             // extract and prepare query parameters
@@ -170,15 +168,13 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
             List<Object> entities = new ArrayList<Object>();
 
             try {
-                EPerson[] epersons = null;
-                epersons = EPerson.findAll(context, EPerson.ID);
+                EPerson[] epersons = EPerson.findAll(context, EPerson.ID);
                 for (int x = 0; x < epersons.length; x++) {
-                    entities.add(idOnly ? new UserEntityId(epersons[x]) : new UserEntity(epersons[x]));
+                    entities.add(idOnly ? new UserEntityId(epersons[x].getID()) : new UserEntity(epersons[x]));
                 }
             } catch (SQLException ex) {
-                throw new EntityException("Internal server error", "SQL erorr", 500);
+                throw toEntityException("Cannot find User Entities.", ex);
             }
-
 
             // do sorting and limiting if necessary
             if (!idOnly && sortOptions.size() > 0) {

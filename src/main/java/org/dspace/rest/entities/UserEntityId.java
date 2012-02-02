@@ -8,10 +8,8 @@
 
 package org.dspace.rest.entities;
 
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 import org.dspace.eperson.EPerson;
-import org.dspace.core.Context;
-import java.sql.SQLException;
+import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing users registered on the system, basic version
@@ -19,23 +17,16 @@ import java.sql.SQLException;
  * @see EPerson
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class UserEntityId implements Comparable {
+public class UserEntityId {
+	@EntityId
+    final protected int id;
 
-    @EntityId
-    protected int id;
-    protected EPerson res;
-
-    protected UserEntityId() {
+    public UserEntityId(final String id) {
+    	this(Integer.parseInt(id));
     }
-
-    public UserEntityId(String uid, Context context) throws SQLException {
-        res = EPerson.find(context, Integer.parseInt(uid));
-        this.id = res.getID();
-        //context.complete();
-    }
-
-    public UserEntityId(EPerson eperson) throws SQLException {
-        this.id = eperson.getID();
+	
+    public UserEntityId(final int id) {
+    	this.id = id;
     }
 
     public int getId() {
@@ -43,7 +34,7 @@ public class UserEntityId implements Comparable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (null == obj) {
             return false;
         }
@@ -57,24 +48,11 @@ public class UserEntityId implements Comparable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        return result;
+        return id;
     }
 
     @Override
     public String toString() {
         return "id:" + this.id;
-    }
-
-    public int compareTo(Object o1) {
-        if (((UserEntityId) (o1)).getId() > this.getId()) {
-            return -1;
-        } else if (((UserEntityId) (o1)).getId() < this.getId()) {
-            return 1;
-        } else {
-            return 0;
-        }
     }
 }
