@@ -76,8 +76,4 @@ public class MetadataEntity {
 		return "MetadataEntity [element=" + element + ", qualifier="
 				+ qualifier + ", schema=" + schema + ", value=" + value + "]";
 	}
-
-	public int getId() {
-		return 0;
-	}
 }

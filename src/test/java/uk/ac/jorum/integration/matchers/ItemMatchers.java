@@ -30,18 +30,18 @@ public class ItemMatchers {
 
 	static final ArrayList<Matcher<JSONObject>> metadataMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add((isMetadataItem(0, "contributor", "author")));
-			add((isMetadataItem(0, "date", "accessioned")));
-			add((isMetadataItem(0, "date", "available")));
-			add((isMetadataItem(0, "date", "issued")));
-			add((isMetadataItem(0, "identifier", "uri")));
-			add((isMetadataItem(0, "description", nullValue(JSONObject.class))));
-			add((isMetadataItem(0, "description", "provenance")));
-			add((isMetadataItem(0, "description", "abstract")));
-			add((isMetadataItem(0, "description", "sponsorship")));
-			add((isMetadataItem(0, "language", "iso")));
-			add((isMetadataItem(0, "subject", nullValue(JSONObject.class))));
-			add((isMetadataItem(0, "title", nullValue(JSONObject.class))));
+			add((isMetadataItem("contributor", "author")));
+			add((isMetadataItem("date", "accessioned")));
+			add((isMetadataItem("date", "available")));
+			add((isMetadataItem("date", "issued")));
+			add((isMetadataItem("identifier", "uri")));
+			add((isMetadataItem("description", nullValue(JSONObject.class))));
+			add((isMetadataItem("description", "provenance")));
+			add((isMetadataItem("description", "abstract")));
+			add((isMetadataItem("description", "sponsorship")));
+			add((isMetadataItem("language", "iso")));
+			add((isMetadataItem("subject", nullValue(JSONObject.class))));
+			add((isMetadataItem("title", nullValue(JSONObject.class))));
 		}
 	};
 
