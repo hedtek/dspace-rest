@@ -40,9 +40,4 @@ public class MetadataMatcher {
 	        hasKeys(keys)
 	      );
 	  }
-
-	  @Factory
-	  public static Matcher<JSONObject> isMetadataItemWithId(int id) {
-	    return hasId(id);
-	  }
 }
