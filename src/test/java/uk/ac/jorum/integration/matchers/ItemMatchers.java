@@ -54,7 +54,7 @@ public class ItemMatchers {
 			ArrayList<Matcher<JSONObject>> collections,
 			ArrayList<Matcher<JSONObject>> bundles,
 			ArrayList<Matcher<JSONObject>> bitstreams) {
-		String[] keys = { "submitter", "lastModified" };
+		String[] keys = { "lastModified" };
 
 		return allOf(cannotBeEdited(), hasId(id), hasType(2), hasName(name),
 				hasKey("isArchived", withValue(isArchived)),
