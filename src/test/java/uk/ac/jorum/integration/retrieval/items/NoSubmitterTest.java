@@ -29,6 +29,7 @@ import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollecti
 
 import java.util.ArrayList;
 
+import org.dspace.rest.diagnose.HTTPStatusCode;
 import org.hamcrest.Matcher;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -36,7 +37,6 @@ import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
 import uk.ac.jorum.integration.matchers.fixtures.AllBitstreamMatchers;
 import uk.ac.jorum.integration.matchers.fixtures.AllBundleMatchers;

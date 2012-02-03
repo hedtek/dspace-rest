@@ -26,13 +26,13 @@ import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollecti
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.itemMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.owningCollection;
 
+import org.dspace.rest.diagnose.HTTPStatusCode;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
 import uk.ac.jorum.integration.matchers.fixtures.AllUserMatchers;
 

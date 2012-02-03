@@ -21,12 +21,12 @@ import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harves
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithinRubyCommunity;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.harvestResultListWithinRubyCommunityBetweenNinthTenth;
 
+import org.dspace.rest.diagnose.HTTPStatusCode;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class HarvestDatabaseTest extends RestApiBaseTest {

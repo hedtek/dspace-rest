@@ -21,12 +21,12 @@ import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.search
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithSinatraCollectionId;
 import static uk.ac.jorum.integration.matchers.fixtures.AllSearchMatchers.searchResultListWithTutorialItem;
 
+import org.dspace.rest.diagnose.HTTPStatusCode;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class SearchDatabaseTest extends RestApiBaseTest {

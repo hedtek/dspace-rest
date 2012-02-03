@@ -18,12 +18,14 @@ import org.dspace.core.Context;
 import org.sakaiproject.entitybus.exception.EntityException;
 import org.dspace.eperson.EPerson;
 import java.sql.SQLException;
+
+import org.dspace.rest.diagnose.Operation;
+import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.*;
 import org.apache.log4j.Logger;
 import java.util.Collections;
 import org.dspace.rest.util.UserRequestParams;
 import org.dspace.rest.util.GenComparator;
-import static org.dspace.rest.util.ExceptionHelper.*;
 
 
 
@@ -145,7 +147,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
         try {
             context = new Context();
         } catch (SQLException ex) {
-            throw toEntityException("Cannot create context for user provider.", ex);
+            throw new SQLFailureEntityException(Operation.CREATE_CONTEXT, ex);
         }
         return context;
     }
@@ -173,7 +175,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
                     entities.add(idOnly ? new UserEntityId(epersons[x].getID()) : new UserEntity(epersons[x]));
                 }
             } catch (SQLException ex) {
-                throw toEntityException("Cannot find User Entities.", ex);
+                throw new SQLFailureEntityException(Operation.CANNOT_FIND_USER_ENTITIES, ex);
             }
 
             // do sorting and limiting if necessary

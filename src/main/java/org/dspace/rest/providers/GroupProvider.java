@@ -18,11 +18,13 @@ import org.dspace.core.Context;
 import org.sakaiproject.entitybus.exception.EntityException;
 import org.dspace.eperson.Group;
 import java.sql.SQLException;
+
+import org.dspace.rest.diagnose.Operation;
+import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.*;
 import org.apache.log4j.Logger;
 import java.util.Collections;
 
-import static org.dspace.rest.util.ExceptionHelper.*;
 import org.dspace.rest.util.UserRequestParams;
 import org.dspace.rest.util.GenComparator;
 
@@ -91,7 +93,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
         try {
             context = new Context();
         } catch (SQLException ex) {
-            throw toEntityException("Cannot create context for GroupProvider", ex);
+            throw new SQLFailureEntityException(Operation.CREATE_CONTEXT, ex);
         }
         return context;
     }

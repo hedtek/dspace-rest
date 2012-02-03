@@ -16,12 +16,12 @@ import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
 import static uk.ac.jorum.integration.matchers.fixtures.AllBitstreamMatchers.firstBitstream;
 import static uk.ac.jorum.integration.matchers.fixtures.AllBundleMatchers.firstBundleList;
 
+import org.dspace.rest.diagnose.HTTPStatusCode;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.ac.jorum.integration.HTTPStatusCode;
 import uk.ac.jorum.integration.RestApiBaseTest;
 
 public class SingleBitstreamInItemDatabaseTest extends RestApiBaseTest {
