@@ -142,16 +142,6 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
         }
     }
 
-    private Context context() {
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new SQLFailureEntityException(Operation.CREATE_CONTEXT, ex);
-        }
-        return context;
-    }
-
     /**
      * Returns the list of users on the system using UserEntity
      * @see UserEntity

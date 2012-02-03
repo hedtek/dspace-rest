@@ -34,8 +34,9 @@ import org.dspace.rest.util.RecentSubmissionsException;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderMethodStore;
-import org.sakaiproject.entitybus.entityprovider.extension.CustomAction;
 import org.sakaiproject.entitybus.entityprovider.extension.*;
+import org.dspace.rest.diagnose.Operation;
+import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.*;
 import javax.servlet.ServletInputStream;
 import org.sakaiproject.entitybus.util.devhelper.AbstractDeveloperHelperService;
@@ -1282,5 +1283,15 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
 
 
+    }
+
+    protected Context context() {
+        Context context;
+        try {
+            context = new Context();
+        } catch (SQLException ex) {
+            throw new SQLFailureEntityException(Operation.CREATE_CONTEXT, ex);
+        }
+        return context;
     }
 }

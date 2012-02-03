@@ -19,8 +19,6 @@ import org.sakaiproject.entitybus.exception.EntityException;
 import org.dspace.eperson.Group;
 import java.sql.SQLException;
 
-import org.dspace.rest.diagnose.Operation;
-import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.*;
 import org.apache.log4j.Logger;
 import java.util.Collections;
@@ -86,16 +84,6 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
 
         removeConn(context);
         return result;
-    }
-
-    private Context context() {
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new SQLFailureEntityException(Operation.CREATE_CONTEXT, ex);
-        }
-        return context;
     }
 
     /**
