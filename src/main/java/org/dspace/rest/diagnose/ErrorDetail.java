@@ -12,7 +12,8 @@ package org.dspace.rest.diagnose;
  */
 public enum ErrorDetail {
 
-    SQL("SQL error");
+    SQL("SQL error"),
+    IO("IO error");
     
     private final String detailsMessage;
     

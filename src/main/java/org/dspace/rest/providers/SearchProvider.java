@@ -17,6 +17,9 @@ import org.sakaiproject.entitybus.entityprovider.search.Search;
 import org.dspace.core.Context;
 import java.sql.SQLException;
 import org.sakaiproject.entitybus.exception.EntityException;
+import org.dspace.rest.diagnose.IOFailureEntityException;
+import org.dspace.rest.diagnose.Operation;
+import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.*;
 import org.dspace.search.*;
 import org.apache.log4j.Logger;
@@ -61,13 +64,9 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
 
     public List<?> getEntities(EntityReference ref, Search search) {
         log.info(userInfo() + "get_entities");
-
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        
+        final Context context = context();
+        
         try {
 
             // refresh parameters for this request
@@ -152,10 +151,10 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
                     }
                 }
 
-            } catch (SQLException sql) {
-                throw new EntityException("Internal Server Error", "SQL Problem", 500);
-            } catch (IOException io) {
-                throw new EntityException("Internal Server Error", "Could not execute query", 500);
+            } catch (SQLException cause) {
+                throw new SQLFailureEntityException(Operation.SEARCH, cause);
+            } catch (IOException cause) {
+                throw new IOFailureEntityException(Operation.SEARCH, cause);
             }
 
             /**
