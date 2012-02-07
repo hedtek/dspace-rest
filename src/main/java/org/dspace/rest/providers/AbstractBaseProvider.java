@@ -68,7 +68,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     protected String pass = "";
     protected String userc = "";
     protected String passc = "";
-    protected String query, _order, _sort, loggedUser, _sdate, _edate;
+    protected String _order, _sort, loggedUser, _sdate, _edate;
     protected int _start, _page, _perpage, _limit, sort;
     protected List<Integer> sortOptions = new ArrayList<Integer>();
     protected Collection _collection = null;
@@ -672,12 +672,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             topLevelOnly = true;
         }
 
-        try {
-            query = reqStor.getStoredValue("query").toString();
-            uparam.setQuery(query);
-        } catch (NullPointerException ex) {
-            query = "";
-        }
+        uparam.setQuery(reqStor);
 
         try {
             in_archive = reqStor.getStoredValue("in_archive").toString().equalsIgnoreCase("true");

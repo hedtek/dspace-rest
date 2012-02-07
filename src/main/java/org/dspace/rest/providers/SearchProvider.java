@@ -78,10 +78,10 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
 
             // refresh parameters for this request
             // WARNING: this is MAGIC
-            final UserRequestParams uparams = refreshParams(context);
-            final QueryResults queryResults = doQuery(context);
+            final UserRequestParams requestParameters = refreshParams(context);
+            final QueryResults queryResults = doQuery(context, requestParameters);
             final SearchResultsInfoEntity info = buildInfo(queryResults);
-            final List<Object> entities = buildResults(context, uparams, queryResults);
+            final List<Object> entities = buildResults(context, requestParameters, queryResults);
             entities.add(0, info);
             return entities;
         } catch (SQLException cause) {
@@ -162,8 +162,8 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         return new SearchResultsInfoEntity(queryResults.getHitCount() - 1, queryResults.getHitTypes(), queryResults.getHitHandles(), queryResults.getHitIds());
     }
 
-    private QueryResults doQuery(final Context context) throws IOException {
-        final QueryArgs arg = buildQueryArguments();
+    private QueryResults doQuery(final Context context, final UserRequestParams params) throws IOException {
+        final QueryArgs arg = buildQueryArguments(params);
 
         final QueryResults queryResults;
 
@@ -181,11 +181,11 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         return queryResults;
     }
 
-    private QueryArgs buildQueryArguments() {
+    private QueryArgs buildQueryArguments(UserRequestParams parameters) {
         // extract query arguments from the request
         // deprecated - this is now handled at the end of function
         QueryArgs arg = new QueryArgs();
-        arg.setQuery(query);
+        arg.setQuery(parameters.getQuery());
 
         if (_perpage > 0) {
             arg.setPageSize(_perpage);

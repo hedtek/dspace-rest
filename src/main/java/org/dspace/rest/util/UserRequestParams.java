@@ -8,6 +8,8 @@
 
 package org.dspace.rest.util;
 
+import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
+
 /**
  *
  * @author Bojan Suzic
@@ -65,7 +67,7 @@ public class UserRequestParams {
         this.topLevelOnly = param;
     }
 
-    public void setQuery(String param) {
+    private void setQuery(String param) {
         this.query = param;
     }
 
@@ -175,5 +177,25 @@ public class UserRequestParams {
 
     public int getDetail() {
         return this.detail;
+    }
+
+    public void setQuery(final RequestStorage requestStore) {
+        String query = valueInStore("query", "",
+                requestStore);
+        setQuery(query);
+    }
+
+    public static String valueInStore(final String key,
+            final String defaultWhenValueNotStored,
+            final RequestStorage requestStore) {
+        String query;
+        final Object storedValue = requestStore.getStoredValue(key);
+        if (storedValue == null) {
+            
+            query = defaultWhenValueNotStored;
+        } else {
+            query = storedValue.toString();
+        }
+        return query;
     }
 }
