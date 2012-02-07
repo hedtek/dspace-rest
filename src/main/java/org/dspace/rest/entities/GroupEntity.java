@@ -14,13 +14,14 @@ import org.dspace.core.Context;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
+
+import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.UtilHelper;
 import org.dspace.eperson.EPerson;
 import java.util.Map;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.exception.EntityException;
 import org.dspace.authorize.AuthorizeException;
-import org.dspace.rest.util.RequestParameters;
 
 /**
  * Entity describing users registered on the system

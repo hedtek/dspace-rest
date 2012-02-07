@@ -22,7 +22,7 @@ import org.dspace.content.Item;
 import org.dspace.content.crosswalk.DisseminationCrosswalk;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
-import org.dspace.rest.util.RequestParameters;
+import org.dspace.rest.params.RequestParameters;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 

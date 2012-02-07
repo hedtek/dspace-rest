@@ -22,6 +22,7 @@ import org.dspace.core.Context;
 import org.apache.log4j.Logger;
 import java.sql.SQLException;
 import org.dspace.rest.entities.*;
+import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.RecentSubmissionsException;
 import javax.servlet.http.HttpServletResponse;
 import org.dspace.authorize.AuthorizeException;
@@ -29,7 +30,6 @@ import javax.servlet.ServletOutputStream;
 import java.io.BufferedInputStream;
 import org.sakaiproject.entitybus.exception.EntityException;
 import java.io.IOException;
-import org.dspace.rest.util.RequestParameters;
 
 /**
  * Provides access to bitstream entities

@@ -23,7 +23,7 @@ import org.dspace.rest.entities.*;
 import org.apache.log4j.Logger;
 import java.util.Collections;
 
-import org.dspace.rest.util.RequestParameters;
+import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.GenComparator;
 
 /**

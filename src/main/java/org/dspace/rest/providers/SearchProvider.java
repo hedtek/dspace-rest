@@ -27,9 +27,9 @@ import org.dspace.sort.SortOption;
 import org.dspace.core.Constants;
 import java.io.IOException;
 
-import org.dspace.rest.util.PaginationParameters;
-import org.dspace.rest.util.RequestParameters;
-import org.dspace.rest.util.SortParameters;
+import org.dspace.rest.params.PaginationParameters;
+import org.dspace.rest.params.RequestParameters;
+import org.dspace.rest.params.SortParameters;
 
 /**
  * Enables users to search through items according to different criteria

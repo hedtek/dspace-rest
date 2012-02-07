@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import org.sakaiproject.entitybus.exception.EntityException;
+import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.RecentSubmissionsManager;
 import org.dspace.rest.util.RecentSubmissions;
 import org.dspace.rest.util.RecentSubmissionsException;

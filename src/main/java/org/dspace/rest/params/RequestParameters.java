@@ -6,10 +6,11 @@
  * http://www.dspace.org/license/
  */
 
-package org.dspace.rest.util;
+package org.dspace.rest.params;
 
 import java.util.List;
 
+import org.dspace.rest.util.UtilHelper;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 /**

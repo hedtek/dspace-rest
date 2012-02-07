@@ -26,12 +26,12 @@ import org.sakaiproject.entitybus.exception.EntityException;
 import org.dspace.content.ItemIterator;
 import java.sql.SQLException;
 import org.dspace.rest.entities.*;
+import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.UtilHelper;
 import org.dspace.rest.util.RecentSubmissionsException;
 import java.util.Collections;
 import org.sakaiproject.entitybus.entityprovider.capabilities.*;
 import org.dspace.rest.util.GenComparator;
-import org.dspace.rest.util.RequestParameters;
 
 /**
  * Provides interface for access to item entities

@@ -1,4 +1,4 @@
-package org.dspace.rest.util;
+package org.dspace.rest.params;
 
 import org.apache.log4j.Logger;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;

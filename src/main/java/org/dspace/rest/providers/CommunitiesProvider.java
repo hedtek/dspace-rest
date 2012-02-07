@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.sakaiproject.entitybus.exception.EntityException;
 import java.sql.SQLException;
 import org.dspace.rest.entities.*;
+import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.UtilHelper;
 import java.util.Collections;
 import org.dspace.rest.util.GenComparator;
@@ -41,14 +42,12 @@ import org.dspace.rest.util.RecentSubmissionsException;
 import java.util.Collections;
 import org.dspace.rest.util.GenComparator;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderMethodStore;
-import org.sakaiproject.entitybus.entityprovider.extension.CustomAction;
 import org.sakaiproject.entitybus.entityprovider.extension.*;
 import org.sakaiproject.entitybus.entityprovider.capabilities.*;
 import java.lang.reflect.*;
 import java.util.Map;
 import java.util.HashMap;
 import org.dspace.authorize.AuthorizeException;
-import org.dspace.rest.util.RequestParameters;
 import java.io.IOException;
 
 /**

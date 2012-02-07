@@ -28,11 +28,11 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.dspace.rest.params.PaginationParameters;
+import org.dspace.rest.params.RequestParameters;
+import org.dspace.rest.params.SortParameters;
 import org.dspace.rest.util.GenComparator;
-import org.dspace.rest.util.PaginationParameters;
-import org.dspace.rest.util.SortParameters;
 import org.dspace.rest.util.UtilHelper;
-import org.dspace.rest.util.RequestParameters;
 import java.lang.reflect.*;
 import org.dspace.rest.util.RecentSubmissionsException;
 import org.sakaiproject.entitybus.EntityReference;

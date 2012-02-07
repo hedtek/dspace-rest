@@ -16,8 +16,9 @@ import org.dspace.core.Context;
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.SQLException;
+
+import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.UtilHelper;
-import org.dspace.rest.util.RequestParameters;
 
 /**
  * Entity describing Bitstreams

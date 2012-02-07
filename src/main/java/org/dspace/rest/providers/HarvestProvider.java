@@ -24,8 +24,8 @@ import org.apache.log4j.Logger;
 import java.text.ParseException;
 import java.util.Collections;
 
-import org.dspace.rest.util.PaginationParameters;
-import org.dspace.rest.util.RequestParameters;
+import org.dspace.rest.params.PaginationParameters;
+import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.GenComparator;
 
 /**

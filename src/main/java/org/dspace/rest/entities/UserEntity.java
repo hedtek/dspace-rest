@@ -12,7 +12,8 @@ import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired
 import org.dspace.eperson.EPerson;
 import org.dspace.core.Context;
 import java.sql.SQLException;
-import org.dspace.rest.util.RequestParameters;
+
+import org.dspace.rest.params.RequestParameters;
 
 /**
  * Entity describing users registered on the system

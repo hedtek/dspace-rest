@@ -23,8 +23,9 @@ import java.util.Map;
 import org.sakaiproject.entitybus.exception.EntityException;
 import org.dspace.authorize.AuthorizeException;
 import java.io.IOException;
+
+import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.UtilHelper;
-import org.dspace.rest.util.RequestParameters;
 
 /**
  * Entity describing collection

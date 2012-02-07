@@ -1,8 +1,9 @@
-package org.dspace.rest.util;
+package org.dspace.rest.params;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dspace.rest.util.UtilHelper;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class SortParameters {
