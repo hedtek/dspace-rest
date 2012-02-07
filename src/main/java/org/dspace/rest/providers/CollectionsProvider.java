@@ -194,8 +194,8 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         }
 
         removeConn(context);
+        
         sort(entities);
-
         removeTrailing(entities);
 
         return entities;

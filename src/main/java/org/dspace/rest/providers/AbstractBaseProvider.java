@@ -72,7 +72,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     protected String userc = "";
     protected String passc = "";
     protected String loggedUser, _sdate, _edate;
-    protected int _start, _page, _perpage, _limit, sort;
+    protected int _start, _page, _perpage, _limit;
     protected Collection _collection = null;
     protected Community _community = null;
     private static Logger log = Logger.getLogger(AbstractBaseProvider.class);
