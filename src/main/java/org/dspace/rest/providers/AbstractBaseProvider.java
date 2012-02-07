@@ -73,8 +73,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     protected String userc = "";
     protected String passc = "";
     protected String loggedUser, _sdate, _edate;
-    protected Collection _collection = null;
-    protected Community _community = null;
     private static Logger log = Logger.getLogger(AbstractBaseProvider.class);
     protected Map<String, String> func2actionMapGET = new HashMap<String, String>();
     protected Map<String, String> func2actionMapPUT = new HashMap<String, String>();
@@ -717,52 +715,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         } catch (NullPointerException ex) {
         }
 
-
-
-        // integer values used in some parts
-        int intcommunity = 0;
-        try {
-            intcommunity = Integer.parseInt(reqStor.getStoredValue("community").toString());
-        } catch (NullPointerException nul) {
-        }
-
-        try {
-            _community = Community.find(context, intcommunity);
-
-
-        } catch (NullPointerException nul) {
-        } catch (SQLException sql) {
-        }
-
-        int intcollection = 0;
-        try {
-            intcollection = Integer.parseInt(reqStor.getStoredValue("collection").toString());
-
-
-        } catch (NullPointerException nul) {
-        }
-
-        try {
-            _collection = Collection.find(context, intcollection);
-
-
-        } catch (NullPointerException nul) {
-        } catch (SQLException sql) {
-        }
-
-        if ((intcommunity > 0) && (intcollection > 0)) {
-            throw new EntityException("Bad request", "Community and collection selected", 400);
-
-
-        }
-
-        if ((intcommunity > 0) && (_community == null)) {
-            throw new EntityException("Bad request", "Unknown community", 400);
-        }
-
-        if ((intcollection > 0) && (_collection == null)) {
-            throw new EntityException("Bad request", "Unknown collection", 400);
-        }
 
         return uparam;
     }

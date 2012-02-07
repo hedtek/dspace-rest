@@ -26,6 +26,7 @@ import java.util.Collections;
 
 import org.dspace.rest.params.PaginationParameters;
 import org.dspace.rest.params.RequestParameters;
+import org.dspace.rest.params.ScopeParameters;
 import org.dspace.rest.util.GenComparator;
 
 /**
@@ -108,20 +109,8 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
             throws SQLException, ParseException {
         List<HarvestedItemInfo> harvestedItems;
         final PaginationParameters paginationParameters = new PaginationParameters(reqStor);
-        harvestedItems = Harvest.harvest(context, scope(), _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
+        harvestedItems = Harvest.harvest(context, ScopeParameters.build(reqStor, context).scope(), _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
         return harvestedItems;
-    }
-
-    private DSpaceObject scope() {
-        final DSpaceObject scope;
-        if (_community != null) {
-            scope = _community;
-        } else if (_collection != null) {
-            scope = _collection;
-        } else {
-            scope = null;
-        }
-        return scope;
     }
 
     /**

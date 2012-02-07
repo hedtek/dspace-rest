@@ -29,6 +29,7 @@ import java.io.IOException;
 
 import org.dspace.rest.params.PaginationParameters;
 import org.dspace.rest.params.RequestParameters;
+import org.dspace.rest.params.ScopeParameters;
 import org.dspace.rest.params.SortParameters;
 
 /**
@@ -158,22 +159,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
     }
 
     private QueryResults doQuery(final Context context) throws IOException {
-        final QueryArgs arg = buildQueryArguments();
-
-        final QueryResults queryResults;
-
-        /**
-         * search can be performed only on community or collection selected
-         * or all, not on the both in same time; check this requirement
-         */
-        if (_community != null) {
-            queryResults = DSQuery.doQuery(context, arg, _community);
-        } else if (_collection != null) {
-            queryResults = DSQuery.doQuery(context, arg, _collection);
-        } else {
-            queryResults = DSQuery.doQuery(context, arg);
-        }
-        return queryResults;
+        return ScopeParameters.build(reqStor, context).doQuery(context, buildQueryArguments());
     }
 
     private QueryArgs buildQueryArguments() {
