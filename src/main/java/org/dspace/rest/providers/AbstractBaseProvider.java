@@ -718,14 +718,9 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         }
 
 
-        int intcommunity = 0;
-
-
-        int intcollection = 0;
 
         // integer values used in some parts
-
-
+        int intcommunity = 0;
         try {
             intcommunity = Integer.parseInt(reqStor.getStoredValue("community").toString());
         } catch (NullPointerException nul) {
@@ -739,6 +734,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         } catch (SQLException sql) {
         }
 
+        int intcollection = 0;
         try {
             intcollection = Integer.parseInt(reqStor.getStoredValue("collection").toString());
 
@@ -762,14 +758,10 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
         if ((intcommunity > 0) && (_community == null)) {
             throw new EntityException("Bad request", "Unknown community", 400);
-
-
         }
 
         if ((intcollection > 0) && (_collection == null)) {
             throw new EntityException("Bad request", "Unknown collection", 400);
-
-
         }
 
         return uparam;
