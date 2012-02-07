@@ -24,8 +24,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.sakaiproject.entitybus.EntityView;
 import java.util.List;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
+
+import org.dspace.rest.util.GenComparator;
+import org.dspace.rest.util.SortParameters;
 import org.dspace.rest.util.UtilHelper;
 import org.dspace.rest.util.RequestParameters;
 import java.lang.reflect.*;
@@ -67,7 +71,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     protected String pass = "";
     protected String userc = "";
     protected String passc = "";
-    protected String _order, _sort, loggedUser, _sdate, _edate;
+    protected String loggedUser, _sdate, _edate;
     protected int _start, _page, _perpage, _limit, sort;
     protected Collection _collection = null;
     protected Community _community = null;
@@ -670,35 +674,12 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             topLevelOnly = true;
         }
 
-        uparam.setQuery(reqStor);
-
         try {
             in_archive = reqStor.getStoredValue("in_archive").toString().equalsIgnoreCase("true");
             uparam.setInArchive(true);
         } catch (NullPointerException ex) {
             in_archive = false;
 
-        }
-        /**
-         * these are fields based on RoR conventions
-         */
-        try {
-            _order = reqStor.getStoredValue("_order").toString();
-            uparam.setOrder(_order);
-        } catch (NullPointerException ex) {
-            _order = "";
-        }
-
-        try {
-            _sort = reqStor.getStoredValue("_sort").toString();
-            uparam.setSort(_sort);
-        } catch (NullPointerException ex) {
-            _sort = "";
-
-
-        } // both parameters are used according to requirements
-        if (_order.length() > 0 && _sort.equals("")) {
-            _sort = _order;
         }
 
         try {
@@ -773,7 +754,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         } catch (NullPointerException ex) {
         }
 
-        uparam.setSortOptions(this._sort);
 
         int intcommunity = 0;
 
@@ -1257,5 +1237,16 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             throw new SQLFailureEntityException(Operation.CREATE_CONTEXT, ex);
         }
         return context;
+    }
+
+    protected void sort(final List<Object> entities) {
+        /**
+         * if the full info are requested and there are sorting requirements
+         * process entities through sorting filter first
+         */
+        SortParameters sortParams = new SortParameters(reqStor);
+        if (!idOnly && sortParams.getSortOptions().size() > 0) {
+            Collections.sort(entities, new GenComparator(sortParams.getSortOptions()));
+        }
     }
 }

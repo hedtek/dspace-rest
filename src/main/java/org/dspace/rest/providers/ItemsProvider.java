@@ -172,9 +172,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
                 throw new EntityException("Internal server error", "SQL error", 500);
             }
 
-            if (!idOnly && uparams.getSortOptions().size() > 0) {
-                Collections.sort(entities, new GenComparator(uparams.getSortOptions()));
-            }
+            sort(entities);
 
             removeTrailing(entities);
             return entities;

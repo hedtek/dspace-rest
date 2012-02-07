@@ -169,9 +169,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
             }
 
             // do sorting and limiting if necessary
-            if (!idOnly && uparams.getSortOptions().size() > 0) {
-                Collections.sort(entities, new GenComparator(uparams.getSortOptions()));
-            }
+            sort(entities);
             removeTrailing(entities);
 
             return entities;

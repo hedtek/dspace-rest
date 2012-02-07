@@ -26,9 +26,8 @@ import org.apache.log4j.Logger;
 import org.dspace.sort.SortOption;
 import org.dspace.core.Constants;
 import java.io.IOException;
-import java.util.Collections;
-import org.dspace.rest.util.GenComparator;
 import org.dspace.rest.util.RequestParameters;
+import org.dspace.rest.util.SortParameters;
 
 /**
  * Enables users to search through items according to different criteria
@@ -79,7 +78,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
             // refresh parameters for this request
             // WARNING: this is MAGIC
             final RequestParameters requestParameters = refreshParams(context);
-            final QueryResults queryResults = doQuery(context, requestParameters);
+            final QueryResults queryResults = doQuery(context);
             final SearchResultsInfoEntity info = buildInfo(queryResults);
             final List<Object> entities = buildResults(context, requestParameters, queryResults);
             entities.add(0, info);
@@ -143,13 +142,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
             }
         }
 
-        /**
-         * if the full info are requested and there are sorting requirements
-         * process entities through sorting filter first
-         */
-        if (!idOnly && uparams.getSortOptions().size() > 0) {
-            Collections.sort(entities, new GenComparator(uparams.getSortOptions()));
-        }
+        sort(entities);
 
         /**
          * process entities according to _limit, _perpage etc
@@ -162,8 +155,8 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         return new SearchResultsInfoEntity(queryResults.getHitCount() - 1, queryResults.getHitTypes(), queryResults.getHitHandles(), queryResults.getHitIds());
     }
 
-    private QueryResults doQuery(final Context context, final RequestParameters params) throws IOException {
-        final QueryArgs arg = buildQueryArguments(params);
+    private QueryResults doQuery(final Context context) throws IOException {
+        final QueryArgs arg = buildQueryArguments();
 
         final QueryResults queryResults;
 
@@ -181,9 +174,10 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         return queryResults;
     }
 
-    private QueryArgs buildQueryArguments(RequestParameters parameters) {
+    private QueryArgs buildQueryArguments() {
         // extract query arguments from the request
         // deprecated - this is now handled at the end of function
+        SortParameters parameters = new SortParameters(reqStor);
         QueryArgs arg = new QueryArgs();
         arg.setQuery(parameters.getQuery());
 
@@ -192,7 +186,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         }
         arg.setStart(_start);
 
-        if ((_order.equalsIgnoreCase("descending")) || (_order.equalsIgnoreCase("desc"))) {
+        if ((parameters.getOrder().equalsIgnoreCase("descending")) || (parameters.getOrder().equalsIgnoreCase("desc"))) {
             arg.setSortOrder(SortOption.DESCENDING);
         } else {
             arg.setSortOrder(SortOption.ASCENDING);

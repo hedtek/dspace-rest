@@ -214,10 +214,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
         removeConn(context);
 
         // sort and limit if necessary
-        if (!idOnly && uparams.getSortOptions().size() > 0) {
-            Collections.sort(entities, new GenComparator(uparams.getSortOptions()));
-
-        }
+        sort(entities);
 
         removeTrailing(entities);
         return entities;

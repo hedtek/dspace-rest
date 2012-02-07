@@ -8,7 +8,6 @@
 
 package org.dspace.rest.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
@@ -26,9 +25,6 @@ public class RequestParameters {
     private boolean immediateOnly = true;
     private boolean inArchive = false;
     private boolean topLevelOnly = true;
-    private String query = "";
-    private String _order = "";
-    private String _sort = "";
     private int _start = 0;
     private int _page = 0;
     private int _perpage = 0;
@@ -37,8 +33,6 @@ public class RequestParameters {
     private String edate = "";
     private boolean withdrawn = false;
     private int detail = UtilHelper.DEPTH_STANDARD;
-    private List<Integer> sortOptions = new ArrayList<Integer>();
-
     public void setUser(String uname) {
         this.user = uname;
     }
@@ -69,18 +63,6 @@ public class RequestParameters {
 
     public void setTopLevelOnly(boolean param) {
         this.topLevelOnly = param;
-    }
-
-    private void setQuery(String param) {
-        this.query = param;
-    }
-
-    public void setOrder(String param) {
-        this._order = param;
-    }
-
-    public void setSort(String param) {
-        this._sort = param;
     }
 
     public void setStart(int param) {
@@ -139,18 +121,6 @@ public class RequestParameters {
         return this.topLevelOnly;
     }
 
-    public String getQuery() {
-        return this.query;
-    }
-
-    public String getOrder() {
-        return this._order;
-    }
-
-    public String getSort() {
-        return this._sort;
-    }
-
     public int getStart() {
         return this._start;
     }
@@ -181,68 +151,5 @@ public class RequestParameters {
 
     public int getDetail() {
         return this.detail;
-    }
-
-    public void setQuery(final RequestStorage requestStore) {
-        String query = valueInStore("query", "",
-                requestStore);
-        setQuery(query);
-    }
-    
-    private void setSortOptions(List<Integer> sortOptions) {
-        this.sortOptions = sortOptions;
-    }
-
-    public List<Integer> getSortOptions() {
-        return sortOptions;
-    }
-
-    public void setSortOptions(final String plainSort) {
-        final String _sort = plainSort.toLowerCase();
-        final List<Integer> sortOptions = new ArrayList<Integer>();
-        // defining sort fields and values
-        String[] sort_arr = _sort.split(",");
-    
-        for (String option : sort_arr) {
-            if (option.startsWith("submitter")) {
-                sortOptions.add(UtilHelper.SORT_SUBMITTER);
-            } else if (option.startsWith("lastname")) {
-                sortOptions.add(UtilHelper.SORT_LASTNAME);
-            } else if (option.startsWith("fullname")) {
-                sortOptions.add(UtilHelper.SORT_FULL_NAME);
-            } else if (option.startsWith("language")) {
-                sortOptions.add(UtilHelper.SORT_LANGUAGE);
-            } else if (option.startsWith("lastmodified")) {
-                sortOptions.add(UtilHelper.SORT_LASTMODIFIED);
-            } else if (option.startsWith("countitems")) {
-                sortOptions.add(UtilHelper.SORT_COUNT_ITEMS);
-            } else if (option.startsWith("name")) {
-                sortOptions.add(UtilHelper.SORT_NAME);
-            } else {
-                sortOptions.add(UtilHelper.SORT_ID);
-            }
-            if ((option.endsWith("_desc") || option.endsWith("_reverse"))) {
-                int i = sortOptions.get(sortOptions.size() - 1);
-                sortOptions.remove(sortOptions.size() - 1);
-                i += 100;
-                sortOptions.add(i);
-            }
-        }
-        
-        setSortOptions(sortOptions);
-    }
-
-    public static String valueInStore(final String key,
-            final String defaultWhenValueNotStored,
-            final RequestStorage requestStore) {
-        String query;
-        final Object storedValue = requestStore.getStoredValue(key);
-        if (storedValue == null) {
-            
-            query = defaultWhenValueNotStored;
-        } else {
-            query = storedValue.toString();
-        }
-        return query;
     }
 }
