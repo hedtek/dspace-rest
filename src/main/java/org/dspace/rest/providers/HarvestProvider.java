@@ -14,6 +14,7 @@ import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
 import org.sakaiproject.entitybus.entityprovider.search.Search;
+import org.dspace.content.DSpaceObject;
 import org.dspace.core.Context;
 import java.sql.SQLException;
 import org.sakaiproject.entitybus.exception.EntityException;
@@ -65,7 +66,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
             final RequestParameters uparams = refreshParams(context);
             final PaginationParameters paginationParameters = new PaginationParameters(reqStor);
             List<Object> entities = new ArrayList<Object>();
-            List<HarvestedItemInfo> res = new ArrayList<HarvestedItemInfo>();
+            List<HarvestedItemInfo> harvestedItems = new ArrayList<HarvestedItemInfo>();
 
             /**
              * check requirement for communities and collections, they should be
@@ -73,13 +74,15 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
              * in only one subject (community or collection)
              */
             try {
+                final DSpaceObject scope;
                 if (_community != null) {
-                    res = Harvest.harvest(context, _community, _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
+                    scope = _community;
                 } else if (_collection != null) {
-                    res = Harvest.harvest(context, _collection, _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
+                    scope = _collection;
                 } else {
-                    res = Harvest.harvest(context, null, _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
+                    scope = null;
                 }
+                harvestedItems = Harvest.harvest(context, scope, _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
             } catch (ParseException ex) {
                 throw new EntityException("Bad request", "Incompatible date format", 400);
             } catch (SQLException sq) {
@@ -88,9 +91,9 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
 
             // check results and add entities
             try {
-                entities.add(new HarvestResultsInfoEntity(res.size()));
-                for (int x = 0; x < res.size(); x++) {
-                    entities.add(idOnly ? new ItemEntityId(res.get(x).item) : new ItemEntity(res.get(x).item, 1, uparams));
+                entities.add(new HarvestResultsInfoEntity(harvestedItems.size()));
+                for (int x = 0; x < harvestedItems.size(); x++) {
+                    entities.add(idOnly ? new ItemEntityId(harvestedItems.get(x).item) : new ItemEntity(harvestedItems.get(x).item, 1, uparams));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
