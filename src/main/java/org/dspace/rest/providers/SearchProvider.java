@@ -62,118 +62,142 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         throw new EntityException("Not Acceptable", "The data is not available", 406);
     }
 
+    /**
+     * Wiring only. Parameters passed are ignored.
+     */
     public List<?> getEntities(EntityReference ref, Search search) {
+        return search();
+    }
+
+    private List<?> search() {
         log.info(userInfo() + "get_entities");
-        
+
         final Context context = context();
-        
+
         try {
 
             // refresh parameters for this request
-            UserRequestParams uparams;
-            uparams = refreshParams(context);
-            List<Object> entities = new ArrayList<Object>();
-
-            try {
-                // extract query arguments from the request
-                // deprecated - this is now handled at the end of function
-                QueryArgs arg = new QueryArgs();
-                arg.setQuery(query);
-
-                if (_perpage > 0) {
-                    arg.setPageSize(_perpage);
-                }
-                arg.setStart(_start);
-
-                if ((_order.equalsIgnoreCase("descending")) || (_order.equalsIgnoreCase("desc"))) {
-                    arg.setSortOrder(SortOption.DESCENDING);
-                } else {
-                    arg.setSortOrder(SortOption.ASCENDING);
-                }
-
-                QueryResults qre;
-
-                /**
-                 * search can be performed only on community or collection selected
-                 * or all, not on the both in same time; check this requirement
-                 */
-                if (_community != null) {
-                    qre = DSQuery.doQuery(context, arg, _community);
-                } else if (_collection != null) {
-                    qre = DSQuery.doQuery(context, arg, _collection);
-                } else {
-                    qre = DSQuery.doQuery(context, arg);
-                }
-                entities.add(new SearchResultsInfoEntity(qre.getHitCount() - 1, qre.getHitTypes(), qre.getHitHandles(), qre.getHitIds()));
-
-                /**
-                 * check returned objects, recognize them and put in result
-                 * list as expected
-                 */
-                for (int x = 0; x < qre.getHitTypes().size(); x++) {
-                    switch ((Integer) (qre.getHitTypes().get(x))) {
-                        case Constants.ITEM:
-                            {
-                                entities.add(idOnly ? new ItemEntityId(qre.getHitIds().get(x).toString(), context) : new ItemEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
-                            }
-                            break;
-
-                        case Constants.COMMUNITY:
-                            {
-                                entities.add(idOnly ? new CommunityEntityId(qre.getHitIds().get(x).toString(), context) : new CommunityEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
-                            }
-                            break;
-
-                        case Constants.COLLECTION:
-                            {
-                                entities.add(idOnly ? new CollectionEntityId(qre.getHitIds().get(x).toString(), context) : new CollectionEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
-                            }
-                            break;
-
-                        case Constants.BITSTREAM:
-                            {
-                                entities.add(idOnly ? new BitstreamEntityId(qre.getHitIds().get(x).toString(), context) : new BitstreamEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
-                            }
-                            break;
-
-                        case Constants.BUNDLE:
-                            {
-                                entities.add(idOnly ? new BundleEntityId(qre.getHitIds().get(x).toString(), context) : new BundleEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
-                            }
-                            break;
-
-                        case Constants.EPERSON:
-                            {
-                                entities.add(idOnly ? new UserEntityId(qre.getHitIds().get(x).toString()) : new UserEntity(qre.getHitIds().get(x).toString(), context,1, uparams));
-                            }
-                            break;
-
-                    }
-                }
-
-            } catch (SQLException cause) {
-                throw new SQLFailureEntityException(Operation.SEARCH, cause);
-            } catch (IOException cause) {
-                throw new IOFailureEntityException(Operation.SEARCH, cause);
-            }
-
-            /**
-             * if the full info are requested and there are sorting requirements
-             * process entities through sorting filter first
-             */
-            if (!idOnly && sortOptions.size() > 0) {
-                Collections.sort(entities, new GenComparator(sortOptions));
-            }
-
-            /**
-             * process entities according to _limit, _perpage etc
-             */
-            removeTrailing(entities);
-
+            // WARNING: this is MAGIC
+            final UserRequestParams uparams = refreshParams(context);
+            final QueryResults queryResults = doQuery(context);
+            final SearchResultsInfoEntity info = buildInfo(queryResults);
+            final List<Object> entities = buildResults(context, uparams, queryResults);
+            entities.add(0, info);
             return entities;
+        } catch (SQLException cause) {
+            throw new SQLFailureEntityException(Operation.SEARCH, cause);
+        } catch (IOException cause) {
+            throw new IOFailureEntityException(Operation.SEARCH, cause);
+
         } finally {
             removeConn(context);
         }
+    }
+
+    private List<Object> buildResults(final Context context,
+            final UserRequestParams uparams, final QueryResults queryResults)
+            throws SQLException {
+        final List<Object> entities = new ArrayList<Object>();
+        /**
+         * check returned objects, recognize them and put in result
+         * list as expected
+         */
+        for (int x = 0; x < queryResults.getHitTypes().size(); x++) {
+            switch ((Integer) (queryResults.getHitTypes().get(x))) {
+            case Constants.ITEM:
+            {
+                entities.add(idOnly ? new ItemEntityId(queryResults.getHitIds().get(x).toString(), context) : new ItemEntity(queryResults.getHitIds().get(x).toString(), context,1, uparams));
+            }
+            break;
+
+            case Constants.COMMUNITY:
+            {
+                entities.add(idOnly ? new CommunityEntityId(queryResults.getHitIds().get(x).toString(), context) : new CommunityEntity(queryResults.getHitIds().get(x).toString(), context,1, uparams));
+            }
+            break;
+
+            case Constants.COLLECTION:
+            {
+                entities.add(idOnly ? new CollectionEntityId(queryResults.getHitIds().get(x).toString(), context) : new CollectionEntity(queryResults.getHitIds().get(x).toString(), context,1, uparams));
+            }
+            break;
+
+            case Constants.BITSTREAM:
+            {
+                entities.add(idOnly ? new BitstreamEntityId(queryResults.getHitIds().get(x).toString(), context) : new BitstreamEntity(queryResults.getHitIds().get(x).toString(), context,1, uparams));
+            }
+            break;
+
+            case Constants.BUNDLE:
+            {
+                entities.add(idOnly ? new BundleEntityId(queryResults.getHitIds().get(x).toString(), context) : new BundleEntity(queryResults.getHitIds().get(x).toString(), context,1, uparams));
+            }
+            break;
+
+            case Constants.EPERSON:
+            {
+                entities.add(idOnly ? new UserEntityId(queryResults.getHitIds().get(x).toString()) : new UserEntity(queryResults.getHitIds().get(x).toString(), context,1, uparams));
+            }
+            break;
+
+            }
+        }
+
+        /**
+         * if the full info are requested and there are sorting requirements
+         * process entities through sorting filter first
+         */
+        if (!idOnly && sortOptions.size() > 0) {
+            Collections.sort(entities, new GenComparator(sortOptions));
+        }
+
+        /**
+         * process entities according to _limit, _perpage etc
+         */
+        removeTrailing(entities);
+        return entities;
+    }
+
+    private SearchResultsInfoEntity buildInfo(final QueryResults queryResults) {
+        return new SearchResultsInfoEntity(queryResults.getHitCount() - 1, queryResults.getHitTypes(), queryResults.getHitHandles(), queryResults.getHitIds());
+    }
+
+    private QueryResults doQuery(final Context context) throws IOException {
+        final QueryArgs arg = buildQueryArguments();
+
+        final QueryResults queryResults;
+
+        /**
+         * search can be performed only on community or collection selected
+         * or all, not on the both in same time; check this requirement
+         */
+        if (_community != null) {
+            queryResults = DSQuery.doQuery(context, arg, _community);
+        } else if (_collection != null) {
+            queryResults = DSQuery.doQuery(context, arg, _collection);
+        } else {
+            queryResults = DSQuery.doQuery(context, arg);
+        }
+        return queryResults;
+    }
+
+    private QueryArgs buildQueryArguments() {
+        // extract query arguments from the request
+        // deprecated - this is now handled at the end of function
+        QueryArgs arg = new QueryArgs();
+        arg.setQuery(query);
+
+        if (_perpage > 0) {
+            arg.setPageSize(_perpage);
+        }
+        arg.setStart(_start);
+
+        if ((_order.equalsIgnoreCase("descending")) || (_order.equalsIgnoreCase("desc"))) {
+            arg.setSortOrder(SortOption.DESCENDING);
+        } else {
+            arg.setSortOrder(SortOption.ASCENDING);
+        }
+        return arg;
     }
 
     /**
