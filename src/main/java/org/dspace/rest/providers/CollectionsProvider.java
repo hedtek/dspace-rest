@@ -26,7 +26,7 @@ import org.sakaiproject.entitybus.exception.EntityException;
 import java.sql.SQLException;
 import org.dspace.rest.entities.*;
 import org.dspace.rest.util.UtilHelper;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 import org.dspace.rest.util.RecentSubmissionsException;
 import org.dspace.rest.util.GenComparator;
 import org.sakaiproject.entitybus.entityprovider.capabilities.*;
@@ -76,7 +76,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
 //        inputParamsPOST.put("createWorkflowGroup", new String[]{"id", "step"});
 //        func2actionMapDELETE.put("removeTemplateItem", "templateitem");
 //        func2actionMapDELETE.put("removeSubmitters", "submitters");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, UserRequestParams.class});
+        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
         initMappings(processedEntity);
 
     }
@@ -134,7 +134,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                 Context context = context();
 
                 try {
-                    UserRequestParams uparams;
+                    RequestParameters uparams;
                     uparams = refreshParams(context);
 
                     // sample entity
@@ -177,7 +177,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
 
         Context context = context();
 
-        UserRequestParams uparams;
+        RequestParameters uparams;
         uparams = refreshParams(context);
 
         List<Object> entities = new ArrayList<Object>();

@@ -99,7 +99,7 @@ public class UtilHelper {
      * @throws java.sql.SQLException
      * @throws org.dspace.rest.util.RecentSubmissionsException
      */
-    public static List<Object> getObjects(String uid, Context context, int method, boolean idOnly, boolean immediateOnly, UserRequestParams uparams) throws SQLException, RecentSubmissionsException {
+    public static List<Object> getObjects(String uid, Context context, int method, boolean idOnly, boolean immediateOnly, RequestParameters uparams) throws SQLException, RecentSubmissionsException {
         List<Object> entities = new ArrayList<Object>();
 
         // Reflect method resolution could be used here but this causes perfomance penalty
@@ -269,14 +269,14 @@ public class UtilHelper {
     /**
      * This method forwards to basic getObjects method, used by some other providers
      */
-    public static List<Object> getObjects(String uid, Context context, int method, boolean idOnly, UserRequestParams uparams) throws SQLException, RecentSubmissionsException {
+    public static List<Object> getObjects(String uid, Context context, int method, boolean idOnly, RequestParameters uparams) throws SQLException, RecentSubmissionsException {
         return getObjects(uid, context, method, idOnly, false, uparams);
     }
 
     /**
      * This method forwards to basic getObjects method, used by some other providers
      */
-    public static List<Object> getObjects(String uid, Context context, int method, UserRequestParams uparams) throws SQLException, RecentSubmissionsException {
+    public static List<Object> getObjects(String uid, Context context, int method, RequestParameters uparams) throws SQLException, RecentSubmissionsException {
         return getObjects(uid, context, method, false, false, uparams);
     }
 

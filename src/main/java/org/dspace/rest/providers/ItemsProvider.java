@@ -31,7 +31,7 @@ import org.dspace.rest.util.RecentSubmissionsException;
 import java.util.Collections;
 import org.sakaiproject.entitybus.entityprovider.capabilities.*;
 import org.dspace.rest.util.GenComparator;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 
 /**
  * Provides interface for access to item entities
@@ -71,7 +71,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
 //        func2actionMapPOST.put("createBundle", "createBundle");
 //        inputParamsPOST.put("createBundle", new String[]{"name", "id"});
 
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, UserRequestParams.class});
+        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
         initMappings(processedEntity);
     }
 
@@ -125,7 +125,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
         Context context = context();
         try {
 
-            UserRequestParams uparams;
+            RequestParameters uparams;
             uparams = refreshParams(context);
 
             // sample entity
@@ -159,7 +159,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
         Context context = context();
         try {
 
-            UserRequestParams uparams;
+            RequestParameters uparams;
             uparams = refreshParams(context);
             List<Object> entities = new ArrayList<Object>();
 

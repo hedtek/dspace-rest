@@ -28,7 +28,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.HashMap;
 import org.dspace.rest.util.UtilHelper;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 import java.lang.reflect.*;
 import org.dspace.rest.util.RecentSubmissionsException;
 import org.sakaiproject.entitybus.EntityReference;
@@ -112,7 +112,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     }
 
     protected void initMappings(Class<?> processedEntity) throws NoSuchMethodException {
-        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, UserRequestParams.class});
+        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
         // scan for methods;
         Method[] entityMethods = processedEntity.getMethods();
         for (Method m : entityMethods) {
@@ -143,7 +143,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
     // view_edit actions - deprecated
     protected void createPUTActions(Class<?> processedEntity) throws NoSuchMethodException {
-        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, UserRequestParams.class});
+        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, RequestParameters.class});
         EntityProviderMethodStore epms = entityProviderManager.getEntityProviderMethodStore();
         // scan for methods;
         Method[] CommunityMethods = processedEntity.getMethods();
@@ -181,7 +181,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
     // view_show actions - deprecated
     protected void createActions(Class<?> processedEntity) throws NoSuchMethodException {
-        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, UserRequestParams.class});
+        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, RequestParameters.class});
         EntityProviderMethodStore epms = entityProviderManager.getEntityProviderMethodStore();
         // scan for methods;
         Method[] CommunityMethods = processedEntity.getMethods();
@@ -597,9 +597,9 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      * @param context current database context locally (in subclass method)
      * defined but used here for loging and other purposes
      */
-    public UserRequestParams refreshParams(Context context) {
+    public RequestParameters refreshParams(Context context) {
 
-        UserRequestParams uparam = new UserRequestParams();
+        RequestParameters uparam = new RequestParameters();
 
         /**
          * now check user login info and try to register
@@ -975,7 +975,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                 throw new EntityException("Internal server error", "SQL error", 500);
             }
 
-            UserRequestParams uparams;
+            RequestParameters uparams;
             uparams = refreshParams(context);
 
             Object CE = new Object();
@@ -1055,7 +1055,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                 throw new EntityException("Internal server error", "SQL error", 500);
             }
 
-            UserRequestParams uparams;
+            RequestParameters uparams;
             uparams = refreshParams(context);
 
             System.out.print("uparams " + uparams.getUser() + uparams.getPassword());
@@ -1100,7 +1100,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                 throw new EntityException("Internal server error", "SQL error", 500);
             }
 
-            UserRequestParams uparams;
+            RequestParameters uparams;
             uparams = refreshParams(context);
 
             Object CE = new Object();
@@ -1156,7 +1156,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                     throw new EntityException("Internal server error", "SQL error", 500);
                 }
 
-                UserRequestParams uparams;
+                RequestParameters uparams;
                 uparams = refreshParams(context);
                 Object CE = new Object();
 
@@ -1239,7 +1239,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             throw new EntityException("Internal server error", "SQL error", 500);
         }
 
-        UserRequestParams uparams;
+        RequestParameters uparams;
         uparams = refreshParams(context);
         Object CE = new Object();
         log.info("id izabran " + ref.getId());

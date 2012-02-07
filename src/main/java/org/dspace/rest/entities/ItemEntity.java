@@ -22,7 +22,7 @@ import org.dspace.content.Item;
 import org.dspace.content.crosswalk.DisseminationCrosswalk;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
@@ -65,7 +65,7 @@ public class ItemEntity extends ItemEntityId {
     private DisseminationCrosswalk xHTMLHeadCrosswalk;
 
     // TODO inspect and add additional fields
-    public ItemEntity(String uid, Context context, int level, UserRequestParams uparams) throws SQLException {
+    public ItemEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
         Item res = Item.find(context, Integer.parseInt(uid));
         this.id = res.getID();
         this.canEdit = res.canEdit();
@@ -111,7 +111,7 @@ public class ItemEntity extends ItemEntityId {
         }
     } 
 
-    public ItemEntity(Item item, int level, UserRequestParams uparams) throws SQLException {
+    public ItemEntity(Item item, int level, RequestParameters uparams) throws SQLException {
         // Don't include full details for items deep in the data tree.
         boolean includeFull = false;
         level++;

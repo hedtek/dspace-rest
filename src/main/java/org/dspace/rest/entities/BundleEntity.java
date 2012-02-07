@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import org.dspace.rest.util.UtilHelper;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 
 /**
  * Entity describing bundle
@@ -37,7 +37,7 @@ public class BundleEntity extends BundleEntityId {
     List<Object> bitstreams = new ArrayList<Object>();
     List<Object> items = new ArrayList<Object>();
 
-    public BundleEntity(String uid, Context context, int level, UserRequestParams uparams) throws SQLException {
+    public BundleEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
         Bundle res = Bundle.find(context, Integer.parseInt(uid));
         Bitstream[] bst = res.getBitstreams();
 
@@ -62,7 +62,7 @@ public class BundleEntity extends BundleEntityId {
         }
     }
 
-    public BundleEntity(Bundle bundle, int level, UserRequestParams uparams) throws SQLException {
+    public BundleEntity(Bundle bundle, int level, RequestParameters uparams) throws SQLException {
         // check calling package/class in order to prevent chaining
         boolean includeFull = false;
         level++;

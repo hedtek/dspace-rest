@@ -14,7 +14,7 @@ import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
  *
  * @author Bojan Suzic
  */
-public class UserRequestParams {
+public class RequestParameters {
 
     private String user = "";
     private String password = "";

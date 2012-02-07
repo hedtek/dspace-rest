@@ -23,7 +23,7 @@ import org.dspace.rest.entities.*;
 import org.apache.log4j.Logger;
 import java.util.Collections;
 
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 import org.dspace.rest.util.GenComparator;
 
 /**
@@ -52,7 +52,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
         func2actionMapGET.put("getRequireCertificate", "requireCertificate");
         func2actionMapGET.put("getSelfRegistered", "selfRegistered");
         func2actionMapGET.put("getType", "type");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, UserRequestParams.class});
+        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
         initMappings(processedEntity);
     }
 
@@ -108,7 +108,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
         Context context = context();
 
         try {
-            UserRequestParams uparams;
+            RequestParameters uparams;
             uparams = refreshParams(context);
 
             // sample entity
@@ -153,7 +153,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
         try {
 
             // extract and prepare query parameters
-            UserRequestParams uparams;
+            RequestParameters uparams;
             uparams = refreshParams(context);
             List<Object> entities = new ArrayList<Object>();
 

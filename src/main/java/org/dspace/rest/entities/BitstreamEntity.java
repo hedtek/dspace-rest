@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import org.dspace.rest.util.UtilHelper;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 
 /**
  * Entity describing Bitstreams
@@ -38,7 +38,7 @@ public class BitstreamEntity extends BitstreamEntityId {
     private String checkSumAlgorithm, description, checkSum, formatDescription, source, userFormatDescription, mimeType;
     List<Object> bundles = new ArrayList<Object>();
 
-    public BitstreamEntity(String uid, Context context, int level, UserRequestParams uparams) throws SQLException {
+    public BitstreamEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
         Bitstream res = Bitstream.find(context, Integer.parseInt(uid));
         Bundle[] bnd = res.getBundles();
         this.id = res.getID();
@@ -67,7 +67,7 @@ public class BitstreamEntity extends BitstreamEntityId {
         //context.complete(); <---important!!!!
     }
 
-    public BitstreamEntity(Bitstream bitstream, int level, UserRequestParams uparams) throws SQLException {
+    public BitstreamEntity(Bitstream bitstream, int level, RequestParameters uparams) throws SQLException {
         // check calling package/class in order to prevent chaining
         boolean includeFull = false;
         level++;

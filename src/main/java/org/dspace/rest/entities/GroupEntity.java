@@ -20,7 +20,7 @@ import java.util.Map;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.exception.EntityException;
 import org.dspace.authorize.AuthorizeException;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 
 /**
  * Entity describing users registered on the system
@@ -38,7 +38,7 @@ public class GroupEntity extends GroupEntityId {
     private List<Object> memberGroups = new ArrayList<Object>();
     private List<Object> members = new ArrayList<Object>();
 
-    public GroupEntity(String uid, Context context, int level, UserRequestParams uparams) throws SQLException {
+    public GroupEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
         super(uid, context);
         this.handle = res.getHandle();
         this.name = res.getName();
@@ -60,7 +60,7 @@ public class GroupEntity extends GroupEntityId {
         }
     }
 
-    public GroupEntity(Group egroup, int level, UserRequestParams uparams) throws SQLException {
+    public GroupEntity(Group egroup, int level, RequestParameters uparams) throws SQLException {
         super(egroup);
         // check calling package/class in order to prevent chaining
         boolean includeFull = false;

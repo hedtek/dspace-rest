@@ -22,7 +22,7 @@ import org.dspace.search.*;
 import org.apache.log4j.Logger;
 import java.text.ParseException;
 import java.util.Collections;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 import org.dspace.rest.util.GenComparator;
 
 /**
@@ -60,7 +60,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
         Context context = context();
 
         try {
-            UserRequestParams uparams;
+            RequestParameters uparams;
             uparams = refreshParams(context);
             List<Object> entities = new ArrayList<Object>();
             List<HarvestedItemInfo> res = new ArrayList<HarvestedItemInfo>();

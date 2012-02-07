@@ -28,7 +28,7 @@ import org.dspace.core.Constants;
 import java.io.IOException;
 import java.util.Collections;
 import org.dspace.rest.util.GenComparator;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 
 /**
  * Enables users to search through items according to different criteria
@@ -78,7 +78,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
 
             // refresh parameters for this request
             // WARNING: this is MAGIC
-            final UserRequestParams requestParameters = refreshParams(context);
+            final RequestParameters requestParameters = refreshParams(context);
             final QueryResults queryResults = doQuery(context, requestParameters);
             final SearchResultsInfoEntity info = buildInfo(queryResults);
             final List<Object> entities = buildResults(context, requestParameters, queryResults);
@@ -95,7 +95,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
     }
 
     private List<Object> buildResults(final Context context,
-            final UserRequestParams uparams, final QueryResults queryResults)
+            final RequestParameters uparams, final QueryResults queryResults)
             throws SQLException {
         final List<Object> entities = new ArrayList<Object>();
         /**
@@ -162,7 +162,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         return new SearchResultsInfoEntity(queryResults.getHitCount() - 1, queryResults.getHitTypes(), queryResults.getHitHandles(), queryResults.getHitIds());
     }
 
-    private QueryResults doQuery(final Context context, final UserRequestParams params) throws IOException {
+    private QueryResults doQuery(final Context context, final RequestParameters params) throws IOException {
         final QueryArgs arg = buildQueryArguments(params);
 
         final QueryResults queryResults;
@@ -181,7 +181,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         return queryResults;
     }
 
-    private QueryArgs buildQueryArguments(UserRequestParams parameters) {
+    private QueryArgs buildQueryArguments(RequestParameters parameters) {
         // extract query arguments from the request
         // deprecated - this is now handled at the end of function
         QueryArgs arg = new QueryArgs();

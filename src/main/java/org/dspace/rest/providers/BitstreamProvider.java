@@ -29,7 +29,7 @@ import javax.servlet.ServletOutputStream;
 import java.io.BufferedInputStream;
 import org.sakaiproject.entitybus.exception.EntityException;
 import java.io.IOException;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 
 /**
  * Provides access to bitstream entities
@@ -60,7 +60,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
         func2actionMapGET.put("getHandle", "handle");
         func2actionMapGET.put("getId", "id");
         func2actionMapGET.put("getType", "type");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, UserRequestParams.class});
+        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
         initMappings(processedEntity);
 
     }
@@ -85,7 +85,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
 
             try{
                 // refresh query parameters and transfer to local variables
-                UserRequestParams uparam;
+                RequestParameters uparam;
                 uparam = refreshParams(context);
 
                 Bitstream bst = Bitstream.find(context, Integer.parseInt(reference.getId()));
@@ -139,7 +139,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
 
         Context context = context();
 
-        UserRequestParams uparams;
+        RequestParameters uparams;
         uparams = refreshParams(context);
 
         boolean result = false;
@@ -177,7 +177,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
         Context context = context();
 
         try {
-            UserRequestParams uparams;
+            RequestParameters uparams;
             uparams = refreshParams(context);
             log.info(userInfo() + "get_entity:" + reference.getId());
 

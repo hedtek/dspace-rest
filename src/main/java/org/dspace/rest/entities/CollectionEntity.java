@@ -24,7 +24,7 @@ import org.sakaiproject.entitybus.exception.EntityException;
 import org.dspace.authorize.AuthorizeException;
 import java.io.IOException;
 import org.dspace.rest.util.UtilHelper;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 
 /**
  * Entity describing collection
@@ -52,7 +52,7 @@ public class CollectionEntity {
     private String provenance;
     private Object logo;
 
-    public CollectionEntity(String uid, Context context, int level, UserRequestParams uparams) throws SQLException {
+    public CollectionEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
         System.out.println("creating collection main");
         Collection res = Collection.find(context, Integer.parseInt(uid));
         
@@ -77,7 +77,7 @@ public class CollectionEntity {
         //context.complete();
     }
 
-    public CollectionEntity(Collection collection, int level, UserRequestParams uparams) throws SQLException {
+    public CollectionEntity(Collection collection, int level, RequestParameters uparams) throws SQLException {
         // check calling package/class in order to prevent chaining
         boolean includeFull = false;
         level++;

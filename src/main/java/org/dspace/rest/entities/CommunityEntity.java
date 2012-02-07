@@ -19,7 +19,7 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.rest.util.RecentSubmissionsManager;
 import org.dspace.rest.util.RecentSubmissions;
 import org.dspace.rest.util.RecentSubmissionsException;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 
 //import javassist.*;
 import org.dspace.content.Community;
@@ -62,7 +62,7 @@ public class CommunityEntity extends CommunityEntityId {
     private String short_description, introductory_text, copyright_text, side_bar_text;
     private Object logo;
 
-    public CommunityEntity(String uid, Context context, int level, UserRequestParams uparams) throws SQLException {
+    public CommunityEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
         System.out.println("creating community main");
         this.context = context;
         try {
@@ -123,7 +123,7 @@ public class CommunityEntity extends CommunityEntityId {
         //context.complete(); //<-important
     }
 
-    public CommunityEntity(Community community, int level, UserRequestParams uparams) throws SQLException {
+    public CommunityEntity(Community community, int level, RequestParameters uparams) throws SQLException {
         System.out.println("creating community 2");
         // check calling package/class in order to prevent chaining
         boolean includeFull = false;

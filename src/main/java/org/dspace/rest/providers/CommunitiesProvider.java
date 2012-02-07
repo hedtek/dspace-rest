@@ -48,7 +48,7 @@ import java.lang.reflect.*;
 import java.util.Map;
 import java.util.HashMap;
 import org.dspace.authorize.AuthorizeException;
-import org.dspace.rest.util.UserRequestParams;
+import org.dspace.rest.util.RequestParameters;
 import java.io.IOException;
 
 /**
@@ -95,7 +95,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
 //        func2actionMapDELETE.put("removeChildren", "children");
 //        func2actionMapDELETE.put("removeSubcollections", "collections");
 //        func2actionMapDELETE.put("delete", "");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, UserRequestParams.class});
+        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
         initMappings(processedEntity);
         //createActions(processedEntity);
         //createPUTActions(processedEntity);
@@ -166,7 +166,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
                 Context context = context();
 
                 try {
-                    UserRequestParams uparams;
+                    RequestParameters uparams;
                     uparams = refreshParams(context);
                     if (entityExists(reference.getId())) {
                         try {
@@ -197,7 +197,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
 
         Context context = context();
 
-        UserRequestParams uparams;
+        RequestParameters uparams;
         uparams = refreshParams(context);
         List<Object> entities = new ArrayList<Object>();
 
@@ -227,7 +227,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
     public void adeleteEntity(EntityReference ref, Map<String, Object> params) {
         Context context = context();
 
-        UserRequestParams uparams;
+        RequestParameters uparams;
         uparams = refreshParams(context);
         try {
             Community comm = Community.find(context, Integer.parseInt(ref.getId()));
