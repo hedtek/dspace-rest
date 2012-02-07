@@ -26,6 +26,8 @@ import org.apache.log4j.Logger;
 import org.dspace.sort.SortOption;
 import org.dspace.core.Constants;
 import java.io.IOException;
+
+import org.dspace.rest.util.PaginationParameters;
 import org.dspace.rest.util.RequestParameters;
 import org.dspace.rest.util.SortParameters;
 
@@ -177,14 +179,15 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
     private QueryArgs buildQueryArguments() {
         // extract query arguments from the request
         // deprecated - this is now handled at the end of function
-        SortParameters parameters = new SortParameters(reqStor);
+        final SortParameters parameters = new SortParameters(reqStor);
+        final PaginationParameters paginationParameters = new PaginationParameters(reqStor);
         QueryArgs arg = new QueryArgs();
         arg.setQuery(parameters.getQuery());
 
-        if (_perpage > 0) {
-            arg.setPageSize(_perpage);
+        if (paginationParameters.getPerpage() > 0) {
+            arg.setPageSize(paginationParameters.getPerpage());
         }
-        arg.setStart(_start);
+        arg.setStart(paginationParameters.getStart());
 
         if ((parameters.getOrder().equalsIgnoreCase("descending")) || (parameters.getOrder().equalsIgnoreCase("desc"))) {
             arg.setSortOrder(SortOption.DESCENDING);

@@ -22,6 +22,8 @@ import org.dspace.search.*;
 import org.apache.log4j.Logger;
 import java.text.ParseException;
 import java.util.Collections;
+
+import org.dspace.rest.util.PaginationParameters;
 import org.dspace.rest.util.RequestParameters;
 import org.dspace.rest.util.GenComparator;
 
@@ -60,8 +62,8 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
         Context context = context();
 
         try {
-            RequestParameters uparams;
-            uparams = refreshParams(context);
+            final RequestParameters uparams = refreshParams(context);
+            final PaginationParameters paginationParameters = new PaginationParameters(reqStor);
             List<Object> entities = new ArrayList<Object>();
             List<HarvestedItemInfo> res = new ArrayList<HarvestedItemInfo>();
 
@@ -72,11 +74,11 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
              */
             try {
                 if (_community != null) {
-                    res = Harvest.harvest(context, _community, _sdate, _edate, _start, _limit, true, true, withdrawn, true);
+                    res = Harvest.harvest(context, _community, _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
                 } else if (_collection != null) {
-                    res = Harvest.harvest(context, _collection, _sdate, _edate, _start, _limit, true, true, withdrawn, true);
+                    res = Harvest.harvest(context, _collection, _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
                 } else {
-                    res = Harvest.harvest(context, null, _sdate, _edate, _start, _limit, true, true, withdrawn, true);
+                    res = Harvest.harvest(context, null, _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
                 }
             } catch (ParseException ex) {
                 throw new EntityException("Bad request", "Incompatible date format", 400);

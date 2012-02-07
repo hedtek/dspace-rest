@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.dspace.rest.util.GenComparator;
+import org.dspace.rest.util.PaginationParameters;
 import org.dspace.rest.util.SortParameters;
 import org.dspace.rest.util.UtilHelper;
 import org.dspace.rest.util.RequestParameters;
@@ -72,7 +73,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     protected String userc = "";
     protected String passc = "";
     protected String loggedUser, _sdate, _edate;
-    protected int _start, _page, _perpage, _limit;
     protected Collection _collection = null;
     protected Community _community = null;
     private static Logger log = Logger.getLogger(AbstractBaseProvider.class);
@@ -682,44 +682,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
         }
 
-        try {
-            _start = Integer.parseInt(reqStor.getStoredValue("_start").toString());
-            uparam.setStart(_start);
-        } catch (NullPointerException ex) {
-            _start = 0;
-        }
-
-        try {
-            _page = Integer.parseInt(reqStor.getStoredValue("_page").toString());
-            uparam.setPage(_page);
-        } catch (NullPointerException ex) {
-            _page = 0;
-        }
-
-        try {
-            _perpage = Integer.parseInt(reqStor.getStoredValue("_perpage").toString());
-            uparam.setPerPage(_perpage);
-        } catch (NullPointerException ex) {
-            _perpage = 0;
-        }
-
-        try {
-            _limit = Integer.parseInt(reqStor.getStoredValue("_limit").toString());
-            uparam.setLimit(_limit);
-        } catch (NullPointerException ex) {
-            _limit = 0;
-        } // some checking for invalid values
-
-        if (_page < 0) {
-            _page = 0;
-        }
-        if (_perpage < 0) {
-            _perpage = 0;
-        }
-        if (_limit < 0) {
-            _limit = 0;
-        }
-
+        
 
         try {
             _sdate = reqStor.getStoredValue("startdate").toString();
@@ -844,23 +807,18 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      * @param entities
      */
     public void removeTrailing(List<?> entities) {
-        if ((_start > 0) && (_start < entities.size())) {
+        final PaginationParameters parameters = new PaginationParameters(reqStor);
+        if ((parameters.getStart() > 0) && (parameters.getStart() < entities.size())) {
             for (int x = 0; x
-                    < _start; x++) {
+                    < parameters.getStart(); x++) {
                 entities.remove(x);
-
-
             }
         }
-        if (_perpage > 0) {
-            entities.subList(0, _page * _perpage).clear();
-
-
+        if (parameters.getPerpage() > 0) {
+            entities.subList(0, parameters.getPage() * parameters.getPerpage()).clear();
         }
-        if ((_limit > 0) && entities.size() > _limit) {
-            entities.subList(_limit, entities.size()).clear();
-
-
+        if ((parameters.getLimit() > 0) && entities.size() > parameters.getLimit()) {
+            entities.subList(parameters.getLimit(), entities.size()).clear();
         }
     }
 
