@@ -147,8 +147,8 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
          * if the full info are requested and there are sorting requirements
          * process entities through sorting filter first
          */
-        if (!idOnly && sortOptions.size() > 0) {
-            Collections.sort(entities, new GenComparator(sortOptions));
+        if (!idOnly && uparams.getSortOptions().size() > 0) {
+            Collections.sort(entities, new GenComparator(uparams.getSortOptions()));
         }
 
         /**

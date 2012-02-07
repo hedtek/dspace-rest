@@ -171,8 +171,8 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
 
 
             // do sorting and limiting if necessary
-            if (!idOnly && sortOptions.size() > 0) {
-                Collections.sort(entities, new GenComparator(sortOptions));
+            if (!idOnly && uparams.getSortOptions().size() > 0) {
+                Collections.sort(entities, new GenComparator(uparams.getSortOptions()));
             }
             removeTrailing(entities);
 

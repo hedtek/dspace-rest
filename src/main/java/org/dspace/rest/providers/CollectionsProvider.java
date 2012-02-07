@@ -194,8 +194,8 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         }
 
         removeConn(context);
-        if (!idOnly && sortOptions.size() > 0) {
-            Collections.sort(entities, new GenComparator(sortOptions));
+        if (!idOnly && uparams.getSortOptions().size() > 0) {
+            Collections.sort(entities, new GenComparator(uparams.getSortOptions()));
         }
 
         removeTrailing(entities);

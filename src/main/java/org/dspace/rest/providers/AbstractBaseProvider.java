@@ -22,7 +22,6 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.sakaiproject.entitybus.EntityView;
-import java.util.ArrayList;
 import java.util.List;
 import java.sql.SQLException;
 import java.util.Map;
@@ -70,7 +69,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     protected String passc = "";
     protected String _order, _sort, loggedUser, _sdate, _edate;
     protected int _start, _page, _perpage, _limit, sort;
-    protected List<Integer> sortOptions = new ArrayList<Integer>();
     protected Collection _collection = null;
     protected Community _community = null;
     private static Logger log = Logger.getLogger(AbstractBaseProvider.class);
@@ -775,36 +773,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         } catch (NullPointerException ex) {
         }
 
-
-        // defining sort fields and values
-        _sort = _sort.toLowerCase();
-        String[] sort_arr = _sort.split(",");
-
-        for (String option : sort_arr) {
-            if (option.startsWith("submitter")) {
-                sortOptions.add(UtilHelper.SORT_SUBMITTER);
-            } else if (option.startsWith("lastname")) {
-                sortOptions.add(UtilHelper.SORT_LASTNAME);
-            } else if (option.startsWith("fullname")) {
-                sortOptions.add(UtilHelper.SORT_FULL_NAME);
-            } else if (option.startsWith("language")) {
-                sortOptions.add(UtilHelper.SORT_LANGUAGE);
-            } else if (option.startsWith("lastmodified")) {
-                sortOptions.add(UtilHelper.SORT_LASTMODIFIED);
-            } else if (option.startsWith("countitems")) {
-                sortOptions.add(UtilHelper.SORT_COUNT_ITEMS);
-            } else if (option.startsWith("name")) {
-                sortOptions.add(UtilHelper.SORT_NAME);
-            } else {
-                sortOptions.add(UtilHelper.SORT_ID);
-            }
-            if ((option.endsWith("_desc") || option.endsWith("_reverse"))) {
-                int i = sortOptions.get(sortOptions.size() - 1);
-                sortOptions.remove(sortOptions.size() - 1);
-                i += 100;
-                sortOptions.add(i);
-            }
-        }
+        uparam.setSortOptions(this._sort);
 
         int intcommunity = 0;
 

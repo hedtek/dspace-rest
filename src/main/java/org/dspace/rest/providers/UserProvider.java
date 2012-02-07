@@ -156,7 +156,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
         try {
 
             // extract and prepare query parameters
-            refreshParams(context);
+            RequestParameters uparams = refreshParams(context);
             List<Object> entities = new ArrayList<Object>();
 
             try {
@@ -169,8 +169,8 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
             }
 
             // do sorting and limiting if necessary
-            if (!idOnly && sortOptions.size() > 0) {
-                Collections.sort(entities, new GenComparator(sortOptions));
+            if (!idOnly && uparams.getSortOptions().size() > 0) {
+                Collections.sort(entities, new GenComparator(uparams.getSortOptions()));
             }
             removeTrailing(entities);
 

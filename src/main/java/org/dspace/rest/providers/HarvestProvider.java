@@ -96,8 +96,8 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
 
 
             // sort entities if the full info are requested and there are sorting fields
-            if (!idOnly && sortOptions.size() > 0)
-                Collections.sort(entities, new GenComparator(sortOptions));
+            if (!idOnly && uparams.getSortOptions().size() > 0)
+                Collections.sort(entities, new GenComparator(uparams.getSortOptions()));
 
             // format results accordint to _limit, _perpage etc
             removeTrailing(entities);

@@ -8,6 +8,9 @@
 
 package org.dspace.rest.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 /**
@@ -34,6 +37,7 @@ public class RequestParameters {
     private String edate = "";
     private boolean withdrawn = false;
     private int detail = UtilHelper.DEPTH_STANDARD;
+    private List<Integer> sortOptions = new ArrayList<Integer>();
 
     public void setUser(String uname) {
         this.user = uname;
@@ -183,6 +187,49 @@ public class RequestParameters {
         String query = valueInStore("query", "",
                 requestStore);
         setQuery(query);
+    }
+    
+    private void setSortOptions(List<Integer> sortOptions) {
+        this.sortOptions = sortOptions;
+    }
+
+    public List<Integer> getSortOptions() {
+        return sortOptions;
+    }
+
+    public void setSortOptions(final String plainSort) {
+        final String _sort = plainSort.toLowerCase();
+        final List<Integer> sortOptions = new ArrayList<Integer>();
+        // defining sort fields and values
+        String[] sort_arr = _sort.split(",");
+    
+        for (String option : sort_arr) {
+            if (option.startsWith("submitter")) {
+                sortOptions.add(UtilHelper.SORT_SUBMITTER);
+            } else if (option.startsWith("lastname")) {
+                sortOptions.add(UtilHelper.SORT_LASTNAME);
+            } else if (option.startsWith("fullname")) {
+                sortOptions.add(UtilHelper.SORT_FULL_NAME);
+            } else if (option.startsWith("language")) {
+                sortOptions.add(UtilHelper.SORT_LANGUAGE);
+            } else if (option.startsWith("lastmodified")) {
+                sortOptions.add(UtilHelper.SORT_LASTMODIFIED);
+            } else if (option.startsWith("countitems")) {
+                sortOptions.add(UtilHelper.SORT_COUNT_ITEMS);
+            } else if (option.startsWith("name")) {
+                sortOptions.add(UtilHelper.SORT_NAME);
+            } else {
+                sortOptions.add(UtilHelper.SORT_ID);
+            }
+            if ((option.endsWith("_desc") || option.endsWith("_reverse"))) {
+                int i = sortOptions.get(sortOptions.size() - 1);
+                sortOptions.remove(sortOptions.size() - 1);
+                i += 100;
+                sortOptions.add(i);
+            }
+        }
+        
+        setSortOptions(sortOptions);
     }
 
     public static String valueInStore(final String key,
