@@ -81,12 +81,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
     @EntityCustomAction(action = "receive", viewKey = EntityView.VIEW_SHOW)
         public Object receive(EntityReference reference, EntityView view, Map<String, Object> params) throws SQLException, RecentSubmissionsException {
             log.info(userInfo() + "receive_action:" + reference.getId());
-            Context context;
-            try {
-                context = new Context();
-            } catch (SQLException ex) {
-                throw new EntityException("Internal server error", "SQL error", 500);
-            }
+            Context context = context();
 
             try{
                 // refresh query parameters and transfer to local variables
@@ -142,12 +137,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
             return true;
         }
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
         UserRequestParams uparams;
         uparams = refreshParams(context);
@@ -184,12 +174,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
             return super.getEntity(reference);
         }
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
         try {
             UserRequestParams uparams;

@@ -88,12 +88,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
             return true;
         }
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
         refreshParams(context);
         boolean result = false;
@@ -127,12 +122,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
             return super.getEntity(reference);
         }
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
         try {
 
             UserRequestParams uparams;
@@ -166,12 +156,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
     public List<?> getEntities(EntityReference ref, Search search) {
         log.info(userInfo() + "list_entities");
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
         try {
 
             UserRequestParams uparams;

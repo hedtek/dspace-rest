@@ -92,12 +92,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         if (id.equals(":ID:")) {
             return true;
         }
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
         refreshParams(context);
 
@@ -136,12 +131,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                 return super.getEntity(reference);
             } else {
 
-                Context context;
-                try {
-                    context = new Context();
-                } catch (SQLException ex) {
-                    throw new EntityException("Internal server error", "SQL error", 500);
-                }
+                Context context = context();
 
                 try {
                     UserRequestParams uparams;
@@ -176,7 +166,6 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             }
         }
 
-
     /**
      * List all collection in the system, sort and format if requested
      * @param ref
@@ -186,12 +175,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
     public List<?> getEntities(EntityReference ref, Search search) {
         log.info(userInfo() + "list_entities");
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
         UserRequestParams uparams;
         uparams = refreshParams(context);

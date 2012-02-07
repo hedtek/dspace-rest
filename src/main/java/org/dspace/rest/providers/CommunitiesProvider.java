@@ -117,12 +117,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
             return true;
         }
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
         // extract query parameters
         refreshParams(context);
@@ -168,12 +163,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
                     return new CommunityEntity();
                 }
 
-                Context context;
-                try {
-                    context = new Context();
-                } catch (SQLException ex) {
-                    throw new EntityException("Internal server error", "SQL error", 500);
-                }
+                Context context = context();
 
                 try {
                     UserRequestParams uparams;
@@ -205,13 +195,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
 
         log.info("stor2" + reqStor.getStoredValue("pathInfo").toString());
 
-        Context context;
-
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
         UserRequestParams uparams;
         uparams = refreshParams(context);
@@ -241,12 +225,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
 
     // not necessarly anymore
     public void adeleteEntity(EntityReference ref, Map<String, Object> params) {
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
         UserRequestParams uparams;
         uparams = refreshParams(context);

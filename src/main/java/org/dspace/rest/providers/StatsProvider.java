@@ -86,12 +86,7 @@ public class StatsProvider extends AbstractBaseProvider implements CoreEntityPro
     public List<?> getEntities(EntityReference ref, Search search) {
         log.info(userInfo() + "list_entities");
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
         try {
             refreshParams(context);
