@@ -64,7 +64,6 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
 
         try {
             final RequestParameters uparams = refreshParams(context);
-            final PaginationParameters paginationParameters = new PaginationParameters(reqStor);
             List<Object> entities = new ArrayList<Object>();
             List<HarvestedItemInfo> harvestedItems = new ArrayList<HarvestedItemInfo>();
 
@@ -74,15 +73,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
              * in only one subject (community or collection)
              */
             try {
-                final DSpaceObject scope;
-                if (_community != null) {
-                    scope = _community;
-                } else if (_collection != null) {
-                    scope = _collection;
-                } else {
-                    scope = null;
-                }
-                harvestedItems = Harvest.harvest(context, scope, _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
+                harvestedItems = harvest(context);
             } catch (ParseException ex) {
                 throw new EntityException("Bad request", "Incompatible date format", 400);
             } catch (SQLException sq) {
@@ -110,6 +101,27 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
         } finally {
             removeConn(context);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<HarvestedItemInfo> harvest(Context context)
+            throws SQLException, ParseException {
+        List<HarvestedItemInfo> harvestedItems;
+        final PaginationParameters paginationParameters = new PaginationParameters(reqStor);
+        harvestedItems = Harvest.harvest(context, scope(), _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
+        return harvestedItems;
+    }
+
+    private DSpaceObject scope() {
+        final DSpaceObject scope;
+        if (_community != null) {
+            scope = _community;
+        } else if (_collection != null) {
+            scope = _collection;
+        } else {
+            scope = null;
+        }
+        return scope;
     }
 
     /**
