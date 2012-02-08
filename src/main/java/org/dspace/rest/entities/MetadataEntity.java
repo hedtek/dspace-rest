@@ -8,20 +8,7 @@
 
 package org.dspace.rest.entities;
 
-import org.apache.log4j.Logger;
-import org.dspace.authorize.AuthorizeException;
-import org.dspace.content.*;
-import org.dspace.content.Collection;
-import org.dspace.content.crosswalk.DisseminationCrosswalk;
-import org.dspace.core.Context;
-import org.dspace.rest.params.RequestParameters;
-import org.sakaiproject.entitybus.EntityReference;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
-import org.sakaiproject.entitybus.exception.EntityException;
-
-import java.sql.SQLException;
-import java.util.*;
+import org.dspace.content.DCValue;
 
 /**
  * Entity describing DCValue

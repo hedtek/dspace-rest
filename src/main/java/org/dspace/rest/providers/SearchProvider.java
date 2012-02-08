@@ -8,27 +8,28 @@
 
 package org.dspace.rest.providers;
 
-import java.util.List;
-import org.sakaiproject.entitybus.EntityReference;
-import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
-import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
-import org.sakaiproject.entitybus.entityprovider.search.Search;
-import org.dspace.core.Context;
+import java.io.IOException;
 import java.sql.SQLException;
-import org.sakaiproject.entitybus.exception.EntityException;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.dspace.core.Context;
 import org.dspace.rest.diagnose.IOFailureEntityException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
-import org.dspace.rest.entities.*;
-import org.dspace.search.*;
-import org.apache.log4j.Logger;
-import java.io.IOException;
-
+import org.dspace.rest.entities.SearchResultsInfoEntity;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.PaginationParameters;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.params.ScopeParameters;
 import org.dspace.rest.params.SortParameters;
+import org.dspace.search.QueryArgs;
+import org.dspace.search.QueryResults;
+import org.sakaiproject.entitybus.EntityReference;
+import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
+import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
+import org.sakaiproject.entitybus.entityprovider.search.Search;
+import org.sakaiproject.entitybus.exception.EntityException;
 
 /**
  * Enables users to search through items according to different criteria

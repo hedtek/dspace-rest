@@ -8,23 +8,27 @@
 
 package org.dspace.rest.util;
 
-import org.dspace.rest.entities.*;
-import org.dspace.content.Community;
+import java.lang.reflect.Field;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.dspace.content.Collection;
+import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import org.sakaiproject.entitybus.exception.EntityException;
+import org.dspace.rest.entities.CollectionEntity;
+import org.dspace.rest.entities.CollectionEntityId;
+import org.dspace.rest.entities.CommunityEntity;
+import org.dspace.rest.entities.CommunityEntityId;
+import org.dspace.rest.entities.ItemEntity;
+import org.dspace.rest.entities.ItemEntityId;
 import org.dspace.rest.params.RequestParameters;
-import org.dspace.rest.util.RecentSubmissionsManager;
-import org.dspace.rest.util.RecentSubmissions;
-import org.dspace.rest.util.RecentSubmissionsException;
-import java.lang.reflect.*;
+import org.dspace.rest.providers.AbstractBaseProvider;
+import org.sakaiproject.entitybus.exception.EntityException;
 
 /**
  * Here are implemented and coupled helper methods used by several providers

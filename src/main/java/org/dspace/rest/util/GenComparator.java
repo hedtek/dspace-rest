@@ -8,12 +8,13 @@
 
 package org.dspace.rest.util;
 
-import java.util.Comparator;
-import org.dspace.rest.entities.UserEntity;
 import java.util.ArrayList;
-import java.util.List;
-import org.sakaiproject.entitybus.exception.EntityException;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
+
+import org.dspace.rest.entities.UserEntity;
+import org.dspace.rest.providers.AbstractBaseProvider;
 
 /**
  * Provides basis for sorting entities in the list.

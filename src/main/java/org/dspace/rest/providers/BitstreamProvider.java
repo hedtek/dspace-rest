@@ -8,29 +8,32 @@
 
 package org.dspace.rest.providers;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+import org.dspace.authorize.AuthorizeException;
+import org.dspace.content.Bitstream;
+import org.dspace.core.Context;
+import org.dspace.rest.entities.BitstreamEntity;
+import org.dspace.rest.entities.BitstreamEntityId;
+import org.dspace.rest.entities.CommunityEntity;
+import org.dspace.rest.params.EntityBuildParameters;
+import org.dspace.rest.params.RequestParameters;
+import org.dspace.rest.util.RecentSubmissionsException;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
-import org.sakaiproject.entitybus.entityprovider.search.Search;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityCustomAction;
-import org.dspace.content.Bitstream;
-import org.dspace.core.Context;
-import org.apache.log4j.Logger;
-import java.sql.SQLException;
-import org.dspace.rest.entities.*;
-import org.dspace.rest.params.EntityBuildParameters;
-import org.dspace.rest.params.RequestParameters;
-import org.dspace.rest.util.RecentSubmissionsException;
-import javax.servlet.http.HttpServletResponse;
-import org.dspace.authorize.AuthorizeException;
-import javax.servlet.ServletOutputStream;
-import java.io.BufferedInputStream;
+import org.sakaiproject.entitybus.entityprovider.search.Search;
 import org.sakaiproject.entitybus.exception.EntityException;
-import java.io.IOException;
 
 /**
  * Provides access to bitstream entities

@@ -10,25 +10,29 @@ package org.dspace.rest.servlet;
 
 import java.util.List;
 import java.util.Vector;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.dspace.content.Bundle;
+import org.dspace.core.ConfigurationManager;
+import org.dspace.rest.entities.BundleEntityId;
+import org.dspace.rest.providers.AbstractBaseProvider;
+import org.dspace.rest.providers.BitstreamProvider;
+import org.dspace.rest.providers.CollectionsProvider;
+import org.dspace.rest.providers.CommunitiesProvider;
+import org.dspace.rest.providers.GroupProvider;
+import org.dspace.rest.providers.HarvestProvider;
+import org.dspace.rest.providers.ItemsProvider;
+import org.dspace.rest.providers.SearchProvider;
+import org.dspace.rest.providers.StatsProvider;
+import org.dspace.rest.providers.UserProvider;
 import org.sakaiproject.entitybus.EntityBrokerManager;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
 import org.sakaiproject.entitybus.impl.EntityBrokerCoreServiceManager;
 import org.sakaiproject.entitybus.providers.EntityRequestHandler;
 import org.sakaiproject.entitybus.rest.EntityBrokerRESTServiceManager;
 import org.sakaiproject.entitybus.util.servlet.DirectServlet;
-import org.dspace.rest.providers.CommunitiesProvider;
-import org.dspace.rest.providers.CollectionsProvider;
-import org.dspace.rest.providers.BitstreamProvider;
-import org.dspace.rest.providers.ItemsProvider;
-import org.dspace.rest.providers.StatsProvider;
-import org.dspace.rest.providers.UserProvider;
-import org.dspace.rest.providers.AbstractBaseProvider;
-import org.dspace.rest.providers.SearchProvider;
-import org.dspace.rest.providers.HarvestProvider;
-import org.dspace.rest.providers.GroupProvider;
-import org.dspace.core.*;
 
 /**
  * Main class, here is started and initialized servlet, providers registered

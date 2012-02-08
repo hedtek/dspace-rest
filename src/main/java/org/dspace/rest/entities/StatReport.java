@@ -8,15 +8,16 @@
 
 package org.dspace.rest.entities;
 
-import java.util.Date;
-import org.dspace.app.statistics.Report;
-import org.dspace.app.statistics.Statistics;
-import org.dspace.app.statistics.Stat;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import org.dspace.app.statistics.Report;
+import org.dspace.app.statistics.Stat;
+import org.dspace.app.statistics.Statistics;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**

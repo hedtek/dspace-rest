@@ -9,10 +9,11 @@
 
 package org.dspace.rest.entities;
 
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
+import java.sql.SQLException;
+
 import org.dspace.content.Community;
 import org.dspace.core.Context;
-import java.sql.SQLException;
+import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing community, basic version

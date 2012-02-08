@@ -8,27 +8,27 @@
 
 package org.dspace.rest.providers;
 
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import org.sakaiproject.entitybus.EntityReference;
-import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
-import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
-import org.sakaiproject.entitybus.entityprovider.search.Search;
-import org.dspace.content.DSpaceObject;
-import org.dspace.core.Context;
-import java.sql.SQLException;
-import org.sakaiproject.entitybus.exception.EntityException;
-import org.dspace.rest.entities.*;
-import org.dspace.search.*;
-import org.apache.log4j.Logger;
-import java.text.ParseException;
-import java.util.Collections;
 
+import org.apache.log4j.Logger;
+import org.dspace.core.Context;
+import org.dspace.rest.entities.HarvestResultsInfoEntity;
+import org.dspace.rest.entities.ItemEntity;
+import org.dspace.rest.entities.ItemEntityId;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.PaginationParameters;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.params.ScopeParameters;
-import org.dspace.rest.util.GenComparator;
+import org.dspace.search.Harvest;
+import org.dspace.search.HarvestedItemInfo;
+import org.sakaiproject.entitybus.EntityReference;
+import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
+import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
+import org.sakaiproject.entitybus.entityprovider.search.Search;
+import org.sakaiproject.entitybus.exception.EntityException;
 
 /**
  * Provides interface for access to harvesting

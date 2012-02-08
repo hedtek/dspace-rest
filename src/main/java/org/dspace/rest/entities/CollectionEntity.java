@@ -7,25 +7,24 @@
  */
 package org.dspace.rest.entities;
 
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
+import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
-import org.dspace.eperson.Group;
-import org.dspace.content.Community;
 import org.dspace.core.Context;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.ArrayList;
-import org.sakaiproject.entitybus.EntityReference;
-import java.util.Map;
-import org.sakaiproject.entitybus.exception.EntityException;
-import org.dspace.authorize.AuthorizeException;
-import java.io.IOException;
-
+import org.dspace.eperson.Group;
 import org.dspace.rest.params.RequestParameters;
-import org.dspace.rest.util.UtilHelper;
+import org.sakaiproject.entitybus.EntityReference;
+import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
+import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
+import org.sakaiproject.entitybus.exception.EntityException;
 
 /**
  * Entity describing collection

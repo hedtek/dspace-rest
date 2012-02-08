@@ -8,8 +8,10 @@
 
 package org.dspace.rest.entities;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.dspace.rest.providers.SearchProvider;
 
 /**
  * Entity decribing search results

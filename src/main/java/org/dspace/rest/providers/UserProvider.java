@@ -8,26 +8,23 @@
 
 package org.dspace.rest.providers;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.dspace.core.Context;
+import org.dspace.eperson.EPerson;
+import org.dspace.rest.diagnose.Operation;
+import org.dspace.rest.diagnose.SQLFailureEntityException;
+import org.dspace.rest.entities.UserEntity;
+import org.dspace.rest.entities.UserEntityId;
+import org.dspace.rest.params.EntityBuildParameters;
+import org.dspace.rest.params.RequestParameters;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
 import org.sakaiproject.entitybus.entityprovider.search.Search;
-import org.dspace.core.Context;
-import org.sakaiproject.entitybus.exception.EntityException;
-import org.dspace.eperson.EPerson;
-import java.sql.SQLException;
-
-import org.dspace.rest.diagnose.Operation;
-import org.dspace.rest.diagnose.SQLFailureEntityException;
-import org.dspace.rest.entities.*;
-import org.apache.log4j.Logger;
-import java.util.Collections;
-
-import org.dspace.rest.params.EntityBuildParameters;
-import org.dspace.rest.params.RequestParameters;
-import org.dspace.rest.util.GenComparator;
 
 
 

@@ -8,10 +8,11 @@
 
 package org.dspace.rest.entities;
 
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
-import org.dspace.eperson.Group;
-import org.dspace.core.Context;
 import java.sql.SQLException;
+
+import org.dspace.core.Context;
+import org.dspace.eperson.Group;
+import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing users registered on the system, basic version

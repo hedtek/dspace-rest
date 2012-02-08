@@ -8,17 +8,17 @@
 
 package org.dspace.rest.entities;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.dspace.content.Bitstream;
+import org.dspace.content.Bundle;
+import org.dspace.core.Context;
+import org.dspace.rest.params.RequestParameters;
+import org.dspace.rest.providers.BitstreamProvider;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
-import org.dspace.content.Bundle;
-import org.dspace.content.Bitstream;
-import org.dspace.core.Context;
-import java.util.List;
-import java.util.ArrayList;
-import java.sql.SQLException;
-
-import org.dspace.rest.params.RequestParameters;
-import org.dspace.rest.util.UtilHelper;
 
 /**
  * Entity describing Bitstreams

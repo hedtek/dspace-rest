@@ -8,20 +8,18 @@
 
 package org.dspace.rest.entities;
 
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
-import org.dspace.eperson.Group;
-import org.dspace.core.Context;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.ArrayList;
-
-import org.dspace.rest.params.RequestParameters;
-import org.dspace.rest.util.UtilHelper;
-import org.dspace.eperson.EPerson;
+import java.util.List;
 import java.util.Map;
+
+import org.dspace.core.Context;
+import org.dspace.eperson.EPerson;
+import org.dspace.eperson.Group;
+import org.dspace.rest.params.RequestParameters;
 import org.sakaiproject.entitybus.EntityReference;
+import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.exception.EntityException;
-import org.dspace.authorize.AuthorizeException;
 
 /**
  * Entity describing users registered on the system

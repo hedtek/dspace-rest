@@ -9,47 +9,33 @@
 package org.dspace.rest.providers;
 
 //rev
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.io.InputStream;
-import java.io.OutputStream;
 
+import org.apache.log4j.Logger;
+import org.dspace.authorize.AuthorizeException;
+import org.dspace.content.Community;
+import org.dspace.core.Context;
+import org.dspace.rest.entities.CollectionEntity;
+import org.dspace.rest.entities.CommunityEntity;
+import org.dspace.rest.entities.CommunityEntityId;
+import org.dspace.rest.params.EntityBuildParameters;
+import org.dspace.rest.params.RequestParameters;
+import org.dspace.rest.util.RecentSubmissionsException;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
-import org.sakaiproject.entitybus.entityprovider.search.Search;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityCustomAction;
-import org.dspace.content.Community;
-import org.dspace.content.Collection;
-import org.dspace.core.Context;
-import org.apache.log4j.Logger;
-import org.sakaiproject.entitybus.exception.EntityException;
-import java.sql.SQLException;
-import org.dspace.rest.entities.*;
-import org.dspace.rest.params.EntityBuildParameters;
-import org.dspace.rest.params.RequestParameters;
-import org.dspace.rest.util.UtilHelper;
-import java.util.Collections;
-import org.dspace.rest.util.GenComparator;
-import org.dspace.handle.HandleManager;
-import org.dspace.content.DSpaceObject;
-import org.sakaiproject.entitybus.exception.EntityException;
-import java.sql.SQLException;
-import org.dspace.rest.entities.*;
-import org.dspace.rest.util.UtilHelper;
-import org.dspace.rest.util.RecentSubmissionsException;
-import java.util.Collections;
-import org.dspace.rest.util.GenComparator;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderMethodStore;
-import org.sakaiproject.entitybus.entityprovider.extension.*;
-import org.sakaiproject.entitybus.entityprovider.capabilities.*;
-import java.lang.reflect.*;
-import java.util.Map;
-import java.util.HashMap;
-import org.dspace.authorize.AuthorizeException;
-import java.io.IOException;
+import org.sakaiproject.entitybus.entityprovider.extension.ActionReturn;
+import org.sakaiproject.entitybus.entityprovider.extension.EntityData;
+import org.sakaiproject.entitybus.entityprovider.search.Search;
+import org.sakaiproject.entitybus.exception.EntityException;
 
 /**
  * Provides interface for access to community entities

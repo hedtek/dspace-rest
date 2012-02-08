@@ -7,14 +7,11 @@
  */
 package org.dspace.rest.entities;
 
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
-import org.dspace.core.ConfigurationManager;
-import org.dspace.core.Context;
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileNotFoundException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
@@ -23,10 +20,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.HashMap;
+
+import org.dspace.core.ConfigurationManager;
+import org.dspace.core.Context;
+import org.dspace.rest.providers.StatsProvider;
+import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing basic system statistics

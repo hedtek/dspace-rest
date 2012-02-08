@@ -7,24 +7,25 @@
  */
 package org.dspace.rest.providers;
 
+import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
+import org.dspace.app.statistics.ReportGenerator;
 import org.dspace.core.ConfigurationManager;
-import java.io.File;
+import org.dspace.core.Context;
+import org.dspace.rest.entities.CollectionEntity;
+import org.dspace.rest.entities.StatReport;
+import org.dspace.rest.entities.StatsEntity;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
 import org.sakaiproject.entitybus.entityprovider.search.Search;
-import org.dspace.core.Context;
 import org.sakaiproject.entitybus.exception.EntityException;
-import java.sql.SQLException;
-import org.apache.log4j.Logger;
-import org.dspace.rest.entities.*;
-import org.dspace.app.statistics.ReportGenerator;
-import org.dspace.rest.entities.StatReport;
-import org.dspace.app.statistics.Report;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Provides interface for access to basic statistic data

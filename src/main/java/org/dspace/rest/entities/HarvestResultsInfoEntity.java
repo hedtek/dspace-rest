@@ -8,6 +8,8 @@
 
 package org.dspace.rest.entities;
 
+import org.dspace.rest.providers.HarvestProvider;
+
 /**
  * Entity describing Harvesting results
  * @see HarvestProvider

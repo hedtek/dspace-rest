@@ -9,29 +9,21 @@
 
 package org.dspace.rest.providers;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.dspace.content.Collection;
+import org.dspace.core.Context;
+import org.dspace.rest.entities.CollectionEntity;
+import org.dspace.rest.entities.CollectionEntityId;
+import org.dspace.rest.params.EntityBuildParameters;
+import org.dspace.rest.params.RequestParameters;
 import org.sakaiproject.entitybus.EntityReference;
-import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
 import org.sakaiproject.entitybus.entityprovider.search.Search;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityCustomAction;
-import org.dspace.content.Collection;
-import org.apache.log4j.Logger;
-import org.dspace.core.Context;
-import org.sakaiproject.entitybus.exception.EntityException;
-import java.sql.SQLException;
-import org.dspace.rest.entities.*;
-import org.dspace.rest.params.EntityBuildParameters;
-import org.dspace.rest.params.RequestParameters;
-import org.dspace.rest.util.UtilHelper;
-import org.dspace.rest.util.RecentSubmissionsException;
-import org.dspace.rest.util.GenComparator;
-import org.sakaiproject.entitybus.entityprovider.capabilities.*;
-import java.util.Collections;
 
 /**
  * Provides interface for access to collections entities

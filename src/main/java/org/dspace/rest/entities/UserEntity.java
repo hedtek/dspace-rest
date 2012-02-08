@@ -8,12 +8,12 @@
 
 package org.dspace.rest.entities;
 
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
-import org.dspace.eperson.EPerson;
-import org.dspace.core.Context;
 import java.sql.SQLException;
 
+import org.dspace.core.Context;
+import org.dspace.eperson.EPerson;
 import org.dspace.rest.params.RequestParameters;
+import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 
 /**
  * Entity describing users registered on the system

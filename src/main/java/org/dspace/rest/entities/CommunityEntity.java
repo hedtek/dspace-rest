@@ -8,33 +8,26 @@
 
 package org.dspace.rest.entities;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.dspace.authorize.AuthorizeException;
+import org.dspace.content.Collection;
+import org.dspace.content.Community;
+import org.dspace.content.Item;
+import org.dspace.core.Context;
+import org.dspace.rest.params.RequestParameters;
+import org.dspace.rest.util.RecentSubmissions;
+import org.dspace.rest.util.RecentSubmissionsException;
+import org.dspace.rest.util.RecentSubmissionsManager;
+import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityTitle;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityParameters;
-import org.sakaiproject.entitybus.EntityView;
-import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.exception.EntityException;
-import org.dspace.authorize.AuthorizeException;
-import org.dspace.rest.params.RequestParameters;
-import org.dspace.rest.util.RecentSubmissionsManager;
-import org.dspace.rest.util.RecentSubmissions;
-import org.dspace.rest.util.RecentSubmissionsException;
-
-//import javassist.*;
-import org.dspace.content.Community;
-import org.dspace.content.Collection;
-import org.dspace.content.Item;
-import org.dspace.core.Context;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import org.dspace.eperson.Group;
-import java.io.IOException;
-import org.dspace.rest.util.UtilHelper;
-import org.dspace.rest.entities.BitstreamEntity;
-import org.dspace.rest.entities.BitstreamEntityId;
 
 /**
  * Entity describing community, basic version
