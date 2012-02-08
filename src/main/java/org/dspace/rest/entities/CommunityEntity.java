@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
@@ -36,6 +37,8 @@ import org.sakaiproject.entitybus.exception.EntityException;
  */
 public class CommunityEntity extends CommunityEntityId {
 
+    private static Logger log = Logger.getLogger(CommunityEntity.class);
+    
     @EntityId
     private int id;
     @EntityFieldRequired
@@ -55,7 +58,7 @@ public class CommunityEntity extends CommunityEntityId {
     private Object logo;
 
     public CommunityEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
-        System.out.println("creating community main");
+        log.debug("Creating community entity.");
         this.context = context;
         try {
             Community res = Community.find(context, Integer.parseInt(uid));
@@ -114,7 +117,7 @@ public class CommunityEntity extends CommunityEntityId {
     }
 
     public CommunityEntity(Community community, int level, final DetailDepth depth) throws SQLException {
-        System.out.println("creating community 2");
+        log.debug("Creating community");
         // Only include full when above maximum depth
         final boolean includeFull = depth.includeFullDetails(level++);
 
@@ -312,7 +315,6 @@ public class CommunityEntity extends CommunityEntityId {
                 Community com = Community.find(context, Integer.parseInt(ref.getId()));
                 if ((com != null) && (col != null)) {
                     com.addCollection(col);
-//                    System.out.println("com:col" + com.getName() + col.getName());
                     return col.getID();
                 } else {
                     throw new EntityException("Not found", "Entity not found", 404);
@@ -384,7 +386,6 @@ public class CommunityEntity extends CommunityEntityId {
             if (col != null) {
                 result = Integer.toString(col.getID());
                 col.setMetadata("name", name);
-                //System.out.println("create, community " + com.getID() + " collection " + col.getID());
                 col.update();
             } else {
                 throw new EntityException("Internal server error", "Could not create collection", 501);
