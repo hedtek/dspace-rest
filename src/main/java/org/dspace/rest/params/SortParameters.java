@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dspace.rest.util.UtilHelper;
+import org.dspace.search.QueryArgs;
+import org.dspace.sort.SortOption;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class SortParameters {
@@ -122,5 +124,14 @@ public class SortParameters {
     public void setOrder(final RequestStorage requestStore) {
         String order = valueInStore("_order", "", requestStore);
         setOrder(order);
+    }
+
+    public void configure(final QueryArgs arg) {
+        arg.setQuery(getQuery());
+        if ((getOrder().equalsIgnoreCase("descending")) || (getOrder().equalsIgnoreCase("desc"))) {
+            arg.setSortOrder(SortOption.DESCENDING);
+        } else {
+            arg.setSortOrder(SortOption.ASCENDING);
+        }
     }
 }

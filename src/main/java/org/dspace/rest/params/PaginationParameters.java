@@ -1,6 +1,7 @@
 package org.dspace.rest.params;
 
 import org.apache.log4j.Logger;
+import org.dspace.search.QueryArgs;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class PaginationParameters {
@@ -58,6 +59,13 @@ public class PaginationParameters {
     }
     public int getLimit() {
         return limit;
+    }
+
+    public  void configure(final QueryArgs arg) {
+        if (getPerpage() > 0) {
+            arg.setPageSize(getPerpage());
+        }
+        arg.setStart(getStart());
     }
 
     

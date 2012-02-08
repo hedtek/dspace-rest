@@ -23,7 +23,6 @@ import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.*;
 import org.dspace.search.*;
 import org.apache.log4j.Logger;
-import org.dspace.sort.SortOption;
 import org.dspace.core.Constants;
 import java.io.IOException;
 
@@ -165,21 +164,9 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
     private QueryArgs buildQueryArguments() {
         // extract query arguments from the request
         // deprecated - this is now handled at the end of function
-        final SortParameters parameters = new SortParameters(reqStor);
-        final PaginationParameters paginationParameters = new PaginationParameters(reqStor);
-        QueryArgs arg = new QueryArgs();
-        arg.setQuery(parameters.getQuery());
-
-        if (paginationParameters.getPerpage() > 0) {
-            arg.setPageSize(paginationParameters.getPerpage());
-        }
-        arg.setStart(paginationParameters.getStart());
-
-        if ((parameters.getOrder().equalsIgnoreCase("descending")) || (parameters.getOrder().equalsIgnoreCase("desc"))) {
-            arg.setSortOrder(SortOption.DESCENDING);
-        } else {
-            arg.setSortOrder(SortOption.ASCENDING);
-        }
+        final QueryArgs arg = new QueryArgs();
+        new PaginationParameters(reqStor).configure(arg);
+        new SortParameters(reqStor).configure(arg);
         return arg;
     }
 
