@@ -122,7 +122,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
 
                 throw new IllegalArgumentException("Invalid id:" + reference.getId());
             } finally {
-                removeConn(context);
+                complete(context);
             }
         }
 
@@ -151,7 +151,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
             result = false;
         }
 
-        removeConn(context);
+        complete(context);
         return result;
     }
 
@@ -163,8 +163,8 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
     public Object getEntity(EntityReference reference) {
         String segments[] = {};
 
-        if (reqStor.getStoredValue("pathInfo") != null) {
-            segments = reqStor.getStoredValue("pathInfo").toString().split("/", 10);
+        if (requestStore.getStoredValue("pathInfo") != null) {
+            segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
         }
 
         // first check if there is sub-field requested
@@ -188,10 +188,10 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
             }
             if (entityExists(reference.getId())) {
                 try {
-                    if (EntityBuildParameters.build(reqStor).isIdOnly()) {
+                    if (EntityBuildParameters.build(requestStore).isIdOnly()) {
                         return new BitstreamEntityId(reference.getId(), context);
                     } else {
-                        return new BitstreamEntity(reference.getId(), context,1, DetailDepthParameters.build(reqStor).getDepth());
+                        return new BitstreamEntity(reference.getId(), context,1, DetailDepthParameters.build(requestStore).getDepth());
                     }
                 } catch (SQLException ex) {
                     throw new IllegalArgumentException("sql!Invalid id:" + reference.getId());
@@ -200,7 +200,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
 
             throw new IllegalArgumentException("Invalid id:" + reference.getId());
         } finally {
-            removeConn(context);
+            complete(context);
         }
     }
 

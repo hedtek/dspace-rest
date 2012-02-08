@@ -119,7 +119,7 @@ public class StatsProvider extends AbstractBaseProvider implements CoreEntityPro
                 throw new EntityException("Internal Server Error", "Log file Problem", 500);
             }
         } finally {
-            removeConn(context);
+            complete(context);
         }
     }
 

@@ -87,13 +87,13 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
             throw new IOFailureEntityException(Operation.SEARCH, cause);
 
         } finally {
-            removeConn(context);
+            complete(context);
         }
     }
 
     private List<Object> buildResults(final Context context, final QueryResults queryResults)
             throws SQLException {     
-        final List<Object> entities = EntityBuildParameters.build(reqStor).build(context, DetailDepthParameters.build(reqStor).getDepth(), queryResults);
+        final List<Object> entities = EntityBuildParameters.build(requestStore).build(context, DetailDepthParameters.build(requestStore).getDepth(), queryResults);
         sort(entities);
 
         /**
@@ -108,15 +108,15 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
     }
 
     private QueryResults doQuery(final Context context) throws IOException {
-        return ScopeParameters.build(reqStor, context).doQuery(context, buildQueryArguments());
+        return ScopeParameters.build(requestStore, context).doQuery(context, buildQueryArguments());
     }
 
     private QueryArgs buildQueryArguments() {
         // extract query arguments from the request
         // deprecated - this is now handled at the end of function
         final QueryArgs arg = new QueryArgs();
-        new PaginationParameters(reqStor).configure(arg);
-        new SortParameters(reqStor).configure(arg);
+        new PaginationParameters(requestStore).configure(arg);
+        new SortParameters(requestStore).configure(arg);
         return arg;
     }
 

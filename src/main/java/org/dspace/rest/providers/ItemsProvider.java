@@ -97,7 +97,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
         }
 
         // handles manual deregistration by sql server to lower load
-        removeConn(context);
+        complete(context);
         return result;
     }
 
@@ -105,8 +105,8 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
         log.info(userInfo() + "get_entity:" + reference.getId());
         String segments[] = {};
 
-        if (reqStor.getStoredValue("pathInfo") != null) {
-            segments = reqStor.getStoredValue("pathInfo").toString().split("/", 10);
+        if (requestStore.getStoredValue("pathInfo") != null) {
+            segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
         }
 
         // first check if there is sub-field requested
@@ -127,10 +127,10 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
                 try {
 
                     // return basic or full info, according to requirements
-                    if (EntityBuildParameters.build(reqStor).isIdOnly()) {
+                    if (EntityBuildParameters.build(requestStore).isIdOnly()) {
                         return new ItemEntityId(reference.getId(), context);
                     } else {
-                        return new ItemEntity(reference.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
+                        return new ItemEntity(reference.getId(), context, 1, DetailDepthParameters.build(requestStore).getDepth());
                     }
                 } catch (SQLException ex) {
                     throw new IllegalArgumentException("Invalid id:" + reference.getId());
@@ -139,7 +139,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
 
             throw new IllegalArgumentException("Invalid id:" + reference.getId());
         } finally {
-            removeConn(context);
+            complete(context);
         }
     }
 
@@ -153,7 +153,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
             try {
                 ItemIterator items = Item.findAll(context);
                 while (items.hasNext()) {
-                    entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new ItemEntityId(items.next()) : new ItemEntity(items.next(), 1, DetailDepthParameters.build(reqStor).getDepth()));
+                    entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new ItemEntityId(items.next()) : new ItemEntity(items.next(), 1, DetailDepthParameters.build(requestStore).getDepth()));
                 }
             } catch (SQLException ex) {
                 throw new EntityException("Internal server error", "SQL error", 500);
@@ -164,7 +164,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
             removeTrailing(entities);
             return entities;
         } finally {
-            removeConn(context);
+            complete(context);
         }
     }
 

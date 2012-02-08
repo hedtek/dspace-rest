@@ -82,7 +82,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
             result = false;
         }
 
-        removeConn(context);
+        complete(context);
         return result;
     }
 
@@ -95,8 +95,8 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
         log.info(userInfo() + "get_entity:" + reference.getId());
         String segments[] = {};
 
-        if (reqStor.getStoredValue("pathInfo") != null) {
-            segments = reqStor.getStoredValue("pathInfo").toString().split("/", 10);
+        if (requestStore.getStoredValue("pathInfo") != null) {
+            segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
         }
 
         // first check if there is sub-field requested
@@ -119,7 +119,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
 
             if (entityExists(reference.getId())) {
                 try {
-                    if (EntityBuildParameters.build(reqStor).isIdOnly()) {
+                    if (EntityBuildParameters.build(requestStore).isIdOnly()) {
                         return new UserEntityId(reference.getId());
                     } else {
                         return new UserEntity(reference.getId(), context, 1);
@@ -131,7 +131,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
 
             throw new IllegalArgumentException("Invalid id:" + reference.getId());
         } finally {
-            removeConn(context);
+            complete(context);
         }
     }
 
@@ -152,7 +152,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
             try {
                 EPerson[] epersons = EPerson.findAll(context, EPerson.ID);
                 for (int x = 0; x < epersons.length; x++) {
-                    entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new UserEntityId(epersons[x].getID()) : new UserEntity(epersons[x]));
+                    entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new UserEntityId(epersons[x].getID()) : new UserEntity(epersons[x]));
                 }
             } catch (SQLException ex) {
                 throw new SQLFailureEntityException(Operation.CANNOT_FIND_USER_ENTITIES, ex);
@@ -164,7 +164,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
 
             return entities;
         } finally {
-            removeConn(context);
+            complete(context);
         }
     }
 

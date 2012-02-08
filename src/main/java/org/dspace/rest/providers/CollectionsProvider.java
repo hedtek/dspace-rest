@@ -99,7 +99,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         }
 
         // close connection to prevent connection problems
-        removeConn(context);
+        complete(context);
         return result;
     }
 
@@ -113,8 +113,8 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             log.info(userInfo() + "get_entity:" + reference.getId());
             String segments[] = {};
 
-            if (reqStor.getStoredValue("pathInfo") != null) {
-                segments = reqStor.getStoredValue("pathInfo").toString().split("/", 10);
+            if (requestStore.getStoredValue("pathInfo") != null) {
+                segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
             }
 
             // first check if there is sub-field requested
@@ -138,10 +138,10 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                     if (entityExists(reference.getId())) {
                         try {
                             // return basic entity or full info
-                            if (EntityBuildParameters.build(reqStor).isIdOnly()) {
+                            if (EntityBuildParameters.build(requestStore).isIdOnly()) {
                                 return new CollectionEntityId(reference.getId(), context);
                             } else {
-                                return new CollectionEntity(reference.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
+                                return new CollectionEntity(reference.getId(), context, 1, DetailDepthParameters.build(requestStore).getDepth());
                             }
                         } catch (SQLException ex) {
                             throw new IllegalArgumentException("Invalid id:" + reference.getId());
@@ -150,7 +150,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
 
                     throw new IllegalArgumentException("Invalid id:" + reference.getId());
                 } finally {
-                    removeConn(context);
+                    complete(context);
                 }
             }
         }
@@ -173,13 +173,13 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             collections = Collection.findAll(context);
             //            System.out.println(" number of collections " + Collection.getNumCollections(context));
             for (Collection c : collections) {
-                entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new CollectionEntityId(c) : new CollectionEntity(c, 1, DetailDepthParameters.build(reqStor).getDepth()));
+                entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new CollectionEntityId(c) : new CollectionEntity(c, 1, DetailDepthParameters.build(requestStore).getDepth()));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        removeConn(context);
+        complete(context);
         
         sort(entities);
         removeTrailing(entities);

@@ -115,7 +115,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
             result = false;
         }
 
-        removeConn(context);
+        complete(context);
         return result;
     }
 
@@ -126,8 +126,8 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
             String segments[] = {};
 
             log.info("Community get entity");
-            if (reqStor.getStoredValue("pathInfo") != null) {
-                segments = reqStor.getStoredValue("pathInfo").toString().split("/", 10);
+            if (requestStore.getStoredValue("pathInfo") != null) {
+                segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
             }
 
             // first check if there is sub-field requested
@@ -153,10 +153,10 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
                     if (entityExists(reference.getId())) {
                         try {
                             // return just entity containg id or full info
-                            if (EntityBuildParameters.build(reqStor).isIdOnly()) {
+                            if (EntityBuildParameters.build(requestStore).isIdOnly()) {
                                 return new CommunityEntityId(reference.getId(), context);
                             } else {
-                                return new CommunityEntity(reference.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
+                                return new CommunityEntity(reference.getId(), context, 1, DetailDepthParameters.build(requestStore).getDepth());
                             }
                         } catch (SQLException ex) {
                             throw new IllegalArgumentException("Invalid id:" + reference.getId());
@@ -167,7 +167,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
                     throw new IllegalArgumentException("Invalid id:" + reference.getId());
                 } finally {
 
-                    removeConn(context);
+                    complete(context);
                 }
             }
         }
@@ -175,7 +175,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
     public List<?> getEntities(EntityReference ref, Search search) {
         log.info(userInfo() + "list_entities");
 
-        log.info("stor2" + reqStor.getStoredValue("pathInfo").toString());
+        log.info("stor2" + requestStore.getStoredValue("pathInfo").toString());
 
         Context context = context();
         
@@ -183,15 +183,15 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
 
         try {
             Community[] communities = null;
-            communities = EntityBuildParameters.build(reqStor).isTopLevelOnly() ? Community.findAllTop(context) : Community.findAll(context);
+            communities = EntityBuildParameters.build(requestStore).isTopLevelOnly() ? Community.findAllTop(context) : Community.findAll(context);
             for (Community c : communities) {
-                entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new CommunityEntityId(c) : new CommunityEntity(c, 1, DetailDepthParameters.build(reqStor).getDepth()));
+                entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new CommunityEntityId(c) : new CommunityEntity(c, 1, DetailDepthParameters.build(requestStore).getDepth()));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        removeConn(context);
+        complete(context);
 
         // sort and limit if necessary
         sort(entities);
@@ -215,7 +215,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
         } catch (IOException ie) {
             throw new EntityException("Internal server error", "SQL error, cannot delete community", 500);
         }
-        removeConn(context);
+        complete(context);
     }
 
     public String[] importData(String reference, InputStream data, String encodingKey, Map<String, Object> params) {

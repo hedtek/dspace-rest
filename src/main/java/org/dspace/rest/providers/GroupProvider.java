@@ -80,7 +80,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
             result = false;
         }
 
-        removeConn(context);
+        complete(context);
         return result;
     }
 
@@ -93,8 +93,8 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
         log.info(userInfo() + "get_entity:" + reference.getId());
         String segments[] = {};
 
-        if (reqStor.getStoredValue("pathInfo") != null) {
-            segments = reqStor.getStoredValue("pathInfo").toString().split("/", 10);
+        if (requestStore.getStoredValue("pathInfo") != null) {
+            segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
         }
 
         // first check if there is sub-field requested
@@ -118,10 +118,10 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
 
             if (entityExists(reference.getId())) {
                 try {
-                    if (EntityBuildParameters.build(reqStor).isIdOnly()) {
+                    if (EntityBuildParameters.build(requestStore).isIdOnly()) {
                         return new GroupEntityId(reference.getId(), context);
                     } else {
-                        return new GroupEntity(reference.getId(), context,1, DetailDepthParameters.build(reqStor).getDepth());
+                        return new GroupEntity(reference.getId(), context,1, DetailDepthParameters.build(requestStore).getDepth());
                     }
                 } catch (SQLException ex) {
                     throw new IllegalArgumentException("Invalid id:" + reference.getId());
@@ -130,7 +130,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
 
             throw new IllegalArgumentException("Invalid id:" + reference.getId());
         } finally {
-            removeConn(context);
+            complete(context);
         }
     }
 
@@ -153,7 +153,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
                 groups = Group.findAll(context, Group.NAME);
                 if (groups != null) {
                     for (int x = 0; x < groups.length; x++) {
-                        entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new GroupEntityId(groups[x]) : new GroupEntity(groups[x],1, DetailDepthParameters.build(reqStor).getDepth()));
+                        entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new GroupEntityId(groups[x]) : new GroupEntity(groups[x],1, DetailDepthParameters.build(requestStore).getDepth()));
                     }
                 }
             } catch (SQLException ex) {
@@ -167,7 +167,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
 
             return entities;
         } finally {
-            removeConn(context);
+            complete(context);
         }
     }
 

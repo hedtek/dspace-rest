@@ -73,7 +73,7 @@ import org.sakaiproject.entitybus.rest.EntityEncodingManager;
 public abstract class AbstractBaseProvider implements EntityProvider, Resolvable, CollectionResolvable, InputTranslatable, RequestAware, Outputable, Describeable, ActionsExecutable, Redirectable, RequestStorable, RequestInterceptor {
 
     // query parameters used in subclasses
-    protected RequestStorage reqStor;
+    protected RequestStorage requestStore;
     protected boolean withdrawn;
     protected String user = "";
     protected String pass = "";
@@ -276,7 +276,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                 }
 
                 try {
-                    removeConn(context);
+                    complete(context);
                 } catch (NullPointerException ex) {
                     // context already closed, ok
                 }
@@ -291,7 +291,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     }
 
     public void setRequestStorage(RequestStorage rStor) {
-        this.reqStor = rStor;
+        this.requestStore = rStor;
     }
 
     public Object testAction(EntityReference reference, EntityView view) throws SQLException, RecentSubmissionsException {
@@ -330,7 +330,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
 
                 try {
-                    removeConn(context);
+                    complete(context);
                 } catch (NullPointerException ex) {
                     // context already close, ok
                 }
@@ -599,13 +599,13 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
          * now check user login info and try to register
          */
         try {
-            user = reqStor.getStoredValue("user").toString();
+            user = requestStore.getStoredValue("user").toString();
         } catch (NullPointerException ex) {
             user = "";
         }
 
         try {
-            pass = reqStor.getStoredValue("pass").toString();
+            pass = requestStore.getStoredValue("pass").toString();
         } catch (NullPointerException ex) {
             pass = "";
         }
@@ -646,19 +646,19 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         }
 
         try {
-            _sdate = reqStor.getStoredValue("startdate").toString();
+            _sdate = requestStore.getStoredValue("startdate").toString();
         } catch (NullPointerException ex) {
             _sdate = null;
         }
 
         try {
-            _edate = reqStor.getStoredValue("enddate").toString();
+            _edate = requestStore.getStoredValue("enddate").toString();
         } catch (NullPointerException ex) {
             _edate = null;
         }
 
         try {
-            withdrawn = reqStor.getStoredValue("withdrawn").toString().equalsIgnoreCase("true");
+            withdrawn = requestStore.getStoredValue("withdrawn").toString().equalsIgnoreCase("true");
         } catch (NullPointerException ex) {
             withdrawn = false;
         }
@@ -696,7 +696,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      * @param entities
      */
     public void removeTrailing(List<?> entities) {
-        final PaginationParameters parameters = new PaginationParameters(reqStor);
+        final PaginationParameters parameters = new PaginationParameters(requestStore);
         if ((parameters.getStart() > 0) && (parameters.getStart() < entities.size())) {
             for (int x = 0; x
                     < parameters.getStart(); x++) {
@@ -716,7 +716,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      * this way it goes faster and prevents droppings with higher load
      * @param context
      */
-    public void removeConn(Context context) {
+    public void complete(Context context) {
         // close connection to prevent connection problems
         try {
             context.complete();
@@ -753,8 +753,8 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         String segments[] = {};
 
         log.info("Abstract get entity");
-        if (reqStor.getStoredValue("pathInfo") != null) {
-            segments = reqStor.getStoredValue("pathInfo").toString().split("/", 10);
+        if (requestStore.getStoredValue("pathInfo") != null) {
+            segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
         }
 
         if (segments[3].lastIndexOf(".") > 0) {
@@ -769,7 +769,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             Object CE = new Object();
             try {
 
-                CE = entityConstructor.newInstance(reference.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
+                CE = entityConstructor.newInstance(reference.getId(), context, 1, DetailDepthParameters.build(requestStore).getDepth());
             } catch (Exception ex) {
                 throw new EntityException("Internal server error", "Cannot create entity", 500);
             }
@@ -783,7 +783,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             }
 
             try {
-                removeConn(context);
+                complete(context);
             } catch (NullPointerException ex) {
                 // context already closed, ok
             }
@@ -799,8 +799,8 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         Map<String, Object> inputVar = new HashMap<String, Object>();
         log.info("Delete called");
 
-        if (reqStor.getStoredValue("pathInfo") != null) {
-            segments = reqStor.getStoredValue("pathInfo").toString().split("/", 32);
+        if (requestStore.getStoredValue("pathInfo") != null) {
+            segments = requestStore.getStoredValue("pathInfo").toString().split("/", 32);
         }
 
 
@@ -840,7 +840,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
             Object CE = new Object();
             try {
-                CE = entityConstructor.newInstance(ref.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
+                CE = entityConstructor.newInstance(ref.getId(), context, 1, DetailDepthParameters.build(requestStore).getDepth());
             } catch (Exception ex) {
                 throw new EntityException("Internal server error", "Cannot create entity", 500);
             }
@@ -862,7 +862,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             }
 
             try {
-                removeConn(context);
+                complete(context);
             } catch (NullPointerException ex) {
                 // context already closed, ok
             }
@@ -876,7 +876,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
             Object CE = new Object();
             try {
-                CE = entityConstructor.newInstance(ref.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
+                CE = entityConstructor.newInstance(ref.getId(), context, 1, DetailDepthParameters.build(requestStore).getDepth());
             } catch (Exception ex) {
                 throw new EntityException("Internal server error", "Cannot create entity", 500);
             }
@@ -889,7 +889,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             }
 
             try {
-                removeConn(context);
+                complete(context);
             } catch (NullPointerException ex) {
                 // context already closed, ok
             }
@@ -925,7 +925,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                 Object CE = new Object();
 
                 try {
-                    CE = entityConstructor.newInstance(ref.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
+                    CE = entityConstructor.newInstance(ref.getId(), context, 1, DetailDepthParameters.build(requestStore).getDepth());
                 } catch (Exception ex) {
                     throw new EntityException("Internal server error", "Cannot create entity", 500);
                 }
@@ -946,7 +946,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                     throw new EntityException("Internal server error", "Cannot call method " + function, 500);
                 }
                 try {
-                    removeConn(context);
+                    complete(context);
 
                 } catch (NullPointerException ex) {
                     // context already closed, ok
@@ -1001,7 +1001,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         Object CE = new Object();
         log.info("id izabran " + ref.getId());
         try {
-            CE = entityConstructor.newInstance(ref.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
+            CE = entityConstructor.newInstance(ref.getId(), context, 1, DetailDepthParameters.build(requestStore).getDepth());
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new EntityException("Internal server error", "aCannot create entity", 500);
@@ -1023,7 +1023,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             throw new EntityException("Internal server error", "Cannot call method " + function, 500);
         }
         try {
-            removeConn(context);
+            complete(context);
 
         } catch (NullPointerException ex) {
             // context already closed, ok
@@ -1053,8 +1053,8 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
          * if the full info are requested and there are sorting requirements
          * process entities through sorting filter first
          */
-        if (!EntityBuildParameters.build(reqStor).isIdOnly()) {
-            new SortParameters(reqStor).sort(entities);
+        if (!EntityBuildParameters.build(requestStore).isIdOnly()) {
+            new SortParameters(requestStore).sort(entities);
         }
     }
 }

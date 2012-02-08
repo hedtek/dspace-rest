@@ -85,7 +85,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
             try {
                 entities.add(new HarvestResultsInfoEntity(harvestedItems.size()));
                 for (int x = 0; x < harvestedItems.size(); x++) {
-                    entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new ItemEntityId(harvestedItems.get(x).item) : new ItemEntity(harvestedItems.get(x).item, 1, DetailDepthParameters.build(reqStor).getDepth()));
+                    entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new ItemEntityId(harvestedItems.get(x).item) : new ItemEntity(harvestedItems.get(x).item, 1, DetailDepthParameters.build(requestStore).getDepth()));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -100,7 +100,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
 
             return entities;
         } finally {
-            removeConn(context);
+            complete(context);
         }
     }
 
@@ -108,8 +108,8 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
     private List<HarvestedItemInfo> harvest(Context context)
             throws SQLException, ParseException {
         List<HarvestedItemInfo> harvestedItems;
-        final PaginationParameters paginationParameters = new PaginationParameters(reqStor);
-        harvestedItems = Harvest.harvest(context, ScopeParameters.build(reqStor, context).scope(), _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
+        final PaginationParameters paginationParameters = new PaginationParameters(requestStore);
+        harvestedItems = Harvest.harvest(context, ScopeParameters.build(requestStore, context).scope(), _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
         return harvestedItems;
     }
 
