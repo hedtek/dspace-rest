@@ -1037,8 +1037,8 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
     }
 
-    protected Context context() {
-        Context context;
+    protected final Context context() {
+        final Context context;
         try {
             context = new Context();
         } catch (SQLException ex) {
