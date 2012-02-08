@@ -24,8 +24,9 @@ import org.dspace.core.Context;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.rest.entities.CommunityEntity;
+import org.dspace.rest.entities.DetailDepth;
+import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
-import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.RecentSubmissionsException;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.EntityView;
@@ -64,7 +65,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
         func2actionMapGET.put("getHandle", "handle");
         func2actionMapGET.put("getId", "id");
         func2actionMapGET.put("getType", "type");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
+        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
         initMappings(processedEntity);
 
     }
@@ -89,8 +90,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
 
             try{
                 // refresh query parameters and transfer to local variables
-                RequestParameters uparam;
-                uparam = refreshParams(context);
+                refreshParams(context);
 
                 Bitstream bst = Bitstream.find(context, Integer.parseInt(reference.getId()));
 
@@ -143,8 +143,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
 
         Context context = context();
 
-        RequestParameters uparams;
-        uparams = refreshParams(context);
+        refreshParams(context);
 
         boolean result = false;
         try {
@@ -181,8 +180,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
         Context context = context();
 
         try {
-            RequestParameters uparams;
-            uparams = refreshParams(context);
+            refreshParams(context);
             log.info(userInfo() + "get_entity:" + reference.getId());
 
             // sample entity
@@ -198,7 +196,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
                     if (EntityBuildParameters.build(reqStor).isIdOnly()) {
                         return new BitstreamEntityId(reference.getId(), context);
                     } else {
-                        return new BitstreamEntity(reference.getId(), context,1, uparams);
+                        return new BitstreamEntity(reference.getId(), context,1, DetailDepthParameters.build(reqStor).getDepth());
                     }
                 } catch (SQLException ex) {
                     throw new IllegalArgumentException("sql!Invalid id:" + reference.getId());

@@ -19,7 +19,6 @@ import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
-import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.RecentSubmissions;
 import org.dspace.rest.util.RecentSubmissionsException;
 import org.dspace.rest.util.RecentSubmissionsManager;
@@ -55,7 +54,7 @@ public class CommunityEntity extends CommunityEntityId {
     private String short_description, introductory_text, copyright_text, side_bar_text;
     private Object logo;
 
-    public CommunityEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
+    public CommunityEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
         System.out.println("creating community main");
         this.context = context;
         try {
@@ -65,11 +64,9 @@ public class CommunityEntity extends CommunityEntityId {
             this.handle = res.getHandle();
             this.name = res.getName();
             this.type = res.getType();
-            boolean includeFull = false;
-            level++;
-            if (level <= uparams.getDetail()) {
-                includeFull = true;
-            }
+
+            // Only include full when above maximum depth
+            final boolean includeFull = depth.includeFullDetails(level++);
 
             if (res.getLogo() != null)
             //this.logo = includeFull ? new BitstreamEntity(Integer.toString(res.getLogo().getID()), context, level, uparams) : new BitstreamEntityId(Integer.toString(res.getLogo().getID()), context);
@@ -81,12 +78,12 @@ public class CommunityEntity extends CommunityEntityId {
 
                 Collection[] cols = res.getCollections();
             for (Collection c : cols) {
-                this.collections.add(includeFull ? new CollectionEntity(c, level, uparams) : new CollectionEntityId(c));
+                this.collections.add(includeFull ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
             }
             
             Community[] coms = res.getSubcommunities();
             for (Community c : coms) {
-                this.subCommunities.add(includeFull ? new CommunityEntity(c, level, uparams) : new CommunityEntityId(c));
+                this.subCommunities.add(includeFull ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
             }
             try {
                 Community parentCommunity = res.getParentCommunity();
@@ -94,7 +91,7 @@ public class CommunityEntity extends CommunityEntityId {
                     this.parent = null;
                 } else {
                     if(includeFull) {
-                        this.parent = new CommunityEntity(parentCommunity, level, uparams);
+                        this.parent = new CommunityEntity(parentCommunity, level, depth);
                     } else {
                         this.parent = new CommunityEntityId(parentCommunity);
                     }
@@ -107,7 +104,7 @@ public class CommunityEntity extends CommunityEntityId {
             try {
                 RecentSubmissions recent = rsm.getRecentSubmissions(res);
                 for (Item i : recent.getRecentSubmissions()) {
-                    this.recentSubmissions.add(includeFull ? new ItemEntity(i, level, uparams) : new ItemEntityId(i));
+                    this.recentSubmissions.add(includeFull ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
                 }
             } catch (RecentSubmissionsException ex) {
             }
@@ -116,14 +113,10 @@ public class CommunityEntity extends CommunityEntityId {
         //context.complete(); //<-important
     }
 
-    public CommunityEntity(Community community, int level, RequestParameters uparams) throws SQLException {
+    public CommunityEntity(Community community, int level, final DetailDepth depth) throws SQLException {
         System.out.println("creating community 2");
-        // check calling package/class in order to prevent chaining
-        boolean includeFull = false;
-        level++;
-        if (level <= uparams.getDetail()) {
-            includeFull = true;
-        }
+        // Only include full when above maximum depth
+        final boolean includeFull = depth.includeFullDetails(level++);
 
         this.canEdit = community.canEditBoolean();
         this.handle = community.getHandle();
@@ -142,14 +135,14 @@ public class CommunityEntity extends CommunityEntityId {
         
         Collection[] cols = community.getCollections();
         for (Collection c : cols) {
-            this.collections.add(includeFull ? new CollectionEntity(c, level, uparams) : new CollectionEntityId(c));
+            this.collections.add(includeFull ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
         }
         Community[] coms = community.getSubcommunities();
         for (Community c : coms) {
-            this.subCommunities.add(includeFull ? new CommunityEntity(c, level, uparams) : new CommunityEntityId(c));
+            this.subCommunities.add(includeFull ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
         }
         try {
-            this.parent = includeFull ? new CommunityEntity(community.getParentCommunity(), level, uparams) : new CommunityEntityId(community.getParentCommunity());
+            this.parent = includeFull ? new CommunityEntity(community.getParentCommunity(), level, depth) : new CommunityEntityId(community.getParentCommunity());
         } catch (NullPointerException ne) {
             this.parent = null;
         }

@@ -18,9 +18,9 @@ import org.dspace.rest.diagnose.IOFailureEntityException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.SearchResultsInfoEntity;
+import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.PaginationParameters;
-import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.params.ScopeParameters;
 import org.dspace.rest.params.SortParameters;
 import org.dspace.search.QueryArgs;
@@ -79,10 +79,10 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
 
             // refresh parameters for this request
             // WARNING: this is MAGIC
-            final RequestParameters requestParameters = refreshParams(context);
+            refreshParams(context);
             final QueryResults queryResults = doQuery(context);
             final SearchResultsInfoEntity info = buildInfo(queryResults);
-            final List<Object> entities = buildResults(context, requestParameters, queryResults);
+            final List<Object> entities = buildResults(context, queryResults);
             entities.add(0, info);
             return entities;
         } catch (SQLException cause) {
@@ -95,10 +95,9 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         }
     }
 
-    private List<Object> buildResults(final Context context,
-            final RequestParameters uparams, final QueryResults queryResults)
+    private List<Object> buildResults(final Context context, final QueryResults queryResults)
             throws SQLException {     
-        final List<Object> entities = EntityBuildParameters.build(reqStor).build(context, uparams, queryResults);
+        final List<Object> entities = EntityBuildParameters.build(reqStor).build(context, DetailDepthParameters.build(reqStor).getDepth(), queryResults);
         sort(entities);
 
         /**

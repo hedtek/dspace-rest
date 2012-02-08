@@ -22,7 +22,6 @@ import org.dspace.content.Item;
 import org.dspace.content.crosswalk.DisseminationCrosswalk;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
-import org.dspace.rest.params.RequestParameters;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
@@ -65,7 +64,7 @@ public class ItemEntity extends ItemEntityId {
     private DisseminationCrosswalk xHTMLHeadCrosswalk;
 
     // TODO inspect and add additional fields
-    public ItemEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
+    public ItemEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
         Item res = Item.find(context, Integer.parseInt(uid));
         this.id = res.getID();
         this.canEdit = res.canEdit();
@@ -81,27 +80,24 @@ public class ItemEntity extends ItemEntityId {
         Bitstream[] bst = res.getNonInternalBitstreams();
         Collection[] col = res.getCollections();
         Community[] com = res.getCommunities();
-        boolean includeFull = false;
-        level++;
-        if (level <= uparams.getDetail()) {
-            includeFull = true;
-        }
-
+        // Only include full when above maximum depth
+        final boolean includeFull = depth.includeFullDetails(level++);
+      
         Collection ownCol = res.getOwningCollection();
         if (ownCol != null) {
-            this.owningCollection = includeFull ? new CollectionEntity(ownCol, level, uparams) : new CollectionEntityId(ownCol);
+            this.owningCollection = includeFull ? new CollectionEntity(ownCol, level, depth) : new CollectionEntityId(ownCol);
         }
         for (Bundle b : bun) {
-            this.bundles.add(includeFull ? new BundleEntity(b, level, uparams) : new BundleEntityId(b));
+            this.bundles.add(includeFull ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
         }
         for (Bitstream b : bst) {
-            this.bitstreams.add(includeFull ? new BitstreamEntity(b, level, uparams) : new BitstreamEntityId(b));
+            this.bitstreams.add(includeFull ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
         }
         for (Collection c : col) {
-            this.collections.add(includeFull ? new CollectionEntity(c, level, uparams) : new CollectionEntityId(c));
+            this.collections.add(includeFull ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
         }
         for (Community c : com) {
-            this.communities.add(includeFull ? new CommunityEntity(c, level, uparams) : new CommunityEntityId(c));
+            this.communities.add(includeFull ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
         }
 
         DCValue[] dcValues = res.getMetadata(Item.ANY, Item.ANY, Item.ANY, Item.ANY);
@@ -111,14 +107,10 @@ public class ItemEntity extends ItemEntityId {
         }
     } 
 
-    public ItemEntity(Item item, int level, RequestParameters uparams) throws SQLException {
-        // Don't include full details for items deep in the data tree.
-        boolean includeFull = false;
-        level++;
-        if (level <= uparams.getDetail()) {
-            includeFull = true;
-        }
-
+    public ItemEntity(Item item, int level, final DetailDepth depth) throws SQLException {
+        // Only include full when above maximum depth
+        final boolean includeFull = depth.includeFullDetails(level++);
+        
         this.canEdit = item.canEdit();
         this.handle = item.getHandle();
         this.name = item.getName();
@@ -127,7 +119,7 @@ public class ItemEntity extends ItemEntityId {
         this.lastModified = item.getLastModified();
         Collection ownCol = item.getOwningCollection();
         if (ownCol != null) {
-            this.owningCollection = includeFull ? new CollectionEntity(ownCol, level, uparams) : new CollectionEntityId(ownCol);
+            this.owningCollection = includeFull ? new CollectionEntity(ownCol, level, depth) : new CollectionEntityId(ownCol);
         }
         this.isArchived = item.isArchived();
         this.isWithdrawn = item.isWithdrawn();
@@ -139,16 +131,16 @@ public class ItemEntity extends ItemEntityId {
         Collection[] col = item.getCollections();
         Community[] com = item.getCommunities();
         for (Bundle b : bun) {
-            this.bundles.add(includeFull ? new BundleEntity(b, level, uparams) : new BundleEntityId(b));
+            this.bundles.add(includeFull ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
         }
         for (Bitstream b : bst) {
-            this.bitstreams.add(includeFull ? new BitstreamEntity(b, level, uparams) : new BitstreamEntityId(b));
+            this.bitstreams.add(includeFull ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
         }
         for (Collection c : col) {
-            this.collections.add(includeFull ? new CollectionEntity(c, level, uparams) : new CollectionEntityId(c));
+            this.collections.add(includeFull ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
         }
         for (Community c : com) {
-            this.communities.add(includeFull ? new CommunityEntity(c, level, uparams) : new CommunityEntityId(c));
+            this.communities.add(includeFull ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
         }
 
         DCValue[] dcValues = item.getMetadata(Item.ANY, Item.ANY, Item.ANY, Item.ANY);

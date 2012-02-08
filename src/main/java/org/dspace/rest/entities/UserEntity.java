@@ -12,7 +12,6 @@ import java.sql.SQLException;
 
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
-import org.dspace.rest.params.RequestParameters;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 
 /**
@@ -38,7 +37,12 @@ public class UserEntity extends UserEntityId implements Comparable<UserEntity> {
            language, netId;
    private int type;
    
-   public UserEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
+
+   public UserEntity(String uid, Context context, int level, final DetailDepth requiredForReflection) throws SQLException {
+       this(uid, context, level);
+   }
+   
+   public UserEntity(String uid, Context context, int level) throws SQLException {
        this(findEPerson(uid, context));
    }
 

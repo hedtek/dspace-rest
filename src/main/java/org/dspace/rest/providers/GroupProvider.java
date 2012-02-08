@@ -15,10 +15,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
 import org.dspace.eperson.Group;
+import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.GroupEntity;
 import org.dspace.rest.entities.GroupEntityId;
+import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
-import org.dspace.rest.params.RequestParameters;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -51,7 +52,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
         func2actionMapGET.put("getRequireCertificate", "requireCertificate");
         func2actionMapGET.put("getSelfRegistered", "selfRegistered");
         func2actionMapGET.put("getType", "type");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
+        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
         initMappings(processedEntity);
     }
 
@@ -107,8 +108,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
         Context context = context();
 
         try {
-            RequestParameters uparams;
-            uparams = refreshParams(context);
+            refreshParams(context);
 
             // sample entity
             if (reference.getId().equals(":ID:")) {
@@ -125,7 +125,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
                     if (EntityBuildParameters.build(reqStor).isIdOnly()) {
                         return new GroupEntityId(reference.getId(), context);
                     } else {
-                        return new GroupEntity(reference.getId(), context,1, uparams);
+                        return new GroupEntity(reference.getId(), context,1, DetailDepthParameters.build(reqStor).getDepth());
                     }
                 } catch (SQLException ex) {
                     throw new IllegalArgumentException("Invalid id:" + reference.getId());
@@ -152,8 +152,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
         try {
 
             // extract and prepare query parameters
-            RequestParameters uparams;
-            uparams = refreshParams(context);
+            refreshParams(context);
             List<Object> entities = new ArrayList<Object>();
 
             try {
@@ -161,7 +160,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
                 groups = Group.findAll(context, Group.NAME);
                 if (groups != null) {
                     for (int x = 0; x < groups.length; x++) {
-                        entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new GroupEntityId(groups[x]) : new GroupEntity(groups[x],1, uparams));
+                        entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new GroupEntityId(groups[x]) : new GroupEntity(groups[x],1, DetailDepthParameters.build(reqStor).getDepth()));
                     }
                 }
             } catch (SQLException ex) {

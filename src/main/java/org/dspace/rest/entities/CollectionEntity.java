@@ -21,8 +21,6 @@ import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
 import org.dspace.eperson.Group;
-import org.dspace.rest.params.RequestParameters;
-import org.dspace.rest.providers.CollectionsProvider;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
@@ -56,7 +54,7 @@ public class CollectionEntity {
     private String provenance;
     private Object logo;
 
-    public CollectionEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
+    public CollectionEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
         log.debug("Creating collection entity.");
         Collection res = Collection.find(context, Integer.parseInt(uid));
         
@@ -64,47 +62,37 @@ public class CollectionEntity {
 
         //ItemIterator i = Item.findAll(context);
         ItemIterator i = res.getAllItems();
-        boolean includeFull = false;
-        level++;
-        if (level <= uparams.getDetail()) {
-            includeFull = true;
-        }
+
+        // Only include full when above maximum depth
+        final boolean includeFull = depth.includeFullDetails(level++);
 
         while (i.hasNext()) {
-            items.add(includeFull ? new ItemEntity(i.next(), level, uparams) : new ItemEntityId(i.next()));
+            items.add(includeFull ? new ItemEntity(i.next(), level, depth) : new ItemEntityId(i.next()));
         }
         this.countItems = items.size();
 
         for (Community c : res.getCommunities()) {
-            this.communities.add(includeFull ? new CommunityEntity(c, level, uparams) : new CommunityEntityId(c));
+            this.communities.add(includeFull ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
         }
         //context.complete();
     }
 
-    public CollectionEntity(Collection collection, int level, RequestParameters uparams) throws SQLException {
-        // check calling package/class in order to prevent chaining
-        boolean includeFull = false;
-        level++;
-        debug(level, uparams);
-        if (level <= uparams.getDetail()) {
-            includeFull = true;
-        }
+    public CollectionEntity(Collection collection, int level, final DetailDepth depth) throws SQLException {
+
+        // Only include full when above maximum depth
+        final boolean includeFull = depth.includeFullDetails(level++);
 
         loadCollectionData(collection);
         
         ItemIterator i = collection.getAllItems();
         while (i.hasNext()) {
-            items.add(includeFull ? new ItemEntity(i.next(), level, uparams) : new ItemEntityId(i.next()));
+            items.add(includeFull ? new ItemEntity(i.next(), level, depth) : new ItemEntityId(i.next()));
         }
         this.countItems = items.size();
 
         for (Community c : collection.getCommunities()) {
-            communities.add(includeFull ? new CommunityEntity(c, level, uparams) : new CommunityEntityId(c));
+            communities.add(includeFull ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
         }
-    }
-
-    private void debug(int level, RequestParameters uparams) {
-        if (log.isDebugEnabled()) log.debug("level " + level + " of depth " + uparams.getDetail());
     }
     
     private void loadCollectionData(Collection collection) throws SQLException {

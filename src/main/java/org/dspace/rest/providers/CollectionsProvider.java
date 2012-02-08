@@ -18,8 +18,9 @@ import org.dspace.content.Collection;
 import org.dspace.core.Context;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CollectionEntityId;
+import org.dspace.rest.entities.DetailDepth;
+import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
-import org.dspace.rest.params.RequestParameters;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -69,7 +70,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
 //        inputParamsPOST.put("createWorkflowGroup", new String[]{"id", "step"});
 //        func2actionMapDELETE.put("removeTemplateItem", "templateitem");
 //        func2actionMapDELETE.put("removeSubmitters", "submitters");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
+        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
         initMappings(processedEntity);
 
     }
@@ -127,8 +128,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                 Context context = context();
 
                 try {
-                    RequestParameters uparams;
-                    uparams = refreshParams(context);
+                    refreshParams(context);
 
                     // sample entity
                     if (reference.getId().equals(":ID:")) {
@@ -145,7 +145,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                             if (EntityBuildParameters.build(reqStor).isIdOnly()) {
                                 return new CollectionEntityId(reference.getId(), context);
                             } else {
-                                return new CollectionEntity(reference.getId(), context, 1, uparams);
+                                return new CollectionEntity(reference.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
                             }
                         } catch (SQLException ex) {
                             throw new IllegalArgumentException("Invalid id:" + reference.getId());
@@ -169,9 +169,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         log.info(userInfo() + "list_entities");
 
         Context context = context();
-
-        RequestParameters uparams;
-        uparams = refreshParams(context);
+        refreshParams(context);
 
         List<Object> entities = new ArrayList<Object>();
 
@@ -180,7 +178,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             collections = Collection.findAll(context);
             //            System.out.println(" number of collections " + Collection.getNumCollections(context));
             for (Collection c : collections) {
-                entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new CollectionEntityId(c) : new CollectionEntity(c, 1, uparams));
+                entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new CollectionEntityId(c) : new CollectionEntity(c, 1, DetailDepthParameters.build(reqStor).getDepth()));
             }
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -17,10 +17,10 @@ import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
+import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.entities.UserEntityId;
 import org.dspace.rest.params.EntityBuildParameters;
-import org.dspace.rest.params.RequestParameters;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -54,7 +54,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
         func2actionMapGET.put("getRequireCertificate", "requireCertificate");
         func2actionMapGET.put("getSelfRegistered", "selfRegistered");
         func2actionMapGET.put("getType", "type");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
+        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
         initMappings(processedEntity);
     }
 
@@ -109,9 +109,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
 
         Context context = context();
         try {
-
-            RequestParameters uparams;
-            uparams = refreshParams(context);
+            refreshParams(context);
 
             // sample entity
             if (reference.getId().equals(":ID:")) {
@@ -128,7 +126,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
                     if (EntityBuildParameters.build(reqStor).isIdOnly()) {
                         return new UserEntityId(reference.getId());
                     } else {
-                        return new UserEntity(reference.getId(), context, 1, uparams);
+                        return new UserEntity(reference.getId(), context, 1);
                     }
                 } catch (SQLException ex) {
                     throw new IllegalArgumentException("Invalid id:" + reference.getId());
@@ -155,7 +153,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
         try {
 
             // extract and prepare query parameters
-            RequestParameters uparams = refreshParams(context);
+            refreshParams(context);
             List<Object> entities = new ArrayList<Object>();
 
             try {

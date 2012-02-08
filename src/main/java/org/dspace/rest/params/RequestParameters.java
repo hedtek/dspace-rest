@@ -8,7 +8,6 @@
 
 package org.dspace.rest.params;
 
-import org.dspace.rest.util.UtilHelper;
 
 /**
  *
@@ -18,13 +17,8 @@ public class RequestParameters {
 
     private String user = "";
     private String password = "";
-    private int detail = UtilHelper.DEPTH_STANDARD;
     public void setUser(String uname) {
         this.user = uname;
-    }
-
-    public void setDetail(int param) {
-        this.detail = param;
     }
 
     public void setPassword(String pass) {
@@ -37,9 +31,5 @@ public class RequestParameters {
 
     public String getPassword() {
         return this.password;
-    }
-
-    public int getDetail() {
-        return this.detail;
     }
 }

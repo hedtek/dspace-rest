@@ -18,9 +18,9 @@ import org.dspace.core.Context;
 import org.dspace.rest.entities.HarvestResultsInfoEntity;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
+import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.PaginationParameters;
-import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.params.ScopeParameters;
 import org.dspace.search.Harvest;
 import org.dspace.search.HarvestedItemInfo;
@@ -65,7 +65,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
         Context context = context();
 
         try {
-            final RequestParameters uparams = refreshParams(context);
+            refreshParams(context);
             List<Object> entities = new ArrayList<Object>();
             List<HarvestedItemInfo> harvestedItems = new ArrayList<HarvestedItemInfo>();
 
@@ -86,7 +86,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
             try {
                 entities.add(new HarvestResultsInfoEntity(harvestedItems.size()));
                 for (int x = 0; x < harvestedItems.size(); x++) {
-                    entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new ItemEntityId(harvestedItems.get(x).item) : new ItemEntity(harvestedItems.get(x).item, 1, uparams));
+                    entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new ItemEntityId(harvestedItems.get(x).item) : new ItemEntity(harvestedItems.get(x).item, 1, DetailDepthParameters.build(reqStor).getDepth()));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -15,7 +15,6 @@ import java.util.List;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
 import org.dspace.core.Context;
-import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.providers.BitstreamProvider;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
@@ -39,7 +38,7 @@ public class BitstreamEntity extends BitstreamEntityId {
     private String checkSumAlgorithm, description, checkSum, formatDescription, source, userFormatDescription, mimeType;
     List<Object> bundles = new ArrayList<Object>();
 
-    public BitstreamEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
+    public BitstreamEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
         Bitstream res = Bitstream.find(context, Integer.parseInt(uid));
         Bundle[] bnd = res.getBundles();
         this.id = res.getID();
@@ -55,26 +54,20 @@ public class BitstreamEntity extends BitstreamEntityId {
         this.source = res.getSource();
         this.storeNumber = res.getStoreNumber();
         this.userFormatDescription = res.getUserFormatDescription();
-        boolean includeFull = false;
-        level++;
-        if (level <= uparams.getDetail()) {
-            includeFull = true;
-        }
+        // Only include full when above maximum depth
+        final boolean includeFull = depth.includeFullDetails(level++);
 
         for (Bundle b : bnd) {
-           this.bundles.add(includeFull ? new BundleEntity(b, level, uparams) : new BundleEntityId(b));
+           this.bundles.add(includeFull ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
         }
         this.mimeType = res.getFormat().getMIMEType();
         //context.complete(); <---important!!!!
     }
 
-    public BitstreamEntity(Bitstream bitstream, int level, RequestParameters uparams) throws SQLException {
-        // check calling package/class in order to prevent chaining
-        boolean includeFull = false;
-        level++;
-        if (level <= uparams.getDetail()) {
-            includeFull = true;
-        }
+    public BitstreamEntity(Bitstream bitstream, int level, final DetailDepth depth) throws SQLException {
+        // Only include full when above maximum depth
+        final boolean includeFull = depth.includeFullDetails(level++);
+        
         this.handle = bitstream.getHandle();
         this.name = bitstream.getName();
         this.type = bitstream.getType();
@@ -90,7 +83,7 @@ public class BitstreamEntity extends BitstreamEntityId {
         this.userFormatDescription = bitstream.getUserFormatDescription();
         Bundle[] bnd = bitstream.getBundles();
         for (Bundle b : bnd) {
-            this.bundles.add(includeFull ? new BundleEntity(b, level, uparams) : new BundleEntityId(b));
+            this.bundles.add(includeFull ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
         }
         this.mimeType = bitstream.getFormat().getMIMEType();
     }

@@ -16,7 +16,6 @@ import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
-import org.dspace.rest.params.RequestParameters;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
@@ -37,7 +36,7 @@ public class BundleEntity extends BundleEntityId {
     List<Object> bitstreams = new ArrayList<Object>();
     List<Object> items = new ArrayList<Object>();
 
-    public BundleEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
+    public BundleEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
         Bundle res = Bundle.find(context, Integer.parseInt(uid));
         Bitstream[] bst = res.getBitstreams();
 
@@ -47,28 +46,22 @@ public class BundleEntity extends BundleEntityId {
         this.name = res.getName();
         this.type = res.getType();
         Item[] itm = res.getItems();
-        boolean includeFull = false;
-        level++;
-        if (level <= uparams.getDetail()) {
-            includeFull = true;
-        }
+
+        // Only include full when above maximum depth
+        final boolean includeFull = depth.includeFullDetails(level++);
 
         for (Bitstream b : bst) {
-            this.bitstreams.add(includeFull ? new BitstreamEntity(b, level, uparams): new BitstreamEntityId(b));
+            this.bitstreams.add(includeFull ? new BitstreamEntity(b, level, depth): new BitstreamEntityId(b));
         }
 
         for (Item i : itm) {
-            this.items.add(includeFull ? new ItemEntity(i, level, uparams) : new ItemEntityId(i));
+            this.items.add(includeFull ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
         }
     }
 
-    public BundleEntity(Bundle bundle, int level, RequestParameters uparams) throws SQLException {
-        // check calling package/class in order to prevent chaining
-        boolean includeFull = false;
-        level++;
-        if (level <= uparams.getDetail()) {
-            includeFull = true;
-        }
+    public BundleEntity(Bundle bundle, int level, final DetailDepth depth) throws SQLException {
+        // Only include full when above maximum depth
+        final boolean includeFull = depth.includeFullDetails(level++);
 
         this.handle = bundle.getHandle();
         this.name = bundle.getName();
@@ -78,10 +71,10 @@ public class BundleEntity extends BundleEntityId {
         Bitstream[] bst = bundle.getBitstreams();
         Item[] itm = bundle.getItems();
         for (Bitstream b : bst) {
-            this.bitstreams.add(includeFull ? new BitstreamEntity(b, level, uparams) : new BitstreamEntityId(b));
+            this.bitstreams.add(includeFull ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
         }
         for (Item i : itm) {
-            this.items.add(includeFull ? new ItemEntity(i, level, uparams) : new ItemEntityId(i));
+            this.items.add(includeFull ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
         }
     }
 

@@ -30,12 +30,13 @@ import org.dspace.eperson.EPerson;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.CommunityEntity;
+import org.dspace.rest.entities.DetailDepth;
+import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.PaginationParameters;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.params.SortParameters;
 import org.dspace.rest.util.RecentSubmissionsException;
-import org.dspace.rest.util.UtilHelper;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.EntityProvider;
@@ -118,7 +119,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     }
 
     protected void initMappings(Class<?> processedEntity) throws NoSuchMethodException {
-        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
+        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
         // scan for methods;
         Method[] entityMethods = processedEntity.getMethods();
         for (Method m : entityMethods) {
@@ -149,7 +150,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
     // view_edit actions - deprecated
     protected void createPUTActions(Class<?> processedEntity) throws NoSuchMethodException {
-        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, RequestParameters.class});
+        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, DetailDepth.class});
         EntityProviderMethodStore epms = entityProviderManager.getEntityProviderMethodStore();
         // scan for methods;
         Method[] CommunityMethods = processedEntity.getMethods();
@@ -187,7 +188,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
     // view_show actions - deprecated
     protected void createActions(Class<?> processedEntity) throws NoSuchMethodException {
-        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, RequestParameters.class});
+        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, DetailDepth.class});
         EntityProviderMethodStore epms = entityProviderManager.getEntityProviderMethodStore();
         // scan for methods;
         Method[] CommunityMethods = processedEntity.getMethods();
@@ -605,7 +606,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      */
     public RequestParameters refreshParams(Context context) {
 
-        RequestParameters uparam = new RequestParameters();
+        final RequestParameters uparam = new RequestParameters();
 
         /**
          * now check user login info and try to register
@@ -674,19 +675,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         } catch (NullPointerException ex) {
             withdrawn = false;
         }
-
-        try {
-            String detail = reqStor.getStoredValue("detail").toString();
-            if (detail.equals("minimum")) {
-                uparam.setDetail(UtilHelper.DEPTH_MINIMAL);
-            } else if (detail.equals("standard")) {
-                uparam.setDetail(UtilHelper.DEPTH_STANDARD);
-            } else if (detail.equals("extended")) {
-                uparam.setDetail(UtilHelper.DEPTH_EXTENDED);
-            }
-        } catch (NullPointerException ex) {
-        }
-
 
         return uparam;
     }
@@ -798,13 +786,12 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                 throw new EntityException("Internal server error", "SQL error", 500);
             }
 
-            RequestParameters uparams;
-            uparams = refreshParams(context);
+            refreshParams(context);
 
             Object CE = new Object();
             try {
 
-                CE = entityConstructor.newInstance(reference.getId(), context, 1, uparams);
+                CE = entityConstructor.newInstance(reference.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
             } catch (Exception ex) {
                 throw new EntityException("Internal server error", "Cannot create entity", 500);
             }
@@ -878,13 +865,11 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                 throw new EntityException("Internal server error", "SQL error", 500);
             }
 
-            RequestParameters uparams;
-            uparams = refreshParams(context);
+            refreshParams(context);
 
-            System.out.print("uparams " + uparams.getUser() + uparams.getPassword());
             Object CE = new Object();
             try {
-                CE = entityConstructor.newInstance(ref.getId(), context, 1, uparams);
+                CE = entityConstructor.newInstance(ref.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
             } catch (Exception ex) {
                 throw new EntityException("Internal server error", "Cannot create entity", 500);
             }
@@ -923,12 +908,11 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                 throw new EntityException("Internal server error", "SQL error", 500);
             }
 
-            RequestParameters uparams;
-            uparams = refreshParams(context);
+            refreshParams(context);
 
             Object CE = new Object();
             try {
-                CE = entityConstructor.newInstance(ref.getId(), context, 1, uparams);
+                CE = entityConstructor.newInstance(ref.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
             } catch (Exception ex) {
                 throw new EntityException("Internal server error", "Cannot create entity", 500);
             }
@@ -979,12 +963,11 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                     throw new EntityException("Internal server error", "SQL error", 500);
                 }
 
-                RequestParameters uparams;
-                uparams = refreshParams(context);
+                refreshParams(context);
                 Object CE = new Object();
 
                 try {
-                    CE = entityConstructor.newInstance(ref.getId(), context, 1, uparams);
+                    CE = entityConstructor.newInstance(ref.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
                 } catch (Exception ex) {
                     throw new EntityException("Internal server error", "Cannot create entity", 500);
                 }
@@ -1062,12 +1045,11 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             throw new EntityException("Internal server error", "SQL error", 500);
         }
 
-        RequestParameters uparams;
-        uparams = refreshParams(context);
+        refreshParams(context);
         Object CE = new Object();
         log.info("id izabran " + ref.getId());
         try {
-            CE = entityConstructor.newInstance(ref.getId(), context, 1, uparams);
+            CE = entityConstructor.newInstance(ref.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new EntityException("Internal server error", "aCannot create entity", 500);

@@ -16,10 +16,11 @@ import org.apache.log4j.Logger;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
+import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
+import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
-import org.dspace.rest.params.RequestParameters;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -64,7 +65,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
 //        func2actionMapPOST.put("createBundle", "createBundle");
 //        inputParamsPOST.put("createBundle", new String[]{"name", "id"});
 
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
+        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
         initMappings(processedEntity);
     }
 
@@ -117,9 +118,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
 
         Context context = context();
         try {
-
-            RequestParameters uparams;
-            uparams = refreshParams(context);
+            refreshParams(context);
 
             // sample entity
             if (reference.getId().equals(":ID:")) {
@@ -133,7 +132,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
                     if (EntityBuildParameters.build(reqStor).isIdOnly()) {
                         return new ItemEntityId(reference.getId(), context);
                     } else {
-                        return new ItemEntity(reference.getId(), context, 1, uparams);
+                        return new ItemEntity(reference.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
                     }
                 } catch (SQLException ex) {
                     throw new IllegalArgumentException("Invalid id:" + reference.getId());
@@ -151,15 +150,13 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
 
         Context context = context();
         try {
-
-            RequestParameters uparams;
-            uparams = refreshParams(context);
+            refreshParams(context);
             List<Object> entities = new ArrayList<Object>();
 
             try {
                 ItemIterator items = Item.findAll(context);
                 while (items.hasNext()) {
-                    entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new ItemEntityId(items.next()) : new ItemEntity(items.next(), 1, uparams));
+                    entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new ItemEntityId(items.next()) : new ItemEntity(items.next(), 1, DetailDepthParameters.build(reqStor).getDepth()));
                 }
             } catch (SQLException ex) {
                 throw new EntityException("Internal server error", "SQL error", 500);

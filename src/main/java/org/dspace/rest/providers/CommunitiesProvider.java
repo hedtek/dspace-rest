@@ -24,8 +24,9 @@ import org.dspace.core.Context;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.entities.CommunityEntityId;
+import org.dspace.rest.entities.DetailDepth;
+import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
-import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.RecentSubmissionsException;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.EntityView;
@@ -81,7 +82,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
 //        func2actionMapDELETE.put("removeChildren", "children");
 //        func2actionMapDELETE.put("removeSubcollections", "collections");
 //        func2actionMapDELETE.put("delete", "");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, RequestParameters.class});
+        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
         initMappings(processedEntity);
         //createActions(processedEntity);
         //createPUTActions(processedEntity);
@@ -152,15 +153,14 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
                 Context context = context();
 
                 try {
-                    RequestParameters uparams;
-                    uparams = refreshParams(context);
+                    refreshParams(context);
                     if (entityExists(reference.getId())) {
                         try {
                             // return just entity containg id or full info
                             if (EntityBuildParameters.build(reqStor).isIdOnly()) {
                                 return new CommunityEntityId(reference.getId(), context);
                             } else {
-                                return new CommunityEntity(reference.getId(), context, 1, uparams);
+                                return new CommunityEntity(reference.getId(), context, 1, DetailDepthParameters.build(reqStor).getDepth());
                             }
                         } catch (SQLException ex) {
                             throw new IllegalArgumentException("Invalid id:" + reference.getId());
@@ -182,16 +182,15 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
         log.info("stor2" + reqStor.getStoredValue("pathInfo").toString());
 
         Context context = context();
-
-        RequestParameters uparams;
-        uparams = refreshParams(context);
+        refreshParams(context);
+        
         List<Object> entities = new ArrayList<Object>();
 
         try {
             Community[] communities = null;
             communities = EntityBuildParameters.build(reqStor).isTopLevelOnly() ? Community.findAllTop(context) : Community.findAll(context);
             for (Community c : communities) {
-                entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new CommunityEntityId(c) : new CommunityEntity(c, 1, uparams));
+                entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new CommunityEntityId(c) : new CommunityEntity(c, 1, DetailDepthParameters.build(reqStor).getDepth()));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -209,9 +208,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
     // not necessarly anymore
     public void adeleteEntity(EntityReference ref, Map<String, Object> params) {
         Context context = context();
-
-        RequestParameters uparams;
-        uparams = refreshParams(context);
+        refreshParams(context);
         try {
             Community comm = Community.find(context, Integer.parseInt(ref.getId()));
             if (comm != null) {
