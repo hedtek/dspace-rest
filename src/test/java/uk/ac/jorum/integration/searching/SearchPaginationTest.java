@@ -49,7 +49,11 @@ public class SearchPaginationTest extends RestApiBaseTest {
     }
  
     private Set<Integer> pageIds(int pageNumber) throws Exception {
-        return resultIds(requestJSON(perPageParameter(5) + pageParameter(pageNumber)));
+        return pageIds(pageNumber, 5);
+    }
+
+    private Set<Integer> pageIds(int pageNumber, int perPage) throws Exception {
+        return resultIds(requestJSON(perPageParameter(perPage) + pageParameter(pageNumber)));
     }
 
     private Set<Integer> resultIds(JSONObject json) {
@@ -86,6 +90,14 @@ public class SearchPaginationTest extends RestApiBaseTest {
     public void firstAndSecondPagesShouldShareNoCommonItems() throws Exception {
         final Set<Integer> firstPageIds = pageIds(1);
         final Set<Integer> secondPageIds = pageIds(2);
-        assertTrue("No items should be appear on the first and second pages." + firstPageIds + "," + secondPageIds, CollectionUtils.intersection(firstPageIds, secondPageIds).isEmpty());
+        assertTrue("No shared items should appear on the first and second pages." + firstPageIds + "," + secondPageIds, CollectionUtils.intersection(firstPageIds, secondPageIds).isEmpty());
+    }
+    
+    @Test
+    public void firstAndThirdPagesShouldShareNoCommonItems() throws Exception {
+        final int perPage = 2;
+        final Set<Integer> firstPageIds = pageIds(1, perPage);
+        final Set<Integer> thirdPageIds = pageIds(3, perPage);
+        assertTrue("No shared items should appear on the first and second pages." + firstPageIds + "," + thirdPageIds, CollectionUtils.intersection(firstPageIds, thirdPageIds).isEmpty());
     }
 }
