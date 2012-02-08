@@ -19,6 +19,7 @@ import org.dspace.core.Context;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.DetailDepth;
+import org.dspace.rest.entities.ItemBuilder;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
 import org.dspace.rest.params.DetailDepthParameters;
@@ -152,12 +153,11 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
     private List<?> getAllItems() {
         final Context context = context();
         try {
-            final List<Object> entities = new ArrayList<Object>();
-
             final ItemIterator items = Item.findAll(context);
-            while (items.hasNext()) {
-                entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new ItemEntityId(items.next()) : new ItemEntity(items.next(), 1, DetailDepthParameters.build(requestStore).getDepth()));
-            }
+            final boolean idOnly = EntityBuildParameters.build(requestStore).isIdOnly();
+            final DetailDepth depth = DetailDepthParameters.build(requestStore).getDepth();
+            
+            final List<Object> entities = ItemBuilder.builder(idOnly, depth).build(items);
 
             sort(entities);
             removeTrailing(entities);
