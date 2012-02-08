@@ -8,10 +8,7 @@
 
 package org.dspace.rest.params;
 
-import java.util.List;
-
 import org.dspace.rest.util.UtilHelper;
-import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 /**
  *
@@ -26,10 +23,6 @@ public class RequestParameters {
     private boolean immediateOnly = true;
     private boolean inArchive = false;
     private boolean topLevelOnly = true;
-    private int _start = 0;
-    private int _page = 0;
-    private int _perpage = 0;
-    private int _limit = 0;
     private String sdate = "";
     private String edate = "";
     private boolean withdrawn = false;
@@ -64,22 +57,6 @@ public class RequestParameters {
 
     public void setTopLevelOnly(boolean param) {
         this.topLevelOnly = param;
-    }
-
-    public void setStart(int param) {
-        this._start = param;
-    }
-
-    public void setPage(int param) {
-        this._page = param;
-    }
-
-    public void setPerPage(int param) {
-        this._perpage = param;
-    }
-
-    public void setLimit(int param) {
-        this._limit = param;
     }
 
     public void setSDate(String param) {
@@ -120,22 +97,6 @@ public class RequestParameters {
 
     public boolean getTopLevelOnly() {
         return this.topLevelOnly;
-    }
-
-    public int getStart() {
-        return this._start;
-    }
-
-    public int getPage() {
-        return this._page;
-    }
-
-    public int getPerPage() {
-        return this._perpage;
-    }
-
-    public int getLimit() {
-        return this._limit;
     }
 
     public String getSDate() {
