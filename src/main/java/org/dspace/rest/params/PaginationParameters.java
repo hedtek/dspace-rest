@@ -62,8 +62,7 @@ public class PaginationParameters {
         if (perpage > 0) {
             arg.setPageSize(perpage);
         }
-        final int startPosition = getStartPosition();
-        arg.setStart(startPosition);
+        arg.setStart(getStartPosition());
     }
 
     /**
@@ -76,7 +75,7 @@ public class PaginationParameters {
         if (isPageSet()) {
             startPosition = startPositionForPage();
         } else {
-            startPosition = start;
+            startPosition = 0;
         }
         return startPosition;
     }
