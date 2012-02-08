@@ -72,8 +72,6 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
 
         Context context = context();
 
-        refreshParams(context);
-
         boolean result = false;
         try {
             EPerson eperson = EPerson.find(context, Integer.parseInt(id));
@@ -109,8 +107,6 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
 
         Context context = context();
         try {
-            refreshParams(context);
-
             // sample entity
             if (reference.getId().equals(":ID:")) {
                 return new UserEntity();
@@ -151,9 +147,6 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
 
         Context context = context();
         try {
-
-            // extract and prepare query parameters
-            refreshParams(context);
             List<Object> entities = new ArrayList<Object>();
 
             try {

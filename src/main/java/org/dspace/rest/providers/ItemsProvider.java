@@ -84,7 +84,6 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
 
         Context context = context();
 
-        refreshParams(context);
         boolean result = false;
 
         // search for existence for particular item
@@ -118,7 +117,6 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
 
         Context context = context();
         try {
-            refreshParams(context);
 
             // sample entity
             if (reference.getId().equals(":ID:")) {
@@ -150,7 +148,6 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
 
         Context context = context();
         try {
-            refreshParams(context);
             List<Object> entities = new ArrayList<Object>();
 
             try {

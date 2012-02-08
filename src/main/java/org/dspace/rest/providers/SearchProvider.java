@@ -76,10 +76,6 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         final Context context = context();
 
         try {
-
-            // refresh parameters for this request
-            // WARNING: this is MAGIC
-            refreshParams(context);
             final QueryResults queryResults = doQuery(context);
             final SearchResultsInfoEntity info = buildInfo(queryResults);
             final List<Object> entities = buildResults(context, queryResults);

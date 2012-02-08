@@ -90,8 +90,6 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
 
             try{
                 // refresh query parameters and transfer to local variables
-                refreshParams(context);
-
                 Bitstream bst = Bitstream.find(context, Integer.parseInt(reference.getId()));
 
                 /**
@@ -143,8 +141,6 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
 
         Context context = context();
 
-        refreshParams(context);
-
         boolean result = false;
         try {
             Bitstream bst = Bitstream.find(context, Integer.parseInt(id));
@@ -180,7 +176,6 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
         Context context = context();
 
         try {
-            refreshParams(context);
             log.info(userInfo() + "get_entity:" + reference.getId());
 
             // sample entity

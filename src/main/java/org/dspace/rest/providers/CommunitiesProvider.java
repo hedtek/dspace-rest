@@ -105,9 +105,6 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
         }
 
         Context context = context();
-
-        // extract query parameters
-        refreshParams(context);
         boolean result = false;
         try {
             Community comm = Community.find(context, Integer.parseInt(id));
@@ -153,7 +150,6 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
                 Context context = context();
 
                 try {
-                    refreshParams(context);
                     if (entityExists(reference.getId())) {
                         try {
                             // return just entity containg id or full info
@@ -182,7 +178,6 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
         log.info("stor2" + reqStor.getStoredValue("pathInfo").toString());
 
         Context context = context();
-        refreshParams(context);
         
         List<Object> entities = new ArrayList<Object>();
 
@@ -208,7 +203,6 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
     // not necessarly anymore
     public void adeleteEntity(EntityReference ref, Map<String, Object> params) {
         Context context = context();
-        refreshParams(context);
         try {
             Community comm = Community.find(context, Integer.parseInt(ref.getId()));
             if (comm != null) {

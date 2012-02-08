@@ -90,8 +90,6 @@ public class StatsProvider extends AbstractBaseProvider implements CoreEntityPro
         Context context = context();
 
         try {
-            refreshParams(context);
-
             List<Object> stat = new ArrayList<Object>();
             File reportDir = new File(ConfigurationManager.getProperty("log.dir"));
 

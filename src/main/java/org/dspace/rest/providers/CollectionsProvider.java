@@ -88,8 +88,6 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         }
         Context context = context();
 
-        refreshParams(context);
-
         boolean result = false;
         try {
             Collection col = Collection.find(context, Integer.parseInt(id));
@@ -128,8 +126,6 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                 Context context = context();
 
                 try {
-                    refreshParams(context);
-
                     // sample entity
                     if (reference.getId().equals(":ID:")) {
                         return new CollectionEntity();
@@ -169,7 +165,6 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         log.info(userInfo() + "list_entities");
 
         Context context = context();
-        refreshParams(context);
 
         List<Object> entities = new ArrayList<Object>();
 

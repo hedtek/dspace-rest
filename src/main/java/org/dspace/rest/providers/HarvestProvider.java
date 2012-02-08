@@ -65,7 +65,6 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
         Context context = context();
 
         try {
-            refreshParams(context);
             List<Object> entities = new ArrayList<Object>();
             List<HarvestedItemInfo> harvestedItems = new ArrayList<HarvestedItemInfo>();
 

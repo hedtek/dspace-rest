@@ -247,13 +247,8 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             if (function != null) {
                 resField = func2actionMapPUT.get(view.getPathSegment(2));
                 log.info("resfield " + resField);
-                Context context;
-                try {
-                    context = new Context();
-                } catch (SQLException ex) {
-                    throw new EntityException("Internal server error", "SQL error", 500);
-                }
-                refreshParams(context);
+                final Context context = context();
+
                 log.info("refreshing done,reference " + reference.getId());
                 //if (entityExists(reference.getId())) {
                 //  CommunityEntity CE = new CommunityEntity(reference.getId(), context);
@@ -314,13 +309,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             if (function != null) {
                 resField = func2actionMapGET.get(view.getPathSegment(2));
                 log.info("resfield " + resField);
-                Context context;
-                try {
-                    context = new Context();
-                } catch (SQLException ex) {
-                    throw new EntityException("Internal server error", "SQL error", 500);
-                }
-                refreshParams(context);
+                final Context context = context();
                 log.info("refreshing done,reference " + reference.getId());
                 //if (entityExists(reference.getId())) {
                 //  CommunityEntity CE = new CommunityEntity(reference.getId(), context);
@@ -604,7 +593,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      * @param context current database context locally (in subclass method)
      * defined but used here for loging and other purposes
      */
-    public void refreshParams(Context context) {
+    private void refreshParams(Context context) {
         
         /**
          * now check user login info and try to register
@@ -775,14 +764,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         if (func2actionMapGET_rev.containsKey(segments[3])) {
             Object result;
             String function = getMethod(segments[3], func2actionMapGET_rev);
-            Context context;
-            try {
-                context = new Context();
-            } catch (SQLException ex) {
-                throw new EntityException("Internal server error", "SQL error", 500);
-            }
-
-            refreshParams(context);
+            final Context context = context();
 
             Object CE = new Object();
             try {
@@ -854,14 +836,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             if (function == null) {
                 throw new EntityException("Bad request", "Method not supported - not defined", 400);
             }
-            Context context;
-            try {
-                context = new Context();
-            } catch (SQLException ex) {
-                throw new EntityException("Internal server error", "SQL error", 500);
-            }
-
-            refreshParams(context);
+            final Context context = context();
 
             Object CE = new Object();
             try {
@@ -897,14 +872,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             if (function == null) {
                 throw new EntityException("Bad request", "Method not supported - not defined", 400);
             }
-            Context context;
-            try {
-                context = new Context();
-            } catch (SQLException ex) {
-                throw new EntityException("Internal server error", "SQL error", 500);
-            }
-
-            refreshParams(context);
+            final Context context = context();
 
             Object CE = new Object();
             try {
@@ -952,14 +920,8 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                 //log.info("got in");
 
                 String function = getMethod(segments[3], func2actionMapPUT_rev);
-                Context context;
-                try {
-                    context = new Context();
-                } catch (SQLException ex) {
-                    throw new EntityException("Internal server error", "SQL error", 500);
-                }
+                final Context context = context();
 
-                refreshParams(context);
                 Object CE = new Object();
 
                 try {
@@ -1034,14 +996,8 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             }
         }
 
-        Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        }
+        Context context = context();
 
-        refreshParams(context);
         Object CE = new Object();
         log.info("id izabran " + ref.getId());
         try {
@@ -1088,6 +1044,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         } catch (SQLException ex) {
             throw new SQLFailureEntityException(Operation.CREATE_CONTEXT, ex);
         }
+        refreshParams(context);
         return context;
     }
 
