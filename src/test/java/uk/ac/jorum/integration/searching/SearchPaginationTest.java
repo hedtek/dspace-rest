@@ -181,5 +181,4 @@ public class SearchPaginationTest extends RestApiBaseTest {
     public void page4ShouldReturnCorrectNumberOfItemsPerPageSize2() throws Exception {
         checkNumberOfItemsOnPage(4, 2);
     }
-
 }

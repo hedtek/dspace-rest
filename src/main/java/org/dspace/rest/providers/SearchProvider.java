@@ -76,11 +76,9 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         final Context context = context();
 
         try {
-            final QueryResults queryResults = doQuery(context);
-            final SearchResultsInfoEntity info = buildInfo(queryResults);
-            final List<Object> entities = buildResults(context, queryResults);
-            entities.add(0, info);
-            return entities;
+            
+            return buildEntities(context, doQuery(context));
+            
         } catch (SQLException cause) {
             throw new SQLFailureEntityException(Operation.SEARCH, cause);
         } catch (IOException cause) {
@@ -89,6 +87,13 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         } finally {
             complete(context);
         }
+    }
+
+    private List<?> buildEntities(final Context context,
+            final QueryResults queryResults) throws SQLException {
+        final List<Object> entities = buildResults(context, queryResults);
+        entities.add(0, buildInfo(queryResults));
+        return entities;
     }
 
     private List<Object> buildResults(final Context context, final QueryResults queryResults)
