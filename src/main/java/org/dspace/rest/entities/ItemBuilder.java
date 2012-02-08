@@ -23,15 +23,20 @@ public class ItemBuilder {
     }
 
     public List<Object> build(final ItemIterator items) throws SQLException {
+        return build(items, 1);
+    }
+
+    public List<Object> build(final ItemIterator items, final int level)
+            throws SQLException {
         final List<Object> entities = new ArrayList<Object>();
         while (items.hasNext()) {
-            final Item next = items.next();
-            entities.add(build(next));
+            entities.add(build(items.next(), level));
         }
         return entities;
     }
 
-    private ItemEntityId build(final Item next) throws SQLException {
-        return idOnly ? new ItemEntityId(next) : new ItemEntity(next, 1, depth);
+    private ItemEntityId build(final Item next, final int level)
+            throws SQLException {
+        return idOnly ? new ItemEntityId(next) : new ItemEntity(next, level, depth);
     }
 }

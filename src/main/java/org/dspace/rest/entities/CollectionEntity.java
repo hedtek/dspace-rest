@@ -66,9 +66,7 @@ public class CollectionEntity {
         loadCollectionData(collection);
         
         final ItemIterator i = collection.getAllItems();
-        while (i.hasNext()) {
-            items.add(includeFull ? new ItemEntity(i.next(), level, depth) : new ItemEntityId(i.next()));
-        }
+        this.items = ItemBuilder.builder(!includeFull, depth).build(i, level);
         this.countItems = items.size();
 
         for (Community c : collection.getCommunities()) {
