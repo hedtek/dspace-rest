@@ -6,7 +6,7 @@
  * http://www.dspace.org/license/
  */
 
-package org.dspace.rest.util;
+package org.dspace.rest.params;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.providers.AbstractBaseProvider;
+import org.dspace.rest.util.UtilHelper;
 
 /**
  * Provides basis for sorting entities in the list.
@@ -24,7 +25,7 @@ import org.dspace.rest.providers.AbstractBaseProvider;
  * @see AbstractBaseProvider
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class GenComparator implements Comparator {
+class FlexibleComparator implements Comparator {
 
     private int method;
     private List<Integer> methodList = new ArrayList<Integer>();
@@ -33,7 +34,7 @@ public class GenComparator implements Comparator {
      * Constructs and defines local values
      * @param methodList list of sorting methods by priority
      */
-    public GenComparator(List<Integer> methodList) {
+    public FlexibleComparator(List<Integer> methodList) {
         this.methodList = methodList;
         try {
             this.method = methodList.get(0);

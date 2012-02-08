@@ -16,7 +16,6 @@ import org.dspace.rest.providers.AbstractBaseProvider;
 /**
  * Here are implemented and coupled helper methods used by several providers
  * especially in the custom actions
- * @see GenComparator
  * @see AbstractBaseProvider
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */

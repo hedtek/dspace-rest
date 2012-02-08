@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.dspace.rest.util.GenComparator;
 import org.dspace.rest.util.UtilHelper;
 import org.dspace.search.QueryArgs;
 import org.dspace.sort.SortOption;
@@ -109,7 +108,7 @@ public class SortParameters {
     @SuppressWarnings("unchecked")
     public void sort(final List<Object> entities) {
         if (sortOptions.size() > 0) {
-            Collections.sort(entities, new GenComparator(sortOptions));
+            Collections.sort(entities, new FlexibleComparator(sortOptions));
         }
     }
 }
