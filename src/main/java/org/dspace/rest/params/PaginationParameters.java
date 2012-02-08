@@ -1,5 +1,7 @@
 package org.dspace.rest.params;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.dspace.search.QueryArgs;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
@@ -51,22 +53,30 @@ public class PaginationParameters {
     public int getStart() {
         return start;
     }
-    public int getPage() {
-        return page;
-    }
-    public int getPerpage() {
-        return perpage;
-    }
+
     public int getLimit() {
         return limit;
     }
 
     public  void configure(final QueryArgs arg) {
-        if (getPerpage() > 0) {
-            arg.setPageSize(getPerpage());
+        if (perpage > 0) {
+            arg.setPageSize(perpage);
         }
         arg.setStart(getStart());
     }
 
-    
+    public void removeTrailing(final List<?> entities) {
+        if ((getStart() > 0) && (getStart() < entities.size())) {
+            for (int x = 0; x
+                    < getStart(); x++) {
+                entities.remove(x);
+            }
+        }
+        if (perpage > 0) {
+            entities.subList(0, page * perpage).clear();
+        }
+        if ((getLimit() > 0) && entities.size() > getLimit()) {
+            entities.subList(getLimit(), entities.size()).clear();
+        }
+    }   
 }

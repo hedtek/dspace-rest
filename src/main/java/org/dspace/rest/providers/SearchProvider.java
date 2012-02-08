@@ -93,14 +93,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
 
     private List<Object> buildResults(final Context context, final QueryResults queryResults)
             throws SQLException {     
-        final List<Object> entities = EntityBuildParameters.build(requestStore).build(context, DetailDepthParameters.build(requestStore).getDepth(), queryResults);
-        sort(entities);
-
-        /**
-         * process entities according to _limit, _perpage etc
-         */
-        removeTrailing(entities);
-        return entities;
+        return EntityBuildParameters.build(requestStore).build(context, DetailDepthParameters.build(requestStore).getDepth(), queryResults);
     }
 
     private SearchResultsInfoEntity buildInfo(final QueryResults queryResults) {

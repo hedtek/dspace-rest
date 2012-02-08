@@ -81,8 +81,8 @@ public class SearchPaginationTest extends RestApiBaseTest {
         }
     }
     
-    //@Test
     public void firstAndSecondPagesShouldShareNoCommonItems() throws Exception {
         final Set<Integer> firstPageIds = pageIds(1);
         final Set<Integer> secondPageIds = pageIds(2);
-    }}
+    }
+}

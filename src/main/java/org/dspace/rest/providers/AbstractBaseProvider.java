@@ -695,19 +695,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      * @param entities
      */
     public void removeTrailing(List<?> entities) {
-        final PaginationParameters parameters = new PaginationParameters(requestStore);
-        if ((parameters.getStart() > 0) && (parameters.getStart() < entities.size())) {
-            for (int x = 0; x
-                    < parameters.getStart(); x++) {
-                entities.remove(x);
-            }
-        }
-        if (parameters.getPerpage() > 0) {
-            entities.subList(0, parameters.getPage() * parameters.getPerpage()).clear();
-        }
-        if ((parameters.getLimit() > 0) && entities.size() > parameters.getLimit()) {
-            entities.subList(parameters.getLimit(), entities.size()).clear();
-        }
+        new PaginationParameters(requestStore).removeTrailing(entities);
     }
 
     /**
