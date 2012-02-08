@@ -47,14 +47,13 @@ public class EntityBuildParameters {
 
     private final boolean idOnly;
     private final boolean topLevelOnly; 
-    private final boolean immediateOnly;
     
     private EntityBuildParameters(boolean idOnly, boolean topLevelOnly,
             boolean immediateOnly) {
         super();
         this.idOnly = idOnly;
         this.topLevelOnly = topLevelOnly;
-        this.immediateOnly = immediateOnly;
+        // immediate only is unsupported
     }
 
     public boolean isIdOnly() {
@@ -65,13 +64,7 @@ public class EntityBuildParameters {
         return topLevelOnly;
     }
 
-    public boolean isImmediateOnly() {
-        return immediateOnly;
-    }
-
-    public static List<Object> build(final Context context,
-            final RequestParameters uparams, final QueryResults queryResults,
-            final boolean idOnly) throws SQLException {
+    public List<Object> build(final Context context, final RequestParameters uparams, final QueryResults queryResults) throws SQLException {
         final List<Object> entities = new ArrayList<Object>();
         /**
          * check returned objects, recognize them and put in result

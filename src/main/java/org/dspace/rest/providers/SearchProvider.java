@@ -98,9 +98,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
     private List<Object> buildResults(final Context context,
             final RequestParameters uparams, final QueryResults queryResults)
             throws SQLException {     
-        final List<Object> entities = EntityBuildParameters.build(context, uparams, queryResults,
-                EntityBuildParameters.build(reqStor).isIdOnly());
-
+        final List<Object> entities = EntityBuildParameters.build(reqStor).build(context, uparams, queryResults);
         sort(entities);
 
         /**
