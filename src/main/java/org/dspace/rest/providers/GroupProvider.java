@@ -23,6 +23,7 @@ import org.dspace.rest.entities.*;
 import org.apache.log4j.Logger;
 import java.util.Collections;
 
+import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.GenComparator;
 
@@ -123,7 +124,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
 
             if (entityExists(reference.getId())) {
                 try {
-                    if (idOnly) {
+                    if (EntityBuildParameters.build(reqStor).isIdOnly()) {
                         return new GroupEntityId(reference.getId(), context);
                     } else {
                         return new GroupEntity(reference.getId(), context,1, uparams);
@@ -162,7 +163,7 @@ public class GroupProvider extends AbstractBaseProvider implements CoreEntityPro
                 groups = Group.findAll(context, Group.NAME);
                 if (groups != null) {
                     for (int x = 0; x < groups.length; x++) {
-                        entities.add(idOnly ? new GroupEntityId(groups[x]) : new GroupEntity(groups[x],1, uparams));
+                        entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new GroupEntityId(groups[x]) : new GroupEntity(groups[x],1, uparams));
                     }
                 }
             } catch (SQLException ex) {

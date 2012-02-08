@@ -18,11 +18,8 @@ public class RequestParameters {
 
     private String user = "";
     private String password = "";
-    private boolean idOnly = false;
     private boolean isAuthorized = false;
-    private boolean immediateOnly = true;
     private boolean inArchive = false;
-    private boolean topLevelOnly = true;
     private String sdate = "";
     private String edate = "";
     private boolean withdrawn = false;
@@ -39,24 +36,12 @@ public class RequestParameters {
         this.password = pass;
     }
 
-    public void setIdOnly(boolean param) {
-        this.idOnly = param;
-    }
-
     public void setIsAuthorized(boolean param) {
         this.isAuthorized = param;
     }
 
-    public void setImmediateOnly(boolean param) {
-        this.immediateOnly = param;
-    }
-
     public void setInArchive(boolean param) {
         this.inArchive = param;
-    }
-
-    public void setTopLevelOnly(boolean param) {
-        this.topLevelOnly = param;
     }
 
     public void setSDate(String param) {
@@ -79,24 +64,12 @@ public class RequestParameters {
         return this.password;
     }
 
-    public boolean getIdOnly() {
-        return this.idOnly;
-    }
-
     public boolean getIsAuthorized() {
         return this.isAuthorized;
     }
 
-    public boolean getImmediateOnly() {
-        return this.immediateOnly;
-    }
-
     public boolean getInArchive() {
         return this.inArchive;
-    }
-
-    public boolean getTopLevelOnly() {
-        return this.topLevelOnly;
     }
 
     public String getSDate() {

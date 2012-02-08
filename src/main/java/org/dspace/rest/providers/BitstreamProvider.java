@@ -22,6 +22,7 @@ import org.dspace.core.Context;
 import org.apache.log4j.Logger;
 import java.sql.SQLException;
 import org.dspace.rest.entities.*;
+import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.RecentSubmissionsException;
 import javax.servlet.http.HttpServletResponse;
@@ -191,7 +192,7 @@ public class BitstreamProvider extends AbstractBaseProvider implements CoreEntit
             }
             if (entityExists(reference.getId())) {
                 try {
-                    if (idOnly) {
+                    if (EntityBuildParameters.build(reqStor).isIdOnly()) {
                         return new BitstreamEntityId(reference.getId(), context);
                     } else {
                         return new BitstreamEntity(reference.getId(), context,1, uparams);

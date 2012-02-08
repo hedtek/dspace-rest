@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import java.text.ParseException;
 import java.util.Collections;
 
+import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.PaginationParameters;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.params.ScopeParameters;
@@ -85,7 +86,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
             try {
                 entities.add(new HarvestResultsInfoEntity(harvestedItems.size()));
                 for (int x = 0; x < harvestedItems.size(); x++) {
-                    entities.add(idOnly ? new ItemEntityId(harvestedItems.get(x).item) : new ItemEntity(harvestedItems.get(x).item, 1, uparams));
+                    entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new ItemEntityId(harvestedItems.get(x).item) : new ItemEntity(harvestedItems.get(x).item, 1, uparams));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -26,6 +26,7 @@ import org.sakaiproject.entitybus.exception.EntityException;
 import org.dspace.content.ItemIterator;
 import java.sql.SQLException;
 import org.dspace.rest.entities.*;
+import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.UtilHelper;
 import org.dspace.rest.util.RecentSubmissionsException;
@@ -137,7 +138,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
                 try {
 
                     // return basic or full info, according to requirements
-                    if (idOnly) {
+                    if (EntityBuildParameters.build(reqStor).isIdOnly()) {
                         return new ItemEntityId(reference.getId(), context);
                     } else {
                         return new ItemEntity(reference.getId(), context, 1, uparams);
@@ -166,7 +167,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
             try {
                 ItemIterator items = Item.findAll(context);
                 while (items.hasNext()) {
-                    entities.add(idOnly ? new ItemEntityId(items.next()) : new ItemEntity(items.next(), 1, uparams));
+                    entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new ItemEntityId(items.next()) : new ItemEntity(items.next(), 1, uparams));
                 }
             } catch (SQLException ex) {
                 throw new EntityException("Internal server error", "SQL error", 500);

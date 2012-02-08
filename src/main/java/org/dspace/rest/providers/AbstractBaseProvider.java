@@ -27,6 +27,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.PaginationParameters;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.params.SortParameters;
@@ -65,7 +66,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
     // query parameters used in subclasses
     protected RequestStorage reqStor;
-    protected boolean idOnly, topLevelOnly, immediateOnly, withdrawn;
+    protected boolean withdrawn;
     protected String user = "";
     protected String pass = "";
     protected String userc = "";
@@ -650,29 +651,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         }
 
         try {
-            this.idOnly = reqStor.getStoredValue("idOnly").equals("true");
-            uparam.setIdOnly(true);
-        } catch (NullPointerException ex) {
-            idOnly = false;
-        }
-
-        try {
-            this.immediateOnly = reqStor.getStoredValue("immediateOnly").equals("false");
-            uparam.setImmediateOnly(false);
-        } catch (NullPointerException ex) {
-            immediateOnly = true;
-        }
-
-        try {
-            this.topLevelOnly = !(reqStor.getStoredValue("topLevelOnly").equals("false"));
-            uparam.setTopLevelOnly(false);
-        } catch (NullPointerException ex) {
-            topLevelOnly = true;
-        }
-
-        
-
-        try {
             _sdate = reqStor.getStoredValue("startdate").toString();
             uparam.setSDate(_sdate);
         } catch (NullPointerException ex) {
@@ -1136,7 +1114,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
          * if the full info are requested and there are sorting requirements
          * process entities through sorting filter first
          */
-        if (!idOnly) {
+        if (!EntityBuildParameters.build(reqStor).isIdOnly()) {
             new SortParameters(reqStor).sort(entities);
         }
     }

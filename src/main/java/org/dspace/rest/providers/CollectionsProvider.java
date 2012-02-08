@@ -25,6 +25,7 @@ import org.dspace.core.Context;
 import org.sakaiproject.entitybus.exception.EntityException;
 import java.sql.SQLException;
 import org.dspace.rest.entities.*;
+import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.UtilHelper;
 import org.dspace.rest.util.RecentSubmissionsException;
@@ -149,7 +150,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                     if (entityExists(reference.getId())) {
                         try {
                             // return basic entity or full info
-                            if (idOnly) {
+                            if (EntityBuildParameters.build(reqStor).isIdOnly()) {
                                 return new CollectionEntityId(reference.getId(), context);
                             } else {
                                 return new CollectionEntity(reference.getId(), context, 1, uparams);
@@ -187,7 +188,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             collections = Collection.findAll(context);
             //            System.out.println(" number of collections " + Collection.getNumCollections(context));
             for (Collection c : collections) {
-                entities.add(idOnly ? new CollectionEntityId(c) : new CollectionEntity(c, 1, uparams));
+                entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new CollectionEntityId(c) : new CollectionEntity(c, 1, uparams));
             }
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -25,6 +25,7 @@ import org.dspace.rest.entities.*;
 import org.apache.log4j.Logger;
 import java.util.Collections;
 
+import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.GenComparator;
 
@@ -127,7 +128,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
 
             if (entityExists(reference.getId())) {
                 try {
-                    if (idOnly) {
+                    if (EntityBuildParameters.build(reqStor).isIdOnly()) {
                         return new UserEntityId(reference.getId());
                     } else {
                         return new UserEntity(reference.getId(), context, 1, uparams);
@@ -163,7 +164,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
             try {
                 EPerson[] epersons = EPerson.findAll(context, EPerson.ID);
                 for (int x = 0; x < epersons.length; x++) {
-                    entities.add(idOnly ? new UserEntityId(epersons[x].getID()) : new UserEntity(epersons[x]));
+                    entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new UserEntityId(epersons[x].getID()) : new UserEntity(epersons[x]));
                 }
             } catch (SQLException ex) {
                 throw new SQLFailureEntityException(Operation.CANNOT_FIND_USER_ENTITIES, ex);

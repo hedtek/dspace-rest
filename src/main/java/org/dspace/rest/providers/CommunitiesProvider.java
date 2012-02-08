@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.sakaiproject.entitybus.exception.EntityException;
 import java.sql.SQLException;
 import org.dspace.rest.entities.*;
+import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.util.UtilHelper;
 import java.util.Collections;
@@ -170,7 +171,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
                     if (entityExists(reference.getId())) {
                         try {
                             // return just entity containg id or full info
-                            if (idOnly) {
+                            if (EntityBuildParameters.build(reqStor).isIdOnly()) {
                                 return new CommunityEntityId(reference.getId(), context);
                             } else {
                                 return new CommunityEntity(reference.getId(), context, 1, uparams);
@@ -202,9 +203,9 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
 
         try {
             Community[] communities = null;
-            communities = topLevelOnly ? Community.findAllTop(context) : Community.findAll(context);
+            communities = EntityBuildParameters.build(reqStor).isTopLevelOnly() ? Community.findAllTop(context) : Community.findAll(context);
             for (Community c : communities) {
-                entities.add(idOnly ? new CommunityEntityId(c) : new CommunityEntity(c, 1, uparams));
+                entities.add(EntityBuildParameters.build(reqStor).isIdOnly() ? new CommunityEntityId(c) : new CommunityEntity(c, 1, uparams));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

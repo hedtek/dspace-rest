@@ -19,8 +19,55 @@ import org.dspace.rest.entities.ItemEntityId;
 import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.entities.UserEntityId;
 import org.dspace.search.QueryResults;
+import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class EntityBuildParameters {
+    
+    public static EntityBuildParameters build(RequestStorage requestStore) {
+        final boolean idOnly = valueInStoreIsTrue(requestStore, "idOnly");
+        final boolean immediateOnly = !valueInStoreIsFalse(requestStore, "immediateOnly");
+        final boolean topLevelOnly = !valueInStoreIsFalse(requestStore, "topLevelOnly");
+        return new EntityBuildParameters(idOnly, immediateOnly, topLevelOnly);
+    }
+
+    private static boolean valueInStoreIsFalse(RequestStorage requestStore,
+            final String key) {
+        return valueInStore(requestStore, key, "false");
+    }
+
+    private static boolean valueInStoreIsTrue(RequestStorage requestStore,
+            final String key) {
+        return valueInStore(requestStore, key, "true");
+    }
+
+    private static boolean valueInStore(RequestStorage requestStore,
+            final String key, final String expectedValue) {
+        return expectedValue.equals(requestStore.getStoredValue(key));
+    }
+
+    private final boolean idOnly;
+    private final boolean topLevelOnly; 
+    private final boolean immediateOnly;
+    
+    private EntityBuildParameters(boolean idOnly, boolean topLevelOnly,
+            boolean immediateOnly) {
+        super();
+        this.idOnly = idOnly;
+        this.topLevelOnly = topLevelOnly;
+        this.immediateOnly = immediateOnly;
+    }
+
+    public boolean isIdOnly() {
+        return idOnly;
+    }
+
+    public boolean isTopLevelOnly() {
+        return topLevelOnly;
+    }
+
+    public boolean isImmediateOnly() {
+        return immediateOnly;
+    }
 
     public static List<Object> build(final Context context,
             final RequestParameters uparams, final QueryResults queryResults,
