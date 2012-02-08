@@ -65,7 +65,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
     // query parameters used in subclasses
     protected RequestStorage reqStor;
-    protected boolean idOnly, topLevelOnly, in_archive, immediateOnly, withdrawn;
+    protected boolean idOnly, topLevelOnly, immediateOnly, withdrawn;
     protected String user = "";
     protected String pass = "";
     protected String userc = "";
@@ -668,14 +668,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             uparam.setTopLevelOnly(false);
         } catch (NullPointerException ex) {
             topLevelOnly = true;
-        }
-
-        try {
-            in_archive = reqStor.getStoredValue("in_archive").toString().equalsIgnoreCase("true");
-            uparam.setInArchive(true);
-        } catch (NullPointerException ex) {
-            in_archive = false;
-
         }
 
         
