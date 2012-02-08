@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
@@ -28,6 +29,7 @@ import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.providers.AbstractBaseProvider;
+import org.dspace.rest.providers.SearchProvider;
 import org.sakaiproject.entitybus.exception.EntityException;
 
 /**
@@ -39,6 +41,8 @@ import org.sakaiproject.entitybus.exception.EntityException;
  */
 public class UtilHelper {
 
+    private static Logger log = Logger.getLogger(UtilHelper.class);
+    
     protected UtilHelper() {
     }
 
@@ -143,10 +147,10 @@ public class UtilHelper {
                         //Field mile = ce.getClass().getField("name");
                         Field mile[] = ce.getClass().getDeclaredFields();
                         //ce.getClass().
-                        System.out.println("num fields " + mile.length + " id " + ce.getHandle());
+                        debug(ce, mile);
                         for (Field f : mile) {
                             f.setAccessible(true);
-                            System.out.println("Field " + f.getName());
+                            debug(f);
                         }
 
                         //Method mika = ce.getClass().getMethod("getHandle", null);
@@ -154,9 +158,6 @@ public class UtilHelper {
                         //mika.setAccessible(true);
                         //mika2.setAccessible(true);
                         entities.add(ce);
-
-
-                        //System.out.println(" metoda " + mika.getName() + " - " + mika2.getName());
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -271,6 +272,14 @@ public class UtilHelper {
 
     }
 
+    private static void debug(Field f) {
+        if (log.isDebugEnabled()) log.debug("Field " + f.getName());
+    }
+
+    private static void debug(CommunityEntity ce, Field[] mile) {
+        if(log.isDebugEnabled()) log.debug("num fields " + mile.length + " id " + ce.getHandle());
+    }
+
     /**
      * This method forwards to basic getObjects method, used by some other providers
      */
@@ -300,31 +309,4 @@ public class UtilHelper {
     public static String getMethod(String field) {
         return mappings_rev.get(field);
     }
-
-    public static void debug(String output) {
-        if (DEBUG_ACTIVE) {
-            System.out.println(output);
-        }
-    }
-
-    // check if we are deep into loop
-    // in this case return false to start issuing entity ids only
-//    public static boolean checkLevel(int level) {
-//        //level = 2;
-//        //level++;
-//        boolean includeFull = false;
-//        try {
-//            StackTraceElement[] ste = new Throwable().getStackTrace();
-//            System.out.println(ste[2].getClassName() + "\n    " + ste[1].getClassName() + "\n   -" + ste[0].getClassName() );
-//            if ((ste.length > 1) && ((ste[level].getClassName().contains("org.dspace.rest.providers")) || (ste[level + 1].getClassName().contains("org.dspace.rest.providers")))) {
-////            if ((ste.length > 1) && ((ste[level + 1].getClassName().contains("org.dspace.rest.providers")))) {
-//                includeFull = true;
-//            }
-//
-//        } catch (NullPointerException ex) {
-//            System.out.println(ex.getMessage());
-//        }
-//        includeFull = false;
-//        return includeFull;
-//    }
 }

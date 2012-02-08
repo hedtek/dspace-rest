@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
@@ -21,6 +22,7 @@ import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
 import org.dspace.eperson.Group;
 import org.dspace.rest.params.RequestParameters;
+import org.dspace.rest.providers.CollectionsProvider;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
@@ -34,6 +36,8 @@ import org.sakaiproject.entitybus.exception.EntityException;
  */
 public class CollectionEntity {
 
+    private static Logger log = Logger.getLogger(CollectionEntity.class);
+    
     @EntityId
     private int id;
     @EntityFieldRequired
@@ -53,7 +57,7 @@ public class CollectionEntity {
     private Object logo;
 
     public CollectionEntity(String uid, Context context, int level, RequestParameters uparams) throws SQLException {
-        System.out.println("creating collection main");
+        log.debug("Creating collection entity.");
         Collection res = Collection.find(context, Integer.parseInt(uid));
         
         loadCollectionData(res);
@@ -81,7 +85,7 @@ public class CollectionEntity {
         // check calling package/class in order to prevent chaining
         boolean includeFull = false;
         level++;
-        System.out.println("level " + level + " of depth " + uparams.getDetail());
+        debug(level, uparams);
         if (level <= uparams.getDetail()) {
             includeFull = true;
         }
@@ -97,6 +101,10 @@ public class CollectionEntity {
         for (Community c : collection.getCommunities()) {
             communities.add(includeFull ? new CommunityEntity(c, level, uparams) : new CommunityEntityId(c));
         }
+    }
+
+    private void debug(int level, RequestParameters uparams) {
+        if (log.isDebugEnabled()) log.debug("level " + level + " of depth " + uparams.getDetail());
     }
     
     private void loadCollectionData(Collection collection) throws SQLException {
