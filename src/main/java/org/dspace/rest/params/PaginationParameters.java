@@ -106,6 +106,6 @@ public class PaginationParameters {
      * @return 
      */
     private int startPositionForPage() {
-        return page * perpage;
+        return (page - 1) * perpage;
     }   
 }

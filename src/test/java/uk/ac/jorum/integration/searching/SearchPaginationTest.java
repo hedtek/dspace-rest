@@ -72,6 +72,18 @@ public class SearchPaginationTest extends RestApiBaseTest {
     private String pageParameter(int pageNumber) {
         return "&_page=" + pageNumber;
     }
+
+
+    private void checkNumberOfItemsOnLastPage(final int perpage) throws Exception {
+        int page = (int)Math.round(((float)NUMBER_OF_ITEM_RECORDS_IN_SEARCH_DB / (float)perpage) + 0.5);
+        int remainingNumberOfItems = NUMBER_OF_ITEM_RECORDS_IN_SEARCH_DB % perpage;
+        assertEquals("Page " + page + " should contain the number of results specified by perpage " + perpage + " when total number of items is " + NUMBER_OF_ITEM_RECORDS_IN_SEARCH_DB, 
+                remainingNumberOfItems, pageIds(page, perpage).size());
+    }
+
+    private void checkNumberOfItemsOnPage(final int page, final int perpage) throws Exception {
+        assertEquals("Page " + page + " should contain the number of results specified by perpage " + perpage, perpage, pageIds(page, perpage).size());
+    }
     
     @Test
     public void searchShouldReturnEnoughRecordsToTestPagination() throws Exception {
@@ -100,4 +112,74 @@ public class SearchPaginationTest extends RestApiBaseTest {
         final Set<Integer> thirdPageIds = pageIds(3, perPage);
         assertTrue("No shared items should appear on the first and second pages." + firstPageIds + "," + thirdPageIds, CollectionUtils.intersection(firstPageIds, thirdPageIds).isEmpty());
     }
+    
+    @Test
+    public void firstAndFourthPagesShouldShareNoCommonItems() throws Exception {
+        final int perPage = 2;
+        final Set<Integer> firstPageIds = pageIds(1, perPage);
+        final Set<Integer> fourthPageIds = pageIds(4, perPage);
+        assertTrue("No shared items should appear on the first and second pages." + firstPageIds + "," + fourthPageIds , CollectionUtils.intersection(firstPageIds, fourthPageIds).isEmpty());
+    }
+
+
+    @Test
+    public void page1ShouldReturnCorrectNumberOfItemsPerPageSize4() throws Exception {
+        checkNumberOfItemsOnPage(1, 4);
+    }
+    
+    @Test
+    public void page2ShouldReturnCorrectNumberOfItemsPerPageSize4() throws Exception {
+        checkNumberOfItemsOnPage(2, 4);
+    }
+    
+    @Test
+    public void page1ShouldReturnCorrectNumberOfItemsPerPageSize3() throws Exception {
+        checkNumberOfItemsOnPage(1, 3);
+    }
+    
+    @Test
+    public void page2ShouldReturnCorrectNumberOfItemsPerPageSize3() throws Exception {
+        checkNumberOfItemsOnPage(2, 3);
+    }
+
+    @Test
+    public void lastPageShouldReturnCorrectNumberOfItemsPerPageSize3() throws Exception {
+        checkNumberOfItemsOnLastPage(3);
+    }
+
+    @Test
+    public void lastPageShouldReturnCorrectNumberOfItemsPerPageSize5() throws Exception {
+        checkNumberOfItemsOnLastPage(5);
+    }
+
+    @Test
+    public void lastPageShouldReturnCorrectNumberOfItemsPerPageSize6() throws Exception {
+        checkNumberOfItemsOnLastPage(6);
+    }
+
+    @Test
+    public void lastPageShouldReturnCorrectNumberOfItemsPerPageSize7() throws Exception {
+        checkNumberOfItemsOnLastPage(7);
+    }
+    
+    @Test
+    public void page1ShouldReturnCorrectNumberOfItemsPerPageSize2() throws Exception {
+        checkNumberOfItemsOnPage(1, 2);
+    }
+    
+    @Test
+    public void page2ShouldReturnCorrectNumberOfItemsPerPageSize2() throws Exception {
+        checkNumberOfItemsOnPage(2, 2);
+    }
+
+    @Test
+    public void page3ShouldReturnCorrectNumberOfItemsPerPageSize2() throws Exception {
+        checkNumberOfItemsOnPage(3, 2);
+    }
+
+    @Test
+    public void page4ShouldReturnCorrectNumberOfItemsPerPageSize2() throws Exception {
+        checkNumberOfItemsOnPage(4, 2);
+    }
+
 }
