@@ -1,8 +1,10 @@
 package org.dspace.rest.params;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.dspace.rest.util.GenComparator;
 import org.dspace.rest.util.UtilHelper;
 import org.dspace.search.QueryArgs;
 import org.dspace.sort.SortOption;
@@ -22,40 +24,7 @@ public class SortParameters {
         setSort(reqStor);    
     }
 
-    private void setOrder(String param) {
-        this.order = param;
-    }
-
-    private void setSort(String param) {
-        this.sort = param;
-        setSortOptions();
-    }
-
-    private void setQuery(String param) {
-        this.query = param;
-    }
-
-    public String getQuery() {
-        return this.query;
-    }
-
-    public String getOrder() {
-        return this.order;
-    }
-
-    public String getSort() {
-        return this.sort;
-    }
-    
-    private void setSortOptions(List<Integer> sortOptions) {
-        this.sortOptions = sortOptions;
-    }
-
-    public List<Integer> getSortOptions() {
-        return sortOptions;
-    }
-
-    public static String valueInStore(final String key,
+    private static String valueInStore(final String key,
             final String defaultWhenValueNotStored,
             final RequestStorage requestStore) {
         String value;
@@ -69,10 +38,10 @@ public class SortParameters {
         return value;
     }
 
-    public void setQuery(final RequestStorage requestStore) {
+    private void setQuery(final RequestStorage requestStore) {
         String query = valueInStore("query", "",
                 requestStore);
-        setQuery(query);
+        this.query = query;
     }
 
     private void setSortOptions() {
@@ -107,10 +76,10 @@ public class SortParameters {
             }
         }
         
-        setSortOptions(sortOptions);
+        this.sortOptions = sortOptions;
     }
 
-    public void setSort(final RequestStorage requestStore) {
+    private void setSort(final RequestStorage requestStore) {
         String sort = valueInStore("_sort", "",
                 requestStore);
         // both parameters are used according to requirements
@@ -118,20 +87,29 @@ public class SortParameters {
             sort = order;
         }
         
-        setSort(sort);
+        this.sort = sort;
+        setSortOptions();
     }
 
-    public void setOrder(final RequestStorage requestStore) {
+    private void setOrder(final RequestStorage requestStore) {
         String order = valueInStore("_order", "", requestStore);
-        setOrder(order);
+        this.order = order;
     }
 
+    
     public void configure(final QueryArgs arg) {
-        arg.setQuery(getQuery());
-        if ((getOrder().equalsIgnoreCase("descending")) || (getOrder().equalsIgnoreCase("desc"))) {
+        arg.setQuery(this.query);
+        if ((this.order.equalsIgnoreCase("descending")) || (this.order.equalsIgnoreCase("desc"))) {
             arg.setSortOrder(SortOption.DESCENDING);
         } else {
             arg.setSortOrder(SortOption.ASCENDING);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void sort(final List<Object> entities) {
+        if (sortOptions.size() > 0) {
+            Collections.sort(entities, new GenComparator(sortOptions));
         }
     }
 }

@@ -24,14 +24,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.sakaiproject.entitybus.EntityView;
 import java.util.List;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
 import org.dspace.rest.params.PaginationParameters;
 import org.dspace.rest.params.RequestParameters;
 import org.dspace.rest.params.SortParameters;
-import org.dspace.rest.util.GenComparator;
 import org.dspace.rest.util.UtilHelper;
 import java.lang.reflect.*;
 import org.dspace.rest.util.RecentSubmissionsException;
@@ -1146,9 +1144,8 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
          * if the full info are requested and there are sorting requirements
          * process entities through sorting filter first
          */
-        SortParameters sortParams = new SortParameters(reqStor);
-        if (!idOnly && sortParams.getSortOptions().size() > 0) {
-            Collections.sort(entities, new GenComparator(sortParams.getSortOptions()));
+        if (!idOnly) {
+            new SortParameters(reqStor).sort(entities);
         }
     }
 }
