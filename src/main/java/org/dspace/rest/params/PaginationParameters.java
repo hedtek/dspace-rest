@@ -62,7 +62,27 @@ public class PaginationParameters {
         if (perpage > 0) {
             arg.setPageSize(perpage);
         }
-        arg.setStart(getStart());
+        final int startPosition = getStartPosition();
+        arg.setStart(startPosition);
+    }
+
+    /**
+     * The effective start position for the page
+     * of results to be queried.
+     * @return effective start position
+     */
+    private int getStartPosition() {
+        final int startPosition;
+        if (isPageSet()) {
+            startPosition = startPositionForPage();
+        } else {
+            startPosition = start;
+        }
+        return startPosition;
+    }
+
+    private boolean isPageSet() {
+        return page > 0;
     }
 
     public void removeTrailing(final List<?> entities) {
@@ -73,10 +93,19 @@ public class PaginationParameters {
             }
         }
         if (perpage > 0) {
-            entities.subList(0, page * perpage).clear();
+            entities.subList(0, startPositionForPage()).clear();
         }
         if ((getLimit() > 0) && entities.size() > getLimit()) {
             entities.subList(getLimit(), entities.size()).clear();
         }
+    }
+
+    /**
+     * Calculates the start position based on the
+     * page requested and the requested number of results per page.
+     * @return 
+     */
+    private int startPositionForPage() {
+        return page * perpage;
     }   
 }

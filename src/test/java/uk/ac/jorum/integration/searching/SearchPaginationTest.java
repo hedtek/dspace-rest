@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -81,8 +82,10 @@ public class SearchPaginationTest extends RestApiBaseTest {
         }
     }
     
+    @Test
     public void firstAndSecondPagesShouldShareNoCommonItems() throws Exception {
         final Set<Integer> firstPageIds = pageIds(1);
         final Set<Integer> secondPageIds = pageIds(2);
+        assertTrue("No items should be appear on the first and second pages." + firstPageIds + "," + secondPageIds, CollectionUtils.intersection(firstPageIds, secondPageIds).isEmpty());
     }
 }
