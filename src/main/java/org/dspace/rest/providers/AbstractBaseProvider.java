@@ -604,10 +604,8 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      * @param context current database context locally (in subclass method)
      * defined but used here for loging and other purposes
      */
-    public RequestParameters refreshParams(Context context) {
-
-        final RequestParameters uparam = new RequestParameters();
-
+    public void refreshParams(Context context) {
+        
         /**
          * now check user login info and try to register
          */
@@ -675,8 +673,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         } catch (NullPointerException ex) {
             withdrawn = false;
         }
-
-        return uparam;
     }
 
     public String[] getHandledInputFormats() {
