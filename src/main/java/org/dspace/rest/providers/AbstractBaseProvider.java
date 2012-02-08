@@ -1044,4 +1044,8 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
             new SortParameters(requestStore).sort(entities);
         }
     }
+
+    protected final void logUserInfo(Operation operation) {
+        if (log.isDebugEnabled()) log.debug(userInfo() + operation.getDescription());
+    }
 }

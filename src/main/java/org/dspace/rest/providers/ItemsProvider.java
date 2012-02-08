@@ -16,6 +16,8 @@ import org.apache.log4j.Logger;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
+import org.dspace.rest.diagnose.Operation;
+import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
@@ -25,7 +27,6 @@ import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
 import org.sakaiproject.entitybus.entityprovider.search.Search;
-import org.sakaiproject.entitybus.exception.EntityException;
 
 /**
  * Provides interface for access to item entities
@@ -35,7 +36,7 @@ import org.sakaiproject.entitybus.exception.EntityException;
  */
 public class ItemsProvider extends AbstractBaseProvider implements CoreEntityProvider {
 
-    private static Logger log = Logger.getLogger(ItemsProvider.class);
+    static Logger log = Logger.getLogger(ItemsProvider.class);
 
     /**
      * Constructor handles registration of provider
@@ -144,25 +145,26 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
     }
 
     public List<?> getEntities(EntityReference ref, Search search) {
-        log.info(userInfo() + "list_entities");
+        logUserInfo(Operation.GET_ITEMS);
+        return getAllItems();
+    }
 
-        Context context = context();
+    private List<?> getAllItems() {
+        final Context context = context();
         try {
-            List<Object> entities = new ArrayList<Object>();
+            final List<Object> entities = new ArrayList<Object>();
 
-            try {
-                ItemIterator items = Item.findAll(context);
-                while (items.hasNext()) {
-                    entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new ItemEntityId(items.next()) : new ItemEntity(items.next(), 1, DetailDepthParameters.build(requestStore).getDepth()));
-                }
-            } catch (SQLException ex) {
-                throw new EntityException("Internal server error", "SQL error", 500);
+            final ItemIterator items = Item.findAll(context);
+            while (items.hasNext()) {
+                entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new ItemEntityId(items.next()) : new ItemEntity(items.next(), 1, DetailDepthParameters.build(requestStore).getDepth()));
             }
 
             sort(entities);
-
             removeTrailing(entities);
             return entities;
+        } catch (SQLException cause) {
+            throw new SQLFailureEntityException(Operation.GET_ITEMS, cause);
+
         } finally {
             complete(context);
         }
