@@ -54,37 +54,18 @@ public class CollectionEntity {
     private String provenance;
     private Object logo;
 
-    public CollectionEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
-        log.debug("Creating collection entity.");
-        Collection res = Collection.find(context, Integer.parseInt(uid));
-        
-        loadCollectionData(res);
-
-        //ItemIterator i = Item.findAll(context);
-        ItemIterator i = res.getAllItems();
-
-        // Only include full when above maximum depth
-        final boolean includeFull = depth.includeFullDetails(level++);
-
-        while (i.hasNext()) {
-            items.add(includeFull ? new ItemEntity(i.next(), level, depth) : new ItemEntityId(i.next()));
-        }
-        this.countItems = items.size();
-
-        for (Community c : res.getCommunities()) {
-            this.communities.add(includeFull ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
-        }
-        //context.complete();
+    public CollectionEntity(final String uid, final Context context, final int level, final DetailDepth depth) throws SQLException {
+        this(Collection.find(context, Integer.parseInt(uid)), level, depth);
     }
 
-    public CollectionEntity(Collection collection, int level, final DetailDepth depth) throws SQLException {
-
+    public CollectionEntity(final Collection collection, int level, final DetailDepth depth) throws SQLException {
+        log.debug("Creating collection entity.");
         // Only include full when above maximum depth
         final boolean includeFull = depth.includeFullDetails(level++);
 
         loadCollectionData(collection);
         
-        ItemIterator i = collection.getAllItems();
+        final ItemIterator i = collection.getAllItems();
         while (i.hasNext()) {
             items.add(includeFull ? new ItemEntity(i.next(), level, depth) : new ItemEntityId(i.next()));
         }

@@ -109,51 +109,51 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
      * @return
      */
     @Override
-        public Object getEntity(EntityReference reference) {
-            log.info(userInfo() + "get_entity:" + reference.getId());
-            String segments[] = {};
+    public Object getEntity(EntityReference reference) {
+        log.info(userInfo() + "get_entity:" + reference.getId());
+        String segments[] = {};
 
-            if (requestStore.getStoredValue("pathInfo") != null) {
-                segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
-            }
+        if (requestStore.getStoredValue("pathInfo") != null) {
+            segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
+        }
 
-            // first check if there is sub-field requested
-            // if so then invoke appropriate method inside of entity
-            if (segments.length > 3) {
-                return super.getEntity(reference);
-            } else {
+        // first check if there is sub-field requested
+        // if so then invoke appropriate method inside of entity
+        if (segments.length > 3) {
+            return super.getEntity(reference);
+        } else {
 
-                Context context = context();
+            Context context = context();
 
-                try {
-                    // sample entity
-                    if (reference.getId().equals(":ID:")) {
-                        return new CollectionEntity();
-                    }
-
-                    if (reference.getId() == null) {
-                        return new CollectionEntity();
-                    }
-
-                    if (entityExists(reference.getId())) {
-                        try {
-                            // return basic entity or full info
-                            if (EntityBuildParameters.build(requestStore).isIdOnly()) {
-                                return new CollectionEntityId(reference.getId(), context);
-                            } else {
-                                return new CollectionEntity(reference.getId(), context, 1, DetailDepthParameters.build(requestStore).getDepth());
-                            }
-                        } catch (SQLException ex) {
-                            throw new IllegalArgumentException("Invalid id:" + reference.getId());
-                        }
-                    }
-
-                    throw new IllegalArgumentException("Invalid id:" + reference.getId());
-                } finally {
-                    complete(context);
+            try {
+                // sample entity
+                if (reference.getId().equals(":ID:")) {
+                    return new CollectionEntity();
                 }
+
+                if (reference.getId() == null) {
+                    return new CollectionEntity();
+                }
+
+                if (entityExists(reference.getId())) {
+                    try {
+                        // return basic entity or full info
+                        if (EntityBuildParameters.build(requestStore).isIdOnly()) {
+                            return new CollectionEntityId(reference.getId(), context);
+                        } else {
+                            return new CollectionEntity(reference.getId(), context, 1, DetailDepthParameters.build(requestStore).getDepth());
+                        }
+                    } catch (SQLException ex) {
+                        throw new IllegalArgumentException("Invalid id:" + reference.getId());
+                    }
+                }
+
+                throw new IllegalArgumentException("Invalid id:" + reference.getId());
+            } finally {
+                complete(context);
             }
         }
+    }
 
     /**
      * List all collection in the system, sort and format if requested
