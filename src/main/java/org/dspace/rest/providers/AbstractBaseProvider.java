@@ -659,21 +659,18 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
         try {
             _sdate = reqStor.getStoredValue("startdate").toString();
-            uparam.setSDate(_sdate);
         } catch (NullPointerException ex) {
             _sdate = null;
         }
 
         try {
             _edate = reqStor.getStoredValue("enddate").toString();
-            uparam.setEDate(_edate);
         } catch (NullPointerException ex) {
             _edate = null;
         }
 
         try {
             withdrawn = reqStor.getStoredValue("withdrawn").toString().equalsIgnoreCase("true");
-            uparam.setWithdrawn(withdrawn);
         } catch (NullPointerException ex) {
             withdrawn = false;
         }
