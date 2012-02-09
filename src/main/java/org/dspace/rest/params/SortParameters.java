@@ -14,22 +14,22 @@ public class SortParameters {
     private String query = "";
     private String order = "";
     private List<Integer> sortOptions = new ArrayList<Integer>();
-    static final int SORT_FULL_NAME_REV = 317;
-    static final int SORT_LASTNAME_REV = 316;
-    static final int SORT_LANGUAGE_REV = 315;
-    static final int SORT_COUNT_ITEMS_REV = 314;
-    static final int SORT_SUBMITTER_REV = 313;
-    static final int SORT_LASTMODIFIED_REV = 312;
-    static final int SORT_NAME_REV = 311;
-    static final int SORT_ID_REV = 310;
-    static final int SORT_FULL_NAME = 217;
-    static final int SORT_LASTNAME = 216;
-    static final int SORT_LANGUAGE = 215;
-    static final int SORT_COUNT_ITEMS = 214;
-    static final int SORT_SUBMITTER = 213;
-    static final int SORT_LASTMODIFIED = 212;
-    static final int SORT_NAME = 211;
-    static final int SORT_ID = 210;
+    static final int FULL_NAME_REV = 317;
+    static final int LASTNAME_REV = 316;
+    static final int LANGUAGE_REV = 315;
+    static final int COUNT_ITEMS_REV = 314;
+    static final int SUBMITTER_REV = 313;
+    static final int LASTMODIFIED_REV = 312;
+    static final int NAME_REV = 311;
+    static final int ID_REV = 310;
+    static final int FULL_NAME = 217;
+    static final int LASTNAME = 216;
+    static final int LANGUAGE = 215;
+    static final int COUNT_ITEMS = 214;
+    static final int SUBMITTER = 213;
+    static final int LASTMODIFIED = 212;
+    static final int NAME = 211;
+    static final int ID = 210;
 
 
     public SortParameters(RequestStorage reqStor) {
@@ -66,21 +66,21 @@ public class SortParameters {
     
         for (String option : sort_arr) {
             if (option.startsWith("submitter")) {
-                sortOptions.add(SortParameters.SORT_SUBMITTER);
+                sortOptions.add(SortParameters.SUBMITTER);
             } else if (option.startsWith("lastname")) {
-                sortOptions.add(SortParameters.SORT_LASTNAME);
+                sortOptions.add(SortParameters.LASTNAME);
             } else if (option.startsWith("fullname")) {
-                sortOptions.add(SortParameters.SORT_FULL_NAME);
+                sortOptions.add(SortParameters.FULL_NAME);
             } else if (option.startsWith("language")) {
-                sortOptions.add(SortParameters.SORT_LANGUAGE);
+                sortOptions.add(SortParameters.LANGUAGE);
             } else if (option.startsWith("lastmodified")) {
-                sortOptions.add(SortParameters.SORT_LASTMODIFIED);
+                sortOptions.add(SortParameters.LASTMODIFIED);
             } else if (option.startsWith("countitems")) {
-                sortOptions.add(SortParameters.SORT_COUNT_ITEMS);
+                sortOptions.add(SortParameters.COUNT_ITEMS);
             } else if (option.startsWith("name")) {
-                sortOptions.add(SortParameters.SORT_NAME);
+                sortOptions.add(SortParameters.NAME);
             } else {
-                sortOptions.add(SortParameters.SORT_ID);
+                sortOptions.add(SortParameters.ID);
             }
             if ((option.endsWith("_desc") || option.endsWith("_reverse"))) {
                 int i = sortOptions.get(sortOptions.size() - 1);

@@ -38,7 +38,7 @@ class FlexibleComparator implements Comparator {
             this.method = methodList.get(0);
         } catch (Exception ex) {
             // by default it sorts by id which should be everywhere present
-            this.method = SortParameters.SORT_ID;
+            this.method = SortParameters.ID;
         }
     }
 
@@ -58,8 +58,8 @@ class FlexibleComparator implements Comparator {
 
         switch (method) {
             // sort by full name, e.g. in UsersEntity
-            case SortParameters.SORT_FULL_NAME:
-            case SortParameters.SORT_FULL_NAME_REV:
+            case SortParameters.FULL_NAME:
+            case SortParameters.FULL_NAME_REV:
                  {
                     try {
                         String obj1Lang = o1.getClass().getDeclaredMethod("getFullName").invoke(o1).toString();
@@ -78,8 +78,8 @@ class FlexibleComparator implements Comparator {
                 break;
 
             // sort by last name, e.g. in UsersEntity
-            case SortParameters.SORT_LASTNAME:
-            case SortParameters.SORT_LASTNAME_REV:
+            case SortParameters.LASTNAME:
+            case SortParameters.LASTNAME_REV:
                  {
                     try {
                         String obj1Lang = o1.getClass().getDeclaredMethod("getLastName").invoke(o1).toString();
@@ -98,8 +98,8 @@ class FlexibleComparator implements Comparator {
                 break;
 
             // sort by count of items, e.g. in CollectionEntity
-            case SortParameters.SORT_COUNT_ITEMS:
-            case SortParameters.SORT_COUNT_ITEMS_REV:
+            case SortParameters.COUNT_ITEMS:
+            case SortParameters.COUNT_ITEMS_REV:
                  {
                     try {
                         Integer obj1Cnt = Integer.parseInt(o1.getClass().getDeclaredMethod("getCountItems").invoke(o1).toString());
@@ -118,8 +118,8 @@ class FlexibleComparator implements Comparator {
                 break;
 
             // sort by language, e.g. by UserEntity
-            case SortParameters.SORT_LANGUAGE:
-            case SortParameters.SORT_LANGUAGE_REV:
+            case SortParameters.LANGUAGE:
+            case SortParameters.LANGUAGE_REV:
                  {
                     try {
                         String obj1Lang = o1.getClass().getDeclaredMethod("getLanguage").invoke(o1).toString();
@@ -138,8 +138,8 @@ class FlexibleComparator implements Comparator {
                 break;
 
             // sort by submitter, e.g. by ItemsEntity
-            case SortParameters.SORT_SUBMITTER:
-            case SortParameters.SORT_SUBMITTER_REV:
+            case SortParameters.SUBMITTER:
+            case SortParameters.SUBMITTER_REV:
                  {
                     try {
                         UserEntity obj1User = (UserEntity) o1.getClass().getDeclaredMethod("getSubmitter").invoke(o1);
@@ -158,8 +158,8 @@ class FlexibleComparator implements Comparator {
                 break;
 
             // sort by last modified date, e.g. in ItemsEntity
-            case SortParameters.SORT_LASTMODIFIED:
-            case SortParameters.SORT_LASTMODIFIED_REV:
+            case SortParameters.LASTMODIFIED:
+            case SortParameters.LASTMODIFIED_REV:
                  {
                     try {
                         Date obj1Date = (Date) o1.getClass().getDeclaredMethod("getLastModified").invoke(o1);
@@ -179,8 +179,8 @@ class FlexibleComparator implements Comparator {
                 break;
 
             // sort by name, e.g. in CommunityEntity
-            case SortParameters.SORT_NAME:
-            case SortParameters.SORT_NAME_REV:
+            case SortParameters.NAME:
+            case SortParameters.NAME_REV:
                  {
                     try {
                         String obj1Name = o1.getClass().getDeclaredMethod("getName").invoke(o1).toString();
