@@ -8,9 +8,6 @@
 
 package org.dspace.rest.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.dspace.rest.providers.AbstractBaseProvider;
 
 /**
@@ -23,8 +20,6 @@ public class UtilHelper {
     
     protected UtilHelper() {
     }
-
-    public static final boolean DEBUG_ACTIVE = true;
     // methods for getObjects
     public static final int PARENTS = 1;
     public static final int CHILDREN = 2;
@@ -52,38 +47,4 @@ public class UtilHelper {
     public static final int SORT_LANGUAGE_REV = 315;
     public static final int SORT_LASTNAME_REV = 316;
     public static final int SORT_FULL_NAME_REV = 317;
-    public static final Map<String, String> mappings = new HashMap<String, String>() {
-
-        {
-            put("getId", "id");
-            put("getName", "name");
-            put("getCountItems", "countItems");
-            put("getHandle", "handle");
-            put("getType", "type");
-            put("getCollections", "collections");
-            put("getCanEdit", "canedit");
-            put("getParentCommunity", "parents");
-            put("getSubCommunities", "children");
-
-
-        }
-    };
-    private static Map<String, Class<?>[]> mappings_parameters = new HashMap<String, Class<?>[]>();
-    private static Map<String, String> mappings_rev = new HashMap<String, String>();
-
-    public static void addParameters(String function, Class<?>[] parameters) {
-        mappings_parameters.put(function, parameters);
-    }
-
-    public static Class<?>[] getParameters(String function) {
-        return mappings_parameters.get(function);
-    }
-
-    public static void addMethod(String field, String function) {
-        mappings_rev.put(field, function);
-    }
-
-    public static String getMethod(String field) {
-        return mappings_rev.get(field);
-    }
 }
