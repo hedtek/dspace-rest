@@ -15,7 +15,8 @@ public enum Operation {
     CREATE_CONTEXT("Cannot create context.", "creating context"),
     CANNOT_FIND_USER_ENTITIES("Cannot find User Entities.", "finding users"),
     SEARCH("Cannot complete search.", "searching"),
-    GET_ITEMS("Cannot get item data.", "getting items");
+    GET_ITEMS("Cannot get item data.", "getting items"),
+    GET_COMMUNITIES("Cannot get community data", "getting communities");
     
     private final String failureMessage;
     private final String description;
