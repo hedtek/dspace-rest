@@ -16,7 +16,8 @@ public enum Operation {
     CANNOT_FIND_USER_ENTITIES("Cannot find User Entities.", "finding users"),
     SEARCH("Cannot complete search.", "searching"),
     GET_ITEMS("Cannot get item data.", "getting items"),
-    GET_COMMUNITIES("Cannot get community data", "getting communities");
+    GET_COMMUNITIES("Cannot get community data", "getting communities"),
+    GET_COLLECTIONS("Cannot get collection data", "getting collections");
     
     private final String failureMessage;
     private final String description;

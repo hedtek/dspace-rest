@@ -16,8 +16,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
 import org.dspace.core.Context;
+import org.dspace.rest.diagnose.Operation;
+import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CollectionEntityId;
+import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.sakaiproject.entitybus.EntityReference;
@@ -44,27 +47,25 @@ public class CollectionsProvider extends AbstractBindingProvider implements Core
     }
 
     public boolean entityExists(String id) {
-        log.info(userInfo() + "entity_exists:" + id);
-
         // sample entity
         if (id.equals(":ID:")) {
             return true;
         }
-        Context context = context();
-
+        
+        final Context context = context();
         boolean result = false;
         try {
-            Collection col = Collection.find(context, Integer.parseInt(id));
+            final Collection col = Collection.find(context, Integer.parseInt(id));
             if (col != null) {
                 result = true;
             }
+            return result;
         } catch (SQLException ex) {
-            result = false;
+            log.debug("Failed to find community. Assuming that this means it doesn't exist.", ex);
+            return false;
+        } finally {
+            complete(context);
         }
-
-        // close connection to prevent connection problems
-        complete(context);
-        return result;
     }
 
     /**
@@ -74,7 +75,6 @@ public class CollectionsProvider extends AbstractBindingProvider implements Core
      */
     @Override
     public Object getEntity(EntityReference reference) {
-        log.info(userInfo() + "get_entity:" + reference.getId());
         String segments[] = {};
 
         if (requestStore.getStoredValue("pathInfo") != null) {
@@ -87,7 +87,7 @@ public class CollectionsProvider extends AbstractBindingProvider implements Core
             return super.getEntity(reference);
         } else {
 
-            Context context = context();
+            final Context context = context();
 
             try {
                 // sample entity
@@ -126,32 +126,32 @@ public class CollectionsProvider extends AbstractBindingProvider implements Core
      * @return
      */
     public List<?> getEntities(EntityReference ref, Search search) {
-        log.info(userInfo() + "list_entities");
-
-        Context context = context();
-
-        List<Object> entities = new ArrayList<Object>();
-
-        try {
-            Collection[] collections = null;
-            collections = Collection.findAll(context);
-            //            System.out.println(" number of collections " + Collection.getNumCollections(context));
-            for (Collection c : collections) {
-                entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new CollectionEntityId(c) : new CollectionEntity(c, 1, DetailDepthParameters.build(requestStore).getDepth()));
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        complete(context);
-        
-        sort(entities);
-        removeTrailing(entities);
-
-        return entities;
+        return getAllCollections();
     }
 
-    /*
+    private List<?> getAllCollections() {
+        final Context context = context();
+        try {
+            final List<Object> entities = new ArrayList<Object>();
+            final Collection[] collections = Collection.findAll(context);
+            final boolean idOnly = EntityBuildParameters.build(requestStore).isIdOnly();
+            final DetailDepth depth = DetailDepthParameters.build(requestStore).getDepth();
+            for (Collection c : collections) {
+                entities.add(idOnly ? new CollectionEntityId(c) : new CollectionEntity(c, 1, depth));
+            }
+
+            sort(entities);
+            removeTrailing(entities);
+
+            return entities;
+        } catch (SQLException cause) {
+            throw new SQLFailureEntityException(Operation.GET_COLLECTIONS, cause);
+        } finally {
+            complete(context);
+        }
+    }
+
+    /**
      * Here is sample collection entity defined
      */
     public Object getSampleEntity() {
