@@ -200,34 +200,6 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
         return entities;
     }
 
-    // not necessarly anymore
-    public void adeleteEntity(EntityReference ref, Map<String, Object> params) {
-        Context context = context();
-        try {
-            Community comm = Community.find(context, Integer.parseInt(ref.getId()));
-            if (comm != null) {
-                comm.delete();
-            }
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        } catch (AuthorizeException ae) {
-            throw new EntityException("Forbidden", "Forbidden", 403);
-        } catch (IOException ie) {
-            throw new EntityException("Internal server error", "SQL error, cannot delete community", 500);
-        }
-        complete(context);
-    }
-
-    public String[] importData(String reference, InputStream data, String encodingKey, Map<String, Object> params) {
-        log.info("===== importdata called");
-        return new String[]{"123", "45678"};
-    }
-
-    public String exportData(String reference, Search search, OutputStream data, boolean destructive, Map<String, Object> params) {
-        log.info("---EXPORT");
-        return "sadasdasq3123";
-    }
-
     /**
      * Prepare sample entity
      * @return
