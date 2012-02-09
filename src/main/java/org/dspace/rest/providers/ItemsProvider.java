@@ -52,34 +52,28 @@ public class ItemsProvider extends AbstractBindingProvider  implements CoreEntit
     }
 
     public boolean entityExists(String id) {
-        log.info(userInfo() + "entity_exists:" + id);
-
         // sample entity
         if (id.equals(":ID:")) {
             return true;
         }
 
-        Context context = context();
-
-        boolean result = false;
-
-        // search for existence for particular item
+        final Context context = context();
         try {
-            Item col = Item.find(context, Integer.parseInt(id));
-            if (col != null) {
+            boolean result = false;
+            final Item item = Item.find(context, Integer.parseInt(id));
+            if (item != null) {
                 result = true;
             }
+            return result;
         } catch (SQLException ex) {
-            result = false;
+            log.debug("Failed to find community. Assuming that this means it doesn't exist.", ex);
+            return false;
+        } finally {
+            complete(context);
         }
-
-        // handles manual deregistration by sql server to lower load
-        complete(context);
-        return result;
     }
 
     public Object getEntity(EntityReference reference) {
-        log.info(userInfo() + "get_entity:" + reference.getId());
         String segments[] = {};
 
         if (requestStore.getStoredValue("pathInfo") != null) {
@@ -121,7 +115,6 @@ public class ItemsProvider extends AbstractBindingProvider  implements CoreEntit
     }
 
     public List<?> getEntities(EntityReference ref, Search search) {
-        logUserInfo(Operation.GET_ITEMS);
         return getAllItems();
     }
 
