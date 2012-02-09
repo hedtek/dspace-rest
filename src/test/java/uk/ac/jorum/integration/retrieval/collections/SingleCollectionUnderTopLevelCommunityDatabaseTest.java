@@ -14,6 +14,7 @@ import static uk.ac.jorum.integration.matchers.EntityMatchers.emptyMatcherList;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.isEntityElement;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.isEntityElementWithArray;
 import static uk.ac.jorum.integration.matchers.HasHTTPCode.hasHTTPCode;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleCollectionUnderTopLevelCommunity.communityListIdOnlyMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleCollectionUnderTopLevelCommunity.communityListMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleCollectionUnderTopLevelCommunity.parentCommunity;
 
@@ -244,7 +245,7 @@ public class SingleCollectionUnderTopLevelCommunityDatabaseTest extends
 
 	private void structureAssertionsOn(JSONObject collection) throws Exception {
 		assertThat(collection, is(AllCollectionMatchers.firstCollection(0,
-				communityListMatchers, emptyMatcherList())));
+		        communityListIdOnlyMatchers, emptyMatcherList())));
 	}
 
 	private void idOnlyStructureAssertionsOn(JSONObject collection)

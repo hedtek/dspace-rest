@@ -61,16 +61,16 @@ public class CollectionEntity {
     public CollectionEntity(final Collection collection, int level, final DetailDepth depth) throws SQLException {
         log.debug("Creating collection entity.");
         // Only include full when above maximum depth
-        final boolean includeFull = depth.includeFullDetails(level++);
-
+        final boolean includeFullNextLevel = depth.includeFullDetails(++level);
+        if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
         loadCollectionData(collection);
         
         final ItemIterator i = collection.getAllItems();
-        this.items = ItemBuilder.builder(!includeFull, depth).build(i, level);
+        this.items = ItemBuilder.builder(!includeFullNextLevel, depth).build(i, level);
         this.countItems = items.size();
 
         for (Community c : collection.getCommunities()) {
-            communities.add(includeFull ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
+            communities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
         }
     }
     

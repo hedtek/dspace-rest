@@ -114,10 +114,10 @@ public class TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities {
 					secondCommunityListIdMatchers,
 					secondCollectionListWithIdMatchers);
 
-	public static final ArrayList<Matcher<JSONObject>> itemMatchers = new ArrayList<Matcher<JSONObject>>() {
+	public static final ArrayList<Matcher<JSONObject>> itemListIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(firstItem);
-			add(secondItem);
+			add(itemInFirstCollection);
+			add(itemInSecondCollection);
 		}
 	};
 

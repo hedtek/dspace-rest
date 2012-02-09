@@ -11,7 +11,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
-import static uk.ac.jorum.integration.matchers.fixtures.TwoCollectionsUnderTopLevelCommunity.collectionListMatchers;
+import static uk.ac.jorum.integration.matchers.fixtures.TwoCollectionsUnderTopLevelCommunity.collectionListWithIdOnlyCommunitiesMatchers;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -40,7 +40,7 @@ public class MultipleCollectionsUnderTopLevelCommunityDatabaseTest extends RestA
 	public void collectionListShouldContainTheCorrectCollections() throws Exception {
 		String result = makeRequest("/collections");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasArray("collections_collection", collectionListMatchers));
+		assertThat(resultJSON, hasArray("collections_collection", collectionListWithIdOnlyCommunitiesMatchers));
 	}
 	
 }

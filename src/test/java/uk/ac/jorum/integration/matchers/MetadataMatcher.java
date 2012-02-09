@@ -9,7 +9,6 @@ package uk.ac.jorum.integration.matchers;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static uk.ac.jorum.integration.matchers.ContainsJSONKey.hasKey;
-import static uk.ac.jorum.integration.matchers.EntityMatchers.hasId;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasKeys;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasSubObject;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.withValue;

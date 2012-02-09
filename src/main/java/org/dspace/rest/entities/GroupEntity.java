@@ -37,38 +37,24 @@ public class GroupEntity extends GroupEntityId {
     private List<Object> members = new ArrayList<Object>();
 
     public GroupEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
-        super(uid, context);
-        this.handle = res.getHandle();
-        this.name = res.getName();
-        this.type = res.getType();
-        this.isEmpty = res.isEmpty();
-
-        // Only include full when above maximum depth
-        final boolean includeFull = depth.includeFullDetails(level++);
-
-        for (EPerson member : res.getMembers()) {
-            members.add(includeFull ? new UserEntity(member) : new UserEntityId(member.getID()));
-        }
-        for (Group group : res.getMemberGroups()) {
-            memberGroups.add(includeFull ? new GroupEntity(group, level, depth) : new GroupEntityId(group));
-        }
+        this(Group.find(context, Integer.parseInt(uid)), level, depth);
     }
 
     public GroupEntity(Group egroup, int level, final DetailDepth depth) throws SQLException {
         super(egroup);
 
         // Only include full when above maximum depth
-        final boolean includeFull = depth.includeFullDetails(level++);
+        final boolean includeFullNextLevel = depth.includeFullDetails(++level);
 
         this.handle = egroup.getHandle();
         this.name = egroup.getName();
         this.type = egroup.getType();
         this.isEmpty = egroup.isEmpty();
         for (EPerson member : egroup.getMembers()) {
-            members.add(includeFull ? new UserEntity(member) : new UserEntityId(member.getID()));
+            members.add(includeFullNextLevel ? new UserEntity(member) : new UserEntityId(member.getID()));
         }
         for (Group group : egroup.getMemberGroups()) {
-            memberGroups.add(includeFull ? new GroupEntity(group, level, depth) : new GroupEntityId(group));
+            memberGroups.add(includeFullNextLevel ? new GroupEntity(group, level, depth) : new GroupEntityId(group));
         }
     }
 

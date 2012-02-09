@@ -69,8 +69,9 @@ public class CommunityEntity extends CommunityEntityId {
             this.type = res.getType();
 
             // Only include full when above maximum depth
-            final boolean includeFull = depth.includeFullDetails(level++);
-
+            final boolean includeFullNextLevel = depth.includeFullDetails(++level);
+            if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
+            
             if (res.getLogo() != null)
             //this.logo = includeFull ? new BitstreamEntity(Integer.toString(res.getLogo().getID()), context, level, uparams) : new BitstreamEntityId(Integer.toString(res.getLogo().getID()), context);
             this.logo = new BitstreamEntityId(Integer.toString(res.getLogo().getID()), context);
@@ -81,19 +82,19 @@ public class CommunityEntity extends CommunityEntityId {
 
                 Collection[] cols = res.getCollections();
             for (Collection c : cols) {
-                this.collections.add(includeFull ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
+                this.collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
             }
             
             Community[] coms = res.getSubcommunities();
             for (Community c : coms) {
-                this.subCommunities.add(includeFull ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
+                this.subCommunities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
             }
             try {
                 Community parentCommunity = res.getParentCommunity();
                 if(parentCommunity == null) {
                     this.parent = null;
                 } else {
-                    if(includeFull) {
+                    if(includeFullNextLevel) {
                         this.parent = new CommunityEntity(parentCommunity, level, depth);
                     } else {
                         this.parent = new CommunityEntityId(parentCommunity);
@@ -107,7 +108,7 @@ public class CommunityEntity extends CommunityEntityId {
             try {
                 RecentSubmissions recent = rsm.getRecentSubmissions(res);
                 for (Item i : recent.getRecentSubmissions()) {
-                    this.recentSubmissions.add(includeFull ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
+                    this.recentSubmissions.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
                 }
             } catch (RecentSubmissionsException ex) {
             }
@@ -119,7 +120,8 @@ public class CommunityEntity extends CommunityEntityId {
     public CommunityEntity(Community community, int level, final DetailDepth depth) throws SQLException {
         log.debug("Creating community");
         // Only include full when above maximum depth
-        final boolean includeFull = depth.includeFullDetails(level++);
+        final boolean includeFullNextLevel = depth.includeFullDetails(++level);
+        if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
 
         this.canEdit = community.canEditBoolean();
         this.handle = community.getHandle();
@@ -138,14 +140,14 @@ public class CommunityEntity extends CommunityEntityId {
         
         Collection[] cols = community.getCollections();
         for (Collection c : cols) {
-            this.collections.add(includeFull ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
+            this.collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
         }
         Community[] coms = community.getSubcommunities();
         for (Community c : coms) {
-            this.subCommunities.add(includeFull ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
+            this.subCommunities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
         }
         try {
-            this.parent = includeFull ? new CommunityEntity(community.getParentCommunity(), level, depth) : new CommunityEntityId(community.getParentCommunity());
+            this.parent = includeFullNextLevel ? new CommunityEntity(community.getParentCommunity(), level, depth) : new CommunityEntityId(community.getParentCommunity());
         } catch (NullPointerException ne) {
             this.parent = null;
         }

@@ -1,7 +1,7 @@
 package org.dspace.rest.entities;
 
 public enum DetailDepth {
-
+    
     EXTENDED(3), STANDARD (2), MINIMAL(1), FOR_ALL_INDEX(1);
     
     private final int maxLevelForDetails;

@@ -21,11 +21,13 @@ import static uk.ac.jorum.integration.matchers.ItemMatchers.getMetadataMatchers;
 import static uk.ac.jorum.integration.matchers.ItemMatchers.isItem;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.bitstreamMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.bundleMatchers;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.collectionListIdOnlyMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.collectionListMatchers;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.communityListIdOnlyMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.communityListMatchers;
-import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.item;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.itemListWithIdMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.owningCollection;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.owningCollectionIdOnly;
 
 import java.util.ArrayList;
 
@@ -40,7 +42,6 @@ import org.junit.Test;
 import uk.ac.jorum.integration.RestApiBaseTest;
 import uk.ac.jorum.integration.matchers.fixtures.AllBitstreamMatchers;
 import uk.ac.jorum.integration.matchers.fixtures.AllBundleMatchers;
-import uk.ac.jorum.integration.matchers.fixtures.AllUserMatchers;
 
 /**
  * Harvested data often is missing a submitter. 
@@ -50,10 +51,10 @@ import uk.ac.jorum.integration.matchers.fixtures.AllUserMatchers;
  * when submitters are null.
  */
 public class NoSubmitterTest extends RestApiBaseTest {
-    static final Matcher<JSONObject> itemWithoutSubmitterMatcher = isItem(1, "First Upload", true, false, owningCollection,
-            null, communityListMatchers, collectionListMatchers,
-            AllBundleMatchers.firstBundleWithLicenceList(),
-            AllBitstreamMatchers.firstBitstreamList());
+    static final Matcher<JSONObject> itemWithoutSubmitterMatcher = isItem(1, "First Upload", true, false, owningCollectionIdOnly,
+            null, communityListIdOnlyMatchers, collectionListIdOnlyMatchers,
+            AllBundleMatchers.firstBundleIdWithLicenceList(),
+            AllBitstreamMatchers.firstBitstreamIdList());
     
 	@BeforeClass
     public static void createFixture() throws Exception {

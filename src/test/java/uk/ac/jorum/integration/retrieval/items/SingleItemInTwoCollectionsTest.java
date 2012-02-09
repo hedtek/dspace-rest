@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemInTwoCollectionsOneTopLevelCommunity.item;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemInTwoCollectionsOneTopLevelCommunity.itemForCollectionMatchers;
-import static uk.ac.jorum.integration.matchers.fixtures.SingleItemInTwoCollectionsOneTopLevelCommunity.itemMatchers;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleItemInTwoCollectionsOneTopLevelCommunity.itemListIdOnlyMatchers;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -42,7 +42,7 @@ public class SingleItemInTwoCollectionsTest extends RestApiBaseTest {
 	public void itemsListItemShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasArray("items_collection", itemMatchers));
+		assertThat(resultJSON, hasArray("items_collection", itemListIdOnlyMatchers));
 	}
 	
 	@Test

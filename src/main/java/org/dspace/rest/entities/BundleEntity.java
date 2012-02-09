@@ -37,31 +37,12 @@ public class BundleEntity extends BundleEntityId {
     List<Object> items = new ArrayList<Object>();
 
     public BundleEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
-        Bundle res = Bundle.find(context, Integer.parseInt(uid));
-        Bitstream[] bst = res.getBitstreams();
-
-        this.pid = res.getPrimaryBitstreamID();
-        this.id = res.getID();
-        this.handle = res.getHandle();
-        this.name = res.getName();
-        this.type = res.getType();
-        Item[] itm = res.getItems();
-
-        // Only include full when above maximum depth
-        final boolean includeFull = depth.includeFullDetails(level++);
-
-        for (Bitstream b : bst) {
-            this.bitstreams.add(includeFull ? new BitstreamEntity(b, level, depth): new BitstreamEntityId(b));
-        }
-
-        for (Item i : itm) {
-            this.items.add(includeFull ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
-        }
+        this(Bundle.find(context, Integer.parseInt(uid)), level, depth);
     }
 
     public BundleEntity(Bundle bundle, int level, final DetailDepth depth) throws SQLException {
         // Only include full when above maximum depth
-        final boolean includeFull = depth.includeFullDetails(level++);
+        final boolean includeFullNextLevel = depth.includeFullDetails(++level);
 
         this.handle = bundle.getHandle();
         this.name = bundle.getName();
@@ -71,10 +52,10 @@ public class BundleEntity extends BundleEntityId {
         Bitstream[] bst = bundle.getBitstreams();
         Item[] itm = bundle.getItems();
         for (Bitstream b : bst) {
-            this.bitstreams.add(includeFull ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
+            this.bitstreams.add(includeFullNextLevel ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
         }
         for (Item i : itm) {
-            this.items.add(includeFull ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
+            this.items.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
         }
     }
 

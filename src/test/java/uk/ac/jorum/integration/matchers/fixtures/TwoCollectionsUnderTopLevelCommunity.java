@@ -35,7 +35,13 @@ public class TwoCollectionsUnderTopLevelCommunity {
 					collectionListWithIdOnlyMatchers));
 		}
 	};
-
+	
+    public static final ArrayList<Matcher<JSONObject>> communityListIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
+        {
+            add(AllCommunityMatchers.firstCommunityId());
+        }
+    };
+    
 	public static final ArrayList<Matcher<JSONObject>> collectionListMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
 			add(AllCollectionMatchers.firstCollection(0, communityListMatchers,
@@ -44,5 +50,14 @@ public class TwoCollectionsUnderTopLevelCommunity {
 					communityListMatchers, emptyMatcherList()));
 		}
 	};
+	
+	public static final ArrayList<Matcher<JSONObject>> collectionListWithIdOnlyCommunitiesMatchers = new ArrayList<Matcher<JSONObject>>() {
+        {
+            add(AllCollectionMatchers.firstCollection(0, communityListIdOnlyMatchers,
+                    emptyMatcherList()));
+            add(AllCollectionMatchers.secondCollection(0,
+                    communityListIdOnlyMatchers, emptyMatcherList()));
+        }
+    };	
 
 }

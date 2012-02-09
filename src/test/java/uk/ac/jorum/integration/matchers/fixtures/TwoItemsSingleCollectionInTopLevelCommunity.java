@@ -49,19 +49,40 @@ public class TwoItemsSingleCollectionInTopLevelCommunity {
 			add(parentCommunity);
 		}
 	};
+	
+    public static final Matcher<JSONObject> owningCollectionIdOnly = AllCollectionMatchers
+            .firstCollectionId();
+
+    public static final ArrayList<Matcher<JSONObject>> collectionListIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
+        {
+            add(owningCollectionIdOnly);
+        }
+    };
+
+    public static final ArrayList<Matcher<JSONObject>> communityListIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
+        {
+            add(AllCommunityMatchers.firstCommunityId());
+        }
+    };
 
 	public static final Matcher<JSONObject> firstItem = AllItemMatchers
 			.firstItem(owningCollection, communityListMatchers,
 					collectionListMatchers);
+	
+    public static final Matcher<JSONObject> firstItemIdOnly = AllItemMatchers
+            .firstItemId();
 
 	public static final Matcher<JSONObject> secondItem = AllItemMatchers
 			.secondItem(owningCollection, communityListMatchers,
 					collectionListMatchers);
 
-	public static final ArrayList<Matcher<JSONObject>> itemMatchers = new ArrayList<Matcher<JSONObject>>() {
+    public static final Matcher<JSONObject> secondItemIdOnly = AllItemMatchers
+            .secondItemId();
+
+	public static final ArrayList<Matcher<JSONObject>> itemListIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(firstItem);
-			add(secondItem);
+			add(firstItemIdOnly);
+			add(secondItemIdOnly);
 		}
 	};
 }

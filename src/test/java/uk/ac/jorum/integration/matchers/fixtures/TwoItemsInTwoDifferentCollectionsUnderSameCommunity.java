@@ -31,6 +31,12 @@ public class TwoItemsInTwoDifferentCollectionsUnderSameCommunity {
 		}
 	};
 
+    public static final ArrayList<Matcher<JSONObject>> communityListIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
+        {
+            add(AllCommunityMatchers.firstCommunityId());
+        }
+    };
+
 	public static final ArrayList<Matcher<JSONObject>> communityListIdMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
 			add(isCommunityWithId(2));
@@ -69,6 +75,24 @@ public class TwoItemsInTwoDifferentCollectionsUnderSameCommunity {
 		}
 	};
 
+    public static final Matcher<JSONObject> owningCollectionForFirstItemIdOnly = AllCollectionMatchers
+            .firstCollectionId();
+
+    public static final Matcher<JSONObject> owningCollectionForSecondItemIdOnly = AllCollectionMatchers
+            .secondCollectionId();
+
+    public static final ArrayList<Matcher<JSONObject>> collectionListIdOnlyMatchersForFirstItem = new ArrayList<Matcher<JSONObject>>() {
+        {
+            add(owningCollectionForFirstItemIdOnly);
+        }
+    };
+
+    public static final ArrayList<Matcher<JSONObject>> collectionListIdOnlyMatchersForSecondItem = new ArrayList<Matcher<JSONObject>>() {
+        {
+            add(owningCollectionForSecondItemIdOnly);
+        }
+    };
+
 	public static final Matcher<JSONObject> firstItem = AllItemMatchers
 			.firstItem(owningCollectionForFirstItem, communityListMatchers,
 					collectionListMatchersForFirstItem);
@@ -77,10 +101,18 @@ public class TwoItemsInTwoDifferentCollectionsUnderSameCommunity {
 			.secondItem(owningCollectionForSecondItem, communityListMatchers,
 					collectionListMatchersForSecondItem);
 
-	public static final ArrayList<Matcher<JSONObject>> itemMatchers = new ArrayList<Matcher<JSONObject>>() {
+    public static final Matcher<JSONObject> firstItemIdOnly = AllItemMatchers
+            .firstItemWithIdOnlyMetadata(owningCollectionForFirstItemIdOnly, communityListIdOnlyMatchers,
+                    collectionListIdOnlyMatchersForFirstItem);
+
+    public static final Matcher<JSONObject> secondItemIdOnly = AllItemMatchers
+            .secondItemWithIdOnlyMetadata(owningCollectionForSecondItemIdOnly, communityListIdOnlyMatchers,
+                    collectionListIdOnlyMatchersForSecondItem);
+
+	public static final ArrayList<Matcher<JSONObject>> itemListIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(firstItem);
-			add(secondItem);
+			add(firstItemIdOnly);
+			add(secondItemIdOnly);
 		}
 	};
 }

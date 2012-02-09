@@ -51,22 +51,34 @@ public class SingleItemInTwoCollectionsOneTopLevelCommunity {
 	public static final Matcher<JSONObject> owningCollection = AllCollectionMatchers
 			.firstCollection(1, communityListIdMatchers, itemIdMatchers);
 
+    public static final Matcher<JSONObject> owningCollectionIdOnly = AllCollectionMatchers
+            .firstCollectionId();
+
 	public static final Matcher<JSONObject> nonOwningCollection = AllCollectionMatchers
 			.secondCollection(1, communityListIdMatchers, itemIdMatchers);
 
-	public static final ArrayList<Matcher<JSONObject>> collectionListMatchers = new ArrayList<Matcher<JSONObject>>() {
-		{
-			add(owningCollection);
-			add(nonOwningCollection);
-		}
-	};
+    public static final ArrayList<Matcher<JSONObject>> collectionListMatchers = new ArrayList<Matcher<JSONObject>>() {
+        {
+            add(owningCollection);
+            add(nonOwningCollection);
+        }
+    };
+
+    public static final ArrayList<Matcher<JSONObject>> communityListIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
+        {
+            add(AllCommunityMatchers.firstCommunityId());
+        }
+    };
 
 	public static final Matcher<JSONObject> item = AllItemMatchers.firstItem(
 			owningCollection, communityListMatchers, collectionListMatchers);
 
-	public static final ArrayList<Matcher<JSONObject>> itemMatchers = new ArrayList<Matcher<JSONObject>>() {
+    public static final Matcher<JSONObject> itemIdOnly = AllItemMatchers.firstItemWithIdOnlyMetadata(
+            owningCollectionIdOnly, communityListIdOnlyMatchers, collectionListWithIdMatchers);
+    
+	public static final ArrayList<Matcher<JSONObject>> itemListIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
 		{
-			add(item);
+			add(itemIdOnly);
 		}
 	};
 

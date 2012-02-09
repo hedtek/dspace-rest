@@ -37,5 +37,11 @@ public class SingleCollectionUnderTopLevelCommunity {
 			add(parentCommunity);
 		}
 	};
+	
+	public static final ArrayList<Matcher<JSONObject>> communityListIdOnlyMatchers = new ArrayList<Matcher<JSONObject>>() {
+        {
+            add(AllCommunityMatchers.firstCommunityId());
+        }
+    };
 
 }

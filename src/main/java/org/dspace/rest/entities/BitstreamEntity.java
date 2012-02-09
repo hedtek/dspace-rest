@@ -39,34 +39,12 @@ public class BitstreamEntity extends BitstreamEntityId {
     List<Object> bundles = new ArrayList<Object>();
 
     public BitstreamEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
-        Bitstream res = Bitstream.find(context, Integer.parseInt(uid));
-        Bundle[] bnd = res.getBundles();
-        this.id = res.getID();
-        this.handle = res.getHandle();
-        this.name = res.getName();
-        this.type = res.getType();
-        this.checkSum = res.getChecksum();
-        this.checkSumAlgorithm = res.getChecksumAlgorithm();
-        this.description = res.getDescription();
-        this.formatDescription = res.getFormatDescription();
-        this.sequenceId = res.getSequenceID();
-        this.size = res.getSize();
-        this.source = res.getSource();
-        this.storeNumber = res.getStoreNumber();
-        this.userFormatDescription = res.getUserFormatDescription();
-        // Only include full when above maximum depth
-        final boolean includeFull = depth.includeFullDetails(level++);
-
-        for (Bundle b : bnd) {
-           this.bundles.add(includeFull ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
-        }
-        this.mimeType = res.getFormat().getMIMEType();
-        //context.complete(); <---important!!!!
+        this(Bitstream.find(context, Integer.parseInt(uid)), level, depth);
     }
 
     public BitstreamEntity(Bitstream bitstream, int level, final DetailDepth depth) throws SQLException {
         // Only include full when above maximum depth
-        final boolean includeFull = depth.includeFullDetails(level++);
+        final boolean includeFullNextLevel = depth.includeFullDetails(++level);
         
         this.handle = bitstream.getHandle();
         this.name = bitstream.getName();
@@ -83,7 +61,7 @@ public class BitstreamEntity extends BitstreamEntityId {
         this.userFormatDescription = bitstream.getUserFormatDescription();
         Bundle[] bnd = bitstream.getBundles();
         for (Bundle b : bnd) {
-            this.bundles.add(includeFull ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
+            this.bundles.add(includeFullNextLevel ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
         }
         this.mimeType = bitstream.getFormat().getMIMEType();
     }

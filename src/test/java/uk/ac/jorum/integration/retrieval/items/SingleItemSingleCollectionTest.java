@@ -21,9 +21,9 @@ import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollecti
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.bundleMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.collectionListMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.communityListMatchers;
+import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.idOnlyItemMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.item;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.itemListWithIdMatchers;
-import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.itemMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.SingleItemSingleCollectionTopLevelCommunity.owningCollection;
 
 import org.dspace.rest.diagnose.HTTPStatusCode;
@@ -63,7 +63,7 @@ public class SingleItemSingleCollectionTest extends RestApiBaseTest {
 	public void itemsListItemShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasArray("items_collection", itemMatchers));
+		assertThat(resultJSON, hasArray("items_collection", idOnlyItemMatchers));
 	}
 
 	@Test

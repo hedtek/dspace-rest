@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 import static uk.ac.jorum.integration.matchers.EntityMatchers.hasArray;
 import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities.firstItem;
 import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities.firstItemForCollectionMatchers;
-import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities.itemMatchers;
+import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities.itemListIdOnlyMatchers;
 import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities.secondItem;
 import static uk.ac.jorum.integration.matchers.fixtures.TwoItemsInSeparateCollectionsInSeparateTopLevelCommunities.secondItemForCollectionMatchers;
 
@@ -45,7 +45,7 @@ public class TwoItemsTwoCollectionsDifferentCommunitiesTest extends
 	public void itemsListItemShouldHaveCorrectStructure() throws Exception {
 		String result = makeRequest("/items");
 		JSONObject resultJSON = (JSONObject) JSONValue.parse(result);
-		assertThat(resultJSON, hasArray("items_collection", itemMatchers));
+		assertThat(resultJSON, hasArray("items_collection", itemListIdOnlyMatchers));
 	}
 	
 	@Test
