@@ -1,5 +1,6 @@
 package org.dspace.rest.params;
 
+import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.ItemBuilder;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
@@ -21,6 +22,10 @@ public class Parameters {
     }
 
     public ItemBuilder itemBuilder() {
-        return ItemBuilder.builder(getEntityBuild().isIdOnly(), getDetailDepth().getDepth());
+        return itemBuilder(getDetailDepth().getDepth());
+    }
+
+    public ItemBuilder itemBuilder(final DetailDepth depth) {
+        return ItemBuilder.builder(getEntityBuild().isIdOnly(), depth);
     }
 }

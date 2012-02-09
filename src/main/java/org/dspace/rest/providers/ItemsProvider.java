@@ -17,6 +17,7 @@ import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
+import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
 import org.dspace.rest.params.DetailDepthParameters;
@@ -124,7 +125,7 @@ public class ItemsProvider extends AbstractBindingProvider  implements CoreEntit
             final Parameters parameters = new Parameters(requestStore);
             
             final ItemIterator items = Item.findAll(context);
-            final List<Object> entities = parameters.itemBuilder().build(items);
+            final List<Object> entities = parameters.itemBuilder(DetailDepth.FOR_ALL_INDEX).build(items);
 
             sort(entities);
             removeTrailing(entities);
