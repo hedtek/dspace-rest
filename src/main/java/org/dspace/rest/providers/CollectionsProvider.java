@@ -18,7 +18,6 @@ import org.dspace.content.Collection;
 import org.dspace.core.Context;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CollectionEntityId;
-import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.sakaiproject.entitybus.EntityReference;
@@ -37,42 +36,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
     private static Logger log = Logger.getLogger(CollectionsProvider.class);
 
     public CollectionsProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
-        super(entityProviderManager);
-        entityProviderManager.registerEntityProvider(this);
-        processedEntity = CollectionEntity.class;
-        func2actionMapGET.put("getId", "id");
-        func2actionMapGET.put("getName", "name");
-        func2actionMapGET.put("getLicence", "licence");
-        func2actionMapGET.put("getItems", "items");
-        func2actionMapGET.put("getHandle", "handle");
-        func2actionMapGET.put("getCanEdit", "canedit");
-        func2actionMapGET.put("getCommunities", "communities");
-        func2actionMapGET.put("getCountItems", "countItems");
-        func2actionMapGET.put("getType", "type");
-        func2actionMapGET.put("getShortDescription", "shortDescription");
-        func2actionMapGET.put("getIntroText", "introText");
-        func2actionMapGET.put("getCopyrightText", "copyrightText");
-        func2actionMapGET.put("getSidebarText", "sidebarText");
-        func2actionMapGET.put("getProvenance", "provenance");
-        func2actionMapGET.put("getLogo", "logo");
-//        func2actionMapPUT.put("setShortDescription", "shortDescription");
-//        func2actionMapPUT.put("setIntroText", "introText");
-//        func2actionMapPUT.put("setCopyrightText", "copyrightText");
-//        func2actionMapPUT.put("setSidebarText", "sidebarText");
-//        func2actionMapPUT.put("setProvenance", "provenance");
-//        func2actionMapPUT.put("setLicence", "licence");
-//        func2actionMapPUT.put("setName", "name");
-//        func2actionMapPOST.put("createSubmitters", "createSubmitters");
-//        inputParamsPOST.put("createSubmitters", new String[]{"id"});
-//        func2actionMapPOST.put("createTemplateItem", "createTemplateItem");
-//        inputParamsPOST.put("createTemplateItem", new String[]{"id"});
-//        func2actionMapPOST.put("createWorkflowGroup", "createWorkflowGroup");
-//        inputParamsPOST.put("createWorkflowGroup", new String[]{"id", "step"});
-//        func2actionMapDELETE.put("removeTemplateItem", "templateitem");
-//        func2actionMapDELETE.put("removeSubmitters", "submitters");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
-        initMappings(processedEntity);
-
+        super(entityProviderManager, Binder.forCollections());
     }
 
     public String getEntityPrefix() {

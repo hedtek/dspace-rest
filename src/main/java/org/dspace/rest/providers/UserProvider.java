@@ -17,7 +17,6 @@ import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
-import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.entities.UserEntityId;
 import org.dspace.rest.params.EntityBuildParameters;
@@ -39,23 +38,7 @@ public class UserProvider extends AbstractBaseProvider implements CoreEntityProv
     private static Logger log = Logger.getLogger(UserProvider.class);
 
     public UserProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
-        super(entityProviderManager);
-        entityProviderManager.registerEntityProvider(this);
-        processedEntity = UserEntity.class;
-        func2actionMapGET.put("getEmail", "email");
-        func2actionMapGET.put("getFirstName", "firstName");
-        func2actionMapGET.put("getFullName", "fullName");
-        func2actionMapGET.put("getHandle", "handle");
-        func2actionMapGET.put("getId", "id");
-        func2actionMapGET.put("getLanguage", "language");
-        func2actionMapGET.put("getLastName", "lastName");
-        func2actionMapGET.put("getName", "name");
-        func2actionMapGET.put("getNetId", "netId");
-        func2actionMapGET.put("getRequireCertificate", "requireCertificate");
-        func2actionMapGET.put("getSelfRegistered", "selfRegistered");
-        func2actionMapGET.put("getType", "type");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
-        initMappings(processedEntity);
+        super(entityProviderManager, Binder.forUsers());
     }
 
     public String getEntityPrefix() {

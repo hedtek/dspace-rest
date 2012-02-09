@@ -17,7 +17,6 @@ import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
-import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
 import org.dspace.rest.params.DetailDepthParameters;
@@ -44,30 +43,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
      * @throws java.sql.SQLException
      */
     public ItemsProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
-        super(entityProviderManager);
-        entityProviderManager.registerEntityProvider(this);
-        processedEntity = ItemEntity.class;
-        func2actionMapGET.put("getMetadata", "metadata");
-        func2actionMapGET.put("getSubmitter", "submitter");
-        func2actionMapGET.put("getIsArchived", "isArchived");
-        func2actionMapGET.put("getIsWithdrawn", "isWithdrawn");
-        func2actionMapGET.put("getOwningCollection", "owningCollection");
-        func2actionMapGET.put("getLastModified", "lastModified");
-        func2actionMapGET.put("getCollections", "collections");
-        func2actionMapGET.put("getCommunities", "communities");
-        func2actionMapGET.put("getName", "name");
-        func2actionMapGET.put("getBitstreams", "bitstreams");
-        func2actionMapGET.put("getHandle", "handle");
-        func2actionMapGET.put("getCanEdit", "canedit");
-        func2actionMapGET.put("getId", "id");
-        func2actionMapGET.put("getType", "type");
-        func2actionMapGET.put("getBundles", "bundles");
-//        func2actionMapPUT.put("addBundle", "bundles");
-//        func2actionMapPOST.put("createBundle", "createBundle");
-//        inputParamsPOST.put("createBundle", new String[]{"name", "id"});
-
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
-        initMappings(processedEntity);
+        super(entityProviderManager, Binder.forItem());
     }
 
     // this is the prefix where provider is registered (URL path)

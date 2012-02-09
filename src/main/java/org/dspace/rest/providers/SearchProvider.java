@@ -46,8 +46,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
      * @throws java.sql.SQLException
      */
     public SearchProvider(EntityProviderManager entityProviderManager) throws SQLException {
-        super(entityProviderManager);
-        entityProviderManager.registerEntityProvider(this);
+        super(entityProviderManager, null);
     }
 
     public String getEntityPrefix() {

@@ -24,7 +24,6 @@ import org.dspace.core.Context;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.rest.entities.CommunityEntity;
-import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.util.RecentSubmissionsException;
@@ -42,32 +41,10 @@ import org.sakaiproject.entitybus.exception.EntityException;
  */
 public class BitstreamProvider extends AbstractBaseProvider implements CoreEntityProvider {
 
-    EntityProviderManager locEPM;
     private static Logger log = Logger.getLogger(BitstreamProvider.class);
 
     public BitstreamProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
-        super(entityProviderManager);
-        entityProviderManager.registerEntityProvider(this);
-        locEPM = entityProviderManager;
-        processedEntity = BitstreamEntity.class;
-        func2actionMapGET.put("getMimeType", "mimeType");
-        func2actionMapGET.put("getBundles", "bundles");
-        func2actionMapGET.put("getCheckSum", "checkSum");
-        func2actionMapGET.put("getCheckSumAlgorithm", "checkSumAlgorithm");
-        func2actionMapGET.put("getDescription", "description");
-        func2actionMapGET.put("getFormatDescription", "formatDescription");
-        func2actionMapGET.put("getSequenceId", "sequenceId");
-        func2actionMapGET.put("getSize", "size");
-        func2actionMapGET.put("getSource", "source");
-        func2actionMapGET.put("getStoreNumber", "storeNumber");
-        func2actionMapGET.put("getUserFormatDescription", "userFormatDescription");
-        func2actionMapGET.put("getName", "name");
-        func2actionMapGET.put("getHandle", "handle");
-        func2actionMapGET.put("getId", "id");
-        func2actionMapGET.put("getType", "type");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
-        initMappings(processedEntity);
-
+        super(entityProviderManager, Binder.forBitstream());
     }
 
     public String getEntityPrefix() {

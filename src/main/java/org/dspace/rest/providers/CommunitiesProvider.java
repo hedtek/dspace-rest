@@ -9,22 +9,16 @@
 package org.dspace.rest.providers;
 
 //rev
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Community;
 import org.dspace.core.Context;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.entities.CommunityEntityId;
-import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.util.RecentSubmissionsException;
@@ -32,11 +26,9 @@ import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
-import org.sakaiproject.entitybus.entityprovider.EntityProviderMethodStore;
 import org.sakaiproject.entitybus.entityprovider.extension.ActionReturn;
 import org.sakaiproject.entitybus.entityprovider.extension.EntityData;
 import org.sakaiproject.entitybus.entityprovider.search.Search;
-import org.sakaiproject.entitybus.exception.EntityException;
 
 /**
  * Provides interface for access to community entities
@@ -49,43 +41,7 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
     private static Logger log = Logger.getLogger(CommunitiesProvider.class);
 
     public CommunitiesProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
-        super(entityProviderManager);
-        entityProviderManager.registerEntityProvider(this);
-        EntityProviderMethodStore epms = entityProviderManager.getEntityProviderMethodStore();
-        processedEntity = CommunityEntity.class;
-        func2actionMapGET.put("getId", "id");
-        func2actionMapGET.put("getName", "name");
-        func2actionMapGET.put("getCountItems", "countItems");
-        func2actionMapGET.put("getHandle", "handle");
-        func2actionMapGET.put("getType", "type");
-        func2actionMapGET.put("getCollections", "collections");
-        func2actionMapGET.put("getCanEdit", "canedit");
-        func2actionMapGET.put("getParentCommunity", "anchestor");
-        func2actionMapGET.put("getSubCommunities", "children");
-        func2actionMapGET.put("getRecentSubmissions", "recent");
-        func2actionMapGET.put("getShortDescription", "shortDescription");
-        func2actionMapGET.put("getCopyrightText", "copyrightText");
-        func2actionMapGET.put("getSidebarText", "sidebarText");
-        func2actionMapGET.put("getIntroductoryText", "introductoryText");
-        func2actionMapGET.put("getLogo", "logo");
-//        func2actionMapPUT.put("setName", "name");
-//        func2actionMapPUT.put("setShortDescription", "shortDescription");
-//        func2actionMapPUT.put("setCopyrightText", "copyrightText");
-//        func2actionMapPUT.put("setSidebarText", "sidebarText");
-//        func2actionMapPUT.put("setIntroductoryText", "introductoryText");
-//        func2actionMapPUT.put("addCollection", "collections");
-//        func2actionMapPUT.put("addSubcommunity", "children");
-//        func2actionMapPOST.put("createCollection", "createCollection");
-//        inputParamsPOST.put("createCollection", new String[]{"name", "id"});
-//        func2actionMapPOST.put("createSubcommunity", "createSubcommunity");
-//        inputParamsPOST.put("createSubcommunity", new String[]{"name", "id"});
-//        func2actionMapDELETE.put("removeChildren", "children");
-//        func2actionMapDELETE.put("removeSubcollections", "collections");
-//        func2actionMapDELETE.put("delete", "");
-        entityConstructor = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
-        initMappings(processedEntity);
-        //createActions(processedEntity);
-        //createPUTActions(processedEntity);
+        super(entityProviderManager, Binder.forCommunities());
     }
 
     public Object testAction5(EntityReference reference, EntityView view) throws SQLException, RecentSubmissionsException {

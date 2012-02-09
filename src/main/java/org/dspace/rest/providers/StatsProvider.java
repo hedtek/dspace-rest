@@ -39,8 +39,7 @@ public class StatsProvider extends AbstractBaseProvider implements CoreEntityPro
     private Pattern analysisGeneralPattern = Pattern.compile("dspace-log-general-([0-9]+-[0-9]+-[0-9]+)\\.dat");
 
     public StatsProvider(EntityProviderManager entityProviderManager) throws SQLException {
-        super(entityProviderManager);
-        entityProviderManager.registerEntityProvider(this);
+        super(entityProviderManager, null);
     }
 
     public String getEntityPrefix() {

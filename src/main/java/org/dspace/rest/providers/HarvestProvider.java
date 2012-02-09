@@ -42,8 +42,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
     private static Logger log = Logger.getLogger(HarvestProvider.class);
 
     public HarvestProvider(EntityProviderManager entityProviderManager) throws SQLException {
-        super(entityProviderManager);
-        entityProviderManager.registerEntityProvider(this);
+        super(entityProviderManager, null);
     }
 
     public String getEntityPrefix() {
