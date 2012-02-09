@@ -7,16 +7,9 @@
  */
 package org.dspace.rest.providers;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,14 +22,12 @@ import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.PaginationParameters;
 import org.dspace.rest.params.SortParameters;
-import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.EntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
 import org.sakaiproject.entitybus.entityprovider.capabilities.ActionsExecutable;
 import org.sakaiproject.entitybus.entityprovider.capabilities.CollectionResolvable;
 import org.sakaiproject.entitybus.entityprovider.capabilities.Describeable;
-import org.sakaiproject.entitybus.entityprovider.capabilities.InputTranslatable;
 import org.sakaiproject.entitybus.entityprovider.capabilities.Outputable;
 import org.sakaiproject.entitybus.entityprovider.capabilities.Redirectable;
 import org.sakaiproject.entitybus.entityprovider.capabilities.RequestAware;
@@ -47,7 +38,6 @@ import org.sakaiproject.entitybus.entityprovider.extension.Formats;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestGetter;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 import org.sakaiproject.entitybus.exception.EntityException;
-import org.sakaiproject.entitybus.rest.EntityEncodingManager;
 
 /**
  * Base abstract class for Entity Providers. Takes care about general
