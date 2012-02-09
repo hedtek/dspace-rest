@@ -115,32 +115,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
     }
 
-    public String readIStoString(ServletInputStream is) throws IOException {
-        /*
-         * To convert the InputStream to String we use the BufferedReader.readLine()
-         * method. We iterate until the BufferedReader return null which means
-         * there's no more data to read. Each line will appended to a StringBuilder
-         * and returned as String.
-         */
-        if (is != null) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-            } finally {
-                is.close();
-            }
-            return sb.toString();
-        } else {
-            return "";
-        }
-    }
-
-    public String readIStoString(InputStream is) throws IOException {
+    private String readIStoString(InputStream is) throws IOException {
         /*
          * To convert the InputStream to String we use the BufferedReader.readLine()
          * method. We iterate until the BufferedReader return null which means
@@ -301,21 +276,16 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         String IS = "";
         try {
             IS = readIStoString(input);
-            log.info("is+= " + IS);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
         Map<String, Object> decodedInput = new HashMap<String, Object>();
         EntityEncodingManager em = new EntityEncodingManager(null, null);
         if (format.equals("xml")) {
-            decodedInput = em.decodeData(IS, Formats.XML); //TODO other formats
+            decodedInput = em.decodeData(IS, Formats.XML);
         } else {
-            decodedInput = em.decodeData(IS, Formats.JSON); //TODO other formats
+            decodedInput = em.decodeData(IS, Formats.JSON);
         }
-
-
-        log.info("== translate formated data called");
-        log.info("got: \n" + IS + "\ndecoded " + decodedInput);
         return decodedInput;
     }
 
