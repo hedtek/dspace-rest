@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.dspace.rest.util.UtilHelper;
 import org.dspace.search.QueryArgs;
 import org.dspace.sort.SortOption;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
@@ -15,6 +14,22 @@ public class SortParameters {
     private String query = "";
     private String order = "";
     private List<Integer> sortOptions = new ArrayList<Integer>();
+    static final int SORT_FULL_NAME_REV = 317;
+    static final int SORT_LASTNAME_REV = 316;
+    static final int SORT_LANGUAGE_REV = 315;
+    static final int SORT_COUNT_ITEMS_REV = 314;
+    static final int SORT_SUBMITTER_REV = 313;
+    static final int SORT_LASTMODIFIED_REV = 312;
+    static final int SORT_NAME_REV = 311;
+    static final int SORT_ID_REV = 310;
+    static final int SORT_FULL_NAME = 217;
+    static final int SORT_LASTNAME = 216;
+    static final int SORT_LANGUAGE = 215;
+    static final int SORT_COUNT_ITEMS = 214;
+    static final int SORT_SUBMITTER = 213;
+    static final int SORT_LASTMODIFIED = 212;
+    static final int SORT_NAME = 211;
+    static final int SORT_ID = 210;
 
 
     public SortParameters(RequestStorage reqStor) {
@@ -51,21 +66,21 @@ public class SortParameters {
     
         for (String option : sort_arr) {
             if (option.startsWith("submitter")) {
-                sortOptions.add(UtilHelper.SORT_SUBMITTER);
+                sortOptions.add(SortParameters.SORT_SUBMITTER);
             } else if (option.startsWith("lastname")) {
-                sortOptions.add(UtilHelper.SORT_LASTNAME);
+                sortOptions.add(SortParameters.SORT_LASTNAME);
             } else if (option.startsWith("fullname")) {
-                sortOptions.add(UtilHelper.SORT_FULL_NAME);
+                sortOptions.add(SortParameters.SORT_FULL_NAME);
             } else if (option.startsWith("language")) {
-                sortOptions.add(UtilHelper.SORT_LANGUAGE);
+                sortOptions.add(SortParameters.SORT_LANGUAGE);
             } else if (option.startsWith("lastmodified")) {
-                sortOptions.add(UtilHelper.SORT_LASTMODIFIED);
+                sortOptions.add(SortParameters.SORT_LASTMODIFIED);
             } else if (option.startsWith("countitems")) {
-                sortOptions.add(UtilHelper.SORT_COUNT_ITEMS);
+                sortOptions.add(SortParameters.SORT_COUNT_ITEMS);
             } else if (option.startsWith("name")) {
-                sortOptions.add(UtilHelper.SORT_NAME);
+                sortOptions.add(SortParameters.SORT_NAME);
             } else {
-                sortOptions.add(UtilHelper.SORT_ID);
+                sortOptions.add(SortParameters.SORT_ID);
             }
             if ((option.endsWith("_desc") || option.endsWith("_reverse"))) {
                 int i = sortOptions.get(sortOptions.size() - 1);

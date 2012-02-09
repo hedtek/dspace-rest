@@ -15,13 +15,11 @@ import java.util.List;
 
 import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.providers.AbstractBaseProvider;
-import org.dspace.rest.util.UtilHelper;
 
 /**
  * Provides basis for sorting entities in the list.
  * The values for sorting are definet in UtilHelper, the parameter extraction
  * and processing is done in AbstractBaseProvider
- * @see UtilHelper
  * @see AbstractBaseProvider
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
@@ -40,7 +38,7 @@ class FlexibleComparator implements Comparator {
             this.method = methodList.get(0);
         } catch (Exception ex) {
             // by default it sorts by id which should be everywhere present
-            this.method = UtilHelper.SORT_ID;
+            this.method = SortParameters.SORT_ID;
         }
     }
 
@@ -60,8 +58,8 @@ class FlexibleComparator implements Comparator {
 
         switch (method) {
             // sort by full name, e.g. in UsersEntity
-            case UtilHelper.SORT_FULL_NAME:
-            case UtilHelper.SORT_FULL_NAME_REV:
+            case SortParameters.SORT_FULL_NAME:
+            case SortParameters.SORT_FULL_NAME_REV:
                  {
                     try {
                         String obj1Lang = o1.getClass().getDeclaredMethod("getFullName").invoke(o1).toString();
@@ -80,8 +78,8 @@ class FlexibleComparator implements Comparator {
                 break;
 
             // sort by last name, e.g. in UsersEntity
-            case UtilHelper.SORT_LASTNAME:
-            case UtilHelper.SORT_LASTNAME_REV:
+            case SortParameters.SORT_LASTNAME:
+            case SortParameters.SORT_LASTNAME_REV:
                  {
                     try {
                         String obj1Lang = o1.getClass().getDeclaredMethod("getLastName").invoke(o1).toString();
@@ -100,8 +98,8 @@ class FlexibleComparator implements Comparator {
                 break;
 
             // sort by count of items, e.g. in CollectionEntity
-            case UtilHelper.SORT_COUNT_ITEMS:
-            case UtilHelper.SORT_COUNT_ITEMS_REV:
+            case SortParameters.SORT_COUNT_ITEMS:
+            case SortParameters.SORT_COUNT_ITEMS_REV:
                  {
                     try {
                         Integer obj1Cnt = Integer.parseInt(o1.getClass().getDeclaredMethod("getCountItems").invoke(o1).toString());
@@ -120,8 +118,8 @@ class FlexibleComparator implements Comparator {
                 break;
 
             // sort by language, e.g. by UserEntity
-            case UtilHelper.SORT_LANGUAGE:
-            case UtilHelper.SORT_LANGUAGE_REV:
+            case SortParameters.SORT_LANGUAGE:
+            case SortParameters.SORT_LANGUAGE_REV:
                  {
                     try {
                         String obj1Lang = o1.getClass().getDeclaredMethod("getLanguage").invoke(o1).toString();
@@ -140,8 +138,8 @@ class FlexibleComparator implements Comparator {
                 break;
 
             // sort by submitter, e.g. by ItemsEntity
-            case UtilHelper.SORT_SUBMITTER:
-            case UtilHelper.SORT_SUBMITTER_REV:
+            case SortParameters.SORT_SUBMITTER:
+            case SortParameters.SORT_SUBMITTER_REV:
                  {
                     try {
                         UserEntity obj1User = (UserEntity) o1.getClass().getDeclaredMethod("getSubmitter").invoke(o1);
@@ -160,8 +158,8 @@ class FlexibleComparator implements Comparator {
                 break;
 
             // sort by last modified date, e.g. in ItemsEntity
-            case UtilHelper.SORT_LASTMODIFIED:
-            case UtilHelper.SORT_LASTMODIFIED_REV:
+            case SortParameters.SORT_LASTMODIFIED:
+            case SortParameters.SORT_LASTMODIFIED_REV:
                  {
                     try {
                         Date obj1Date = (Date) o1.getClass().getDeclaredMethod("getLastModified").invoke(o1);
@@ -181,8 +179,8 @@ class FlexibleComparator implements Comparator {
                 break;
 
             // sort by name, e.g. in CommunityEntity
-            case UtilHelper.SORT_NAME:
-            case UtilHelper.SORT_NAME_REV:
+            case SortParameters.SORT_NAME:
+            case SortParameters.SORT_NAME_REV:
                  {
                     try {
                         String obj1Name = o1.getClass().getDeclaredMethod("getName").invoke(o1).toString();
