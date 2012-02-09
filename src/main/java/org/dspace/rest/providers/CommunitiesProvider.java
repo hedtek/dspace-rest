@@ -8,7 +8,6 @@
 
 package org.dspace.rest.providers;
 
-//rev
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Community;
 import org.dspace.core.Context;
-import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.entities.CommunityEntityId;
 import org.dspace.rest.params.DetailDepthParameters;
@@ -36,7 +34,7 @@ import org.sakaiproject.entitybus.entityprovider.search.Search;
  * @see CommunityEntity
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class CommunitiesProvider extends AbstractBaseProvider implements CoreEntityProvider {
+public class CommunitiesProvider extends AbstractBindingProvider  implements CoreEntityProvider {
 
     private static Logger log = Logger.getLogger(CommunitiesProvider.class);
 
@@ -161,8 +159,6 @@ public class CommunitiesProvider extends AbstractBaseProvider implements CoreEnt
      * @return
      */
     public Object getSampleEntity() {
-        return new CollectionEntity();
-
-
+        return null;
     }
 }

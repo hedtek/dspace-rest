@@ -26,7 +26,6 @@ import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
-import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.PaginationParameters;
 import org.dspace.rest.params.SortParameters;
@@ -71,7 +70,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     protected String passc = "";
     protected String loggedUser, _sdate, _edate;
     private static Logger log = Logger.getLogger(AbstractBaseProvider.class);
-    private final Binder binder;
 
     /**
      * Handle registration of EntityProvider
@@ -79,10 +77,9 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      * @throws java.sql.SQLException
      */
     public AbstractBaseProvider(
-            EntityProviderManager entityProviderManager, Binder binder) throws SQLException {
+            EntityProviderManager entityProviderManager) throws SQLException {
         this.entityProviderManager = entityProviderManager;
         entityProviderManager.registerEntityProvider(this);
-        this.binder = binder;
     }
 
     public void setRequestStorage(RequestStorage rStor) {
@@ -348,24 +345,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     public String[] getHandledOutputFormats() {
         return new String[]{Formats.JSON, Formats.XML, Formats.FORM, Formats.ATOM};
 
-    }
-
-    public Object getEntity(EntityReference reference) {
-        String segments[] = {};
-        DetailDepthParameters depth = DetailDepthParameters.build(requestStore);
-        final Context context = context();
-        try {
-            log.debug("Using generic entity binding");
-            if (requestStore.getStoredValue("pathInfo") != null) {
-                segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
-            }
-            if (segments[3].lastIndexOf(".") > 0) {
-                segments[3] = segments[3].substring(0, segments[3].lastIndexOf("."));
-            }
-            return binder.resolve(reference, segments, depth, context);
-        } finally {
-            complete(context);
-        }
     }
 
     protected final Context context() {

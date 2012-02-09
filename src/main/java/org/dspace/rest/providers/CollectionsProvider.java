@@ -31,7 +31,7 @@ import org.sakaiproject.entitybus.entityprovider.search.Search;
  * @see CollectionEntityId
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class CollectionsProvider extends AbstractBaseProvider implements CoreEntityProvider {
+public class CollectionsProvider extends AbstractBindingProvider implements CoreEntityProvider {
 
     private static Logger log = Logger.getLogger(CollectionsProvider.class);
 

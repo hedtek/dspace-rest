@@ -33,7 +33,7 @@ import org.sakaiproject.entitybus.entityprovider.search.Search;
  * @see ItemEntity
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class ItemsProvider extends AbstractBaseProvider implements CoreEntityProvider {
+public class ItemsProvider extends AbstractBindingProvider  implements CoreEntityProvider {
 
     private final static Logger log = Logger.getLogger(ItemsProvider.class);
 

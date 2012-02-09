@@ -39,7 +39,7 @@ import org.sakaiproject.entitybus.exception.EntityException;
  * Provides access to bitstream entities
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class BitstreamProvider extends AbstractBaseProvider implements CoreEntityProvider {
+public class BitstreamProvider extends AbstractBindingProvider  implements CoreEntityProvider {
 
     private static Logger log = Logger.getLogger(BitstreamProvider.class);
 

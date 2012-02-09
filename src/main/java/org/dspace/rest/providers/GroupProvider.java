@@ -31,7 +31,7 @@ import org.sakaiproject.entitybus.exception.EntityException;
  * @see GroupEntityId
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class GroupProvider extends AbstractBaseProvider implements CoreEntityProvider {
+public class GroupProvider extends AbstractBindingProvider  implements CoreEntityProvider {
 
     private static Logger log = Logger.getLogger(GroupProvider.class);
 
