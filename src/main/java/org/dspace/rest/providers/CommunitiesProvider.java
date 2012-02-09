@@ -19,6 +19,7 @@ import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.entities.CommunityEntityId;
+import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.sakaiproject.entitybus.EntityReference;
@@ -127,7 +128,7 @@ public class CommunitiesProvider extends AbstractBindingProvider  implements Cor
             
             final Community[] communities = build.isTopLevelOnly() ? Community.findAllTop(context) : Community.findAll(context);
             for (Community c : communities) {
-                entities.add(build.isIdOnly() ? new CommunityEntityId(c) : new CommunityEntity(c, 1, DetailDepthParameters.build(requestStore).getDepth()));
+                entities.add(build.isIdOnly() ? new CommunityEntityId(c) : new CommunityEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
             }
 
             sort(entities);
