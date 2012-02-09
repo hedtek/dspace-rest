@@ -38,10 +38,14 @@ public class ItemBuilder {
             throws SQLException {
         final List<Object> entities = new ArrayList<Object>(HARD_LIMIT);
         int limit = HARD_LIMIT;
-        while (items.hasNext() && (limit-- > 0)) { 
+        while (items.hasNext() && (--limit >= 0)) {
             entities.add(build(items.next(), level));
         }
-        if(limit==0) log.info("Hard Limit exceeded for item fetch. Returned only " + HARD_LIMIT);
+        if(limit<=0) {
+            if (log.isInfoEnabled()) {
+                log.info("Hard Limit (" + HARD_LIMIT + ") exceeded for item fetch. Returned only " + entities.size());
+            }
+        }
         return entities;
     }
 
