@@ -84,7 +84,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     protected Map<String, Class<?>[]> funcParamsGET = new HashMap<String, Class<?>[]>();
     protected Map<String, String> func2actionMapGET_rev = new HashMap<String, String>();
     protected Class<?> processedEntity = CommunityEntity.class;
-    private Constructor<?> ctr = null;
     protected Constructor<?> entityConstructor = null;
     protected Map<String, Object> reqInput = new HashMap<String, Object>();
     protected RequestGetter requestGetter;
@@ -97,18 +96,10 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     public AbstractBaseProvider(
             EntityProviderManager entityProviderManager) throws SQLException {
         this.entityProviderManager = entityProviderManager;
-        try {
-            init();
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to register the provider (" + this + "): " + e, e);
-
-        } // get request info for later parsing of parameters
-        //this.reqStor = entityProviderManager.getRequestStorage();
-
+            entityProviderManager.registerEntityProvider(this);
     }
 
     protected void initMappings(Class<?> processedEntity) throws NoSuchMethodException {
-        ctr = processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
         // scan for methods;
         Method[] entityMethods = processedEntity.getMethods();
         for (Method m : entityMethods) {
@@ -129,10 +120,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
     public void setEntityProviderManager(EntityProviderManager entityProviderManager) {
         this.entityProviderManager = entityProviderManager;
-    }
-
-    public void init() throws Exception {
-        entityProviderManager.registerEntityProvider(this);
     }
 
     public void destroy() throws Exception {
