@@ -135,9 +135,8 @@ public class CollectionsProvider extends AbstractBindingProvider implements Core
             final List<Object> entities = new ArrayList<Object>();
             final Collection[] collections = Collection.findAll(context);
             final boolean idOnly = EntityBuildParameters.build(requestStore).isIdOnly();
-            final DetailDepth depth = DetailDepthParameters.build(requestStore).getDepth();
             for (Collection c : collections) {
-                entities.add(idOnly ? new CollectionEntityId(c) : new CollectionEntity(c, 1, depth));
+                entities.add(idOnly ? new CollectionEntityId(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
             }
 
             sort(entities);
@@ -150,7 +149,7 @@ public class CollectionsProvider extends AbstractBindingProvider implements Core
             complete(context);
         }
     }
-
+    
     /**
      * Here is sample collection entity defined
      */
