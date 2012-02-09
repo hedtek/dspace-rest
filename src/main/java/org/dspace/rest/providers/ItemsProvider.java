@@ -9,7 +9,6 @@
 package org.dspace.rest.providers;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -19,7 +18,6 @@ import org.dspace.core.Context;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.DetailDepth;
-import org.dspace.rest.entities.ItemBuilder;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
 import org.dspace.rest.params.DetailDepthParameters;
@@ -157,10 +155,7 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
             final Parameters parameters = new Parameters(requestStore);
             
             final ItemIterator items = Item.findAll(context);
-            final boolean idOnly = parameters.getEntityBuild().isIdOnly();
-            final DetailDepth depth = parameters.getDetailDepth().getDepth();
-            
-            final List<Object> entities = ItemBuilder.builder(idOnly, depth).build(items);
+            final List<Object> entities = parameters.itemBuilder().build(items);
 
             sort(entities);
             removeTrailing(entities);
