@@ -59,7 +59,7 @@ import org.sakaiproject.entitybus.rest.EntityEncodingManager;
  *
  * @author Bojan Suzic(bojan.suzic@gmail.com)
  */
-public abstract class AbstractBaseProvider implements EntityProvider, Resolvable, CollectionResolvable, InputTranslatable, RequestAware, Outputable, Describeable, ActionsExecutable, Redirectable, RequestStorable, RequestInterceptor {
+public abstract class AbstractBaseProvider implements EntityProvider, Resolvable, CollectionResolvable, RequestAware, Outputable, Describeable, ActionsExecutable, Redirectable, RequestStorable, RequestInterceptor {
 
     // query parameters used in subclasses
     protected RequestStorage requestStore;
@@ -113,31 +113,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         return "user:" + loggedUser + ":ip_addr=" + ipaddr + ":";
 
 
-    }
-
-    private String readIStoString(InputStream is) throws IOException {
-        /*
-         * To convert the InputStream to String we use the BufferedReader.readLine()
-         * method. We iterate until the BufferedReader return null which means
-         * there's no more data to read. Each line will appended to a StringBuilder
-         * and returned as String.
-         */
-        if (is != null) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-            } finally {
-                is.close();
-            }
-            return sb.toString();
-        } else {
-            return "";
-        }
     }
 
     /**
@@ -270,23 +245,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
     public String[] getHandledInputFormats() {
         return new String[]{Formats.HTML, Formats.XML, Formats.JSON};
-    }
-
-    public Object translateFormattedData(EntityReference ref, String format, InputStream input, Map<String, Object> params) {
-        String IS = "";
-        try {
-            IS = readIStoString(input);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        Map<String, Object> decodedInput = new HashMap<String, Object>();
-        EntityEncodingManager em = new EntityEncodingManager(null, null);
-        if (format.equals("xml")) {
-            decodedInput = em.decodeData(IS, Formats.XML);
-        } else {
-            decodedInput = em.decodeData(IS, Formats.JSON);
-        }
-        return decodedInput;
     }
 
     /**
