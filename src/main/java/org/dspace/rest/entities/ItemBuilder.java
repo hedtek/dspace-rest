@@ -4,10 +4,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 
 public class ItemBuilder {
+    private final static Logger log = Logger.getLogger(ItemBuilder.class);
+
+    /**
+     * Returning a large number of items causes memory problems for the 
+     * current implementation. 
+     */
+    private static final int HARD_LIMIT = 24;
     
     public static ItemBuilder builder(boolean idOnly, DetailDepth depth) {
         return new ItemBuilder(idOnly, depth);
@@ -28,10 +36,12 @@ public class ItemBuilder {
 
     public List<Object> build(final ItemIterator items, final int level)
             throws SQLException {
-        final List<Object> entities = new ArrayList<Object>();
-        while (items.hasNext()) {
+        final List<Object> entities = new ArrayList<Object>(HARD_LIMIT);
+        int limit = HARD_LIMIT;
+        while (items.hasNext() && (limit-- > 0)) { 
             entities.add(build(items.next(), level));
         }
+        if(limit==0) log.info("Hard Limit exceeded for item fetch. Returned only " + HARD_LIMIT);
         return entities;
     }
 

@@ -36,7 +36,7 @@ import org.sakaiproject.entitybus.entityprovider.search.Search;
  */
 public class ItemsProvider extends AbstractBaseProvider implements CoreEntityProvider {
 
-    static Logger log = Logger.getLogger(ItemsProvider.class);
+    private final static Logger log = Logger.getLogger(ItemsProvider.class);
 
     /**
      * Constructor handles registration of provider
