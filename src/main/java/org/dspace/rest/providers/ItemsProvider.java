@@ -24,6 +24,7 @@ import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
+import org.dspace.rest.params.Parameters;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -153,9 +154,11 @@ public class ItemsProvider extends AbstractBaseProvider implements CoreEntityPro
     private List<?> getAllItems() {
         final Context context = context();
         try {
+            final Parameters parameters = new Parameters(requestStore);
+            
             final ItemIterator items = Item.findAll(context);
-            final boolean idOnly = EntityBuildParameters.build(requestStore).isIdOnly();
-            final DetailDepth depth = DetailDepthParameters.build(requestStore).getDepth();
+            final boolean idOnly = parameters.getEntityBuild().isIdOnly();
+            final DetailDepth depth = parameters.getDetailDepth().getDepth();
             
             final List<Object> entities = ItemBuilder.builder(idOnly, depth).build(items);
 
