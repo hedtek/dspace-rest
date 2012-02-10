@@ -47,7 +47,6 @@ public class UserProvider extends AbstractBindingProvider  implements CoreEntity
     }
 
     public boolean entityExists(String id) {
-        log.info(userInfo() + "entity_exists:" + id);
 
         // sample entity
         if (id.equals(":ID:")) {
@@ -76,7 +75,6 @@ public class UserProvider extends AbstractBindingProvider  implements CoreEntity
      * @return
      */
     public Object getEntity(EntityReference reference) {
-        log.info(userInfo() + "get_entity:" + reference.getId());
         String segments[] = {};
 
         if (requestStore.getStoredValue("pathInfo") != null) {
@@ -127,30 +125,30 @@ public class UserProvider extends AbstractBindingProvider  implements CoreEntity
      * @return
      */
     public List<?> getEntities(EntityReference ref, Search search) {
-        log.info(userInfo() + "list_entities:");
-
-        Context context = context();
+        final Parameters parameters = new Parameters(requestStore);
+        final Context context = context();
         try {
-            List<Object> entities = new ArrayList<Object>();
+            final List<Object> entities = new ArrayList<Object>();
 
-            try {
-                EPerson[] epersons = EPerson.findAll(context, EPerson.ID);
-                for (int x = 0; x < epersons.length; x++) {
-                    entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new UserEntityId(epersons[x].getID()) : new UserEntity(epersons[x]));
-                }
-            } catch (SQLException ex) {
-                throw new SQLFailureEntityException(Operation.GET_USER_ENTITIES, ex);
+            EPerson[] epersons = EPerson.findAll(context, EPerson.ID);
+            for (int x = 0; x < epersons.length; x++) {
+                entities.add(parameters.getEntityBuild().isIdOnly() ? 
+                        new UserEntityId(epersons[x].getID()) : 
+                            new UserEntity(epersons[x]));
             }
 
             // do sorting and limiting if necessary
-            new Parameters(requestStore).sort(entities);
-            new Parameters(requestStore).removeTrailing(entities);
-
+            parameters.sort(entities);
+            parameters.removeTrailing(entities);
             return entities;
-        } finally {
-            complete(context);
+
+        } catch (SQLException ex) {
+                throw new SQLFailureEntityException(Operation.GET_USER_ENTITIES, ex);
+
+            } finally {
+                complete(context);
+            }
         }
-    }
 
     /**
      * Returns an Entity object with sample data
