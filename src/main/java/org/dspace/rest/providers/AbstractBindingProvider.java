@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
 import org.dspace.rest.params.DetailDepthParameters;
+import org.dspace.rest.params.Parameters;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
 
@@ -24,18 +25,25 @@ public abstract class AbstractBindingProvider extends AbstractBaseProvider {
     }
 
     public Object getEntity(EntityReference reference) {
-        String segments[] = {};
-        DetailDepthParameters depth = DetailDepthParameters.build(requestStore);
+        final String id = reference.getId();
+        return resolve(id);
+    }
+
+    private Object resolve(final String id) {
+        final Parameters parameters = new Parameters(requestStore);
+        final Object pathInfo = requestStore.getStoredValue("pathInfo");
+        
         final Context context = context();
         try {
+            String segments[] = {};
             log.debug("Using generic entity binding");
-            if (requestStore.getStoredValue("pathInfo") != null) {
-                segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
+            if (pathInfo != null) {
+                segments = pathInfo.toString().split("/", 10);
             }
             if (segments[3].lastIndexOf(".") > 0) {
                 segments[3] = segments[3].substring(0, segments[3].lastIndexOf("."));
             }
-            return binder.resolve(reference, segments, depth, context);
+            return binder.resolve(id, segments, parameters, context);
         } finally {
             complete(context);
         }

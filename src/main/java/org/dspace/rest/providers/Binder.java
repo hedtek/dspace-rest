@@ -14,6 +14,7 @@ import org.dspace.rest.entities.GroupEntity;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.params.DetailDepthParameters;
+import org.dspace.rest.params.Parameters;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.exception.EntityException;
 
@@ -168,14 +169,14 @@ public class Binder {
         this.entityConstructor = entityConstructor;
     }
 
-    public Object resolve(EntityReference reference, String[] segments,
-            DetailDepthParameters depth, final Context context) {
+    public Object resolve(final String id, String[] segments, Parameters parameters,
+            final Context context) {
         if (func2actionMapGET_rev.containsKey(segments[3])) {
             Object result;
             String function = func2actionMapGET_rev.get(segments[3]);
             Object CE = new Object();
             try {
-                CE = entityConstructor.newInstance(reference.getId(), context, 1, depth.getDepth());
+                CE = entityConstructor.newInstance(id, context, 1, parameters.getDetailDepth().getDepth());
             } catch (Exception ex) {
                 throw new EntityException("Internal server error", "Cannot create entity", 500);
             }
