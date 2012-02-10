@@ -40,8 +40,6 @@ import org.sakaiproject.entitybus.exception.EntityException;
  */
 public class HarvestProvider extends AbstractBaseProvider implements CoreEntityProvider {
 
-    private static Logger log = Logger.getLogger(HarvestProvider.class);
-
     public HarvestProvider(EntityProviderManager entityProviderManager) throws SQLException {
         super(entityProviderManager);
     }
@@ -55,61 +53,53 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
     }
 
     public Object getEntity(EntityReference reference) {
-        log.info(userInfo() + "get_entity:" + reference.getId());
         throw new EntityException("Not Acceptable", "The data is not available", 406);
     }
 
     public List<?> getEntities(EntityReference ref, Search search) {
-        log.info(userInfo() + "get_entities");
+        return getAllHavested();
+    }
 
-        Context context = context();
+    private List<?> getAllHavested() {
+        final Parameters parameters = new Parameters(requestStore);
+        final Context context = context();
 
         try {
-            List<Object> entities = new ArrayList<Object>();
-            List<HarvestedItemInfo> harvestedItems = new ArrayList<HarvestedItemInfo>();
-
-            /**
-             * check requirement for communities and collections, they should be
-             * mutually excluded as underlying architecture accepts searching
-             * in only one subject (community or collection)
-             */
-            try {
-                harvestedItems = harvest(context);
-            } catch (ParseException ex) {
-                throw new EntityException("Bad request", "Incompatible date format", 400);
-            } catch (SQLException sq) {
-                throw new EntityException("Internal Server Error", "SQL Problem", 500);
-            }
+            final List<Object> entities = new ArrayList<Object>();
+            final List<HarvestedItemInfo>  harvestedItems = harvest(context, parameters);
 
             // check results and add entities
-            try {
-                entities.add(new HarvestResultsInfoEntity(harvestedItems.size()));
-                for (int x = 0; x < harvestedItems.size(); x++) {
-                    entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new ItemEntityId(harvestedItems.get(x).item) : new ItemEntity(harvestedItems.get(x).item, 1, DetailDepthParameters.build(requestStore).getDepth()));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            entities.add(new HarvestResultsInfoEntity(harvestedItems.size()));
+            for (int x = 0; x < harvestedItems.size(); x++) {
+                entities.add(parameters.getEntityBuild().isIdOnly() 
+                        ? new ItemEntityId(harvestedItems.get(x).item) : 
+                            new ItemEntity(harvestedItems.get(x).item, 1, parameters.getDetailDepth().getDepth()));
             }
 
-
             // sort entities if the full info are requested and there are sorting fields
-            new Parameters(requestStore).sort(entities);
+            parameters.sort(entities);
 
             // format results accordint to _limit, _perpage etc
-            new Parameters(requestStore).removeTrailing(entities);
+            parameters.removeTrailing(entities);
 
             return entities;
+        } catch (ParseException ex) {
+            throw new EntityException("Bad request", "Incompatible date format", 400);
+        } catch (SQLException sq) {
+            throw new EntityException("Internal Server Error", "SQL Problem", 500);
         } finally {
             complete(context);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private List<HarvestedItemInfo> harvest(Context context)
+    private List<HarvestedItemInfo> harvest(final Context context, final Parameters parameters)
             throws SQLException, ParseException {
         List<HarvestedItemInfo> harvestedItems;
-        final PaginationParameters paginationParameters = new PaginationParameters(requestStore);
-        harvestedItems = Harvest.harvest(context, ScopeParameters.build(requestStore, context).scope(), _sdate, _edate, paginationParameters.getStart(), paginationParameters.getLimit(), true, true, withdrawn, true);
+        harvestedItems = Harvest.harvest(context, ScopeParameters.build(requestStore, context).scope(), 
+                _sdate, _edate, 
+                parameters.getPagination().getStart(), parameters.getPagination().getLimit(), 
+                true, true, withdrawn, true);
         return harvestedItems;
     }
 

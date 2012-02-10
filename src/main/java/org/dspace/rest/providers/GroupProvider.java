@@ -128,6 +128,10 @@ public class GroupProvider extends AbstractBindingProvider  implements CoreEntit
      * @return
      */
     public List<?> getEntities(EntityReference ref, Search search) {
+        return getAllGroups();
+    }
+
+    private List<?> getAllGroups() {
         final Parameters parameters = new Parameters(requestStore);
         final Context context = context();
         try {
