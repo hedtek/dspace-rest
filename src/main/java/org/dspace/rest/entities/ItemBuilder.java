@@ -15,7 +15,7 @@ public class ItemBuilder {
      * Returning a large number of items causes memory problems for the 
      * current implementation. 
      */
-    private static final int HARD_LIMIT = 1028;
+    private static final int HARD_LIMIT = 10000;
     
     public static ItemBuilder builder(boolean idOnly, DetailDepth depth) {
         return new ItemBuilder(idOnly, depth);
