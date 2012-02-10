@@ -18,7 +18,6 @@ import org.apache.log4j.Logger;
 import org.dspace.app.statistics.ReportGenerator;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
-import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.StatReport;
 import org.dspace.rest.entities.StatsEntity;
 import org.sakaiproject.entitybus.EntityReference;
@@ -52,8 +51,6 @@ public class StatsProvider extends AbstractBaseProvider implements CoreEntityPro
      * @return
      */
     public boolean entityExists(String id) {
-        log.info(userInfo() + "entity_exists:" + id);
-
         // sample entity
         if (id.equals(":ID:")) {
             return true;
@@ -63,8 +60,6 @@ public class StatsProvider extends AbstractBaseProvider implements CoreEntityPro
     }
 
     public Object getEntity(EntityReference reference) {
-        log.info(userInfo() + "get_entity:" + reference.getId());
-
         // sample entity
         if (reference.getId().equals(":ID:")) {
             return new StatsEntity();
@@ -84,9 +79,7 @@ public class StatsProvider extends AbstractBaseProvider implements CoreEntityPro
      * @return
      */
     public List<?> getEntities(EntityReference ref, Search search) {
-        log.info(userInfo() + "list_entities");
-
-        Context context = context();
+        final Context context = context();
 
         try {
             List<Object> stat = new ArrayList<Object>();
@@ -122,8 +115,7 @@ public class StatsProvider extends AbstractBaseProvider implements CoreEntityPro
         }
     }
 
-    // TODO CHANGE
     public Object getSampleEntity() {
-        return new CollectionEntity();
+        return null;
     }
 }

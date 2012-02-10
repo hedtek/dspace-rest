@@ -38,8 +38,6 @@ import org.sakaiproject.entitybus.exception.EntityException;
  */
 public class SearchProvider extends AbstractBaseProvider implements CoreEntityProvider {
 
-    private static Logger log = Logger.getLogger(SearchProvider.class);
-
     /**
      * Handles provider for search accross items
      * @param entityProviderManager
@@ -58,7 +56,6 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
     }
 
     public Object getEntity(EntityReference reference) {
-        log.info(userInfo() + "get_entity:" + reference.getId());
         throw new EntityException("Not Acceptable", "The data is not available", 406);
     }
 
@@ -70,8 +67,6 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
     }
 
     private List<?> search() {
-        log.info(userInfo() + "get_entities");
-
         final Context context = context();
 
         try {
