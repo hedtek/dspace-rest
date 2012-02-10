@@ -44,7 +44,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     // query parameters used in subclasses
     protected RequestStorage requestStore;
     protected boolean withdrawn;
-    protected String _sdate, _edate;
 
     /**
      * Handle registration of EntityProvider
@@ -115,18 +114,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      * defined but used here for loging and other purposes
      */
     private void refreshParams(Context context) {
-
-        try {
-            _sdate = requestStore.getStoredValue("startdate").toString();
-        } catch (NullPointerException ex) {
-            _sdate = null;
-        }
-
-        try {
-            _edate = requestStore.getStoredValue("enddate").toString();
-        } catch (NullPointerException ex) {
-            _edate = null;
-        }
 
         try {
             withdrawn = requestStore.getStoredValue("withdrawn").toString().equalsIgnoreCase("true");

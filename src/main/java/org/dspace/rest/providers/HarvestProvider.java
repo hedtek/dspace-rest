@@ -22,6 +22,8 @@ import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.HarvestResultsInfoEntity;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
+import org.dspace.rest.params.DurationParameters;
+import org.dspace.rest.params.PaginationParameters;
 import org.dspace.rest.params.Parameters;
 import org.dspace.search.Harvest;
 import org.dspace.search.HarvestedItemInfo;
@@ -98,12 +100,12 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
     @SuppressWarnings("unchecked")
     private List<HarvestedItemInfo> harvest(final Context context, final Parameters parameters)
             throws SQLException, ParseException {
-        List<HarvestedItemInfo> harvestedItems;
-        harvestedItems = Harvest.harvest(context, parameters.getScope(context).scope(), 
-                _sdate, _edate, 
-                parameters.getPagination().getStart(), parameters.getPagination().getLimit(), 
+        final DurationParameters duration = parameters.getDuration();
+        final PaginationParameters pagination = parameters.getPagination();
+        return (List<HarvestedItemInfo>) Harvest.harvest(context, parameters.getScope(context).scope(), 
+                duration.getStart(), duration.getEnd(), 
+                pagination.getStart(), pagination.getLimit(), 
                 true, true, withdrawn, true);
-        return harvestedItems;
     }
 
     /**

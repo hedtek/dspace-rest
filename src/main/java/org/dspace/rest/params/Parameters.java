@@ -31,6 +31,10 @@ public class Parameters {
     public SortParameters getSort() {
         return new SortParameters(requestStore);
     }
+
+    public DurationParameters getDuration() {
+        return new DurationParameters(requestStore);
+    }
     
     public ItemBuilder itemBuilder() {
         return itemBuilder(getDetailDepth().getDepth());
