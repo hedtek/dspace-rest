@@ -32,6 +32,10 @@ public class Parameters {
         return new SortParameters(requestStore);
     }
 
+    public StatusParameters getStatus() {
+        return new StatusParameters(requestStore);
+    }
+    
     public DurationParameters getDuration() {
         return new DurationParameters(requestStore);
     }

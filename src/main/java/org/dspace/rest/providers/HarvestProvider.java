@@ -105,7 +105,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
         return (List<HarvestedItemInfo>) Harvest.harvest(context, parameters.getScope(context).scope(), 
                 duration.getStart(), duration.getEnd(), 
                 pagination.getStart(), pagination.getLimit(), 
-                true, true, withdrawn, true);
+                true, true, parameters.getStatus().isWithdrawn(), true);
     }
 
     /**

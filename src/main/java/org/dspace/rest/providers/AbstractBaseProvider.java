@@ -43,7 +43,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
 
     // query parameters used in subclasses
     protected RequestStorage requestStore;
-    protected boolean withdrawn;
 
     /**
      * Handle registration of EntityProvider
@@ -107,21 +106,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      */
     public void after(EntityView view, HttpServletRequest req, HttpServletResponse res) {}
 
-    /**
-     * Extract parameters from query and do basic authentication, analyze
-     * and prepare sorting and other fields
-     * @param context current database context locally (in subclass method)
-     * defined but used here for loging and other purposes
-     */
-    private void refreshParams(Context context) {
-
-        try {
-            withdrawn = requestStore.getStoredValue("withdrawn").toString().equalsIgnoreCase("true");
-        } catch (NullPointerException ex) {
-            withdrawn = false;
-        }
-    }
-
     public String[] getHandledInputFormats() {
         return new String[]{Formats.HTML, Formats.XML, Formats.JSON};
     }
@@ -152,7 +136,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         } catch (SQLException ex) {
             throw new SQLFailureEntityException(Operation.CREATE_CONTEXT, ex);
         }
-        refreshParams(context);
         return context;
     }
 }
