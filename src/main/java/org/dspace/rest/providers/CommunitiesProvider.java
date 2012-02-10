@@ -72,31 +72,26 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
 
     @Override
     public Object getEntity(EntityReference reference) {
-        final Route route = new Route(requestStore);
-        if (route.isAttribute()) {
-            log.debug("Using generic entity binding");
-            final Parameters parameters = new Parameters(requestStore);
-            
-            final Context context = context();
-            try {
+        final Context context = context();
+        try {
+            final Route route = new Route(requestStore);
+            if (route.isAttribute()) {
+                log.debug("Using generic entity binding");
+                final Parameters parameters = new Parameters(requestStore);
+
                 return binder.resolve(reference.getId(), route, parameters, context);
-            } finally {
-                complete(context);
-            }
-        } else {
-            // if there is complete entity requested then continue with other checks
+            } else {
+                // if there is complete entity requested then continue with other checks
 
-            // sample entity
-            if (reference.getId().equals(":ID:")) {
-                return new CommunityEntity();
-            }
+                // sample entity
+                if (reference.getId().equals(":ID:")) {
+                    return new CommunityEntity();
+                }
 
-            if (reference.getId() == null) {
-                return new CommunityEntity();
-            }
+                if (reference.getId() == null) {
+                    return new CommunityEntity();
+                }
 
-            final Context context = context();
-            try {
                 if (entityExists(reference.getId())) {
                     try {
                         // return just entity containing id or full info
@@ -112,11 +107,10 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
                     }
                 }
                 throw new IllegalArgumentException("Invalid id:" + reference.getId());
-                
-            } finally {
-
-                complete(context);
             }
+        } finally {
+
+            complete(context);
         }
     }
 

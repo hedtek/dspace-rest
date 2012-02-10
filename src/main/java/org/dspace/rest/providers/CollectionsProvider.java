@@ -79,22 +79,17 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
      */
     @Override
     public Object getEntity(EntityReference reference) {
-        final Route route = new Route(requestStore);
-        if (route.isAttribute()) {
-            log.debug("Using generic entity binding");
-            final Parameters parameters = new Parameters(requestStore);
-            
-            final Context context = context();
-            try {
+        final Context context = context();
+        try {
+            final Route route = new Route(requestStore);
+            if (route.isAttribute()) {
+                log.debug("Using generic entity binding");
+                final Parameters parameters = new Parameters(requestStore);
+
                 return binder.resolve(reference.getId(), route, parameters, context);
-            } finally {
-                complete(context);
-            }
-        } else {
+            } else {
 
-            final Context context = context();
 
-            try {
                 // sample entity
                 if (reference.getId().equals(":ID:")) {
                     return new CollectionEntity();
@@ -118,9 +113,9 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                 }
 
                 throw new IllegalArgumentException("Invalid id:" + reference.getId());
-            } finally {
-                complete(context);
             }
+        } finally {
+            complete(context);
         }
     }
 

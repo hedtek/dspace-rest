@@ -76,27 +76,20 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
      * @return
      */
     public Object getEntity(EntityReference reference) {
-        final Route route = new Route(requestStore);
-        if (route.isAttribute()) {
-            log.debug("Using generic entity binding");
-            final Parameters parameters = new Parameters(requestStore);
-            
-            final Context context1 = context();
-            try {
-                return binder.resolve(reference.getId(), route, parameters, context1);
-            } finally {
-                complete(context1);
-            }
-        }
-
-        Context context = context();
-
+        final Context context = context();
         try {
+            final Route route = new Route(requestStore);
+            if (route.isAttribute()) {
+                log.debug("Using generic entity binding");
+                final Parameters parameters = new Parameters(requestStore);
+
+                return binder.resolve(reference.getId(), route, parameters, context);
+            }
+
             // sample entity
             if (reference.getId().equals(":ID:")) {
                 return new GroupEntity();
             }
-
 
             if (reference.getId() == null) {
                 return new GroupEntity();
