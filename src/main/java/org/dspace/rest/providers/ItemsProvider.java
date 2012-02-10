@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
+import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.DetailDepth;
@@ -63,14 +64,9 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
 
         final Context context = context();
         try {
-            boolean result = false;
-            final Item item = Item.find(context, Integer.parseInt(id));
-            if (item != null) {
-                result = true;
-            }
-            return result;
+            return Item.find(context, Integer.parseInt(id)) != null;
         } catch (SQLException ex) {
-            log.debug("Failed to find community. Assuming that this means it doesn't exist.", ex);
+            log.debug("Failed to find item. Assuming that this means it doesn't exist.", ex);
             return false;
         } finally {
             complete(context);
@@ -78,37 +74,40 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
     }
 
     public Object getEntity(EntityReference reference) {
+        final String id = reference.getId();
+        // sample entity
+        if (id == null || ":ID:".equals(id)) {
+            return getSampleEntity();
+        }
+        return entity(id);
+    }
+
+    private Object entity(final String id) {
+        final Parameters parameters = new Parameters(requestStore);
+        final Route route = new Route(requestStore);
+        final Operation operation = Operation.GET_ITEMS;
         final Context context = context();
         try {
-            final Route route = new Route(requestStore);
             if (route.isAttribute()) {
                 log.debug("Using generic entity binding");
-                final Parameters parameters = new Parameters(requestStore);
-
-                return binder.resolve(reference.getId(), route, parameters, context);
-            }
-
-
-            // sample entity
-            if (reference.getId().equals(":ID:")) {
-                return new ItemEntity();
-            }
-
-            if (entityExists(reference.getId())) {
-                try {
-
+                return binder.resolve(id, route, parameters, context);
+            } else {
+                if (entityExists(id)) {
                     // return basic or full info, according to requirements
-                    if (EntityBuildParameters.build(requestStore).isIdOnly()) {
-                        return new ItemEntityId(reference.getId(), context);
+                    if (parameters.getEntityBuild().isIdOnly()) {
+                        return new ItemEntityId(id, context);
                     } else {
-                        return new ItemEntity(reference.getId(), context, 1, DetailDepthParameters.build(requestStore).getDepth());
+                        return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth());
                     }
-                } catch (SQLException ex) {
-                    throw new IllegalArgumentException("Invalid id:" + reference.getId());
+                } else {
+                    if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
+                    throw new EntityNotFoundException(operation);
                 }
             }
+        } catch (SQLException cause) {
+            if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
+            throw new SQLFailureEntityException(operation, cause);
 
-            throw new IllegalArgumentException("Invalid id:" + reference.getId());
         } finally {
             complete(context);
         }

@@ -15,12 +15,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
 import org.dspace.eperson.Group;
+import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.GroupEntity;
 import org.dspace.rest.entities.GroupEntityId;
-import org.dspace.rest.params.DetailDepthParameters;
-import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
 import org.sakaiproject.entitybus.EntityReference;
@@ -54,20 +53,15 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
             return true;
         }
 
-        Context context = context();
-
-        boolean result = false;
+        final Context context = context();
         try {
-            Group eperson = Group.find(context, Integer.parseInt(id));
-            if (eperson != null) {
-                result = true;
-            }
+            return Group.find(context, Integer.parseInt(id)) != null;
         } catch (SQLException ex) {
-            result = false;
+            log.debug("Failed to find group. Assuming that this means it doesn't exist.", ex);
+            return false;
+        } finally {
+            complete(context);
         }
-
-        complete(context);
-        return result;
     }
 
     /**
@@ -76,38 +70,42 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
      * @return
      */
     public Object getEntity(EntityReference reference) {
+        final String id = reference.getId();
+
+        // sample entity
+        if (id == null || ":ID:".equals(id)) {
+            return getSampleEntity();
+        }
+        
+        return entity(id);
+    }
+
+    private Object entity(final String id) {
+        final Operation operation = Operation.GET_GROUP_ENTITIES;
         final Context context = context();
         try {
+            final Parameters parameters = new Parameters(requestStore);
             final Route route = new Route(requestStore);
+
             if (route.isAttribute()) {
                 log.debug("Using generic entity binding");
-                final Parameters parameters = new Parameters(requestStore);
-
-                return binder.resolve(reference.getId(), route, parameters, context);
+                return binder.resolve(id, route, parameters, context);
             }
 
-            // sample entity
-            if (reference.getId().equals(":ID:")) {
-                return new GroupEntity();
-            }
-
-            if (reference.getId() == null) {
-                return new GroupEntity();
-            }
-
-            if (entityExists(reference.getId())) {
-                try {
-                    if (EntityBuildParameters.build(requestStore).isIdOnly()) {
-                        return new GroupEntityId(reference.getId(), context);
-                    } else {
-                        return new GroupEntity(reference.getId(), context,1, DetailDepthParameters.build(requestStore).getDepth());
-                    }
-                } catch (SQLException ex) {
-                    throw new IllegalArgumentException("Invalid id:" + reference.getId());
+            if (entityExists(id)) {
+                if (parameters.getEntityBuild().isIdOnly()) {
+                    return new GroupEntityId(id, context);
+                } else {
+                    return new GroupEntity(id, context,1, parameters.getDetailDepth().getDepth());
                 }
-            }
 
-            throw new IllegalArgumentException("Invalid id:" + reference.getId());
+            } else {
+                if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
+                throw new EntityNotFoundException(operation);
+            }
+        } catch (SQLException cause) {
+            if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
+            throw new SQLFailureEntityException(operation, cause);
         } finally {
             complete(context);
         }
@@ -146,7 +144,7 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
             return entities;
 
         } catch (SQLException cause) {
-            throw new SQLFailureEntityException(Operation.GET_USER_GROUP_ENTITIES, cause);
+            throw new SQLFailureEntityException(Operation.GET_GROUP_ENTITIES, cause);
 
         } finally {
             complete(context);

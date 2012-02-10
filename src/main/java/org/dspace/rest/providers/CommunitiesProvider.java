@@ -21,8 +21,6 @@ import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.entities.CommunityEntityId;
 import org.dspace.rest.entities.DetailDepth;
-import org.dspace.rest.params.DetailDepthParameters;
-import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
 import org.sakaiproject.entitybus.EntityReference;
@@ -73,6 +71,10 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
             return getSampleEntity();
         }
 
+        return entity(id);
+    }
+
+    private Object entity(final String id) {
         final Operation operation = Operation.GET_COMMUNITIES;
         final Context context = context();
         try {

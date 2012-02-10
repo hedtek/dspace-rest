@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
+import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.UserEntity;
@@ -56,20 +57,15 @@ public class UserProvider extends AbstractBaseProvider  implements CoreEntityPro
             return true;
         }
 
-        Context context = context();
-
-        boolean result = false;
+        final Context context = context();
         try {
-            EPerson eperson = EPerson.find(context, Integer.parseInt(id));
-            if (eperson != null) {
-                result = true;
-            }
+            return EPerson.find(context, Integer.parseInt(id)) != null;
         } catch (SQLException ex) {
-            result = false;
+            log.debug("Failed to find user. Assuming that this means it doesn't exist.", ex);
+            return false;
+        } finally {
+            complete(context);
         }
-
-        complete(context);
-        return result;
     }
 
     /**
@@ -78,38 +74,42 @@ public class UserProvider extends AbstractBaseProvider  implements CoreEntityPro
      * @return
      */
     public Object getEntity(EntityReference reference) {
+        final String id = reference.getId();
+        // sample entity
+        if (id == null || ":ID:".equals(id)) {
+            return getSampleEntity();
+        }
+
+        return entity(id);
+    }
+
+    private Object entity(final String id) {
+        final Operation operation = Operation.GET_USER_ENTITIES;
         final Context context = context();
         try {
             final Route route = new Route(requestStore);
+            final Parameters parameters = new Parameters(requestStore);
+
             if (route.isAttribute()) {
                 log.debug("Using generic entity binding");
-                final Parameters parameters = new Parameters(requestStore);
 
-                return binder.resolve(reference.getId(), route, parameters, context);
-            }
+                return binder.resolve(id, route, parameters, context);
+            } else {
 
-            // sample entity
-            if (reference.getId().equals(":ID:")) {
-                return new UserEntity();
-            }
-
-            if (reference.getId() == null) {
-                return new UserEntity();
-            }
-
-            if (entityExists(reference.getId())) {
-                try {
-                    if (EntityBuildParameters.build(requestStore).isIdOnly()) {
-                        return new UserEntityId(reference.getId());
+                if (entityExists(id)) {
+                    if (parameters.getEntityBuild().isIdOnly()) {
+                        return new UserEntityId(id);
                     } else {
-                        return new UserEntity(reference.getId(), context, 1);
+                        return new UserEntity(id, context, 1);
                     }
-                } catch (SQLException ex) {
-                    throw new IllegalArgumentException("Invalid id:" + reference.getId());
+                } else {
+                    if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
+                    throw new EntityNotFoundException(operation);
                 }
             }
-
-            throw new IllegalArgumentException("Invalid id:" + reference.getId());
+        } catch (SQLException cause) {
+            if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
+            throw new SQLFailureEntityException(operation, cause);
         } finally {
             complete(context);
         }
@@ -130,7 +130,7 @@ public class UserProvider extends AbstractBaseProvider  implements CoreEntityPro
         final Parameters parameters = new Parameters(requestStore);
         final Context context = context();
         try {
-            
+
             final List<Object> entities = new ArrayList<Object>();
             final boolean idOnly = parameters.getEntityBuild().isIdOnly();
             final EPerson[] epersons = EPerson.findAll(context, EPerson.ID);

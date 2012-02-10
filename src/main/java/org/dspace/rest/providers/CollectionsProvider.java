@@ -61,7 +61,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         try {
             return Collection.find(context, Integer.parseInt(id)) != null;
         } catch (SQLException ex) {
-            log.debug("Failed to find community. Assuming that this means it doesn't exist.", ex);
+            log.debug("Failed to find collections. Assuming that this means it doesn't exist.", ex);
             return false;
         } finally {
             complete(context);
@@ -80,7 +80,10 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         if (id == null || ":ID:".equals(id)) {
             return getSampleEntity();
         }
-        
+        return entity(id);
+    }
+
+    private Object entity(final String id) {
         final Operation operation = Operation.GET_COLLECTIONS;
         final Context context = context();
         try {
