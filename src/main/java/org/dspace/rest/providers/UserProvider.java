@@ -125,16 +125,21 @@ public class UserProvider extends AbstractBindingProvider  implements CoreEntity
      * @return
      */
     public List<?> getEntities(EntityReference ref, Search search) {
+        return getAllUsers();
+    }
+
+    private List<?> getAllUsers() {
         final Parameters parameters = new Parameters(requestStore);
         final Context context = context();
         try {
+            
             final List<Object> entities = new ArrayList<Object>();
-
-            EPerson[] epersons = EPerson.findAll(context, EPerson.ID);
-            for (int x = 0; x < epersons.length; x++) {
-                entities.add(parameters.getEntityBuild().isIdOnly() ? 
-                        new UserEntityId(epersons[x].getID()) : 
-                            new UserEntity(epersons[x]));
+            final boolean idOnly = parameters.getEntityBuild().isIdOnly();
+            final EPerson[] epersons = EPerson.findAll(context, EPerson.ID);
+            for (final EPerson ePerson: epersons) {
+                entities.add(idOnly ? 
+                        new UserEntityId(ePerson.getID()) : 
+                            new UserEntity(ePerson));
             }
 
             // do sorting and limiting if necessary
@@ -143,12 +148,11 @@ public class UserProvider extends AbstractBindingProvider  implements CoreEntity
             return entities;
 
         } catch (SQLException ex) {
-                throw new SQLFailureEntityException(Operation.GET_USER_ENTITIES, ex);
-
-            } finally {
-                complete(context);
-            }
+            throw new SQLFailureEntityException(Operation.GET_USER_ENTITIES, ex);
+        } finally {
+            complete(context);
         }
+    }
 
     /**
      * Returns an Entity object with sample data
