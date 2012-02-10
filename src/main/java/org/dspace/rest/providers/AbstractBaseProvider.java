@@ -12,10 +12,7 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-import org.dspace.authorize.AuthorizeException;
 import org.dspace.core.Context;
-import org.dspace.eperson.EPerson;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.sakaiproject.entitybus.EntityView;
@@ -31,7 +28,6 @@ import org.sakaiproject.entitybus.entityprovider.capabilities.RequestStorable;
 import org.sakaiproject.entitybus.entityprovider.capabilities.Resolvable;
 import org.sakaiproject.entitybus.entityprovider.extension.Formats;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
-import org.sakaiproject.entitybus.exception.EntityException;
 
 /**
  * Base abstract class for Entity Providers. Takes care about general
@@ -48,13 +44,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     // query parameters used in subclasses
     protected RequestStorage requestStore;
     protected boolean withdrawn;
-    private String user = "";
-    private String pass = "";
-    private String userc = "";
-    private String passc = "";
-    private String loggedUser;
     protected String _sdate, _edate;
-    private static Logger log = Logger.getLogger(AbstractBaseProvider.class);
 
     /**
      * Handle registration of EntityProvider
@@ -87,17 +77,13 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      */
     public String userInfo() {
         String ipaddr = "";
-
-
         try {
             ipaddr = this.entityProviderManager.getRequestGetter().getRequest().getRemoteAddr();
 
 
         } catch (NullPointerException ex) {
         }
-        return "user:" + loggedUser + ":ip_addr=" + ipaddr + ":";
-
-
+        return ":ip_addr=" + ipaddr + ":";
     }
 
     /**
@@ -126,19 +112,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
                 view.setExtension("json");
             }
         }
-
-        /**
-         * Check user/login data in header and apply if present
-         */
-        try {
-            if (!(req.getHeader("user").isEmpty() && req.getHeader("pass").isEmpty())) {
-                userc = req.getHeader("user");
-                passc = req.getHeader("pass");
-            }
-        } catch (NullPointerException nu) {
-            userc = "";
-            passc = "";
-        }
     }
 
     /**
@@ -148,8 +121,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      * @param req
      * @param res
      */
-    public void after(EntityView view, HttpServletRequest req, HttpServletResponse res) {
-    }
+    public void after(EntityView view, HttpServletRequest req, HttpServletResponse res) {}
 
     /**
      * Extract parameters from query and do basic authentication, analyze
@@ -158,56 +130,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      * defined but used here for loging and other purposes
      */
     private void refreshParams(Context context) {
-        
-        /**
-         * now check user login info and try to register
-         */
-        try {
-            user = requestStore.getStoredValue("user").toString();
-        } catch (NullPointerException ex) {
-            user = "";
-        }
-
-        try {
-            pass = requestStore.getStoredValue("pass").toString();
-        } catch (NullPointerException ex) {
-            pass = "";
-        }
-
-        // these are from header - have priority
-        try {
-            if (!(userc.isEmpty() && passc.isEmpty())) {
-                user = userc;
-                pass = passc;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } // now try to login user
-        loggedUser = "anonymous";
-
-
-        try {
-            EPerson eUser = EPerson.findByEmail(context, user);
-            if ((eUser.canLogIn()) && (eUser.checkPassword(pass))) {
-                context.setCurrentUser(eUser);
-                loggedUser = eUser.getName();
-            } else {
-                throw new EntityException("Bad username or password", user, 403);
-            }
-        } catch (SQLException sql) {
-            log.info(sql.toString());
-            sql.printStackTrace();
-        } catch (AuthorizeException auth) {
-            throw new EntityException("Unauthorised", user, 401);
-
-// TODO Refactor this, it seems the catching of usernames/passwords does not work
-
-
-        } catch (NullPointerException ne) {
-            if (!(user.equals("") && pass.equals(""))) {
-                throw new EntityException("Bad username or password", user, 403);
-            }
-        }
 
         try {
             _sdate = requestStore.getStoredValue("startdate").toString();

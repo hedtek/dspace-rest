@@ -131,21 +131,25 @@ public class CollectionsProvider extends AbstractBindingProvider implements Core
     }
 
     private List<?> getAllCollections() {
+        Operation operation = Operation.GET_COLLECTIONS;
+        final Parameters parameters = new Parameters(requestStore);
         final Context context = context();
         try {
+            
             final List<Object> entities = new ArrayList<Object>();
             final Collection[] collections = Collection.findAll(context);
-            final boolean idOnly = EntityBuildParameters.build(requestStore).isIdOnly();
+            final boolean idOnly = parameters.getEntityBuild().isIdOnly();
             for (Collection c : collections) {
                 entities.add(idOnly ? new CollectionEntityId(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
             }
-
-            new Parameters(requestStore).sort(entities);
-            new Parameters(requestStore).removeTrailing(entities);
+            
+            parameters.sort(entities);
+            parameters.removeTrailing(entities);
 
             return entities;
+            
         } catch (SQLException cause) {
-            throw new SQLFailureEntityException(Operation.GET_COLLECTIONS, cause);
+            throw new SQLFailureEntityException(operation, cause);
         } finally {
             complete(context);
         }
