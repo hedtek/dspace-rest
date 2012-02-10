@@ -24,12 +24,7 @@ public abstract class AbstractBindingProvider extends AbstractBaseProvider {
         this.binder = binder;
     }
 
-    public Object getEntity(EntityReference reference) {
-        final String id = reference.getId();
-        return resolve(id);
-    }
-
-    private Object resolve(final String id) {
+    public Object resolve(final String id) {
         log.debug("Using generic entity binding");
         final Parameters parameters = new Parameters(requestStore);
         final Routes routes = new Routes(requestStore);

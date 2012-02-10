@@ -144,7 +144,7 @@ public class BitstreamProvider extends AbstractBindingProvider  implements CoreE
         // first check if there is sub-field requested
         // if so then invoke appropriate method inside of entity
         if (segments.length > 3) {
-            return super.getEntity(reference);
+            return resolve(reference.getId());
         }
 
         Context context = context();

@@ -78,7 +78,7 @@ public class CommunitiesProvider extends AbstractBindingProvider  implements Cor
         // first check if there is sub-field requested
         // if so then invoke appropriate method inside of entity
         if (segments.length > 3) {
-            return super.getEntity(reference);
+            return resolve(reference.getId());
         } else {
             // if there is complete entity requested then continue with other checks
 
