@@ -8,7 +8,6 @@
 package org.dspace.rest.providers;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +18,6 @@ import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
-import org.dspace.rest.params.EntityBuildParameters;
-import org.dspace.rest.params.PaginationParameters;
-import org.dspace.rest.params.Parameters;
-import org.dspace.rest.params.SortParameters;
 import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.EntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -31,12 +26,10 @@ import org.sakaiproject.entitybus.entityprovider.capabilities.CollectionResolvab
 import org.sakaiproject.entitybus.entityprovider.capabilities.Describeable;
 import org.sakaiproject.entitybus.entityprovider.capabilities.Outputable;
 import org.sakaiproject.entitybus.entityprovider.capabilities.Redirectable;
-import org.sakaiproject.entitybus.entityprovider.capabilities.RequestAware;
 import org.sakaiproject.entitybus.entityprovider.capabilities.RequestInterceptor;
 import org.sakaiproject.entitybus.entityprovider.capabilities.RequestStorable;
 import org.sakaiproject.entitybus.entityprovider.capabilities.Resolvable;
 import org.sakaiproject.entitybus.entityprovider.extension.Formats;
-import org.sakaiproject.entitybus.entityprovider.extension.RequestGetter;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 import org.sakaiproject.entitybus.exception.EntityException;
 
@@ -50,7 +43,7 @@ import org.sakaiproject.entitybus.exception.EntityException;
  *
  * @author Bojan Suzic(bojan.suzic@gmail.com)
  */
-public abstract class AbstractBaseProvider implements EntityProvider, Resolvable, CollectionResolvable, RequestAware, Outputable, Describeable, ActionsExecutable, Redirectable, RequestStorable, RequestInterceptor {
+public abstract class AbstractBaseProvider implements EntityProvider, Resolvable, CollectionResolvable, Outputable, Describeable, ActionsExecutable, Redirectable, RequestStorable, RequestInterceptor {
 
     // query parameters used in subclasses
     protected RequestStorage requestStore;
@@ -271,7 +264,4 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     protected final void logUserInfo(Operation operation) {
         if (log.isDebugEnabled()) log.debug(userInfo() + operation.getDescription());
     }
-
-    @Override
-    public final void setRequestGetter(RequestGetter requestGetter) {}   
 }
