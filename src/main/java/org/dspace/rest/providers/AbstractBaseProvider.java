@@ -261,8 +261,4 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         refreshParams(context);
         return context;
     }
-
-    protected final void logUserInfo(Operation operation) {
-        if (log.isDebugEnabled()) log.debug(userInfo() + operation.getDescription());
-    }
 }
