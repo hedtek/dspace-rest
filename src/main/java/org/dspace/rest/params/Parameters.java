@@ -2,6 +2,7 @@ package org.dspace.rest.params;
 
 import java.util.List;
 
+import org.dspace.core.Context;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.ItemBuilder;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
@@ -56,5 +57,9 @@ public class Parameters {
         if (!getEntityBuild().isIdOnly()) {
             getSort().sort(entities);
         }
+    }
+
+    public ScopeParameters getScope(Context context) {
+        return ScopeParameters.build(requestStore, context);
     }
 }

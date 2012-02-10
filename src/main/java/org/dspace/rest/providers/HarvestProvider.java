@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.rest.diagnose.ErrorDetail;
 import org.dspace.rest.diagnose.Operation;
@@ -75,10 +76,12 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
 
             // check results and add entities
             entities.add(new HarvestResultsInfoEntity(harvestedItems.size()));
-            for (int x = 0; x < harvestedItems.size(); x++) {
-                entities.add(parameters.getEntityBuild().isIdOnly() 
-                        ? new ItemEntityId(harvestedItems.get(x).item) : 
-                            new ItemEntity(harvestedItems.get(x).item, 1, parameters.getDetailDepth().getDepth()));
+            final boolean idOnly = parameters.getEntityBuild().isIdOnly();
+            for (final HarvestedItemInfo harvestedItemInfo: harvestedItems) {
+                final Item item = harvestedItemInfo.item;
+                entities.add(idOnly 
+                        ? new ItemEntityId(item) : 
+                            new ItemEntity(item, 1, parameters.getDetailDepth().getDepth()));
             }
 
             // sort entities if the full info are requested and there are sorting fields
@@ -101,7 +104,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
     private List<HarvestedItemInfo> harvest(final Context context, final Parameters parameters)
             throws SQLException, ParseException {
         List<HarvestedItemInfo> harvestedItems;
-        harvestedItems = Harvest.harvest(context, ScopeParameters.build(requestStore, context).scope(), 
+        harvestedItems = Harvest.harvest(context, parameters.getScope(context).scope(), 
                 _sdate, _edate, 
                 parameters.getPagination().getStart(), parameters.getPagination().getLimit(), 
                 true, true, withdrawn, true);
