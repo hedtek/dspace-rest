@@ -239,15 +239,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     }
 
     /**
-     * Remove items from list in order to display only requested items
-     * (according to _start, _limit etc.)
-     * @param entities
-     */
-    public void removeTrailing(List<?> entities) {
-        new Parameters(requestStore).removeTrailing(entities);
-    }
-
-    /**
      * Complete connection in order to lower load of sql server
      * this way it goes faster and prevents droppings with higher load
      * @param context
@@ -275,10 +266,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         }
         refreshParams(context);
         return context;
-    }
-
-    protected void sort(final List<Object> entities) {
-        new Parameters(requestStore).sort(entities);
     }
 
     protected final void logUserInfo(Operation operation) {

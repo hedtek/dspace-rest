@@ -21,6 +21,7 @@ import org.dspace.rest.entities.ItemEntityId;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.PaginationParameters;
+import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.ScopeParameters;
 import org.dspace.search.Harvest;
 import org.dspace.search.HarvestedItemInfo;
@@ -92,10 +93,10 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
 
 
             // sort entities if the full info are requested and there are sorting fields
-            sort(entities);
+            new Parameters(requestStore).sort(entities);
 
             // format results accordint to _limit, _perpage etc
-            removeTrailing(entities);
+            new Parameters(requestStore).removeTrailing(entities);
 
             return entities;
         } finally {

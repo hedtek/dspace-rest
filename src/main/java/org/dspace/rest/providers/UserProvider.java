@@ -20,6 +20,7 @@ import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.entities.UserEntityId;
 import org.dspace.rest.params.EntityBuildParameters;
+import org.dspace.rest.params.Parameters;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -142,8 +143,8 @@ public class UserProvider extends AbstractBindingProvider  implements CoreEntity
             }
 
             // do sorting and limiting if necessary
-            sort(entities);
-            removeTrailing(entities);
+            new Parameters(requestStore).sort(entities);
+            new Parameters(requestStore).removeTrailing(entities);
 
             return entities;
         } finally {

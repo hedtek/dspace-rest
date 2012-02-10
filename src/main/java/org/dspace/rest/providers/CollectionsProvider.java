@@ -23,6 +23,7 @@ import org.dspace.rest.entities.CollectionEntityId;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
+import org.dspace.rest.params.Parameters;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -139,8 +140,8 @@ public class CollectionsProvider extends AbstractBindingProvider implements Core
                 entities.add(idOnly ? new CollectionEntityId(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
             }
 
-            sort(entities);
-            removeTrailing(entities);
+            new Parameters(requestStore).sort(entities);
+            new Parameters(requestStore).removeTrailing(entities);
 
             return entities;
         } catch (SQLException cause) {

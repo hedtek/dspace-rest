@@ -19,6 +19,7 @@ import org.dspace.rest.entities.GroupEntity;
 import org.dspace.rest.entities.GroupEntityId;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
+import org.dspace.rest.params.Parameters;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -145,8 +146,8 @@ public class GroupProvider extends AbstractBindingProvider  implements CoreEntit
 
 
             // do sorting and limiting if necessary
-            sort(entities);
-            removeTrailing(entities);
+            new Parameters(requestStore).sort(entities);
+            new Parameters(requestStore).removeTrailing(entities);
 
             return entities;
         } finally {

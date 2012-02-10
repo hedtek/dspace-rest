@@ -22,6 +22,7 @@ import org.dspace.rest.entities.CommunityEntityId;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
+import org.dspace.rest.params.Parameters;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -131,8 +132,8 @@ public class CommunitiesProvider extends AbstractBindingProvider  implements Cor
                 entities.add(build.isIdOnly() ? new CommunityEntityId(c) : new CommunityEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
             }
 
-            sort(entities);
-            removeTrailing(entities);
+            new Parameters(requestStore).sort(entities);
+            new Parameters(requestStore).removeTrailing(entities);
             return entities;
             
         } catch (SQLException cause) {
