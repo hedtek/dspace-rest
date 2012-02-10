@@ -72,22 +72,14 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
 
     @Override
     public Object getEntity(EntityReference reference) {
-        String segments[] = {};
-
-        if (requestStore.getStoredValue("pathInfo") != null) {
-            segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
-        }
-
-        // first check if there is sub-field requested
-        // if so then invoke appropriate method inside of entity
-        if (segments.length > 3) {
+        final Route route = new Route(requestStore);
+        if (route.isAttribute()) {
             log.debug("Using generic entity binding");
             final Parameters parameters = new Parameters(requestStore);
-            final Route routes = new Route(requestStore);
             
             final Context context = context();
             try {
-                return binder.resolve(reference.getId(), routes, parameters, context);
+                return binder.resolve(reference.getId(), route, parameters, context);
             } finally {
                 complete(context);
             }

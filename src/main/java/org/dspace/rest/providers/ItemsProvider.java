@@ -78,22 +78,14 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
     }
 
     public Object getEntity(EntityReference reference) {
-        String segments[] = {};
-
-        if (requestStore.getStoredValue("pathInfo") != null) {
-            segments = requestStore.getStoredValue("pathInfo").toString().split("/", 10);
-        }
-
-        // first check if there is sub-field requested
-        // if so then invoke appropriate method inside of entity
-        if (segments.length > 3) {
+        final Route route = new Route(requestStore);
+        if (route.isAttribute()) {
             log.debug("Using generic entity binding");
             final Parameters parameters = new Parameters(requestStore);
-            final Route routes = new Route(requestStore);
             
             final Context context1 = context();
             try {
-                return binder.resolve(reference.getId(), routes, parameters, context1);
+                return binder.resolve(reference.getId(), route, parameters, context1);
             } finally {
                 complete(context1);
             }
