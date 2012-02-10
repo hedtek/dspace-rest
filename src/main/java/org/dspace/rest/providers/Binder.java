@@ -15,7 +15,7 @@ import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.Parameters;
-import org.dspace.rest.params.Routes;
+import org.dspace.rest.params.Route;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.exception.EntityException;
 
@@ -170,7 +170,7 @@ public class Binder {
         this.entityConstructor = entityConstructor;
     }
 
-    public Object resolve(final String id, Routes routes, Parameters parameters,
+    public Object resolve(final String id, Route routes, Parameters parameters,
             final Context context) {
         final String[] segments = routes.routeSegments();
         if (func2actionMapGET_rev.containsKey(segments[3])) {

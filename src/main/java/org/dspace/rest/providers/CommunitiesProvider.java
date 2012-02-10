@@ -23,7 +23,7 @@ import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.Parameters;
-import org.dspace.rest.params.Routes;
+import org.dspace.rest.params.Route;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -83,7 +83,7 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
         if (segments.length > 3) {
             log.debug("Using generic entity binding");
             final Parameters parameters = new Parameters(requestStore);
-            final Routes routes = new Routes(requestStore);
+            final Route routes = new Route(requestStore);
             
             final Context context = context();
             try {
