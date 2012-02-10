@@ -18,7 +18,8 @@ public enum Operation {
     SEARCH("Cannot complete search.", "searching"),
     GET_ITEMS("Cannot get item data.", "getting items"),
     GET_COMMUNITIES("Cannot get community data", "getting communities"),
-    GET_COLLECTIONS("Cannot get collection data", "getting collections");
+    GET_COLLECTIONS("Cannot get collection data", "getting collections"), 
+    GET_HARVEST("Cannot get harvesting data", "getting harvest");
     
     private final String failureMessage;
     private final String description;

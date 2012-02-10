@@ -15,6 +15,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
+import org.dspace.rest.diagnose.ErrorDetail;
+import org.dspace.rest.diagnose.Operation;
+import org.dspace.rest.diagnose.RequestFormatEntityException;
+import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.HarvestResultsInfoEntity;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
@@ -63,7 +67,8 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
     private List<?> getAllHavested() {
         final Parameters parameters = new Parameters(requestStore);
         final Context context = context();
-
+        final Operation operation = Operation.GET_HARVEST;
+        
         try {
             final List<Object> entities = new ArrayList<Object>();
             final List<HarvestedItemInfo>  harvestedItems = harvest(context, parameters);
@@ -79,14 +84,14 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
             // sort entities if the full info are requested and there are sorting fields
             parameters.sort(entities);
 
-            // format results accordint to _limit, _perpage etc
+            // format results according to _limit, _perpage etc
             parameters.removeTrailing(entities);
 
             return entities;
-        } catch (ParseException ex) {
-            throw new EntityException("Bad request", "Incompatible date format", 400);
-        } catch (SQLException sq) {
-            throw new EntityException("Internal Server Error", "SQL Problem", 500);
+        } catch (ParseException cause) {
+            throw new RequestFormatEntityException(operation, cause, ErrorDetail.PARSE_REQUEST_DATE);
+        } catch (SQLException cause) {
+            throw new SQLFailureEntityException(operation, cause);
         } finally {
             complete(context);
         }

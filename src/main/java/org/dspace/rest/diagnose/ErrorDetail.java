@@ -13,7 +13,8 @@ package org.dspace.rest.diagnose;
 public enum ErrorDetail {
 
     SQL("SQL error"),
-    IO("IO error");
+    IO("IO error"), PARSE_REQUEST("Error parsing request"),
+    PARSE_REQUEST_DATE("Error parsing date in request");
     
     private final String detailsMessage;
     
