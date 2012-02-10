@@ -26,6 +26,8 @@ import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
+import org.dspace.rest.params.Parameters;
+import org.dspace.rest.params.Routes;
 import org.dspace.rest.util.RecentSubmissionsException;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.EntityView;
@@ -39,12 +41,14 @@ import org.sakaiproject.entitybus.exception.EntityException;
  * Provides access to bitstream entities
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class BitstreamProvider extends AbstractBindingProvider  implements CoreEntityProvider {
+public class BitstreamProvider extends AbstractBaseProvider  implements CoreEntityProvider {
 
     private static Logger log = Logger.getLogger(BitstreamProvider.class);
+    private final Binder binder;
 
     public BitstreamProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
-        super(entityProviderManager, Binder.forBitstream());
+        super(entityProviderManager);
+        this.binder = Binder.forBitstream();
     }
 
     public String getEntityPrefix() {
@@ -144,7 +148,16 @@ public class BitstreamProvider extends AbstractBindingProvider  implements CoreE
         // first check if there is sub-field requested
         // if so then invoke appropriate method inside of entity
         if (segments.length > 3) {
-            return resolve(reference.getId());
+            log.debug("Using generic entity binding");
+            final Parameters parameters = new Parameters(requestStore);
+            final Routes routes = new Routes(requestStore);
+            
+            final Context context1 = context();
+            try {
+                return binder.resolve(reference.getId(), routes, parameters, context1);
+            } finally {
+                complete(context1);
+            }
         }
 
         Context context = context();

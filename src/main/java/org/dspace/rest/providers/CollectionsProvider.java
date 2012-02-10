@@ -24,6 +24,7 @@ import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.Parameters;
+import org.dspace.rest.params.Routes;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -35,12 +36,14 @@ import org.sakaiproject.entitybus.entityprovider.search.Search;
  * @see CollectionEntityId
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class CollectionsProvider extends AbstractBindingProvider implements CoreEntityProvider {
+public class CollectionsProvider extends AbstractBaseProvider implements CoreEntityProvider {
 
     private static Logger log = Logger.getLogger(CollectionsProvider.class);
+    private final Binder binder;
 
     public CollectionsProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
-        super(entityProviderManager, Binder.forCollections());
+        super(entityProviderManager);
+        this.binder = Binder.forCollections();
     }
 
     public String getEntityPrefix() {
@@ -85,7 +88,16 @@ public class CollectionsProvider extends AbstractBindingProvider implements Core
         // first check if there is sub-field requested
         // if so then invoke appropriate method inside of entity
         if (segments.length > 3) {
-            return resolve(reference.getId());
+            log.debug("Using generic entity binding");
+            final Parameters parameters = new Parameters(requestStore);
+            final Routes routes = new Routes(requestStore);
+            
+            final Context context = context();
+            try {
+                return binder.resolve(reference.getId(), routes, parameters, context);
+            } finally {
+                complete(context);
+            }
         } else {
 
             final Context context = context();

@@ -22,6 +22,7 @@ import org.dspace.rest.entities.GroupEntityId;
 import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.Parameters;
+import org.dspace.rest.params.Routes;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -33,12 +34,14 @@ import org.sakaiproject.entitybus.entityprovider.search.Search;
  * @see GroupEntityId
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class GroupProvider extends AbstractBindingProvider  implements CoreEntityProvider {
+public class GroupProvider extends AbstractBaseProvider  implements CoreEntityProvider {
 
     private static Logger log = Logger.getLogger(GroupProvider.class);
+    private final Binder binder;
 
     public GroupProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
-        super(entityProviderManager, Binder.forGroup());
+        super(entityProviderManager);
+        binder = Binder.forGroup();
     }
 
     public String getEntityPrefix() {
@@ -82,7 +85,16 @@ public class GroupProvider extends AbstractBindingProvider  implements CoreEntit
         // first check if there is sub-field requested
         // if so then invoke appropriate method inside of entity
         if (segments.length > 3) {
-            return resolve(reference.getId());
+            log.debug("Using generic entity binding");
+            final Parameters parameters = new Parameters(requestStore);
+            final Routes routes = new Routes(requestStore);
+            
+            final Context context1 = context();
+            try {
+                return binder.resolve(reference.getId(), routes, parameters, context1);
+            } finally {
+                complete(context1);
+            }
         }
 
         Context context = context();
