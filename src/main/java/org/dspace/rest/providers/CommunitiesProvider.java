@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Community;
 import org.dspace.core.Context;
+import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.CommunityEntity;
@@ -55,13 +56,8 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
         }
 
         final Context context = context();
-        boolean result = false;
         try {
-            Community comm = Community.find(context, Integer.parseInt(id));
-            if (comm != null) {
-                result = true;
-            }
-            return result;
+            return Community.find(context, Integer.parseInt(id)) != null;
         } catch (SQLException ex) {
             log.debug("Failed to find community. Assuming that this means it doesn't exist.", ex);
             return false;
@@ -72,44 +68,36 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
 
     @Override
     public Object getEntity(EntityReference reference) {
+        final String id = reference.getId();
+        if (id == null || ":ID:".equals(id)) {
+            return getSampleEntity();
+        }
+
+        final Operation operation = Operation.GET_COMMUNITIES;
         final Context context = context();
         try {
+            final Parameters parameters = new Parameters(requestStore);
             final Route route = new Route(requestStore);
             if (route.isAttribute()) {
                 log.debug("Using generic entity binding");
-                final Parameters parameters = new Parameters(requestStore);
-
-                return binder.resolve(reference.getId(), route, parameters, context);
+                return binder.resolve(id, route, parameters, context);
             } else {
-                // if there is complete entity requested then continue with other checks
-
-                // sample entity
-                if (reference.getId().equals(":ID:")) {
-                    return new CommunityEntity();
-                }
-
-                if (reference.getId() == null) {
-                    return new CommunityEntity();
-                }
-
-                if (entityExists(reference.getId())) {
-                    try {
-                        // return just entity containing id or full info
-                        if (EntityBuildParameters.build(requestStore).isIdOnly()) {
-                            return new CommunityEntityId(reference.getId(), context);
-                        } else {
-                            return new CommunityEntity(reference.getId(), context, 1, DetailDepthParameters.build(requestStore).getDepth());
-                        }
-                    } catch (SQLException ex) {
-                        throw new IllegalArgumentException("Invalid id:" + reference.getId());
-                    } catch (NullPointerException ne) {
-                        ne.printStackTrace();
+                if (entityExists(id)) {
+                    // return just entity containing id or full info
+                    if (parameters.getEntityBuild().isIdOnly()) {
+                        return new CommunityEntityId(id, context);
+                    } else {
+                        return new CommunityEntity(id, context, 1, parameters.getDetailDepth().getDepth());
                     }
+                } else {
+                    if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
+                    throw new EntityNotFoundException(operation);
                 }
-                throw new IllegalArgumentException("Invalid id:" + reference.getId());
             }
+        } catch (SQLException cause) {
+            if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
+            throw new SQLFailureEntityException(operation, cause);
         } finally {
-
             complete(context);
         }
     }
