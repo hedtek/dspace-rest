@@ -4,8 +4,8 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
-import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.Parameters;
+import org.dspace.rest.params.Routes;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
 
@@ -30,23 +30,15 @@ public abstract class AbstractBindingProvider extends AbstractBaseProvider {
     }
 
     private Object resolve(final String id) {
+        log.debug("Using generic entity binding");
         final Parameters parameters = new Parameters(requestStore);
-        final Object pathInfo = requestStore.getStoredValue("pathInfo");
+        final Routes routes = new Routes(requestStore);
         
         final Context context = context();
         try {
-            String segments[] = {};
-            log.debug("Using generic entity binding");
-            if (pathInfo != null) {
-                segments = pathInfo.toString().split("/", 10);
-            }
-            if (segments[3].lastIndexOf(".") > 0) {
-                segments[3] = segments[3].substring(0, segments[3].lastIndexOf("."));
-            }
-            return binder.resolve(id, segments, parameters, context);
+            return binder.resolve(id, routes, parameters, context);
         } finally {
             complete(context);
         }
     }
-    
 }
