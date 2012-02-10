@@ -28,6 +28,9 @@ public abstract class DSpaceEntityException extends EntityException {
             final HTTPStatusCode code, final Operation failedOperation) {
         super(category.getUserMessage(), details.getDetailsMessage(), code.getCode());
         LOGGER.error(failedOperation.getFailureMessage() + "[" + cause.getMessage() + "]");
+        if (cause != null) {
+            LOGGER.debug(failedOperation.getFailureMessage() + "[" + category.getUserMessage() + "]", cause);
+        }
         initCause(cause);
         this.details = details;
         this.category = category;

@@ -19,7 +19,8 @@ public enum Operation {
     GET_ITEMS("Cannot get item data.", "getting items"),
     GET_COMMUNITIES("Cannot get community data", "getting communities"),
     GET_COLLECTIONS("Cannot get collection data", "getting collections"), 
-    GET_HARVEST("Cannot get harvesting data", "getting harvest");
+    GET_HARVEST("Cannot get harvesting data", "getting harvest"), 
+    GET_BITSTREAM("Cannot get bitstream data", "getting bitstream");
     
     private final String failureMessage;
     private final String description;

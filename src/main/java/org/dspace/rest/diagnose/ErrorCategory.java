@@ -13,7 +13,8 @@ package org.dspace.rest.diagnose;
 public enum ErrorCategory {
 
     INTERNAL("Internal server error"),
-    BAD_REQUEST("Bad request");
+    BAD_REQUEST("Bad request"), 
+    NOT_FOUND("Not Found");
     
     private final String messageForUser;
     

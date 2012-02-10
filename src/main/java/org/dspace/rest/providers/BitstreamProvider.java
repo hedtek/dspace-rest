@@ -21,11 +21,11 @@ import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Bitstream;
 import org.dspace.core.Context;
+import org.dspace.rest.diagnose.EntityNotFoundException;
+import org.dspace.rest.diagnose.Operation;
+import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
-import org.dspace.rest.entities.CommunityEntity;
-import org.dspace.rest.params.DetailDepthParameters;
-import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
 import org.dspace.rest.util.RecentSubmissionsException;
@@ -117,20 +117,16 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
             return true;
         }
 
-        Context context = context();
-
-        boolean result = false;
+        
+        final Context context = context();
         try {
-            Bitstream bst = Bitstream.find(context, Integer.parseInt(id));
-            if (bst != null) {
-                result = true;
-            }
+            return Bitstream.find(context, Integer.parseInt(id)) != null;
         } catch (SQLException ex) {
-            result = false;
+            log.debug("Failed to find community. Assuming that this means it doesn't exist.", ex);
+            return false;
+        } finally {
+            complete(context);
         }
-
-        complete(context);
-        return result;
     }
 
     /**
@@ -139,37 +135,40 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
      * @return
      */
     public Object getEntity(EntityReference reference) {
+        final String id = reference.getId();
+        if (":ID:".equals(id) || id == null) {
+            return getSampleEntity();
+        }
+
+        return entity(id);
+    }
+
+    private Object entity(final String id) {
         final Context context = context();
+        final Operation operation = Operation.GET_BITSTREAM;
         try {
+
+            final Parameters parameters = new Parameters(requestStore);
             final Route route = new Route(requestStore);
+
             if (route.isAttribute()) {
                 log.debug("Using generic entity binding");
-                final Parameters parameters = new Parameters(requestStore);
-
-                return binder.resolve(reference.getId(), route, parameters, context);
+                return binder.resolve(id, route, parameters, context);
             }
 
-            // sample entity
-            if (reference.getId().equals(":ID:")) {
-                return new CommunityEntity();
-            }
-
-            if (reference.getId() == null) {
-                return new BitstreamEntity();
-            }
-            if (entityExists(reference.getId())) {
-                try {
-                    if (EntityBuildParameters.build(requestStore).isIdOnly()) {
-                        return new BitstreamEntityId(reference.getId(), context);
-                    } else {
-                        return new BitstreamEntity(reference.getId(), context,1, DetailDepthParameters.build(requestStore).getDepth());
-                    }
-                } catch (SQLException ex) {
-                    throw new IllegalArgumentException("sql!Invalid id:" + reference.getId());
+            if (entityExists(id)) {
+                if (parameters.getEntityBuild().isIdOnly()) {
+                    return new BitstreamEntityId(id, context);
+                } else {
+                    return new BitstreamEntity(id, context,1, parameters.getDetailDepth().getDepth());
                 }
-            }
 
-            throw new IllegalArgumentException("Invalid id:" + reference.getId());
+            } else {
+                throw new EntityNotFoundException(operation);
+            }
+        } catch (SQLException cause) {
+            throw new SQLFailureEntityException(operation, cause);
+
         } finally {
             complete(context);
         }
