@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.dspace.core.Context;
 import org.dspace.rest.diagnose.IOFailureEntityException;
 import org.dspace.rest.diagnose.Operation;

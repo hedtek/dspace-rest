@@ -26,7 +26,6 @@ import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
 import org.sakaiproject.entitybus.entityprovider.search.Search;
-import org.sakaiproject.entitybus.exception.EntityException;
 
 /**
  * Provides interface for access to user info entities
@@ -47,8 +46,6 @@ public class GroupProvider extends AbstractBindingProvider  implements CoreEntit
     }
 
     public boolean entityExists(String id) {
-        log.info(userInfo() + "entity_exists:" + id);
-
         // sample entity
         if (id.equals(":ID:")) {
             return true;
@@ -76,7 +73,6 @@ public class GroupProvider extends AbstractBindingProvider  implements CoreEntit
      * @return
      */
     public Object getEntity(EntityReference reference) {
-        log.info(userInfo() + "get_entity:" + reference.getId());
         String segments[] = {};
 
         if (requestStore.getStoredValue("pathInfo") != null) {

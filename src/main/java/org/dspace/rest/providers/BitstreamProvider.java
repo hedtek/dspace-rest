@@ -61,47 +61,46 @@ public class BitstreamProvider extends AbstractBindingProvider  implements CoreE
      * @throws org.dspace.rest.util.RecentSubmissionsException
      */
     @EntityCustomAction(action = "receive", viewKey = EntityView.VIEW_SHOW)
-        public Object receive(EntityReference reference, EntityView view, Map<String, Object> params) throws SQLException, RecentSubmissionsException {
-            log.info(userInfo() + "receive_action:" + reference.getId());
-            Context context = context();
+    public Object receive(EntityReference reference, EntityView view, Map<String, Object> params) throws SQLException, RecentSubmissionsException {
+        Context context = context();
 
-            try{
-                // refresh query parameters and transfer to local variables
-                Bitstream bst = Bitstream.find(context, Integer.parseInt(reference.getId()));
+        try{
+            // refresh query parameters and transfer to local variables
+            Bitstream bst = Bitstream.find(context, Integer.parseInt(reference.getId()));
 
-                /**
-                 * Define stream, headers, file.. and send
-                 */
-                HttpServletResponse response = this.entityProviderManager.getRequestGetter().getResponse();
-                try {
-                    ServletOutputStream stream = response.getOutputStream();
-                    response.setContentType(bst.getFormat().getMIMEType());
-                    response.addHeader("Content-Disposition", "attachment; filename=" + bst.getName());
-                    response.setContentLength((int) bst.getSize());
-                    BufferedInputStream buf = new BufferedInputStream(bst.retrieve());
+            /**
+             * Define stream, headers, file.. and send
+             */
+            HttpServletResponse response = this.entityProviderManager.getRequestGetter().getResponse();
+            try {
+                ServletOutputStream stream = response.getOutputStream();
+                response.setContentType(bst.getFormat().getMIMEType());
+                response.addHeader("Content-Disposition", "attachment; filename=" + bst.getName());
+                response.setContentLength((int) bst.getSize());
+                BufferedInputStream buf = new BufferedInputStream(bst.retrieve());
 
-                    int readBytes = 0;
-                    while ((readBytes = buf.read()) != -1) {
-                        stream.write(readBytes);
-                    }
-
-                    if (stream != null) {
-                        stream.close();
-                    }
-                    if (buf != null) {
-                        buf.close();
-                    }
-                } catch (IOException ex) {
-                    throw new EntityException("Internal Server error", "Unable to open file", 500);
-                } catch (AuthorizeException ae) {
-                    throw new EntityException("Forbidden", "The resource is not available for current user", 403);
+                int readBytes = 0;
+                while ((readBytes = buf.read()) != -1) {
+                    stream.write(readBytes);
                 }
 
-                throw new IllegalArgumentException("Invalid id:" + reference.getId());
-            } finally {
-                complete(context);
+                if (stream != null) {
+                    stream.close();
+                }
+                if (buf != null) {
+                    buf.close();
+                }
+            } catch (IOException ex) {
+                throw new EntityException("Internal Server error", "Unable to open file", 500);
+            } catch (AuthorizeException ae) {
+                throw new EntityException("Forbidden", "The resource is not available for current user", 403);
             }
+
+            throw new IllegalArgumentException("Invalid id:" + reference.getId());
+        } finally {
+            complete(context);
         }
+    }
 
     /**
      * Standard method for checking if required entity is available
@@ -109,8 +108,6 @@ public class BitstreamProvider extends AbstractBindingProvider  implements CoreE
      * @return
      */
     public boolean entityExists(String id) {
-        log.info(userInfo() + "entity_exists:" + id);
-
         // sample entity
         if (id.equals(":ID:")) {
             return true;
@@ -153,7 +150,6 @@ public class BitstreamProvider extends AbstractBindingProvider  implements CoreE
         Context context = context();
 
         try {
-            log.info(userInfo() + "get_entity:" + reference.getId());
 
             // sample entity
             if (reference.getId().equals(":ID:")) {

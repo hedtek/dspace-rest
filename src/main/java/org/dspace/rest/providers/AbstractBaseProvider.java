@@ -72,21 +72,6 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     }
 
     /**
-     * Extracts and returns information about current session user, for logging
-     * @return
-     */
-    public String userInfo() {
-        String ipaddr = "";
-        try {
-            ipaddr = this.entityProviderManager.getRequestGetter().getRequest().getRemoteAddr();
-
-
-        } catch (NullPointerException ex) {
-        }
-        return ":ip_addr=" + ipaddr + ":";
-    }
-
-    /**
      * Checks request headers and applying requested format and login data
      * note that header based request has precedence over query one
      * This method is called before other methods processing request
