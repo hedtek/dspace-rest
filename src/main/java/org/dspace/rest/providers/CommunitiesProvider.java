@@ -122,18 +122,18 @@ public class CommunitiesProvider extends AbstractBindingProvider  implements Cor
 
     
     private List<?> getAllCommunities() {
+        final Parameters parameters = new Parameters(requestStore);
         final Context context = context();
         try {
             final List<Object> entities = new ArrayList<Object>();
-            EntityBuildParameters build = EntityBuildParameters.build(requestStore);
             
-            final Community[] communities = build.isTopLevelOnly() ? Community.findAllTop(context) : Community.findAll(context);
+            final Community[] communities = parameters.getEntityBuild().isTopLevelOnly() ? Community.findAllTop(context) : Community.findAll(context);
             for (Community c : communities) {
-                entities.add(build.isIdOnly() ? new CommunityEntityId(c) : new CommunityEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
+                entities.add(parameters.getEntityBuild().isIdOnly() ? new CommunityEntityId(c) : new CommunityEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
             }
 
-            new Parameters(requestStore).sort(entities);
-            new Parameters(requestStore).removeTrailing(entities);
+            parameters.sort(entities);
+            parameters.removeTrailing(entities);
             return entities;
             
         } catch (SQLException cause) {

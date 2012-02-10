@@ -190,7 +190,7 @@ public class BitstreamProvider extends AbstractBindingProvider  implements CoreE
      * @return
      */
     public List<?> getEntities(EntityReference ref, Search search) {
-        log.info(userInfo() + "list_entities:");
+        log.debug("Bitstream getEntities is not supported.");
         return null;
     }
 

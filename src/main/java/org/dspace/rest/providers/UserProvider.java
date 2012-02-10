@@ -139,7 +139,7 @@ public class UserProvider extends AbstractBindingProvider  implements CoreEntity
                     entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new UserEntityId(epersons[x].getID()) : new UserEntity(epersons[x]));
                 }
             } catch (SQLException ex) {
-                throw new SQLFailureEntityException(Operation.CANNOT_FIND_USER_ENTITIES, ex);
+                throw new SQLFailureEntityException(Operation.GET_USER_ENTITIES, ex);
             }
 
             // do sorting and limiting if necessary

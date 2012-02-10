@@ -15,6 +15,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
 import org.dspace.eperson.Group;
+import org.dspace.rest.diagnose.Operation;
+import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.GroupEntity;
 import org.dspace.rest.entities.GroupEntityId;
 import org.dspace.rest.params.DetailDepthParameters;
@@ -126,30 +128,29 @@ public class GroupProvider extends AbstractBindingProvider  implements CoreEntit
      * @return
      */
     public List<?> getEntities(EntityReference ref, Search search) {
-        log.info(userInfo() + "list_entities:");
-
-        Context context = context();
+        final Parameters parameters = new Parameters(requestStore);
+        final Context context = context();
         try {
             List<Object> entities = new ArrayList<Object>();
 
-            try {
-                Group[] groups;
-                groups = Group.findAll(context, Group.NAME);
-                if (groups != null) {
-                    for (int x = 0; x < groups.length; x++) {
-                        entities.add(EntityBuildParameters.build(requestStore).isIdOnly() ? new GroupEntityId(groups[x]) : new GroupEntity(groups[x],1, DetailDepthParameters.build(requestStore).getDepth()));
-                    }
+            final Group[] groups = Group.findAll(context, Group.NAME);
+            if (groups != null) {
+                for (int x = 0; x < groups.length; x++) {
+                    entities.add(parameters.getEntityBuild().isIdOnly() 
+                            ? new GroupEntityId(groups[x]) : 
+                                new GroupEntity(groups[x],1, parameters.getDetailDepth().getDepth()));
                 }
-            } catch (SQLException ex) {
-                throw new EntityException("Internal server error", "SQL erorr", 500);
             }
 
-
             // do sorting and limiting if necessary
-            new Parameters(requestStore).sort(entities);
-            new Parameters(requestStore).removeTrailing(entities);
+            parameters.sort(entities);
+            parameters.removeTrailing(entities);
 
             return entities;
+
+        } catch (SQLException cause) {
+            throw new SQLFailureEntityException(Operation.GET_USER_GROUP_ENTITIES, cause);
+
         } finally {
             complete(context);
         }

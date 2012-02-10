@@ -13,7 +13,8 @@ package org.dspace.rest.diagnose;
 public enum Operation {
 
     CREATE_CONTEXT("Cannot create context.", "creating context"),
-    CANNOT_FIND_USER_ENTITIES("Cannot find User Entities.", "finding users"),
+    GET_USER_ENTITIES("Cannot get user data.", "finding users"),
+    GET_USER_GROUP_ENTITIES("Cannot get group data.", "finding groups"),
     SEARCH("Cannot complete search.", "searching"),
     GET_ITEMS("Cannot get item data.", "getting items"),
     GET_COMMUNITIES("Cannot get community data", "getting communities"),
