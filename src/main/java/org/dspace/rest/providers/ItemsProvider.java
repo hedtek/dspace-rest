@@ -127,8 +127,8 @@ public class ItemsProvider extends AbstractBindingProvider  implements CoreEntit
             final ItemIterator items = Item.findAll(context);
             final List<Object> entities = parameters.itemBuilder(DetailDepth.FOR_ALL_INDEX).build(items);
 
-            new Parameters(requestStore).sort(entities);
-            new Parameters(requestStore).removeTrailing(entities);
+            parameters.sort(entities);
+            parameters.removeTrailing(entities);
             return entities;
         } catch (SQLException cause) {
             throw new SQLFailureEntityException(Operation.GET_ITEMS, cause);
