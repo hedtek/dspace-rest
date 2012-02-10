@@ -48,11 +48,12 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     // query parameters used in subclasses
     protected RequestStorage requestStore;
     protected boolean withdrawn;
-    protected String user = "";
-    protected String pass = "";
-    protected String userc = "";
-    protected String passc = "";
-    protected String loggedUser, _sdate, _edate;
+    private String user = "";
+    private String pass = "";
+    private String userc = "";
+    private String passc = "";
+    private String loggedUser;
+    protected String _sdate, _edate;
     private static Logger log = Logger.getLogger(AbstractBaseProvider.class);
 
     /**
