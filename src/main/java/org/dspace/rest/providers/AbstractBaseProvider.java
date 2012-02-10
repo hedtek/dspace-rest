@@ -21,6 +21,7 @@ import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.PaginationParameters;
+import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.SortParameters;
 import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.EntityProvider;
@@ -243,7 +244,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
      * @param entities
      */
     public void removeTrailing(List<?> entities) {
-        new PaginationParameters(requestStore).removeTrailing(entities);
+        new Parameters(requestStore).removeTrailing(entities);
     }
 
     /**
@@ -277,13 +278,7 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     }
 
     protected void sort(final List<Object> entities) {
-        /**
-         * if the full info are requested and there are sorting requirements
-         * process entities through sorting filter first
-         */
-        if (!EntityBuildParameters.build(requestStore).isIdOnly()) {
-            new SortParameters(requestStore).sort(entities);
-        }
+        new Parameters(requestStore).sort(entities);
     }
 
     protected final void logUserInfo(Operation operation) {
