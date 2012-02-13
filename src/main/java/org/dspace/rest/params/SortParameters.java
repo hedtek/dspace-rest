@@ -18,7 +18,6 @@ public class SortParameters {
     static final int LASTNAME_REV = 316;
     static final int LANGUAGE_REV = 315;
     static final int COUNT_ITEMS_REV = 314;
-    static final int SUBMITTER_REV = 313;
     static final int LASTMODIFIED_REV = 312;
     static final int NAME_REV = 311;
     static final int ID_REV = 310;
@@ -26,7 +25,6 @@ public class SortParameters {
     static final int LASTNAME = 216;
     static final int LANGUAGE = 215;
     static final int COUNT_ITEMS = 214;
-    static final int SUBMITTER = 213;
     static final int LASTMODIFIED = 212;
     static final int NAME = 211;
     static final int ID = 210;
@@ -65,9 +63,7 @@ public class SortParameters {
         String[] sort_arr = _sort.split(",");
     
         for (String option : sort_arr) {
-            if (option.startsWith("submitter")) {
-                sortOptions.add(SortParameters.SUBMITTER);
-            } else if (option.startsWith("lastname")) {
+            if (option.startsWith("lastname")) {
                 sortOptions.add(SortParameters.LASTNAME);
             } else if (option.startsWith("fullname")) {
                 sortOptions.add(SortParameters.FULL_NAME);

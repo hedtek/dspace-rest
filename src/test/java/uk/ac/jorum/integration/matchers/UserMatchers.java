@@ -24,7 +24,6 @@ public class UserMatchers {
 				hasId(id),
 				hasKey("firstName", firstName),
 				hasKey("lastName", lastName),
-				hasKey("email", email),
 				hasKey("fullName", firstName + " " + lastName),
 				hasType(7)
 				);

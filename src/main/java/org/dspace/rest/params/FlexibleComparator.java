@@ -13,7 +13,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.providers.AbstractBaseProvider;
 
 /**
@@ -125,26 +124,6 @@ class FlexibleComparator implements Comparator {
                         String obj1Lang = o1.getClass().getDeclaredMethod("getLanguage").invoke(o1).toString();
                         String obj2Lang = o2.getClass().getDeclaredMethod("getLanguage").invoke(o2).toString();
                         int i = (obj1Lang.compareToIgnoreCase(obj2Lang));
-                        if ((i != 0) || (methodList.size() == 0)) {
-                            result = i;
-                        } else {
-                            result = compare(o1, o2);
-                        }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        result = 0;
-                    }
-                }
-                break;
-
-            // sort by submitter, e.g. by ItemsEntity
-            case SortParameters.SUBMITTER:
-            case SortParameters.SUBMITTER_REV:
-                 {
-                    try {
-                        UserEntity obj1User = (UserEntity) o1.getClass().getDeclaredMethod("getSubmitter").invoke(o1);
-                        UserEntity obj2User = (UserEntity) o2.getClass().getDeclaredMethod("getSubmitter").invoke(o2);
-                        int i = (obj1User.compareTo(obj2User));
                         if ((i != 0) || (methodList.size() == 0)) {
                             result = i;
                         } else {
