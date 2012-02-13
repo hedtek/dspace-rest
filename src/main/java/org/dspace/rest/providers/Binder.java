@@ -38,8 +38,8 @@ public class Binder {
     @SuppressWarnings("rawtypes")
     private static Binder build(Map<String, String> func2actionMapGET,
             Class processedEntity) throws NoSuchMethodException {
-        return new Binder(new MappedAttributeBinding(mappings(func2actionMapGET, processedEntity)), 
-                new ReflectionValuer(constructor(processedEntity)));
+        return new Binder(new MappedAttributeBinding(mappings(func2actionMapGET, processedEntity), 
+                new ReflectionValuer(constructor(processedEntity))));
     }
     
     public static Binder forCommunities() throws SecurityException, NoSuchMethodException {
@@ -161,40 +161,44 @@ public class Binder {
     
     
     private final MappedAttributeBinding binding;
-    private final AttributeValuer valuer;
 
-    private Binder(MappedAttributeBinding binding,
-            AttributeValuer valuer) {
+    private Binder(final MappedAttributeBinding binding) {
         super();
         this.binding = binding;
-        this.valuer = valuer;
     }
 
     public Object resolve(final String id, Route route, Parameters parameters,
             final Context context) {
-        final String attributeSegment = route.attributeSegment();
-        if (binding.isMapped(attributeSegment)) {
-            return valuer.attributeValueFor(id, parameters, context, binding.segmentMapping(attributeSegment));
-        } else {
-            throw new EntityException("Bad request", "Method not supported " + attributeSegment, 400);
-        }
+        return binding.valueAttribute(id, parameters, context, route.attributeSegment());
     }
 
     private static final class MappedAttributeBinding {
         private final Map<String, String> func2actionMapGET_rev ;
+        private final AttributeValuer valuer;
 
-        private MappedAttributeBinding(Map<String, String> func2actionMapGET_rev) {
+        private MappedAttributeBinding(Map<String, String> func2actionMapGET_rev, final AttributeValuer valuer) {
             super();
             this.func2actionMapGET_rev = func2actionMapGET_rev;
+            this.valuer = valuer;
         }
         
-        public boolean isMapped(final String attributeSegment) {
+        private boolean isMapped(final String attributeSegment) {
             return func2actionMapGET_rev.containsKey(attributeSegment);
         }
         
-        public String segmentMapping(final String attributeSegment) {
+        private String segmentMapping(final String attributeSegment) {
             return func2actionMapGET_rev.get(attributeSegment);
         }
+
+        public Object valueAttribute(final String id, Parameters parameters,
+                final Context context, final String attributeSegment) {
+            if (isMapped(attributeSegment)) {
+                return valuer.attributeValueFor(id, parameters, context, segmentMapping(attributeSegment));
+            } else {
+                throw new EntityException("Bad request", "Method not supported " + attributeSegment, 400);
+            }
+        }
+
     }
     
     private static final class ReflectionValuer implements AttributeValuer {
