@@ -2,10 +2,12 @@ package org.dspace.rest.providers;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.dspace.core.Context;
+import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.DetailDepth;
@@ -108,20 +110,39 @@ public class Binder {
 
     
     public static Binder forGroup() throws SecurityException, NoSuchMethodException {
-        Map<String, String> func2actionMapGET = new HashMap<String, String>();
-        func2actionMapGET.put("getEmail", "email");
-        func2actionMapGET.put("getFirstName", "firstName");
-        func2actionMapGET.put("getFullName", "fullName");
-        func2actionMapGET.put("getHandle", "handle");
-        func2actionMapGET.put("getId", "id");
-        func2actionMapGET.put("getLanguage", "language");
-        func2actionMapGET.put("getLastName", "lastName");
-        func2actionMapGET.put("getName", "name");
-        func2actionMapGET.put("getNetId", "netId");
-        func2actionMapGET.put("getRequireCertificate", "requireCertificate");
-        func2actionMapGET.put("getSelfRegistered", "selfRegistered");
-        func2actionMapGET.put("getType", "type");
-        return build(func2actionMapGET, GroupEntity.class);
+        return new Binder(new GroupAttributeValuer());
+    }
+    
+    private static class GroupAttributeValuer extends DirectAttributeValuer {
+
+        @Override
+        protected Object value(String id, Parameters parameters,
+                Context context, String attributeSegment) throws SQLException {
+            
+            if ("handle".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getHandle();
+            } else if ("id".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+            } else if ("isEmpty".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getIsEmpty();
+            } else if ("members".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getMembers();
+            } else if ("memberGroups".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getMemberGroups();
+            } else if ("name".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getName();
+            } else if ("type".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        protected Operation operation() {
+            return Operation.GET_GROUP_ENTITIES;
+        }
+        
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
