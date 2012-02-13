@@ -18,6 +18,7 @@ import org.dspace.rest.params.Route;
 import org.sakaiproject.entitybus.exception.EntityException;
 
 public class Binder {
+    
     public static Binder forUsers() throws SecurityException, NoSuchMethodException {
         Map<String, String> func2actionMapGET = new HashMap<String, String>();
         func2actionMapGET.put("getEmail", "email");
@@ -41,25 +42,42 @@ public class Binder {
         return new Binder(new MappedAttributeBinding(mappings(func2actionMapGET, processedEntity), 
                 new ReflectionValuer(constructor(processedEntity))));
     }
+
+    enum CommunitiesBinding {
+        ID("getId", "id"),
+        NAME("getName", "name"),
+        COUNT_ITEMS("getCountItems", "countItems"),
+        HANDLE("getHandle", "handle"),
+        TYPE("getType", "type"),
+        COLLECTIONS("getCollections", "collections"),
+        CAN_EDIT("getCanEdit", "canedit"),
+        ANCESTOR("getParentCommunity", "anchestor"),
+        CHILDREN("getSubCommunities", "children"),
+        RECENT("getRecentSubmissions", "recent"),
+        SHORT_DESCRIPTION("getShortDescription", "shortDescription"),
+        COPYRIGHT_TEXT("getCopyrightText", "copyrightText"),
+        SIDEBAR_TEXT("getSidebarText", "sidebarText"),
+        INTRODUCTORY_TEXT("getIntroductoryText", "introductoryText"),
+        LOGO("getLogo", "logo");
+
+        private final String binding;
+        private final String mapping;
+        
+        private CommunitiesBinding(String binding, String mapping) {
+            this.binding = binding;
+            this.mapping = mapping;
+        }
+        public void addTo(final Map<String, String> map) {
+            map.put(binding, mapping);
+        }
+    }
     
     public static Binder forCommunities() throws SecurityException, NoSuchMethodException {
-        Map<String, String> func2actionMapGET = new HashMap<String, String>();
-        func2actionMapGET.put("getId", "id");
-        func2actionMapGET.put("getName", "name");
-        func2actionMapGET.put("getCountItems", "countItems");
-        func2actionMapGET.put("getHandle", "handle");
-        func2actionMapGET.put("getType", "type");
-        func2actionMapGET.put("getCollections", "collections");
-        func2actionMapGET.put("getCanEdit", "canedit");
-        func2actionMapGET.put("getParentCommunity", "anchestor");
-        func2actionMapGET.put("getSubCommunities", "children");
-        func2actionMapGET.put("getRecentSubmissions", "recent");
-        func2actionMapGET.put("getShortDescription", "shortDescription");
-        func2actionMapGET.put("getCopyrightText", "copyrightText");
-        func2actionMapGET.put("getSidebarText", "sidebarText");
-        func2actionMapGET.put("getIntroductoryText", "introductoryText");
-        func2actionMapGET.put("getLogo", "logo");
-        return build(func2actionMapGET, CommunityEntity.class);
+        Map<String, String> bindings = new HashMap<String, String>();
+        for (CommunitiesBinding binding: CommunitiesBinding.values()) {
+            binding.addTo(bindings);
+        }
+        return build(bindings, CommunityEntity.class);
     }
     
     public static Binder forCollections() throws SecurityException, NoSuchMethodException {
