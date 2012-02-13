@@ -101,9 +101,8 @@ public class CommunityEntity extends CommunityEntityId {
             } catch (NullPointerException ex) {
                 this.parent = null;
             }
-            RecentSubmissionsManager rsm = new RecentSubmissionsManager(context);
             try {
-                RecentSubmissions recent = rsm.getRecentSubmissions(res);
+                RecentSubmissions recent = RecentSubmissions.getRecentSubmissions(res, context);
                 for (Item i : recent.getRecentSubmissions()) {
                     this.recentSubmissions.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
                 }
