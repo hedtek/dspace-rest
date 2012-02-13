@@ -13,10 +13,8 @@ import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.GroupEntity;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.UserEntity;
-import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
-import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.exception.EntityException;
 
 public class Binder {
@@ -161,37 +159,51 @@ public class Binder {
     }
     
     private final Map<String, String> func2actionMapGET_rev ;
-    private final Constructor<?> entityConstructor;
+    private final ReflectionValuer valuer;
 
     private Binder(Map<String, String> func2actionMapGET_rev,
             Constructor<?> entityConstructor) {
         super();
         this.func2actionMapGET_rev = func2actionMapGET_rev;
-        this.entityConstructor = entityConstructor;
+        this.valuer = new ReflectionValuer(entityConstructor);
     }
 
-    public Object resolve(final String id, Route routes, Parameters parameters,
+    public Object resolve(final String id, Route route, Parameters parameters,
             final Context context) {
-        final String[] segments = routes.routeSegments();
-        if (func2actionMapGET_rev.containsKey(segments[3])) {
-            Object result;
-            String function = func2actionMapGET_rev.get(segments[3]);
-            Object CE = new Object();
-            try {
-                CE = entityConstructor.newInstance(id, context, 1, parameters.getDetailDepth().getDepth());
-            } catch (Exception ex) {
-                throw new EntityException("Internal server error", "Cannot create entity", 500);
-            }
-            try {
-                Method method = CE.getClass().getMethod(function, new Class<?>[]{});
-                result = method.invoke(CE); 
-            } catch (Exception ex) {
-                throw new EntityException("Internal server error", "Cannot call method " + function, 500);
-            }
-            return result;
+        String attributeSegment = route.attributeSegment();
+        if (func2actionMapGET_rev.containsKey(attributeSegment)) {
+            return valuer.attributeValueFor(id, parameters, context, func2actionMapGET_rev.get(attributeSegment));
         } else {
-            throw new EntityException("Bad request", "Method not supported " + segments[3], 400);
+            throw new EntityException("Bad request", "Method not supported " + attributeSegment, 400);
         }
     }
 
+    private final class ReflectionValuer {
+        private final Constructor<?> entityConstructor;
+
+        private ReflectionValuer(Constructor<?> entityConstructor) {
+            super();
+            this.entityConstructor = entityConstructor;
+        }
+
+        public Object attributeValueFor(final String id, Parameters parameters,
+                final Context context, final String attributeAccessorName) {
+            try {
+                final Object CE = entityConstructor.newInstance(id, context, 1, parameters.getDetailDepth().getDepth());
+                return evoke(attributeAccessorName, CE);
+            } catch (Exception ex) {
+                throw new EntityException("Internal server error", "Cannot create entity", 500);
+            }
+        }
+
+        private Object evoke(String function, Object CE) {
+            try {
+                final Method method = CE.getClass().getMethod(function, new Class<?>[]{});
+                final Object result = method.invoke(CE);
+                return result;
+            } catch (Exception ex) {
+                throw new EntityException("Internal server error", "Cannot call method " + function, 500);
+            }
+        }
+    }
 }

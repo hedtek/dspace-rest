@@ -28,4 +28,10 @@ public class Route {
         // if so then invoke appropriate method inside of entity
         return segments.length > 3;
     }
+
+    public String attributeSegment() {
+        final String[] segments = routeSegments();
+        final String attributeSegment = segments[3];
+        return attributeSegment;
+    }
 }
