@@ -8,6 +8,7 @@ import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class PaginationParameters {
     
+    public static final int DEFAULT_PAGE_SIZE = 10;
     private static final String LIMIT_PARAMETER_KEY = "_limit";
     private static final String PERPAGE_PARAMETER_KEY = "_perpage";
     private static final String PAGE_PARAMETER_KEY = "_page";
@@ -46,7 +47,8 @@ public class PaginationParameters {
 
         this.start = valueInStore(requestStorage, START_PARAMETER_KEY);
         this.page = valueInStore(requestStorage,  PAGE_PARAMETER_KEY);
-        this.perpage = valueInStore(requestStorage,  PERPAGE_PARAMETER_KEY);
+        final int perpageValueInStore = valueInStore(requestStorage,  PERPAGE_PARAMETER_KEY);
+        this.perpage = perpageValueInStore > 0 ? perpageValueInStore : DEFAULT_PAGE_SIZE;
         this.limit =  valueInStore(requestStorage,  LIMIT_PARAMETER_KEY);
     }
     
@@ -105,6 +107,7 @@ public class PaginationParameters {
      * @return 
      */
     private int startPositionForPage() {
-        return (page - 1) * perpage;
+        final int priorPages = page > 0? page-1 : 0;
+        return priorPages * perpage;
     }   
 }
