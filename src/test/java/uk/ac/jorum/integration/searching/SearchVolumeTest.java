@@ -42,9 +42,26 @@ public class SearchVolumeTest extends RestApiBaseTest {
         return ((JSONArray) resultJSON.get(key)).size();
     }
     
+    private void defaultNumberOfItemsInPage(int page) throws Exception {
+        assertEquals("Result count should be " + DEFAULT_PAGE_SIZE, 
+                DEFAULT_PAGE_SIZE, countResults("&_page=" + page));    
+    }
+    
     @Test
     public void searchShouldReturnDefaultPageSize() throws Exception {
         assertEquals("Result count should be " + DEFAULT_PAGE_SIZE, 
                 DEFAULT_PAGE_SIZE, countResults(""));
+    }
+
+    @Test
+    public void searchShouldReturnDefaultNumberOfItemsWhenPageIsSetTo1() throws Exception {
+        defaultNumberOfItemsInPage(1);
+    }
+
+    @Test
+    public void firstAndSecondPagesShouldShareNoCommonItems() throws Exception {
+//        final Set<Integer> firstPageIds = pageIds(1);
+//        final Set<Integer> secondPageIds = pageIds(2);
+//        assertTrue("No shared items should appear on the first and second pages." + firstPageIds + "," + secondPageIds, CollectionUtils.intersection(firstPageIds, secondPageIds).isEmpty());
     }
 }
