@@ -22,7 +22,7 @@ public abstract class DirectAttributeValuer implements AttributeValuer {
                 try {
                     final Object value = value(id, parameters, context, attributeSegment);
                     if (value == null) {
-                        throw new EntityException("Bad request", "Method not supported " + attributeSegment, 400);
+                        throw new EntityException("Bad request", "Method not supported " + attributeSegment, 404);
                     }
                     return value;
                 } catch (SQLException cause) {

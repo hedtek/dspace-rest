@@ -86,7 +86,7 @@ public class SingleTopLevelCommunityDatabaseTest extends RestApiBaseTest {
 	public void showCommunityInvalidElementShouldReturnBadRequestStatusCode()
 			throws Exception {
 		int result = getResponseCode("/communities/2/invalidelement");
-		assertThat(result, hasHTTPCode(HTTPStatusCode.BAD_REQUEST));
+		assertThat(result, hasHTTPCode(HTTPStatusCode.NOT_FOUND));
 	}
 
 	@Test

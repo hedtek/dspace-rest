@@ -1,47 +1,48 @@
 package org.dspace.rest.providers;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.dspace.core.Context;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.CollectionEntity;
-import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.GroupEntity;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
-import org.sakaiproject.entitybus.exception.EntityException;
 
 public class Binder {
     
     public static Binder forUsers() throws SecurityException, NoSuchMethodException {
-        Map<String, String> func2actionMapGET = new HashMap<String, String>();
-        func2actionMapGET.put("getEmail", "email");
-        func2actionMapGET.put("getFirstName", "firstName");
-        func2actionMapGET.put("getFullName", "fullName");
-        func2actionMapGET.put("getHandle", "handle");
-        func2actionMapGET.put("getId", "id");
-        func2actionMapGET.put("getLanguage", "language");
-        func2actionMapGET.put("getLastName", "lastName");
-        func2actionMapGET.put("getName", "name");
-        func2actionMapGET.put("getNetId", "netId");
-        func2actionMapGET.put("getRequireCertificate", "requireCertificate");
-        func2actionMapGET.put("getSelfRegistered", "selfRegistered");
-        func2actionMapGET.put("getType", "type");
-        return build(func2actionMapGET, UserEntity.class);
+        return new Binder(new UserAttributeValuer());
     }
+    
+    private static class UserAttributeValuer extends DirectAttributeValuer {
 
-    @SuppressWarnings("rawtypes")
-    private static Binder build(Map<String, String> func2actionMapGET,
-            Class processedEntity) throws NoSuchMethodException {
-        return new Binder(new MappedAttributeBinding(mappings(func2actionMapGET, processedEntity), 
-                new ReflectionValuer(constructor(processedEntity))));
+        @Override
+        protected Object value(String id, Parameters parameters,
+                Context context, String attributeSegment) throws SQLException {
+            if("firstName".equals(attributeSegment)) {
+                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getFirstName();
+            } else if("fullName".equals(attributeSegment)) {
+                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getFullName();
+            } else if("id".equals(attributeSegment)) {
+                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+            } else if("lastName".equals(attributeSegment)) {
+                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getLastName();
+            } else if("type".equals(attributeSegment)) {
+                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        protected Operation operation() {
+            return Operation.GET_USER_ENTITIES;
+        }
+        
     }
     
     public static Binder forCommunities() throws SecurityException, NoSuchMethodException {
@@ -49,63 +50,157 @@ public class Binder {
     }
     
     public static Binder forCollections() throws SecurityException, NoSuchMethodException {
-        Map<String, String> func2actionMapGET = new HashMap<String, String>();
-        func2actionMapGET.put("getId", "id");
-        func2actionMapGET.put("getName", "name");
-        func2actionMapGET.put("getLicence", "licence");
-        func2actionMapGET.put("getItems", "items");
-        func2actionMapGET.put("getHandle", "handle");
-        func2actionMapGET.put("getCanEdit", "canedit");
-        func2actionMapGET.put("getCommunities", "communities");
-        func2actionMapGET.put("getCountItems", "countItems");
-        func2actionMapGET.put("getType", "type");
-        func2actionMapGET.put("getShortDescription", "shortDescription");
-        func2actionMapGET.put("getIntroText", "introText");
-        func2actionMapGET.put("getCopyrightText", "copyrightText");
-        func2actionMapGET.put("getSidebarText", "sidebarText");
-        func2actionMapGET.put("getProvenance", "provenance");
-        func2actionMapGET.put("getLogo", "logo");
-        return build(func2actionMapGET, CollectionEntity.class);
+        return new Binder(new CollectionAttributeValuer());
     }
     
+    private static class CollectionAttributeValuer extends DirectAttributeValuer {
+
+        @Override
+        protected Object value(String id, Parameters parameters,
+                Context context, String attributeSegment) throws SQLException {
+            if("id".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+            } else if("id".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+            } else if("name".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getName();
+            } else if("licence".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getLicence();
+            } else if("items".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getItems();
+            } else if("handle".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getHandle();
+            } else if("canedit".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCanEdit();
+            } else if("communities".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCommunities();
+            } else if("countItems".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCountItems();
+            } else if("type".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+            } else if("shortDescription".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getShortDescription();
+            } else if("introText".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getIntroText();
+            } else if("copyrightText".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCopyrightText();
+            } else if("sidebarText".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSidebarText();
+            } else if("provenance".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getProvenance();
+            } else if("logo".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getLogo();
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        protected Operation operation() {
+            return Operation.GET_COLLECTIONS;
+        }
+        
+    }
     public static Binder forBitstream() throws SecurityException, NoSuchMethodException {
-        Map<String, String> func2actionMapGET = new HashMap<String, String>();
-        func2actionMapGET.put("getMimeType", "mimeType");
-        func2actionMapGET.put("getBundles", "bundles");
-        func2actionMapGET.put("getCheckSum", "checkSum");
-        func2actionMapGET.put("getCheckSumAlgorithm", "checkSumAlgorithm");
-        func2actionMapGET.put("getDescription", "description");
-        func2actionMapGET.put("getFormatDescription", "formatDescription");
-        func2actionMapGET.put("getSequenceId", "sequenceId");
-        func2actionMapGET.put("getSize", "size");
-        func2actionMapGET.put("getSource", "source");
-        func2actionMapGET.put("getStoreNumber", "storeNumber");
-        func2actionMapGET.put("getUserFormatDescription", "userFormatDescription");
-        func2actionMapGET.put("getName", "name");
-        func2actionMapGET.put("getHandle", "handle");
-        func2actionMapGET.put("getId", "id");
-        func2actionMapGET.put("getType", "type");
-        return build(func2actionMapGET, BitstreamEntity.class);
+        return new Binder(new BitstreamAttributeValuer());
+    }
+    
+    private static class BitstreamAttributeValuer extends DirectAttributeValuer {
+
+        @Override
+        protected Object value(String id, Parameters parameters,
+                Context context, String attributeSegment) throws SQLException {
+            if("mimeType".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getMimeType();
+            } else if("bundles".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getBundles();
+            } else if("checkSum".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCheckSum();
+            } else if("checkSumAlgorithm".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCheckSumAlgorithm();
+            } else if("description".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getDescription();
+            } else if("formatDescription".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getFormatDescription();
+            } else if("sequenceId".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSequenceId();
+            } else if("size".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSize();
+            } else if("source".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSource();
+            } else if("storeNumber".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getStoreNumber();
+            } else if("userFormatDescription".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getUserFormatDescription();
+            } else if("name".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getName();
+            } else if("handle".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getHandle();
+            } else if("id".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+            } else if("type".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        protected Operation operation() {
+            return Operation.GET_BITSTREAM;
+        }
+        
     }
     
     public static Binder forItem() throws SecurityException, NoSuchMethodException {
-        Map<String, String> func2actionMapGET = new HashMap<String, String>();
-        func2actionMapGET.put("getMetadata", "metadata");
-        func2actionMapGET.put("getSubmitter", "submitter");
-        func2actionMapGET.put("getIsArchived", "isArchived");
-        func2actionMapGET.put("getIsWithdrawn", "isWithdrawn");
-        func2actionMapGET.put("getOwningCollection", "owningCollection");
-        func2actionMapGET.put("getLastModified", "lastModified");
-        func2actionMapGET.put("getCollections", "collections");
-        func2actionMapGET.put("getCommunities", "communities");
-        func2actionMapGET.put("getName", "name");
-        func2actionMapGET.put("getBitstreams", "bitstreams");
-        func2actionMapGET.put("getHandle", "handle");
-        func2actionMapGET.put("getCanEdit", "canedit");
-        func2actionMapGET.put("getId", "id");
-        func2actionMapGET.put("getType", "type");
-        func2actionMapGET.put("getBundles", "bundles");
-        return build(func2actionMapGET, ItemEntity.class);
+        return new Binder(new ItemAttributeValuer());
+    }
+    
+    private static class ItemAttributeValuer extends DirectAttributeValuer {
+
+        @Override
+        protected Object value(String id, Parameters parameters,
+                Context context, String attributeSegment) throws SQLException {
+            if("metadata".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getMetadata();
+            } else if("submitter".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSubmitter();
+            } else if("isArchived".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getIsArchived();
+            } else if("isWithdrawn".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getIsWithdrawn();
+            } else if("owningCollection".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getOwningCollection();
+            } else if("lastModified".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getLastModified();
+            } else if("collections".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCollections();
+            } else if("communities".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCommunities();
+            } else if("name".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getName();
+            } else if("bitstreams".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getBitstreams();
+            } else if("handle".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getHandle();
+            } else if("canedit".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCanEdit();
+            } else if("id".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+            } else if("type".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+            } else if("bundles".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getBundles();
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        protected Operation operation() {
+            return Operation.GET_ITEMS;
+        }
+        
     }
 
     
@@ -144,25 +239,6 @@ public class Binder {
         }
         
     }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private static Constructor<?> constructor(Class processedEntity)
-            throws NoSuchMethodException {
-        return (Constructor<?>) processedEntity.getDeclaredConstructor(new Class<?>[]{String.class, Context.class, Integer.TYPE, DetailDepth.class});
-    }
-
-    private static Map<String, String> mappings(Map<String, String> func2actionMapGET,
-            Class<?> processedEntity) throws NoSuchMethodException {
-        final Map<String, String> func2actionMapGET_rev = new HashMap<String, String>();
-        final Method[] entityMethods = processedEntity.getMethods();
-        for (Method m : entityMethods) {
-            final String fieldGET = func2actionMapGET.get(m.getName());
-            if (fieldGET != null) {
-                func2actionMapGET_rev.put(fieldGET, m.getName());
-            }
-        }
-        return func2actionMapGET_rev;
-    }
     
     
     private final AttributeValuer valuer;
@@ -175,64 +251,5 @@ public class Binder {
     public Object resolve(final String id, Route route, Parameters parameters,
             final Context context) {
         return valuer.valueAttribute(id, parameters, context, route.attributeSegment());
-    }
-
-    private static final class MappedAttributeBinding implements AttributeValuer {
-        private final Map<String, String> func2actionMapGET_rev ;
-        private final ReflectionValuer valuer;
-
-        private MappedAttributeBinding(Map<String, String> func2actionMapGET_rev, final ReflectionValuer valuer) {
-            super();
-            this.func2actionMapGET_rev = func2actionMapGET_rev;
-            this.valuer = valuer;
-        }
-        
-        private boolean isMapped(final String attributeSegment) {
-            return func2actionMapGET_rev.containsKey(attributeSegment);
-        }
-        
-        private String segmentMapping(final String attributeSegment) {
-            return func2actionMapGET_rev.get(attributeSegment);
-        }
-
-        @Override
-        public Object valueAttribute(final String id, Parameters parameters,
-                final Context context, final String attributeSegment) {
-            if (isMapped(attributeSegment)) {
-                return valuer.attributeValueFor(id, parameters, context, segmentMapping(attributeSegment));
-            } else {
-                throw new EntityException("Bad request", "Method not supported " + attributeSegment, 400);
-            }
-        }
-
-    }
-    
-    private static final class ReflectionValuer {
-        private final Constructor<?> entityConstructor;
-
-        private ReflectionValuer(Constructor<?> entityConstructor) {
-            super();
-            this.entityConstructor = entityConstructor;
-        }
-        
-        public Object attributeValueFor(final String id, Parameters parameters,
-                final Context context, final String attributeAccessorName) {
-            try {
-                final Object CE = entityConstructor.newInstance(id, context, 1, parameters.getDetailDepth().getDepth());
-                return evoke(attributeAccessorName, CE);
-            } catch (Exception ex) {
-                throw new EntityException("Internal server error", "Cannot create entity", 500);
-            }
-        }
-
-        private Object evoke(String function, Object CE) {
-            try {
-                final Method method = CE.getClass().getMethod(function, new Class<?>[]{});
-                final Object result = method.invoke(CE);
-                return result;
-            } catch (Exception ex) {
-                throw new EntityException("Internal server error", "Cannot call method " + function, 500);
-            }
-        }
     }
 }
