@@ -8,14 +8,11 @@
 
 package org.dspace.rest.entities;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.dspace.authorize.AuthorizeException;
 import org.dspace.browse.BrowseEngine;
 import org.dspace.browse.BrowseException;
 import org.dspace.browse.BrowseIndex;
@@ -28,11 +25,9 @@ import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.sort.SortException;
 import org.dspace.sort.SortOption;
-import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityTitle;
-import org.sakaiproject.entitybus.exception.EntityException;
 
 /**
  * Entity describing community, basic version
@@ -53,18 +48,16 @@ public class CommunityEntity extends CommunityEntityId {
     private String handle;
     private int type;
     private int countItems;
-    List<Object> collections = new ArrayList<Object>();
-    List<Object> subCommunities = new ArrayList<Object>();
-    List<Object> recentSubmissions = new ArrayList<Object>();
-    Object administrators;
-    Object parent;
-    Context context;
+    private List<Object> collections = new ArrayList<Object>();
+    private List<Object> subCommunities = new ArrayList<Object>();
+    private List<Object> recentSubmissions = new ArrayList<Object>();
+    private Object administrators;
+    private Object parent;
     private String short_description, introductory_text, copyright_text, side_bar_text;
     private Object logo;
 
     public CommunityEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
         log.debug("Creating community entity.");
-        this.context = context;
         try {
             final Community community = Community.find(context, Integer.parseInt(uid));
             this.id = community.getID();
@@ -121,7 +114,6 @@ public class CommunityEntity extends CommunityEntityId {
             }
         } catch (NumberFormatException ex) {
         }
-        //context.complete(); //<-important
     }
 
     public CommunityEntity(Community community, int level, final DetailDepth depth) throws SQLException {
@@ -245,263 +237,9 @@ public class CommunityEntity extends CommunityEntityId {
         return this.introductory_text;
     }
 
-    public Object setName(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        if (inputVar.containsKey("value")) {
-            setMetadata(Integer.parseInt(ref.getId()), context, "name", inputVar.get("value").toString());
-        } else {
-            throw new EntityException("Bad request", "Value not included", 400);
-        }
-        return null;
-    }
-
-    public Object setShortDescription(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        if (inputVar.containsKey("value")) {
-            setMetadata(Integer.parseInt(ref.getId()), context, "short_description", inputVar.get("value").toString());
-        } else {
-            throw new EntityException("Bad request", "Value not included", 400);
-        }
-        return null;
-    }
-
-    public Object setCopyrightText(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        if (inputVar.containsKey("value")) {
-            setMetadata(Integer.parseInt(ref.getId()), context, "copyright_text", inputVar.get("value").toString());
-        } else {
-            throw new EntityException("Bad request", "Value not included", 400);
-        }
-        return null;
-    }
-
-    public Object setSidebarText(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        if (inputVar.containsKey("value")) {
-            setMetadata(Integer.parseInt(ref.getId()), context, "side_bar_text", inputVar.get("value").toString());
-        } else {
-            throw new EntityException("Bad request", "Value not included", 400);
-        }
-        return null;
-    }
-
-    public Object setIntroductoryText(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        if (inputVar.containsKey("value")) {
-            setMetadata(Integer.parseInt(ref.getId()), context, "introductory_text", inputVar.get("value").toString());
-        } else {
-            throw new EntityException("Bad request", "Value not included", 400);
-        }
-        return null;
-    }
-
-    protected void setMetadata(int id, Context context, String name, String value) {
-        try {
-            Community com = Community.find(context, id);
-            if (com != null) {
-                com.setMetadata(name, value);
-                try {
-                    com.update();
-                } catch (IOException ex) {
-                    throw new EntityException("Internal server error", "SQL error, cannot update collection", 500);
-                } catch (AuthorizeException ex) {
-                    throw new EntityException("Forbidden", "Forbidden", 403);
-                }
-            } else {
-                throw new EntityException("Not found", "Entity not found", 404);
-            }
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-
-        }
-    }
-
-    public Object addCollection(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        if (inputVar.containsKey("cid")) {
-            try {
-                Integer cid = 0;
-                if (inputVar.get("cid").getClass().equals(Integer.class)) {
-                    cid = (Integer) inputVar.get("cid");
-                } else {
-                    cid = Integer.parseInt(inputVar.get("cid").toString());
-                }
-                Collection col = Collection.find(context, cid);
-                Community com = Community.find(context, Integer.parseInt(ref.getId()));
-                if ((com != null) && (col != null)) {
-                    com.addCollection(col);
-                    return col.getID();
-                } else {
-                    throw new EntityException("Not found", "Entity not found", 404);
-                }
-            } catch (SQLException ex) {
-                throw new EntityException("Internal server error", "SQL error", 500);
-            } catch (AuthorizeException ex) {
-                throw new EntityException("Forbidden", "Forbidden", 403);
-            }
-        }
-        return null;
-    }
-
-    public Object addSubcommunity(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        if (inputVar.containsKey("cid")) {
-            try {
-                if (ref.getId().equals(inputVar.get("cid").toString())) {
-                    throw new EntityException("Bad request", "Community cannot be subcommunity to itself", 400);
-                }
-                Integer cid = 0;
-                if (inputVar.get("cid").getClass().equals(Integer.class)) {
-                    cid = (Integer) inputVar.get("cid");
-                } else {
-                    cid = Integer.parseInt(inputVar.get("cid").toString());
-                }
-                Community com = Community.find(context, Integer.parseInt(ref.getId()));
-                Community sub = Community.find(context, cid);
-
-
-                if ((com != null) && (sub != null)) {
-                    com.addSubcommunity(sub);
-                    return com.getID();
-                } else {
-                    throw new EntityException("Not found", "Entity not found", 404);
-                }
-            } catch (SQLException ex) {
-                throw new EntityException("Internal server error", "SQL error", 500);
-            } catch (AuthorizeException ex) {
-                throw new EntityException("Forbidden", "Forbidden", 403);
-            }
-        }
-        return null;
-    }
-
     @Override
     public String toString() {
         return "id:" + this.id + ", stuff.....";
-    }
-
-    // TODO: check integer/string fields for id
-    public String createCollection(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        String result = "";
-        String id = "";
-        String name = "";
-        try {
-            if (inputVar.get("id").getClass().equals(Integer.class)) {
-                id = Integer.toString((Integer) inputVar.get("id"));
-            } else {
-                id = (String) inputVar.get("id");
-            }
-            name = (String) inputVar.get("name");
-        } catch (NullPointerException ex) {
-            throw new EntityException("Bad request", "Value not included", 400);
-        }
-
-        try {
-            Community com = Community.find(context, Integer.parseInt(id));
-            Collection col = com.createCollection();
-            if (col != null) {
-                result = Integer.toString(col.getID());
-                col.setMetadata("name", name);
-                col.update();
-            } else {
-                throw new EntityException("Internal server error", "Could not create collection", 501);
-            }
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        } catch (AuthorizeException ex) {
-            throw new EntityException("Forbidden", "Forbidden", 403);
-        } catch (IOException ex) {
-            throw new EntityException("Internal server error", "SQL error, cannot update collection", 500);
-        }
-        return result;
-    }
-
-    public String createSubcommunity(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        String result = "";
-        String id = "";
-        String name = "";
-        try {
-            if (inputVar.get("id").getClass().equals(Integer.class)) {
-                id = Integer.toString((Integer) inputVar.get("id"));
-            } else {
-                id = (String) inputVar.get("id");
-            }
-            name = (String) inputVar.get("name");
-        } catch (NullPointerException ex) {
-            throw new EntityException("Bad request", "Value not included", 400);
-        }
-
-        try {
-            Community com = Community.find(context, Integer.parseInt(id));
-            Community sub = com.createSubcommunity();
-            if (sub != null) {
-                result = Integer.toString(sub.getID());
-                sub.setMetadata("name", name);
-                sub.update();
-            } else {
-                throw new EntityException("Internal server error", "Could not create subcommunity", 500);
-            }
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        } catch (AuthorizeException ex) {
-            throw new EntityException("Forbidden", "Forbidden", 403);
-        } catch (IOException ex) {
-            throw new EntityException("Internal server error", "SQL error, cannot update collection", 500);
-        }
-        return result;
-    }
-
-    public void removeChildren(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        try {
-            Integer comid = Integer.parseInt((String) inputVar.get("id"));
-            Integer chid = Integer.parseInt((String) inputVar.get("eid"));
-            Community com = Community.find(context, comid);
-            Community subcom = Community.find(context, chid);
-            if ((com != null) && (subcom != null)) {
-                com.removeSubcommunity(subcom);
-            }
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        } catch (AuthorizeException ae) {
-            throw new EntityException("Forbidden", "Forbidden", 403);
-        } catch (IOException ie) {
-            throw new EntityException("Internal server error", "SQL error, cannot remove subcommunity", 500);
-        } catch (NumberFormatException ex) {
-            throw new EntityException("Bad request", "Could not parse input", 400);
-        }
-
-    }
-
-    public void removeSubcollections(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        try {
-            Integer comid = Integer.parseInt((String) inputVar.get("id"));
-            Integer colid = Integer.parseInt((String) inputVar.get("eid"));
-            Community com = Community.find(context, comid);
-            Collection subcol = Collection.find(context, colid);
-            if ((com != null) && (subcol != null)) {
-                com.removeCollection(subcol);
-            }
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        } catch (AuthorizeException ae) {
-            throw new EntityException("Forbidden", "Forbidden", 403);
-        } catch (IOException ie) {
-            throw new EntityException("Internal server error", "SQL error, cannot remove subcommunity", 500);
-        } catch (NumberFormatException ex) {
-            throw new EntityException("Bad request", "Could not parse input", 400);
-        }
-
-    }
-
-    public void delete(EntityReference ref, Map<String, Object> inputVar, Context context) {
-        try {
-            Integer elid = Integer.parseInt((String) inputVar.get("id"));
-            Community com = Community.find(context, elid);
-            if ((com != null)) {
-                com.delete();
-            }
-        } catch (SQLException ex) {
-            throw new EntityException("Internal server error", "SQL error", 500);
-        } catch (AuthorizeException ae) {
-            throw new EntityException("Forbidden", "Forbidden", 403);
-        } catch (IOException ie) {
-            throw new EntityException("Internal server error", "SQL error, cannot remove subcommunity", 500);
-        } catch (NumberFormatException ex) {
-            throw new EntityException("Bad request", "Could not parse input", 400);
-        }
     }
 
     private BrowserScope scope(final Community community, final Context context)
