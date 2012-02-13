@@ -159,10 +159,10 @@ public class Binder {
     }
     
     private final Map<String, String> func2actionMapGET_rev ;
-    private final ReflectionValuer valuer;
+    private final AttributeValuer valuer;
 
     private Binder(Map<String, String> func2actionMapGET_rev,
-            ReflectionValuer valuer) {
+            AttributeValuer valuer) {
         super();
         this.func2actionMapGET_rev = func2actionMapGET_rev;
         this.valuer = valuer;
@@ -178,14 +178,14 @@ public class Binder {
         }
     }
 
-    private static final class ReflectionValuer {
+    private static final class ReflectionValuer implements AttributeValuer {
         private final Constructor<?> entityConstructor;
 
         private ReflectionValuer(Constructor<?> entityConstructor) {
             super();
             this.entityConstructor = entityConstructor;
         }
-
+        @Override
         public Object attributeValueFor(final String id, Parameters parameters,
                 final Context context, final String attributeAccessorName) {
             try {
