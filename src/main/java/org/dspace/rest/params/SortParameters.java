@@ -9,6 +9,8 @@ import org.dspace.sort.SortOption;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class SortParameters {
+    
+    private final boolean SORT = false;
 
     private String sort = "";
     private String query = "";
@@ -116,9 +118,9 @@ public class SortParameters {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "unused" })
     public void sort(final List<Object> entities) {
-        if (sortOptions.size() > 0) {
+        if (SORT && sortOptions.size() > 0) {
             Collections.sort(entities, new FlexibleComparator(sortOptions));
         }
     }
