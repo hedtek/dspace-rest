@@ -5,7 +5,7 @@
  *
  * http://www.dspace.org/license/
  */
-package org.dspace.rest.util;
+package org.dspace.rest.entities;
 
 import org.apache.log4j.Logger;
 import org.dspace.browse.BrowseEngine;

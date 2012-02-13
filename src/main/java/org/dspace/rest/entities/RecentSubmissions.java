@@ -5,7 +5,7 @@
  *
  * http://www.dspace.org/license/
  */
-package org.dspace.rest.util;
+package org.dspace.rest.entities;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.dspace.content.Item;

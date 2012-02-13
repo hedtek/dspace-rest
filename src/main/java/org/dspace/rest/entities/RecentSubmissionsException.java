@@ -5,7 +5,7 @@
  *
  * http://www.dspace.org/license/
  */
-package org.dspace.rest.util;
+package org.dspace.rest.entities;
 
 /**
  * General exception to be thrown by code working with recent submissions
