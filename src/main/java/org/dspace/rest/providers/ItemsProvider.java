@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
+import org.dspace.rest.data.DSpace;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
@@ -62,14 +63,14 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
             return true;
         }
 
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             return Item.find(context, Integer.parseInt(id)) != null;
         } catch (SQLException ex) {
             log.debug("Failed to find item. Assuming that this means it doesn't exist.", ex);
             return false;
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
@@ -86,7 +87,7 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
         final Parameters parameters = new Parameters(requestStore);
         final Route route = new Route(requestStore);
         final Operation operation = Operation.GET_ITEMS;
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             if (route.isAttribute()) {
                 log.debug("Using generic entity binding");
@@ -109,7 +110,7 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
             throw new SQLFailureEntityException(operation, cause);
 
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
@@ -118,7 +119,7 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
     }
 
     private List<?> getAllItems() {
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             final Parameters parameters = new Parameters(requestStore);
             
@@ -132,7 +133,7 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
             throw new SQLFailureEntityException(Operation.GET_ITEMS, cause);
 
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 

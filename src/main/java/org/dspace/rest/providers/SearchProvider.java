@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.dspace.core.Context;
+import org.dspace.rest.data.DSpace;
 import org.dspace.rest.diagnose.IOFailureEntityException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
@@ -66,7 +67,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
     }
 
     private List<?> search() {
-        final Context context = context();
+        final Context context = DSpace.context();
 
         try {
             
@@ -78,7 +79,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
             throw new IOFailureEntityException(Operation.SEARCH, cause);
 
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 

@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Community;
 import org.dspace.core.Context;
+import org.dspace.rest.data.DSpace;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
@@ -53,14 +54,14 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
             return true;
         }
 
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             return Community.find(context, Integer.parseInt(id)) != null;
         } catch (SQLException ex) {
             log.debug("Failed to find community. Assuming that this means it doesn't exist.", ex);
             return false;
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
@@ -76,7 +77,7 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
 
     private Object entity(final String id) {
         final Operation operation = Operation.GET_COMMUNITIES;
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             final Parameters parameters = new Parameters(requestStore);
             final Route route = new Route(requestStore);
@@ -100,7 +101,7 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
             if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
             throw new SQLFailureEntityException(operation, cause);
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
@@ -111,7 +112,7 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
     
     private List<?> getAllCommunities() {
         final Parameters parameters = new Parameters(requestStore);
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             final List<Object> entities = new ArrayList<Object>();
             
@@ -127,7 +128,7 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
         } catch (SQLException cause) {
             throw new SQLFailureEntityException(Operation.GET_COMMUNITIES, cause);
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 

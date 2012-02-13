@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
+import org.dspace.rest.data.DSpace;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
@@ -57,14 +58,14 @@ public class UserProvider extends AbstractBaseProvider  implements CoreEntityPro
             return true;
         }
 
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             return EPerson.find(context, Integer.parseInt(id)) != null;
         } catch (SQLException ex) {
             log.debug("Failed to find user. Assuming that this means it doesn't exist.", ex);
             return false;
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
@@ -85,7 +86,7 @@ public class UserProvider extends AbstractBaseProvider  implements CoreEntityPro
 
     private Object entity(final String id) {
         final Operation operation = Operation.GET_USER_ENTITIES;
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             final Route route = new Route(requestStore);
             final Parameters parameters = new Parameters(requestStore);
@@ -111,7 +112,7 @@ public class UserProvider extends AbstractBaseProvider  implements CoreEntityPro
             if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
             throw new SQLFailureEntityException(operation, cause);
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
@@ -128,7 +129,7 @@ public class UserProvider extends AbstractBaseProvider  implements CoreEntityPro
 
     private List<?> getAllUsers() {
         final Parameters parameters = new Parameters(requestStore);
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
 
             final List<Object> entities = new ArrayList<Object>();
@@ -148,7 +149,7 @@ public class UserProvider extends AbstractBaseProvider  implements CoreEntityPro
         } catch (SQLException ex) {
             throw new SQLFailureEntityException(Operation.GET_USER_ENTITIES, ex);
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 

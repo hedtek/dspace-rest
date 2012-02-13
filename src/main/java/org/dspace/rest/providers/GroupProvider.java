@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
 import org.dspace.eperson.Group;
+import org.dspace.rest.data.DSpace;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
@@ -53,14 +54,14 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
             return true;
         }
 
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             return Group.find(context, Integer.parseInt(id)) != null;
         } catch (SQLException ex) {
             log.debug("Failed to find group. Assuming that this means it doesn't exist.", ex);
             return false;
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
@@ -82,7 +83,7 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
 
     private Object entity(final String id) {
         final Operation operation = Operation.GET_GROUP_ENTITIES;
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             final Parameters parameters = new Parameters(requestStore);
             final Route route = new Route(requestStore);
@@ -107,7 +108,7 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
             if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
             throw new SQLFailureEntityException(operation, cause);
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
@@ -124,7 +125,7 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
 
     private List<?> getAllGroups() {
         final Parameters parameters = new Parameters(requestStore);
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             List<Object> entities = new ArrayList<Object>();
 
@@ -147,7 +148,7 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
             throw new SQLFailureEntityException(Operation.GET_GROUP_ENTITIES, cause);
 
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 

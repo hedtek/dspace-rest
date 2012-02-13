@@ -12,9 +12,6 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.dspace.core.Context;
-import org.dspace.rest.diagnose.Operation;
-import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.EntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -110,32 +107,8 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
         return new String[]{Formats.HTML, Formats.XML, Formats.JSON};
     }
 
-    /**
-     * Complete connection in order to lower load of sql server
-     * this way it goes faster and prevents droppings with higher load
-     * @param context
-     */
-    public void complete(Context context) {
-        // close connection to prevent connection problems
-        try {
-            context.complete();
-        } catch (SQLException ex) {
-        }
-    }
-
-
     public String[] getHandledOutputFormats() {
         return new String[]{Formats.JSON, Formats.XML, Formats.FORM, Formats.ATOM};
 
-    }
-
-    protected final Context context() {
-        final Context context;
-        try {
-            context = new Context();
-        } catch (SQLException ex) {
-            throw new SQLFailureEntityException(Operation.CREATE_CONTEXT, ex);
-        }
-        return context;
     }
 }

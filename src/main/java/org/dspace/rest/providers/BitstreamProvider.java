@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Bitstream;
 import org.dspace.core.Context;
+import org.dspace.rest.data.DSpace;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
@@ -66,7 +67,7 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
      */
     @EntityCustomAction(action = "receive", viewKey = EntityView.VIEW_SHOW)
     public Object receive(EntityReference reference, EntityView view, Map<String, Object> params) throws SQLException, RecentSubmissionsException {
-        Context context = context();
+        Context context = DSpace.context();
 
         try{
             // refresh query parameters and transfer to local variables
@@ -102,7 +103,7 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
 
             throw new IllegalArgumentException("Invalid id:" + reference.getId());
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
@@ -118,14 +119,14 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
         }
 
         
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             return Bitstream.find(context, Integer.parseInt(id)) != null;
         } catch (SQLException ex) {
             log.debug("Failed to find community. Assuming that this means it doesn't exist.", ex);
             return false;
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
@@ -144,7 +145,7 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
     }
 
     private Object entity(final String id) {
-        final Context context = context();
+        final Context context = DSpace.context();
         final Operation operation = Operation.GET_BITSTREAM;
         try {
 
@@ -170,7 +171,7 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
             throw new SQLFailureEntityException(operation, cause);
 
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 

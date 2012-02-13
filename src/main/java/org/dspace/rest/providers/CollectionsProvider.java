@@ -16,6 +16,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
 import org.dspace.core.Context;
+import org.dspace.rest.data.DSpace;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
@@ -57,14 +58,14 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             return true;
         }
 
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             return Collection.find(context, Integer.parseInt(id)) != null;
         } catch (SQLException ex) {
             log.debug("Failed to find collections. Assuming that this means it doesn't exist.", ex);
             return false;
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
@@ -85,7 +86,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
 
     private Object entity(final String id) {
         final Operation operation = Operation.GET_COLLECTIONS;
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
             final Parameters parameters = new Parameters(requestStore);
             final Route route = new Route(requestStore);
@@ -112,7 +113,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             throw new SQLFailureEntityException(operation, cause);
 
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
@@ -129,7 +130,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
     private List<?> getAllCollections() {
         Operation operation = Operation.GET_COLLECTIONS;
         final Parameters parameters = new Parameters(requestStore);
-        final Context context = context();
+        final Context context = DSpace.context();
         try {
 
             final List<Object> entities = new ArrayList<Object>();
@@ -147,7 +148,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         } catch (SQLException cause) {
             throw new SQLFailureEntityException(operation, cause);
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 

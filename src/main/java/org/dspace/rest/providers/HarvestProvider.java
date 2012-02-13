@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.dspace.content.Item;
 import org.dspace.core.Context;
+import org.dspace.rest.data.DSpace;
 import org.dspace.rest.diagnose.ErrorDetail;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.RequestFormatEntityException;
@@ -64,7 +65,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
 
     private List<?> getAllHavested() {
         final Parameters parameters = new Parameters(requestStore);
-        final Context context = context();
+        final Context context = DSpace.context();
         final Operation operation = Operation.GET_HARVEST;
         
         try {
@@ -93,7 +94,7 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
         } catch (SQLException cause) {
             throw new SQLFailureEntityException(operation, cause);
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 

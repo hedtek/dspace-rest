@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.dspace.app.statistics.ReportGenerator;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
+import org.dspace.rest.data.DSpace;
 import org.dspace.rest.entities.StatReport;
 import org.dspace.rest.entities.StatsEntity;
 import org.sakaiproject.entitybus.EntityReference;
@@ -79,7 +80,7 @@ public class StatsProvider extends AbstractBaseProvider implements CoreEntityPro
      * @return
      */
     public List<?> getEntities(EntityReference ref, Search search) {
-        final Context context = context();
+        final Context context = DSpace.context();
 
         try {
             List<Object> stat = new ArrayList<Object>();
@@ -111,7 +112,7 @@ public class StatsProvider extends AbstractBaseProvider implements CoreEntityPro
                 throw new EntityException("Internal Server Error", "Log file Problem", 500);
             }
         } finally {
-            complete(context);
+            DSpace.complete(context);
         }
     }
 
