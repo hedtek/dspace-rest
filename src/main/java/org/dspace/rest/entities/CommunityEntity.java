@@ -16,12 +16,18 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
+import org.dspace.browse.BrowseEngine;
 import org.dspace.browse.BrowseException;
+import org.dspace.browse.BrowseIndex;
+import org.dspace.browse.BrowseInfo;
+import org.dspace.browse.BrowserScope;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
+import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.sort.SortException;
+import org.dspace.sort.SortOption;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
@@ -104,7 +110,7 @@ public class CommunityEntity extends CommunityEntityId {
                 this.parent = null;
             }
             try {
-                Item[] recentSubmissions = RecentSubmissions.getRecentSubmissions(community, context);
+                Item[] recentSubmissions = recentSubmissions(community, context);
                 for (Item i : recentSubmissions) {
                     this.recentSubmissions.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
                 }
@@ -496,5 +502,51 @@ public class CommunityEntity extends CommunityEntityId {
         } catch (NumberFormatException ex) {
             throw new EntityException("Bad request", "Could not parse input", 400);
         }
+    }
+
+    private BrowserScope scope(final Community community, final Context context)
+            throws BrowseException, SortException {
+        final BrowserScope bs = new BrowserScope(context);
+        final BrowseIndex bi = BrowseIndex.getItemBrowseIndex();
+    
+        // get our configuration
+        final String source = ConfigurationManager.getProperty("recent.submissions.sort-option");
+        final String count = ConfigurationManager.getProperty("recent.submissions.count");
+    
+        // fill in the scope
+        bs.setBrowseIndex(bi);
+        bs.setOrder(SortOption.DESCENDING);
+        bs.setResultsPerPage(Integer.parseInt(count));
+        bs.setBrowseContainer(community);
+        for (SortOption so : SortOption.getSortOptions())
+        {
+            if (so.getName().equals(source))
+            {
+                bs.setSortBy(so.getNumber());
+            }
+        }
+        return bs;
+    }
+
+    /**
+     * Obtain the recent submissions from the given container object.  This
+     * method uses the configuration to determine which field and how many
+     * items to retrieve from the DSpace Object.
+     * 
+     * If the object you pass in is not a Community or Collection (e.g. an Item
+     * is a DSpaceObject which cannot be used here), an exception will be thrown
+     * 
+     * @param dso   DSpaceObject: Community or Collection
+     * @return      The recently submitted items
+     * @throws RecentSubmissionsException
+     * @throws BrowseException 
+     * @throws SortException 
+     */
+    private Item[] recentSubmissions(final Community community, final Context context)
+        throws BrowseException, SortException
+    {
+    
+        final BrowseInfo results = new BrowseEngine(context).browseMini(scope(community, context));
+        return results.getItemResults(context);
     }
 }
