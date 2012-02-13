@@ -27,7 +27,6 @@ import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
-import org.dspace.rest.entities.RecentSubmissionsException;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
 import org.sakaiproject.entitybus.EntityReference;
@@ -66,7 +65,7 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
      * @throws org.dspace.rest.entities.RecentSubmissionsException
      */
     @EntityCustomAction(action = "receive", viewKey = EntityView.VIEW_SHOW)
-    public Object receive(EntityReference reference, EntityView view, Map<String, Object> params) throws SQLException, RecentSubmissionsException {
+    public Object receive(EntityReference reference, EntityView view, Map<String, Object> params) throws SQLException {
         Context context = DSpace.context();
 
         try{

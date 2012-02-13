@@ -46,52 +46,41 @@ public class RecentSubmissions
      * @param dso   DSpaceObject: Community or Collection
      * @return      The recently submitted items
      * @throws RecentSubmissionsException
+     * @throws BrowseException 
+     * @throws SortException 
      */
     public static RecentSubmissions getRecentSubmissions(DSpaceObject dso, Context context)
-        throws RecentSubmissionsException
+        throws BrowseException, SortException
     {
-        try
+        // get our configuration
+        String source = ConfigurationManager.getProperty("recent.submissions.sort-option");
+        String count = ConfigurationManager.getProperty("recent.submissions.count");
+
+        // prep our engine and scope
+        BrowseEngine be = new BrowseEngine(context);
+        BrowserScope bs = new BrowserScope(context);
+        BrowseIndex bi = BrowseIndex.getItemBrowseIndex();
+
+        // fill in the scope with the relevant gubbins
+        bs.setBrowseIndex(bi);
+        bs.setOrder(SortOption.DESCENDING);
+        bs.setResultsPerPage(Integer.parseInt(count));
+        bs.setBrowseContainer(dso);
+        for (SortOption so : SortOption.getSortOptions())
         {
-            // get our configuration
-            String source = ConfigurationManager.getProperty("recent.submissions.sort-option");
-            String count = ConfigurationManager.getProperty("recent.submissions.count");
-            
-            // prep our engine and scope
-            BrowseEngine be = new BrowseEngine(context);
-            BrowserScope bs = new BrowserScope(context);
-            BrowseIndex bi = BrowseIndex.getItemBrowseIndex();
-            
-            // fill in the scope with the relevant gubbins
-            bs.setBrowseIndex(bi);
-            bs.setOrder(SortOption.DESCENDING);
-            bs.setResultsPerPage(Integer.parseInt(count));
-            bs.setBrowseContainer(dso);
-            for (SortOption so : SortOption.getSortOptions())
+            if (so.getName().equals(source))
             {
-                if (so.getName().equals(source))
-                {
-                    bs.setSortBy(so.getNumber());
-                }
+                bs.setSortBy(so.getNumber());
             }
-            
-            BrowseInfo results = be.browseMini(bs);
-            
-            Item[] items = results.getItemResults(context);
-            
-            RecentSubmissions rs = new RecentSubmissions(items);
-            
-            return rs;
         }
-        catch (SortException se)
-        {
-            log.error("caught exception: ", se);
-            throw new RecentSubmissionsException(se);
-        }
-        catch (BrowseException e)
-        {
-            log.error("caught exception: ", e);
-            throw new RecentSubmissionsException(e);
-        }
+
+        BrowseInfo results = be.browseMini(bs);
+
+        Item[] items = results.getItemResults(context);
+
+        RecentSubmissions rs = new RecentSubmissions(items);
+
+        return rs;
     }
     
 	/** The set of items being represented */

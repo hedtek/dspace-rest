@@ -16,10 +16,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
+import org.dspace.browse.BrowseException;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
+import org.dspace.sort.SortException;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
@@ -106,7 +108,10 @@ public class CommunityEntity extends CommunityEntityId {
                 for (Item i : recent.getRecentSubmissions()) {
                     this.recentSubmissions.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
                 }
-            } catch (RecentSubmissionsException ex) {
+            } catch (BrowseException e) {
+                log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
+            } catch (SortException e) {
+                log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
             }
         } catch (NumberFormatException ex) {
         }
