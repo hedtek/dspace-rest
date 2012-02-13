@@ -60,36 +60,36 @@ public class CommunityEntity extends CommunityEntityId {
         log.debug("Creating community entity.");
         this.context = context;
         try {
-            Community res = Community.find(context, Integer.parseInt(uid));
-            this.id = res.getID();
-            this.canEdit = res.canEditBoolean();
-            this.handle = res.getHandle();
-            this.name = res.getName();
-            this.type = res.getType();
+            final Community community = Community.find(context, Integer.parseInt(uid));
+            this.id = community.getID();
+            this.canEdit = community.canEditBoolean();
+            this.handle = community.getHandle();
+            this.name = community.getName();
+            this.type = community.getType();
 
             // Only include full when above maximum depth
             final boolean includeFullNextLevel = depth.includeFullDetails(++level);
             if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
             
-            if (res.getLogo() != null)
+            if (community.getLogo() != null)
             //this.logo = includeFull ? new BitstreamEntity(Integer.toString(res.getLogo().getID()), context, level, uparams) : new BitstreamEntityId(Integer.toString(res.getLogo().getID()), context);
-            this.logo = new BitstreamEntityId(Integer.toString(res.getLogo().getID()), context);
-            this.short_description = res.getMetadata("short_description");
-            this.introductory_text = res.getMetadata("introductory_text");
-            this.copyright_text = res.getMetadata("copyright_text");
-            this.side_bar_text = res.getMetadata("side_bar_text");
+            this.logo = new BitstreamEntityId(Integer.toString(community.getLogo().getID()), context);
+            this.short_description = community.getMetadata("short_description");
+            this.introductory_text = community.getMetadata("introductory_text");
+            this.copyright_text = community.getMetadata("copyright_text");
+            this.side_bar_text = community.getMetadata("side_bar_text");
 
-                Collection[] cols = res.getCollections();
+                Collection[] cols = community.getCollections();
             for (Collection c : cols) {
                 this.collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
             }
             
-            Community[] coms = res.getSubcommunities();
+            Community[] coms = community.getSubcommunities();
             for (Community c : coms) {
                 this.subCommunities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
             }
             try {
-                Community parentCommunity = res.getParentCommunity();
+                Community parentCommunity = community.getParentCommunity();
                 if(parentCommunity == null) {
                     this.parent = null;
                 } else {
@@ -104,8 +104,8 @@ public class CommunityEntity extends CommunityEntityId {
                 this.parent = null;
             }
             try {
-                RecentSubmissions recent = RecentSubmissions.getRecentSubmissions(res, context);
-                for (Item i : recent.getRecentSubmissions()) {
+                Item[] recentSubmissions = RecentSubmissions.getRecentSubmissions(community, context);
+                for (Item i : recentSubmissions) {
                     this.recentSubmissions.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
                 }
             } catch (BrowseException e) {

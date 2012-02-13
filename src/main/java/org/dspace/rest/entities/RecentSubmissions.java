@@ -7,13 +7,12 @@
  */
 package org.dspace.rest.entities;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.log4j.Logger;
 import org.dspace.browse.BrowseEngine;
 import org.dspace.browse.BrowseException;
 import org.dspace.browse.BrowseIndex;
 import org.dspace.browse.BrowseInfo;
 import org.dspace.browse.BrowserScope;
+import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.core.ConfigurationManager;
@@ -23,7 +22,7 @@ import org.dspace.sort.SortOption;
 
 
 /**
- * Basic class for representing the set of items which are recent submissions
+ * Fetches sets of items which are recent submissions
  * to the archive
  * 
  * @author Richard Jones
@@ -31,10 +30,6 @@ import org.dspace.sort.SortOption;
  */
 public class RecentSubmissions
 {
-    /** logger */
-    private static Logger log = Logger.getLogger(RecentSubmissions.class);
-
-
     /**
      * Obtain the recent submissions from the given container object.  This
      * method uses the configuration to determine which field and how many
@@ -49,23 +44,28 @@ public class RecentSubmissions
      * @throws BrowseException 
      * @throws SortException 
      */
-    public static RecentSubmissions getRecentSubmissions(DSpaceObject dso, Context context)
+    public static Item[] getRecentSubmissions(final Community community, final Context context)
         throws BrowseException, SortException
     {
+
+        final BrowseInfo results = new BrowseEngine(context).browseMini(scope(community, context));
+        return results.getItemResults(context);
+    }
+
+    private static BrowserScope scope(final Community community, final Context context)
+            throws BrowseException, SortException {
+        final BrowserScope bs = new BrowserScope(context);
+        final BrowseIndex bi = BrowseIndex.getItemBrowseIndex();
+
         // get our configuration
-        String source = ConfigurationManager.getProperty("recent.submissions.sort-option");
-        String count = ConfigurationManager.getProperty("recent.submissions.count");
+        final String source = ConfigurationManager.getProperty("recent.submissions.sort-option");
+        final String count = ConfigurationManager.getProperty("recent.submissions.count");
 
-        // prep our engine and scope
-        BrowseEngine be = new BrowseEngine(context);
-        BrowserScope bs = new BrowserScope(context);
-        BrowseIndex bi = BrowseIndex.getItemBrowseIndex();
-
-        // fill in the scope with the relevant gubbins
+        // fill in the scope
         bs.setBrowseIndex(bi);
         bs.setOrder(SortOption.DESCENDING);
         bs.setResultsPerPage(Integer.parseInt(count));
-        bs.setBrowseContainer(dso);
+        bs.setBrowseContainer(community);
         for (SortOption so : SortOption.getSortOptions())
         {
             if (so.getName().equals(source))
@@ -73,68 +73,6 @@ public class RecentSubmissions
                 bs.setSortBy(so.getNumber());
             }
         }
-
-        BrowseInfo results = be.browseMini(bs);
-
-        Item[] items = results.getItemResults(context);
-
-        RecentSubmissions rs = new RecentSubmissions(items);
-
-        return rs;
+        return bs;
     }
-    
-	/** The set of items being represented */
-	private Item[] items;
-	
-	/**
-	 * Construct a new RecentSubmissions object to represent the passed
-	 * array of items
-	 * 
-	 * @param items
-	 */
-	public RecentSubmissions(Item[] items)
-	{
-		this.items = (Item[]) ArrayUtils.clone(items);
-	}
-
-	/**
-	 * obtain the number of recent submissions available
-	 * 
-	 * @return	the number of items
-	 */
-	public int count()
-	{
-		return items.length;
-	}
-	
-	/**
-	 * Obtain the array of items
-	 * 
-	 * @return	an array of items
-	 */
-	public Item[] getRecentSubmissions()
-	{
-		return (Item[])ArrayUtils.clone(items);
-	}
-	
-	/**
-	 * Get the item which is in the i'th position.  Therefore i = 1 gets the
-	 * most recently submitted item, while i = 3 gets the 3rd most recently
-	 * submitted item
-	 * 
-	 * @param i		the position of the item to retrieve
-	 * @return		the Item
-	 */
-	public Item getRecentSubmission(int i)
-	{
-		if (i < items.length)
-		{
-			return items[i];
-		}
-		else
-		{
-			return null;
-		}
-	}
-
 }
