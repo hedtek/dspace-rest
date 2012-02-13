@@ -38,7 +38,7 @@ public class Binder {
     @SuppressWarnings("rawtypes")
     private static Binder build(Map<String, String> func2actionMapGET,
             Class processedEntity) throws NoSuchMethodException {
-        return new Binder(mappings(func2actionMapGET, processedEntity), constructor(processedEntity));
+        return new Binder(mappings(func2actionMapGET, processedEntity), new ReflectionValuer(constructor(processedEntity)));
     }
     
     public static Binder forCommunities() throws SecurityException, NoSuchMethodException {
@@ -162,10 +162,10 @@ public class Binder {
     private final ReflectionValuer valuer;
 
     private Binder(Map<String, String> func2actionMapGET_rev,
-            Constructor<?> entityConstructor) {
+            ReflectionValuer valuer) {
         super();
         this.func2actionMapGET_rev = func2actionMapGET_rev;
-        this.valuer = new ReflectionValuer(entityConstructor);
+        this.valuer = valuer;
     }
 
     public Object resolve(final String id, Route route, Parameters parameters,
@@ -178,7 +178,7 @@ public class Binder {
         }
     }
 
-    private final class ReflectionValuer {
+    private static final class ReflectionValuer {
         private final Constructor<?> entityConstructor;
 
         private ReflectionValuer(Constructor<?> entityConstructor) {
