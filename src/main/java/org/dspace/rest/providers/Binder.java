@@ -8,7 +8,6 @@ import java.util.Map;
 import org.dspace.core.Context;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.CollectionEntity;
-import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.GroupEntity;
 import org.dspace.rest.entities.ItemEntity;
@@ -42,42 +41,9 @@ public class Binder {
         return new Binder(new MappedAttributeBinding(mappings(func2actionMapGET, processedEntity), 
                 new ReflectionValuer(constructor(processedEntity))));
     }
-
-    enum CommunitiesBinding {
-        ID("getId", "id"),
-        NAME("getName", "name"),
-        COUNT_ITEMS("getCountItems", "countItems"),
-        HANDLE("getHandle", "handle"),
-        TYPE("getType", "type"),
-        COLLECTIONS("getCollections", "collections"),
-        CAN_EDIT("getCanEdit", "canedit"),
-        ANCESTOR("getParentCommunity", "anchestor"),
-        CHILDREN("getSubCommunities", "children"),
-        RECENT("getRecentSubmissions", "recent"),
-        SHORT_DESCRIPTION("getShortDescription", "shortDescription"),
-        COPYRIGHT_TEXT("getCopyrightText", "copyrightText"),
-        SIDEBAR_TEXT("getSidebarText", "sidebarText"),
-        INTRODUCTORY_TEXT("getIntroductoryText", "introductoryText"),
-        LOGO("getLogo", "logo");
-
-        private final String binding;
-        private final String mapping;
-        
-        private CommunitiesBinding(String binding, String mapping) {
-            this.binding = binding;
-            this.mapping = mapping;
-        }
-        public void addTo(final Map<String, String> map) {
-            map.put(binding, mapping);
-        }
-    }
     
     public static Binder forCommunities() throws SecurityException, NoSuchMethodException {
-        Map<String, String> bindings = new HashMap<String, String>();
-        for (CommunitiesBinding binding: CommunitiesBinding.values()) {
-            binding.addTo(bindings);
-        }
-        return build(bindings, CommunityEntity.class);
+        return new Binder(new CommunitiesAttributeValuer());
     }
     
     public static Binder forCollections() throws SecurityException, NoSuchMethodException {
@@ -178,23 +144,23 @@ public class Binder {
     }
     
     
-    private final MappedAttributeBinding binding;
+    private final AttributeValuer valuer;
 
-    private Binder(final MappedAttributeBinding binding) {
+    private Binder(final AttributeValuer valuer) {
         super();
-        this.binding = binding;
+        this.valuer = valuer;
     }
 
     public Object resolve(final String id, Route route, Parameters parameters,
             final Context context) {
-        return binding.valueAttribute(id, parameters, context, route.attributeSegment());
+        return valuer.valueAttribute(id, parameters, context, route.attributeSegment());
     }
 
-    private static final class MappedAttributeBinding {
+    private static final class MappedAttributeBinding implements AttributeValuer {
         private final Map<String, String> func2actionMapGET_rev ;
-        private final AttributeValuer valuer;
+        private final ReflectionValuer valuer;
 
-        private MappedAttributeBinding(Map<String, String> func2actionMapGET_rev, final AttributeValuer valuer) {
+        private MappedAttributeBinding(Map<String, String> func2actionMapGET_rev, final ReflectionValuer valuer) {
             super();
             this.func2actionMapGET_rev = func2actionMapGET_rev;
             this.valuer = valuer;
@@ -208,6 +174,7 @@ public class Binder {
             return func2actionMapGET_rev.get(attributeSegment);
         }
 
+        @Override
         public Object valueAttribute(final String id, Parameters parameters,
                 final Context context, final String attributeSegment) {
             if (isMapped(attributeSegment)) {
@@ -219,14 +186,14 @@ public class Binder {
 
     }
     
-    private static final class ReflectionValuer implements AttributeValuer {
+    private static final class ReflectionValuer {
         private final Constructor<?> entityConstructor;
 
         private ReflectionValuer(Constructor<?> entityConstructor) {
             super();
             this.entityConstructor = entityConstructor;
         }
-        @Override
+        
         public Object attributeValueFor(final String id, Parameters parameters,
                 final Context context, final String attributeAccessorName) {
             try {

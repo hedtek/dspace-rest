@@ -5,8 +5,8 @@ import org.dspace.rest.params.Parameters;
 
 interface AttributeValuer {
 
-    public abstract Object attributeValueFor(final String id,
+    public abstract Object valueAttribute(final String id,
             Parameters parameters, final Context context,
-            final String attributeAccessorName);
+            final String attributeSegment);
 
 }
