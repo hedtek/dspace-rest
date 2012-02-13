@@ -15,7 +15,8 @@ public enum ErrorDetail {
     SQL("SQL error"),
     IO("IO error"), PARSE_REQUEST("Error parsing request"),
     PARSE_REQUEST_DATE("Error parsing date in request"), 
-    ENTITY_NOT_FOUND("Entity not found");
+    ENTITY_NOT_FOUND("Entity not found"),
+    ATTRIBUTE_NOT_FOUND("Attribute not found");
     
     private final String detailsMessage;
     
