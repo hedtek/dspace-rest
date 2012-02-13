@@ -54,8 +54,23 @@ public class SearchVolumeTest extends RestApiBaseTest {
     }
 
     @Test
+    public void searchShouldReturnDefaultNumberOfItemsWhenPageIsSetToNegative() throws Exception {
+        defaultNumberOfItemsInPage(-1);
+    }
+
+    @Test
+    public void searchShouldReturnDefaultNumberOfItemsWhenPageIsSetTo0() throws Exception {
+        defaultNumberOfItemsInPage(0);
+    }
+
+    @Test
     public void searchShouldReturnDefaultNumberOfItemsWhenPageIsSetTo1() throws Exception {
         defaultNumberOfItemsInPage(1);
+    }
+
+    @Test
+    public void searchShouldReturnDefaultNumberOfItemsWhenPageIsSetTo2() throws Exception {
+        defaultNumberOfItemsInPage(2);
     }
 
     @Test
