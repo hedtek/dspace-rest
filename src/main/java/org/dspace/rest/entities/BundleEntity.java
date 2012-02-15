@@ -16,8 +16,6 @@ import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing bundle
@@ -26,40 +24,52 @@ import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class BundleEntity extends BundleEntityId {
+    
+    private static List<Object> build(int level, final DetailDepth depth,
+            final boolean includeFullNextLevel, Bitstream[] bst)
+            throws SQLException {
+        List<Object> bitstreams = new ArrayList<Object>();
+        for (Bitstream b : bst) {
+            bitstreams.add(includeFullNextLevel ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
+        }
+        return bitstreams;
+    }
 
-    @EntityId
-    private int id;
-    @EntityFieldRequired
-    private String name;
-    private String handle;
-    private int type, pid;
-    List<Object> bitstreams = new ArrayList<Object>();
-    List<Object> items = new ArrayList<Object>();
+    private static List<Object> build(int level, final DetailDepth depth,
+            final boolean includeFullNextLevel, Item[] item) throws SQLException {
+        final List<Object> items = new ArrayList<Object>();
+        for (Item i : item) {
+            items.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
+        }
+        return items;
+    }
+    
+    private final String name;
+    private final String handle;
+    private final int type;
+    private final int pid;
+    private final List<Object> bitstreams;
+    private final List<Object> items;
 
     public BundleEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
         this(Bundle.find(context, Integer.parseInt(uid)), level, depth);
     }
 
     public BundleEntity(Bundle bundle, int level, final DetailDepth depth) throws SQLException {
+        super(bundle);
         // Only include full when above maximum depth
         final boolean includeFullNextLevel = depth.includeFullDetails(++level);
 
         this.handle = bundle.getHandle();
         this.name = bundle.getName();
         this.type = bundle.getType();
-        this.id = bundle.getID();
         this.pid = bundle.getPrimaryBitstreamID();
-        Bitstream[] bst = bundle.getBitstreams();
-        Item[] itm = bundle.getItems();
-        for (Bitstream b : bst) {
-            this.bitstreams.add(includeFullNextLevel ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
-        }
-        for (Item i : itm) {
-            this.items.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
-        }
+        
+        this.bitstreams = build(level, depth, includeFullNextLevel, bundle.getBitstreams());
+        this.items = build(level, depth, includeFullNextLevel, bundle.getItems());
     }
-
-    public List<?> getItems() {
+    
+    public List<Object> getItems() {
         return this.items;
     }
 
@@ -75,21 +85,11 @@ public class BundleEntity extends BundleEntityId {
         return this.handle;
     }
 
-    @Override
-    public int getId() {
-        return this.id;
-    }
-
     public int getType() {
         return this.type;
     }
-
-    public List getBitstreams() {
+    
+    public List<Object> getBitstreams() {
         return this.bitstreams;
-    }
-
-    @Override
-    public String toString() {
-        return "id:" + this.id + ", stuff.....";
     }
 }

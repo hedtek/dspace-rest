@@ -12,33 +12,24 @@ import java.sql.SQLException;
 
 import org.dspace.content.Bundle;
 import org.dspace.core.Context;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing bundle, basic version
- * @see BundleEntityId
- * @see Bundle
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class BundleEntityId {
 
-    @EntityId
-    private int id;
-
-    protected BundleEntityId() {
-    }
+    private final int id;
 
     public BundleEntityId(String uid, Context context) throws SQLException {
-        Bundle res = Bundle.find(context, Integer.parseInt(uid));
-        this.id = res.getID();
-        //context.complete();
+        this(Bundle.find(context, Integer.parseInt(uid)));
     }
 
     public BundleEntityId(Bundle bundle) throws SQLException {
         this.id = bundle.getID();
     }
 
-    public int getId() {
+    public final int getId() {
         return this.id;
     }
 
