@@ -16,8 +16,6 @@ import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing collection
@@ -28,24 +26,21 @@ import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 public class CollectionEntity {
 
     private static Logger log = Logger.getLogger(CollectionEntity.class);
-    
-    @EntityId
-    private int id;
-    @EntityFieldRequired
-    private String name;
-    @EntityFieldRequired
-    private Boolean canEdit;
-    private String handle, licence;
-    private int type;
-    private int countItems;
-    private List<Object> items = new ArrayList<Object>();
-    private List<Object> communities = new ArrayList<Object>();
-    private String short_description;
-    private String intro_text;
-    private String copyright_text;
-    private String sidebar_text;
-    private String provenance;
-    private Object logo;
+
+    private final int id;
+    private final String name;
+    private final Boolean canEdit;
+    private final String handle, licence;
+    private final int type;
+    private final int countItems;
+    private final List<Object> items;
+    private final List<Object> communities = new ArrayList<Object>();
+    private final String short_description;
+    private final String intro_text;
+    private final String copyright_text;
+    private final String sidebar_text;
+    private final String provenance;
+    private final Object logo;
 
     public CollectionEntity(final String uid, final Context context, final int level, final DetailDepth depth) throws SQLException {
         this(Collection.find(context, Integer.parseInt(uid)), level, depth);
@@ -56,19 +51,8 @@ public class CollectionEntity {
         // Only include full when above maximum depth
         final boolean includeFullNextLevel = depth.includeFullDetails(++level);
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
-        loadCollectionData(collection);
         
-        final ItemIterator i = collection.getAllItems();
-        this.items = ItemBuilder.builder(!includeFullNextLevel, depth).build(i, level);
-        this.countItems = items.size();
-
-        for (Community c : collection.getCommunities()) {
-            communities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
-        }
-    }
-    
-    private void loadCollectionData(Collection collection) throws SQLException {
-    	this.id = collection.getID();
+        this.id = collection.getID();
         this.canEdit = collection.canEditBoolean();
         this.handle = collection.getHandle();
         this.name = collection.getName();
@@ -79,10 +63,19 @@ public class CollectionEntity {
         this.copyright_text = collection.getMetadata("copyright_text");
         this.sidebar_text = collection.getMetadata("side_bar_text");
         this.provenance = collection.getMetadata("provenance_description");
-        if (collection.getLogo() != null) {
+        if (collection.getLogo() == null) {
+            this.logo = null;
+        } else {
             this.logo = new BitstreamEntityId(collection.getLogo());
         }
         
+        final ItemIterator i = collection.getAllItems();
+        this.items = ItemBuilder.builder(!includeFullNextLevel, depth).build(i, level);
+        this.countItems = items.size();
+
+        for (Community c : collection.getCommunities()) {
+            communities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
+        }
     }
 
     public String getLicence() {
