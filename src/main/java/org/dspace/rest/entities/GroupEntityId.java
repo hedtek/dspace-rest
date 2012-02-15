@@ -12,7 +12,6 @@ import java.sql.SQLException;
 
 import org.dspace.core.Context;
 import org.dspace.eperson.Group;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing users registered on the system, basic version
@@ -20,19 +19,12 @@ import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
  * @see EGroup
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class GroupEntityId implements Comparable {
+public class GroupEntityId {
 
-    @EntityId
-    protected int id;
-    protected Group res;
-
-    protected GroupEntityId() {
-    }
+    private final int id;
 
     public GroupEntityId(String uid, Context context) throws SQLException {
-        res = Group.find(context, Integer.parseInt(uid));
-        this.id = res.getID();
-        //context.complete();
+        this(Group.find(context, Integer.parseInt(uid)));
     }
 
     public GroupEntityId(Group eperson) throws SQLException {
@@ -67,15 +59,5 @@ public class GroupEntityId implements Comparable {
     @Override
     public String toString() {
         return "id:" + this.id;
-    }
-
-    public int compareTo(Object o1) {
-        if (((GroupEntityId) (o1)).getId() > this.getId()) {
-            return -1;
-        } else if (((GroupEntityId) (o1)).getId() < this.getId()) {
-            return 1;
-        } else {
-            return 0;
-        }
     }
 }
