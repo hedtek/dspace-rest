@@ -15,41 +15,51 @@ import java.util.List;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
 import org.dspace.core.Context;
-import org.dspace.rest.providers.BitstreamProvider;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing Bitstreams
- * @see BitstreamEntityId
- * @see BitstreamProvider
- * @see Bitstream
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class BitstreamEntity extends BitstreamEntityId {
 
-    @EntityId
-    private int id;
-    @EntityFieldRequired
-    private String name;
-    private String handle;
-    private int type, storeNumber;
-    private long sequenceId, size;
-    private String checkSumAlgorithm, description, checkSum, formatDescription, source, userFormatDescription, mimeType;
-    List<Object> bundles = new ArrayList<Object>();
+    private static List<Object> bundles(int level, final DetailDepth depth,
+            final boolean includeFullNextLevel, final Bundle[] bnd)
+            throws SQLException {
+        final List<Object> bundles = new ArrayList<Object>();
+        for (Bundle b : bnd) {
+            bundles.add(includeFullNextLevel ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
+        }
+        return bundles;
+    }
+
+    
+    private final String name;
+    private final String handle;
+    private final int type;
+    private final int storeNumber;
+    private final long sequenceId;
+    private final long size;
+    private final String checkSumAlgorithm;
+    private final String description;
+    private final String checkSum;
+    private final String formatDescription;
+    private final String source;
+    private final String userFormatDescription;
+    private final String mimeType;
+    private final List<Object> bundles;
 
     public BitstreamEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
         this(Bitstream.find(context, Integer.parseInt(uid)), level, depth);
     }
 
     public BitstreamEntity(Bitstream bitstream, int level, final DetailDepth depth) throws SQLException {
+        super(bitstream);
         // Only include full when above maximum depth
         final boolean includeFullNextLevel = depth.includeFullDetails(++level);
         
         this.handle = bitstream.getHandle();
         this.name = bitstream.getName();
         this.type = bitstream.getType();
-        this.id = bitstream.getID();
         this.checkSum = bitstream.getChecksum();
         this.checkSumAlgorithm = bitstream.getChecksumAlgorithm();
         this.description = bitstream.getDescription();
@@ -59,12 +69,10 @@ public class BitstreamEntity extends BitstreamEntityId {
         this.source = bitstream.getSource();
         this.storeNumber = bitstream.getStoreNumber();
         this.userFormatDescription = bitstream.getUserFormatDescription();
-        Bundle[] bnd = bitstream.getBundles();
-        for (Bundle b : bnd) {
-            this.bundles.add(includeFullNextLevel ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
-        }
+        this.bundles = bundles(level, depth, includeFullNextLevel, bitstream.getBundles());
         this.mimeType = bitstream.getFormat().getMIMEType();
     }
+
 
     public String getMimeType() {
         return this.mimeType;
@@ -118,17 +126,7 @@ public class BitstreamEntity extends BitstreamEntityId {
         return this.handle;
     }
 
-    @Override
-    public int getId() {
-        return this.id;
-    }
-
     public int getType() {
         return this.type;
-    }
-
-    @Override
-    public String toString() {
-        return "id:" + this.id + ", stuff.....";
     }
 }

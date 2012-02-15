@@ -12,37 +12,26 @@ import java.sql.SQLException;
 
 import org.dspace.content.Bitstream;
 import org.dspace.core.Context;
-import org.dspace.rest.providers.BitstreamProvider;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 
 
 /**
  * Entity describing Bitstream, basic version
- * @see BitstreamEntity
- * @see BitstreamProvider
- * @see Bitstream
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 
 public class BitstreamEntityId {
-   @EntityId private int id;
-
-   protected BitstreamEntityId() {
-
-   }
+   private final int id;
 
    public BitstreamEntityId (String uid, Context context) throws SQLException {
-       Bitstream res = Bitstream.find(context, Integer.parseInt(uid));
-       this.id = res.getID();
-       //context.complete();
+       this(Bitstream.find(context, Integer.parseInt(uid)));
    }
 
     public BitstreamEntityId(Bitstream bitstream) throws SQLException {
         this.id = bitstream.getID();
    }
 
-   public int getId() {
+   public final int getId() {
        return this.id;
    }
 
@@ -70,5 +59,4 @@ public class BitstreamEntityId {
     public String toString() {
         return "id:" + this.id;
     }
-
 }
