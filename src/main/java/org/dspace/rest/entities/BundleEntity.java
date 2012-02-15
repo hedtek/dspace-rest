@@ -59,18 +59,6 @@ public class BundleEntity extends BundleEntityId {
         }
     }
 
-    public BundleEntity() {
-        // check calling package/class in order to prevent chaining
-        boolean includeFull = false;
-        this.handle = "123456789/0";
-        this.name = "Sample bundle";
-        this.type = 1;
-        this.pid = 10;
-        this.id = 2;
-        this.bitstreams.add(includeFull ? new BitstreamEntity() : new BitstreamEntityId());
-        this.items.add(includeFull ? new ItemEntity() : new ItemEntityId());
-    }
-
     public List<?> getItems() {
         return this.items;
     }

@@ -85,21 +85,6 @@ public class CollectionEntity {
         
     }
 
-    public CollectionEntity() {
-        // check calling package/class in order to prevent chaining
-        boolean includeFull = false;
-
-        this.canEdit = false;
-        this.handle = "123456789/0";
-        this.name = "Sample collection";
-        this.type = 4;
-        this.id = 92;
-        this.countItems = 10921;
-        this.licence = "Example licence";
-        this.items.add(new ItemEntity());
-        this.communities.add(includeFull ? new CommunityEntity() : new CommunityEntityId());
-    }
-
     public String getLicence() {
         return this.licence;
     }

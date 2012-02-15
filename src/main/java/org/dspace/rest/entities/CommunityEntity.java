@@ -152,24 +152,6 @@ public class CommunityEntity extends CommunityEntityId {
         }
     }
 
-    public CommunityEntity() {
-        // check calling package/class in order to prevent chaining
-        boolean includeFull = false;
-        this.canEdit = true;
-        this.handle = "123456789/0";
-        this.name = "Community Name";
-        this.type = 5;
-        this.id = 6;
-        this.countItems = 1001;
-        this.collections.add(includeFull ? new CollectionEntity() : new CollectionEntityId());
-        this.subCommunities.add(includeFull ? new CommunityEntity() : new CommunityEntityId());
-        this.parent = includeFull ? new CommunityEntity() : new CommunityEntityId();
-        this.short_description = "short description";
-        this.introductory_text = "introductory_text";
-        this.copyright_text = "copyright_text";
-        this.side_bar_text = "side_bar_text";
-    }
-
     public List<?> getCollections() {
         return this.collections;
     }

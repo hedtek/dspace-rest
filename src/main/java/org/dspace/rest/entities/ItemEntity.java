@@ -112,20 +112,6 @@ public class ItemEntity extends ItemEntityId {
         }
     }
 
-    public ItemEntity() {
-        this.canEdit = false;
-        this.handle = "123456789/0";
-        this.name = "Item";
-        this.type = 3;
-        this.id = 22;
-        this.bundles.add(new BundleEntityId());
-        this.bitstreams.add(new BitstreamEntityId());
-        this.collections.add(new CollectionEntityId());
-        this.communities.add(new CommunityEntityId());
-        this.metadata.add(new MetadataEntity("","","",""));
-    }
-
-
     public List<MetadataEntity> getMetadata()
     {
         return this.metadata;

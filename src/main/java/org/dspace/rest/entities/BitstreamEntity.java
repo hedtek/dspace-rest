@@ -66,27 +66,6 @@ public class BitstreamEntity extends BitstreamEntityId {
         this.mimeType = bitstream.getFormat().getMIMEType();
     }
 
-    public BitstreamEntity() {
-        // check calling package/class in order to prevent chaining
-        boolean includeFull = false;
-
-        this.handle = null;
-        this.name = "The name of the file";
-        this.type = 0;
-        this.id = 4;
-        this.checkSum = "b74c368660979349459fe30c93e2d9c7";
-        this.checkSumAlgorithm = "MD5";
-        this.description = "Sample description";
-        this.formatDescription = "Adobe PDF";
-        this.sequenceId = 1;
-        this.size = 123456789;
-        this.source = "/dspace/upload/file.pdf";
-        this.storeNumber = 0;
-        this.userFormatDescription = null;
-        this.bundles.add(includeFull ? new BundleEntity() : new BundleEntityId());
-        this.mimeType = "application/pdf";
-    }
-
     public String getMimeType() {
         return this.mimeType;
     }

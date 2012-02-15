@@ -31,9 +31,9 @@ public class UserEntity extends UserEntityId {
     }
 	
    private final String firstName; 
-   private final  String lastName;
-   private final  String fullName;
-   private  final int type;
+   private final String lastName;
+   private final String fullName;
+   private final int type;
    
 
    public UserEntity(String uid, Context context, int level, final DetailDepth requiredForReflection) throws SQLException {
@@ -57,13 +57,6 @@ public class UserEntity extends UserEntityId {
         this.lastName = eperson.getLastName();
    }
 
-   public UserEntity() {
-       super(111);
-       this.type = 7;
-       this.firstName = "John";
-       this.fullName = "John Smith";
-       this.lastName = "Smith";
-   }
    public String getFirstName() {
        return this.firstName;
    }

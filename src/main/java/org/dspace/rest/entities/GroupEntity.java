@@ -58,14 +58,6 @@ public class GroupEntity extends GroupEntityId {
         }
     }
 
-    public GroupEntity() {
-        this.id = 111;
-        this.handle = "123456789/0";
-        this.name = "John";
-        this.type = 7;
-        this.isEmpty = true;
-    }
-
     public String getName() {
         return this.name;
     }
