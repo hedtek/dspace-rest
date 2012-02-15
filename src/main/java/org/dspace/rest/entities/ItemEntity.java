@@ -20,11 +20,8 @@ import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.DCValue;
 import org.dspace.content.Item;
-import org.dspace.content.crosswalk.DisseminationCrosswalk;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing item
@@ -46,23 +43,21 @@ public class ItemEntity extends ItemEntityId {
         }
     }
     
-    @EntityId
-    private int id;
-    @EntityFieldRequired
-    private String name;
-    @EntityFieldRequired
-    private Boolean canEdit;
-    private String handle;
-    private int type;
-    List<BundleEntityId> bundles = new ArrayList<BundleEntityId>();
-    List<BitstreamEntityId> bitstreams = new ArrayList<BitstreamEntityId>();
-    List<Object> collections = new ArrayList<Object>();
-    List<CommunityEntityId> communities = new ArrayList<CommunityEntityId>();
-    List<MetadataEntity> metadata = new ArrayList<MetadataEntity>();
-    Date lastModified;
-    Object owningCollection;
-    boolean isArchived, isWithdrawn;
-    UserEntity submitter;
+    private final int id;
+    private final String name;
+    private final Boolean canEdit;
+    private final String handle;
+    private final int type;
+    private final List<BundleEntityId> bundles = new ArrayList<BundleEntityId>();
+    private final List<BitstreamEntityId> bitstreams = new ArrayList<BitstreamEntityId>();
+    private final List<Object> collections = new ArrayList<Object>();
+    private final List<CommunityEntityId> communities = new ArrayList<CommunityEntityId>();
+    private final List<MetadataEntity> metadata = new ArrayList<MetadataEntity>();
+    private final Date lastModified;
+    private final Object owningCollection;
+    private final boolean isArchived;
+    private final boolean isWithdrawn;
+    private final UserEntity submitter;
     
     public ItemEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
         this(Item.find(context, Integer.parseInt(uid)), level, depth);
@@ -79,8 +74,10 @@ public class ItemEntity extends ItemEntityId {
         this.type = item.getType();
         this.id = item.getID();
         this.lastModified = item.getLastModified();
-        Collection ownCol = item.getOwningCollection();
-        if (ownCol != null) {
+        final Collection ownCol = item.getOwningCollection();
+        if (ownCol == null) {
+            this.owningCollection = null;
+        } else {
             this.owningCollection = includeFullNextLevel ? new CollectionEntity(ownCol, level, depth) : new CollectionEntityId(ownCol);
         }
         this.isArchived = item.isArchived();
@@ -88,24 +85,27 @@ public class ItemEntity extends ItemEntityId {
         
         this.submitter = buildUserEntity(item);
 
-        Bundle[] bun = item.getBundles();
-        Bitstream[] bst = item.getNonInternalBitstreams();
-        Collection[] col = item.getCollections();
-        Community[] com = item.getCommunities();
+        final Bundle[] bun = item.getBundles();
         for (Bundle b : bun) {
             this.bundles.add(includeFullNextLevel ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
         }
+        
+        final Bitstream[] bst = item.getNonInternalBitstreams();
         for (Bitstream b : bst) {
             this.bitstreams.add(includeFullNextLevel ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
         }
+        
+        final Collection[] col = item.getCollections();
         for (Collection c : col) {
             this.collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
         }
+        
+        final Community[] com = item.getCommunities();
         for (Community c : com) {
             this.communities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
         }
 
-        DCValue[] dcValues = item.getMetadata(Item.ANY, Item.ANY, Item.ANY, Item.ANY);
+        final DCValue[] dcValues = item.getMetadata(Item.ANY, Item.ANY, Item.ANY, Item.ANY);
         for (DCValue dcValue : dcValues)
         {
             this.metadata.add(new MetadataEntity(dcValue));
