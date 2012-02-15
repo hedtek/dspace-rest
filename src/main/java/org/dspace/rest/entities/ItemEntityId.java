@@ -13,7 +13,6 @@ import java.sql.SQLException;
 
 import org.dspace.content.Item;
 import org.dspace.core.Context;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing item, basic version
@@ -23,23 +22,17 @@ import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
  */
 public class ItemEntityId {
 
-    @EntityId
-    private int id;
-
-    protected ItemEntityId() {
-    }
+    private final int id;
 
     public ItemEntityId(String uid, Context context) throws SQLException {
-        Item res = Item.find(context, Integer.parseInt(uid));
-        this.id = res.getID();
-        //context.complete();
+        this(Item.find(context, Integer.parseInt(uid)));
     }
 
     public ItemEntityId(Item item) throws SQLException {
         this.id = item.getID();
     }
 
-    public int getId() {
+    public final int getId() {
         return this.id;
     }
 

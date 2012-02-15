@@ -25,14 +25,35 @@ import org.dspace.eperson.EPerson;
 
 /**
  * Entity describing item
- * @see ItemEntityId
- * @see Item
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class ItemEntity extends ItemEntityId {
 
     private static Logger log = Logger.getLogger(ItemEntity.class);
-    
+
+    private static List<BundleEntityId> build(int level, final DetailDepth depth,
+            final boolean includeFullNextLevel, final Bundle[] bun)
+            throws SQLException {
+        List<BundleEntityId> bundles = new ArrayList<BundleEntityId>();
+        for (Bundle b : bun) {
+            bundles.add(includeFullNextLevel ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
+        }
+        return bundles;
+    }
+
+    private static Object buildOwningCollection(Item item, int level,
+            final DetailDepth depth, final boolean includeFullNextLevel)
+            throws SQLException {
+        Object owningCollection;
+        final Collection ownCol = item.getOwningCollection();
+        if (ownCol == null) {
+            owningCollection = null;
+        } else {
+            owningCollection = includeFullNextLevel ? new CollectionEntity(ownCol, level, depth) : new CollectionEntityId(ownCol);
+        }
+        return owningCollection;
+    }
+
     private static UserEntity buildUserEntity(Item item) throws SQLException {
         final EPerson submitter = item.getSubmitter();
         if(submitter == null) {
@@ -43,12 +64,11 @@ public class ItemEntity extends ItemEntityId {
         }
     }
     
-    private final int id;
     private final String name;
     private final Boolean canEdit;
     private final String handle;
     private final int type;
-    private final List<BundleEntityId> bundles = new ArrayList<BundleEntityId>();
+    private final List<BundleEntityId> bundles;
     private final List<BitstreamEntityId> bitstreams = new ArrayList<BitstreamEntityId>();
     private final List<Object> collections = new ArrayList<Object>();
     private final List<CommunityEntityId> communities = new ArrayList<CommunityEntityId>();
@@ -64,6 +84,7 @@ public class ItemEntity extends ItemEntityId {
     } 
 
     public ItemEntity(Item item, int level, final DetailDepth depth) throws SQLException {
+        super(item);
         // Only include full when above maximum depth
         final boolean includeFullNextLevel = depth.includeFullDetails(++level);
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
@@ -72,23 +93,16 @@ public class ItemEntity extends ItemEntityId {
         this.handle = item.getHandle();
         this.name = item.getName();
         this.type = item.getType();
-        this.id = item.getID();
         this.lastModified = item.getLastModified();
-        final Collection ownCol = item.getOwningCollection();
-        if (ownCol == null) {
-            this.owningCollection = null;
-        } else {
-            this.owningCollection = includeFullNextLevel ? new CollectionEntity(ownCol, level, depth) : new CollectionEntityId(ownCol);
-        }
+        
+        this.owningCollection = buildOwningCollection(item, level, depth, includeFullNextLevel);
+        
         this.isArchived = item.isArchived();
         this.isWithdrawn = item.isWithdrawn();
         
         this.submitter = buildUserEntity(item);
 
-        final Bundle[] bun = item.getBundles();
-        for (Bundle b : bun) {
-            this.bundles.add(includeFullNextLevel ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
-        }
+        this.bundles = build(level, depth, includeFullNextLevel, item.getBundles());
         
         final Bitstream[] bst = item.getNonInternalBitstreams();
         for (Bitstream b : bst) {
@@ -161,20 +175,11 @@ public class ItemEntity extends ItemEntityId {
         return this.canEdit;
     }
 
-    public int getId() {
-        return this.id;
-    }
-
     public int getType() {
         return this.type;
     }
 
     public List<BundleEntityId> getBundles() {
         return this.bundles;
-    }
-
-    @Override
-    public String toString() {
-        return "id:" + this.id + ", stuff.....";
     }
 }
