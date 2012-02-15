@@ -184,11 +184,4 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
             DSpace.complete(context);
         }
     }
-
-    /**
-     * Returns an Entity object with sample data
-     */
-    public Object getSampleEntity() {
-        return new GroupEntity();
-    }
 }

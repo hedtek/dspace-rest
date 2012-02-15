@@ -115,8 +115,4 @@ public class StatsProvider extends AbstractBaseProvider implements CoreEntityPro
             DSpace.complete(context);
         }
     }
-
-    public Object getSampleEntity() {
-        return null;
-    }
 }

@@ -175,11 +175,4 @@ public class UserProvider extends AbstractBaseProvider  implements CoreEntityPro
             DSpace.complete(context);
         }
     }
-
-    /**
-     * Returns an Entity object with sample data
-     */
-    public Object getSampleEntity() {
-        return new UserEntity();
-    }
 }

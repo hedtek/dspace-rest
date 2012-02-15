@@ -234,12 +234,4 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
         log.debug("Bitstream getEntities is not supported.");
         return null;
     }
-
-    /**
-     * Sample entity
-     * @return
-     */
-    public Object getSampleEntity() {
-        return new BitstreamEntity();
-    }
 }

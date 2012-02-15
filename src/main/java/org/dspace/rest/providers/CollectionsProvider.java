@@ -201,11 +201,4 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             DSpace.complete(context);
         }
     }
-
-    /**
-     * Here is sample collection entity defined
-     */
-    public Object getSampleEntity() {
-        return new CollectionEntity();
-    }
 }

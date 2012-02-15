@@ -108,11 +108,4 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
                 pagination.getStart(), pagination.getLimit(), 
                 true, true, parameters.getStatus().isWithdrawn(), true);
     }
-
-    /**
-     * Returns a Entity object with sample data
-     */
-    public Object getSampleEntity() {
-        return null;
-    }
 }

@@ -176,12 +176,4 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
             DSpace.complete(context);
         }
     }
-
-    /**
-     * Prepare sample entity
-     * @return
-     */
-    public Object getSampleEntity() {
-        return null;
-    }
 }

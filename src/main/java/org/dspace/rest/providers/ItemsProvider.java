@@ -184,13 +184,5 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
             DSpace.complete(context);
         }
     }
-
-    /**
-     * Return sample entity
-     * @return
-     */
-    public Object getSampleEntity() {
-        return new ItemEntity();
-    }
 }
 

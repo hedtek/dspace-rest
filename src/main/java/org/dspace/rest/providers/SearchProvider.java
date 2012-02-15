@@ -111,11 +111,4 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
         new SortParameters(requestStore).configure(arg);
         return arg;
     }
-
-    /**
-     * Returns a Entity object with sample data
-     */
-    public Object getSampleEntity() {
-        return null;
-    }
 }

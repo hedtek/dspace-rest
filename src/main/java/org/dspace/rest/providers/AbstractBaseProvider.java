@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.dspace.rest.entities.CollectionEntity;
 import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.EntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -110,5 +111,13 @@ public abstract class AbstractBaseProvider implements EntityProvider, Resolvable
     public String[] getHandledOutputFormats() {
         return new String[]{Formats.JSON, Formats.XML, Formats.FORM, Formats.ATOM};
 
+    }
+    
+    /**
+     * Unsupported
+     * @return null
+     */
+    public final Object getSampleEntity() {
+        return null;
     }
 }
