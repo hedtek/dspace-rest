@@ -27,6 +27,7 @@ import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
+import org.dspace.rest.providers.CollectionsProvider.CollectionBinder;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -40,12 +41,61 @@ import org.sakaiproject.entitybus.entityprovider.search.Search;
  */
 public class CollectionsProvider extends AbstractBaseProvider implements CoreEntityProvider {
 
+    public static class CollectionBinder extends Binder{
+    
+        @Override
+        protected Object value(String id, Parameters parameters,
+                Context context, String attributeSegment) throws SQLException {
+            if("id".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+            } else if("id".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+            } else if("name".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getName();
+            } else if("licence".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getLicence();
+            } else if("items".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getItems();
+            } else if("handle".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getHandle();
+            } else if("canedit".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCanEdit();
+            } else if("communities".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCommunities();
+            } else if("countItems".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCountItems();
+            } else if("type".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+            } else if("shortDescription".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getShortDescription();
+            } else if("introText".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getIntroText();
+            } else if("copyrightText".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCopyrightText();
+            } else if("sidebarText".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSidebarText();
+            } else if("provenance".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getProvenance();
+            } else if("logo".equals(attributeSegment)) {
+                return new CollectionEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getLogo();
+            } else {
+                return null;
+            }
+        }
+    
+        @Override
+        protected Operation operation() {
+            return Operation.GET_COLLECTIONS;
+        }
+        
+    }
+
     private static Logger log = Logger.getLogger(CollectionsProvider.class);
     private final Binder binder;
 
     public CollectionsProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
         super(entityProviderManager);
-        this.binder = Binder.forCollections();
+        this.binder = new CollectionsProvider.CollectionBinder();
     }
 
     public String getEntityPrefix() {

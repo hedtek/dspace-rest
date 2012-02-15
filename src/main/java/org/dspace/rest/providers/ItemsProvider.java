@@ -26,6 +26,7 @@ import org.dspace.rest.params.DetailDepthParameters;
 import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
+import org.dspace.rest.providers.ItemsProvider.ItemBinder;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -39,6 +40,53 @@ import org.sakaiproject.entitybus.entityprovider.search.Search;
  */
 public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityProvider {
 
+    public static class ItemBinder extends Binder{
+    
+        @Override
+        protected Object value(String id, Parameters parameters,
+                Context context, String attributeSegment) throws SQLException {
+            if("metadata".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getMetadata();
+            } else if("submitter".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSubmitter();
+            } else if("isArchived".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getIsArchived();
+            } else if("isWithdrawn".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getIsWithdrawn();
+            } else if("owningCollection".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getOwningCollection();
+            } else if("lastModified".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getLastModified();
+            } else if("collections".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCollections();
+            } else if("communities".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCommunities();
+            } else if("name".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getName();
+            } else if("bitstreams".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getBitstreams();
+            } else if("handle".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getHandle();
+            } else if("canedit".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCanEdit();
+            } else if("id".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+            } else if("type".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+            } else if("bundles".equals(attributeSegment)) {
+                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getBundles();
+            } else {
+                return null;
+            }
+        }
+    
+        @Override
+        protected Operation operation() {
+            return Operation.GET_ITEMS;
+        }
+        
+    }
+
     private final static Logger log = Logger.getLogger(ItemsProvider.class);
     private final Binder binder;
 
@@ -49,7 +97,7 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
      */
     public ItemsProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
         super(entityProviderManager);
-        binder = Binder.forItem();
+        binder = new ItemsProvider.ItemBinder();
     }
 
     // this is the prefix where provider is registered (URL path)

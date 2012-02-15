@@ -23,6 +23,7 @@ import org.dspace.rest.entities.GroupEntity;
 import org.dspace.rest.entities.GroupEntityId;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
+import org.dspace.rest.providers.GroupProvider.GroupBinder;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -36,12 +37,44 @@ import org.sakaiproject.entitybus.entityprovider.search.Search;
  */
 public class GroupProvider extends AbstractBaseProvider  implements CoreEntityProvider {
 
+    public static class GroupBinder extends Binder{
+    
+        @Override
+        protected Object value(String id, Parameters parameters,
+                Context context, String attributeSegment) throws SQLException {
+            
+            if ("handle".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getHandle();
+            } else if ("id".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+            } else if ("isEmpty".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getIsEmpty();
+            } else if ("members".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getMembers();
+            } else if ("memberGroups".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getMemberGroups();
+            } else if ("name".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getName();
+            } else if ("type".equals(attributeSegment)) {
+                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+            } else {
+                return null;
+            }
+        }
+    
+        @Override
+        protected Operation operation() {
+            return Operation.GET_GROUP_ENTITIES;
+        }
+        
+    }
+
     private static Logger log = Logger.getLogger(GroupProvider.class);
     private final Binder binder;
 
     public GroupProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
         super(entityProviderManager);
-        binder = Binder.forGroup();
+        binder = new GroupProvider.GroupBinder();
     }
 
     public String getEntityPrefix() {

@@ -23,6 +23,7 @@ import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.entities.UserEntityId;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
+import org.dspace.rest.providers.UserProvider.UserBinder;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -38,12 +39,39 @@ import org.sakaiproject.entitybus.entityprovider.search.Search;
  */
 public class UserProvider extends AbstractBaseProvider  implements CoreEntityProvider {
 
+    public static class UserBinder extends Binder{
+    
+        @Override
+        protected Object value(String id, Parameters parameters,
+                Context context, String attributeSegment) throws SQLException {
+            if("firstName".equals(attributeSegment)) {
+                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getFirstName();
+            } else if("fullName".equals(attributeSegment)) {
+                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getFullName();
+            } else if("id".equals(attributeSegment)) {
+                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+            } else if("lastName".equals(attributeSegment)) {
+                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getLastName();
+            } else if("type".equals(attributeSegment)) {
+                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+            } else {
+                return null;
+            }
+        }
+    
+        @Override
+        protected Operation operation() {
+            return Operation.GET_USER_ENTITIES;
+        }
+        
+    }
+
     private static Logger log = Logger.getLogger(UserProvider.class);
     private final Binder binder;
 
     public UserProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
         super(entityProviderManager);
-        binder = Binder.forUsers();
+        binder = new UserProvider.UserBinder();
     }
 
     public String getEntityPrefix() {

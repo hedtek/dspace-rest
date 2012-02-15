@@ -29,6 +29,7 @@ import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
+import org.dspace.rest.providers.BitstreamProvider.BitstreamBinder;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
@@ -43,12 +44,59 @@ import org.sakaiproject.entitybus.exception.EntityException;
  */
 public class BitstreamProvider extends AbstractBaseProvider  implements CoreEntityProvider {
 
+    public static class BitstreamBinder extends Binder{
+    
+        @Override
+        protected Object value(String id, Parameters parameters,
+                Context context, String attributeSegment) throws SQLException {
+            if("mimeType".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getMimeType();
+            } else if("bundles".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getBundles();
+            } else if("checkSum".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCheckSum();
+            } else if("checkSumAlgorithm".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCheckSumAlgorithm();
+            } else if("description".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getDescription();
+            } else if("formatDescription".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getFormatDescription();
+            } else if("sequenceId".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSequenceId();
+            } else if("size".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSize();
+            } else if("source".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSource();
+            } else if("storeNumber".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getStoreNumber();
+            } else if("userFormatDescription".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getUserFormatDescription();
+            } else if("name".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getName();
+            } else if("handle".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getHandle();
+            } else if("id".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+            } else if("type".equals(attributeSegment)) {
+                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+            } else {
+                return null;
+            }
+        }
+    
+        @Override
+        protected Operation operation() {
+            return Operation.GET_BITSTREAM;
+        }
+        
+    }
+
     private static Logger log = Logger.getLogger(BitstreamProvider.class);
     private final Binder binder;
 
     public BitstreamProvider(EntityProviderManager entityProviderManager) throws SQLException, NoSuchMethodException {
         super(entityProviderManager);
-        this.binder = Binder.forBitstream();
+        this.binder = new BitstreamProvider.BitstreamBinder();
     }
 
     public String getEntityPrefix() {
