@@ -72,46 +72,59 @@ public class EntityBuildParameters {
          * list as expected
          */
         for (int x = 0; x < queryResults.getHitTypes().size(); x++) {
-            switch ((Integer) (queryResults.getHitTypes().get(x))) {
+            final String hitId = queryResults.getHitIds().get(x).toString();
+            final Integer hitType = (Integer) (queryResults.getHitTypes().get(x));
+            entities.add(build(context, depth, hitId, hitType));
+        }
+        return entities;
+    }
+
+    private Object build(final Context context, final DetailDepth depth,
+            final String hitId, final Integer hitType) throws SQLException {
+        final Object hit;
+        switch (hitType) {
             case Constants.ITEM:
             {
-                entities.add(idOnly ? new ItemEntityId(queryResults.getHitIds().get(x).toString(), context) : new ItemEntity(queryResults.getHitIds().get(x).toString(), context,1, depth));
+                hit = (idOnly ? new ItemEntityId(hitId, context) : new ItemEntity(hitId, context,1, depth));
+                break;
             }
-            break;
     
             case Constants.COMMUNITY:
             {
-                entities.add(idOnly ? new CommunityEntityId(queryResults.getHitIds().get(x).toString(), context) : new CommunityEntity(queryResults.getHitIds().get(x).toString(), context,1, depth));
+                hit = (idOnly ? new CommunityEntityId(hitId, context) : new CommunityEntity(hitId, context,1, depth));
+                break;
             }
-            break;
     
             case Constants.COLLECTION:
             {
-                entities.add(idOnly ? new CollectionEntityId(queryResults.getHitIds().get(x).toString(), context) : new CollectionEntity(queryResults.getHitIds().get(x).toString(), context,1, depth));
+                hit = (idOnly ? new CollectionEntityId(hitId, context) : new CollectionEntity(hitId, context,1, depth));
+                break;
             }
-            break;
     
             case Constants.BITSTREAM:
             {
-                entities.add(idOnly ? new BitstreamEntityId(queryResults.getHitIds().get(x).toString(), context) : new BitstreamEntity(queryResults.getHitIds().get(x).toString(), context,1, depth));
+                hit = (idOnly ? new BitstreamEntityId(hitId, context) : new BitstreamEntity(hitId, context,1, depth));
+                break;
             }
-            break;
     
             case Constants.BUNDLE:
             {
-                entities.add(idOnly ? new BundleEntityId(queryResults.getHitIds().get(x).toString(), context) : new BundleEntity(queryResults.getHitIds().get(x).toString(), context,1, depth));
+                hit = (idOnly ? new BundleEntityId(hitId, context) : new BundleEntity(hitId, context,1, depth));
+                break;
             }
-            break;
     
             case Constants.EPERSON:
             {
-                entities.add(idOnly ? new UserEntityId(queryResults.getHitIds().get(x).toString()) : new UserEntity(queryResults.getHitIds().get(x).toString(), context));
+                hit = (idOnly ? new UserEntityId(hitId) : new UserEntity(hitId, context));
+                break;
             }
-            break;
     
+            default: {
+                hit = null;
             }
+
         }
-        return entities;
+        return hit;
     }
 
 }
