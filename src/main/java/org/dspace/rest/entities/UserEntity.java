@@ -15,8 +15,6 @@ import org.dspace.eperson.EPerson;
 
 /**
  * Entity describing users registered on the system
- * @see UserEntityId
- * @see EPerson
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class UserEntity extends UserEntityId {
@@ -64,11 +62,6 @@ public class UserEntity extends UserEntityId {
    public String getFullName() {
        return this.fullName;
    }
-
-   @Override
-   public int getId() {
-       return this.id;
-   }
    public int getType() {
       return this.type;
    }
@@ -76,8 +69,4 @@ public class UserEntity extends UserEntityId {
    public String getLastName() {
        return this.lastName;
    }
-    @Override
-    public String toString() {
-        return "id:" + this.id + ", full_name:" + this.fullName;
-    }
 }

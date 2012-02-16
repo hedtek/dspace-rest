@@ -8,18 +8,14 @@
 
 package org.dspace.rest.entities;
 
-import org.dspace.eperson.EPerson;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing users registered on the system, basic version
- * @see UserEntity
- * @see EPerson
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class UserEntityId {
-	@EntityId
-    final protected int id;
+
+    private final int id;
 
     public UserEntityId(final String id) {
     	this(Integer.parseInt(id));
@@ -29,7 +25,7 @@ public class UserEntityId {
     	this.id = id;
     }
 
-    public int getId() {
+    public final int getId() {
         return id;
     }
 
