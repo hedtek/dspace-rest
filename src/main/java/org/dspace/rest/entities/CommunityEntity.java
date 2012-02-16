@@ -37,6 +37,27 @@ import org.sakaiproject.entitybus.entityprovider.annotations.EntityTitle;
  */
 public class CommunityEntity extends CommunityEntityId {
 
+    private static Object parent(int level, final DetailDepth depth,
+            final Community community, final boolean includeFullNextLevel)
+            throws SQLException {
+        Object parent;
+        try {
+            Community parentCommunity = community.getParentCommunity();
+            if(parentCommunity == null) {
+                parent = null;
+            } else {
+                if(includeFullNextLevel) {
+                    parent = new CommunityEntity(parentCommunity, level, depth);
+                } else {
+                    parent = new CommunityEntityId(parentCommunity);
+                }
+            }
+
+        } catch (NullPointerException ex) {
+            parent = null;
+        }
+        return parent;
+    }
 
     private static Object logo(Community community) throws SQLException {
         final Object logo;
@@ -103,47 +124,39 @@ public class CommunityEntity extends CommunityEntityId {
             final boolean includeFullNextLevel = depth.includeFullDetails(++level);
             if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
             
-            this.logo = logo(community);
+            
             this.short_description = community.getMetadata("short_description");
             this.introductory_text = community.getMetadata("introductory_text");
             this.copyright_text = community.getMetadata("copyright_text");
             this.side_bar_text = community.getMetadata("side_bar_text");
 
-            this.collections = collections(community, level, depth,
-                    includeFullNextLevel);
-            
+            this.logo = logo(community);
+            this.collections = collections(community, level, depth, includeFullNextLevel);
             this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);
+            this.parent = parent(level, depth, community, includeFullNextLevel);
             
-            try {
-                Community parentCommunity = community.getParentCommunity();
-                if(parentCommunity == null) {
-                    this.parent = null;
-                } else {
-                    if(includeFullNextLevel) {
-                        this.parent = new CommunityEntity(parentCommunity, level, depth);
-                    } else {
-                        this.parent = new CommunityEntityId(parentCommunity);
-                    }
-                }
-
-            } catch (NullPointerException ex) {
-                this.parent = null;
-            }
-            
-            try {
-                Item[] recentSubmissions = recentSubmissions(community, context);
-                for (Item i : recentSubmissions) {
-                    this.recentSubmissions.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
-                }
-            } catch (BrowseException e) {
-                log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
-            } catch (SortException e) {
-                log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
-            }
+            this.recentSubmissions = recentSubmissions(context, level, depth, community, includeFullNextLevel);
         } catch (NumberFormatException ex) {
         }
     }
 
+    private List<Object> recentSubmissions(Context context, int level,
+            final DetailDepth depth, final Community community,
+            final boolean includeFullNextLevel) throws SQLException {
+        List<Object> recentSubmissions = new ArrayList<Object>();
+        try {
+            Item[] recentItems = recentSubmissions(community, context);
+            for (Item i : recentItems) {
+                recentSubmissions.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
+            }
+        } catch (BrowseException e) {
+            log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
+        } catch (SortException e) {
+            log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
+        }
+        return recentSubmissions;
+    }
+    
     public CommunityEntity(Community community, int level, final DetailDepth depth) throws SQLException {
         log.debug("Creating community");
         // Only include full when above maximum depth
@@ -163,14 +176,8 @@ public class CommunityEntity extends CommunityEntityId {
 
         this.logo = logo(community);
         this.collections = collections(community, level, depth, includeFullNextLevel);
-        this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);
-        
-        
-        try {
-            this.parent = includeFullNextLevel ? new CommunityEntity(community.getParentCommunity(), level, depth) : new CommunityEntityId(community.getParentCommunity());
-        } catch (NullPointerException ne) {
-            this.parent = null;
-        }
+        this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);        
+        this.parent = parent(level, depth, community, includeFullNextLevel);
     }
 
 
