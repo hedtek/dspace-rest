@@ -109,7 +109,7 @@ public class EntityBuildParameters {
     
             case Constants.BUNDLE:
             {
-                hit = (idOnly ? new BundleEntityId(hitId, context) : new BundleEntity(hitId, context,1, depth));
+                hit = (idOnly ? new BundleEntityId(hitId, context) : new BundleEntity(hitId, context, depth));
                 break;
             }
     

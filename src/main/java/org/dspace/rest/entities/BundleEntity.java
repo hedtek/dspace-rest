@@ -51,8 +51,8 @@ public class BundleEntity extends BundleEntityId {
     private final List<Object> bitstreams;
     private final List<Object> items;
 
-    public BundleEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
-        this(Bundle.find(context, Integer.parseInt(uid)), level, depth);
+    public BundleEntity(String uid, Context context, final DetailDepth depth) throws SQLException {
+        this(Bundle.find(context, Integer.parseInt(uid)), 1, depth);
     }
 
     public BundleEntity(Bundle bundle, int level, final DetailDepth depth) throws SQLException {
