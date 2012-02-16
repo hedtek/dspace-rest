@@ -85,7 +85,7 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
 
         private BitstreamEntity bitstream(String id, Parameters parameters,
                 Context context) throws SQLException {
-            return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth());
+            return new BitstreamEntity(id, context, parameters.getDetailDepth().getDepth());
         }
     
         @Override
@@ -212,7 +212,7 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
                 if (parameters.getEntityBuild().isIdOnly()) {
                     return new BitstreamEntityId(id, context);
                 } else {
-                    return new BitstreamEntity(id, context,1, parameters.getDetailDepth().getDepth());
+                    return new BitstreamEntity(id, context, parameters.getDetailDepth().getDepth());
                 }
 
             } else {

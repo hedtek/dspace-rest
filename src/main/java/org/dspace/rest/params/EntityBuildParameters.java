@@ -103,7 +103,7 @@ public class EntityBuildParameters {
     
             case Constants.BITSTREAM:
             {
-                hit = (idOnly ? new BitstreamEntityId(hitId, context) : new BitstreamEntity(hitId, context,1, depth));
+                hit = (idOnly ? new BitstreamEntityId(hitId, context) : new BitstreamEntity(hitId, context, depth));
                 break;
             }
     

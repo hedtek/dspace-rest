@@ -48,8 +48,8 @@ public class BitstreamEntity extends BitstreamEntityId {
     private final String mimeType;
     private final List<Object> bundles;
 
-    public BitstreamEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
-        this(Bitstream.find(context, Integer.parseInt(uid)), level, depth);
+    public BitstreamEntity(String uid, Context context, final DetailDepth depth) throws SQLException {
+        this(Bitstream.find(context, Integer.parseInt(uid)), 1, depth);
     }
 
     public BitstreamEntity(Bitstream bitstream, int level, final DetailDepth depth) throws SQLException {
