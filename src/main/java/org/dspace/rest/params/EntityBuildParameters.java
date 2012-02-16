@@ -97,7 +97,7 @@ public class EntityBuildParameters {
     
             case Constants.COLLECTION:
             {
-                hit = (idOnly ? new CollectionEntityId(hitId, context) : new CollectionEntity(hitId, context,1, depth));
+                hit = (idOnly ? new CollectionEntityId(hitId, context) : new CollectionEntity(hitId, context, depth));
                 break;
             }
     
