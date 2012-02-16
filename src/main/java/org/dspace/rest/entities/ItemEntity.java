@@ -79,8 +79,8 @@ public class ItemEntity extends ItemEntityId {
     private final boolean isWithdrawn;
     private final UserEntity submitter;
     
-    public ItemEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
-        this(Item.find(context, Integer.parseInt(uid)), level, depth);
+    public ItemEntity(String uid, Context context, final DetailDepth depth) throws SQLException {
+        this(Item.find(context, Integer.parseInt(uid)), 1, depth);
     } 
 
     public ItemEntity(Item item, int level, final DetailDepth depth) throws SQLException {

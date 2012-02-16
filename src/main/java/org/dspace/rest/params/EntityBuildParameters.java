@@ -85,7 +85,7 @@ public class EntityBuildParameters {
         switch (hitType) {
             case Constants.ITEM:
             {
-                hit = (idOnly ? new ItemEntityId(hitId, context) : new ItemEntity(hitId, context,1, depth));
+                hit = (idOnly ? new ItemEntityId(hitId, context) : new ItemEntity(hitId, context, depth));
                 break;
             }
     

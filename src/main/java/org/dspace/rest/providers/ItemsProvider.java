@@ -79,7 +79,7 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
 
         private ItemEntity item(String id, Parameters parameters,
                 Context context) throws SQLException {
-            return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth());
+            return new ItemEntity(id, context, parameters.getDetailDepth().getDepth());
         }
     
         @Override
@@ -148,7 +148,7 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
                     if (parameters.getEntityBuild().isIdOnly()) {
                         return new ItemEntityId(id, context);
                     } else {
-                        return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth());
+                        return new ItemEntity(id, context, parameters.getDetailDepth().getDepth());
                     }
                 } else {
                     if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
