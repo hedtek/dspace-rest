@@ -43,38 +43,43 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
                 String attributeSegment) throws SQLException {
             final DetailDepth depth = parameters.getDetailDepth().getDepth();
             if ("id".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getId();
+                return community(id, context, depth).getId();
             } else if ("name".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getName();
+                return community(id, context, depth).getName();
             } else if ("countItems".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getCountItems();
+                return community(id, context, depth).getCountItems();
             } else if ("handle".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getHandle();
+                return community(id, context, depth).getHandle();
             } else if ("type".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getType();
+                return community(id, context, depth).getType();
             } else if ("collections".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getCollections();
+                return community(id, context, depth).getCollections();
             } else if ("canedit".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getCanEdit();
+                return community(id, context, depth).getCanEdit();
             } else if ("anchestor".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getParentCommunity();
+                return community(id, context, depth).getParentCommunity();
             } else if ("children".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getSubCommunities();
+                return community(id, context, depth).getSubCommunities();
             } else if ("recent".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getRecentSubmissions();
+                return community(id, context, depth).getRecentSubmissions();
             } else if ("shortDescription".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getShortDescription();
+                return community(id, context, depth).getShortDescription();
             } else if ("copyrightText".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getCopyrightText();
+                return community(id, context, depth).getCopyrightText();
             } else if ("sidebarText".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getSidebarText();
+                return community(id, context, depth).getSidebarText();
             } else if ("introductoryText".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getIntroductoryText();
+                return community(id, context, depth).getIntroductoryText();
             } else if ("logo".equals(attributeSegment)) {
-                return new CommunityEntity(id, context, 1, depth).getLogo();
+                return community(id, context, depth).getLogo();
             } else {
                 return null;
             }
+        }
+
+        private CommunityEntity community(String id, Context context,
+                final DetailDepth depth) throws SQLException {
+            return new CommunityEntity(id, context, 1, depth);
         }
     
         protected Operation operation() {

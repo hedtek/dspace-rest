@@ -22,11 +22,8 @@ import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
-import org.dspace.rest.params.DetailDepthParameters;
-import org.dspace.rest.params.EntityBuildParameters;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
-import org.dspace.rest.providers.ItemsProvider.ItemBinder;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -46,38 +43,43 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
         protected Object value(String id, Parameters parameters,
                 Context context, String attributeSegment) throws SQLException {
             if("metadata".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getMetadata();
+                return item(id, parameters, context).getMetadata();
             } else if("submitter".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSubmitter();
+                return item(id, parameters, context).getSubmitter();
             } else if("isArchived".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getIsArchived();
+                return item(id, parameters, context).getIsArchived();
             } else if("isWithdrawn".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getIsWithdrawn();
+                return item(id, parameters, context).getIsWithdrawn();
             } else if("owningCollection".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getOwningCollection();
+                return item(id, parameters, context).getOwningCollection();
             } else if("lastModified".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getLastModified();
+                return item(id, parameters, context).getLastModified();
             } else if("collections".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCollections();
+                return item(id, parameters, context).getCollections();
             } else if("communities".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCommunities();
+                return item(id, parameters, context).getCommunities();
             } else if("name".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getName();
+                return item(id, parameters, context).getName();
             } else if("bitstreams".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getBitstreams();
+                return item(id, parameters, context).getBitstreams();
             } else if("handle".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getHandle();
+                return item(id, parameters, context).getHandle();
             } else if("canedit".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCanEdit();
+                return item(id, parameters, context).getCanEdit();
             } else if("id".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+                return item(id, parameters, context).getId();
             } else if("type".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+                return item(id, parameters, context).getType();
             } else if("bundles".equals(attributeSegment)) {
-                return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getBundles();
+                return item(id, parameters, context).getBundles();
             } else {
                 return null;
             }
+        }
+
+        private ItemEntity item(String id, Parameters parameters,
+                Context context) throws SQLException {
+            return new ItemEntity(id, context, 1, parameters.getDetailDepth().getDepth());
         }
     
         @Override

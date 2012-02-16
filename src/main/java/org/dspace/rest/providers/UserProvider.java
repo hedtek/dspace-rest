@@ -23,7 +23,6 @@ import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.entities.UserEntityId;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
-import org.dspace.rest.providers.UserProvider.UserBinder;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -45,18 +44,23 @@ public class UserProvider extends AbstractBaseProvider  implements CoreEntityPro
         protected Object value(String id, Parameters parameters,
                 Context context, String attributeSegment) throws SQLException {
             if("firstName".equals(attributeSegment)) {
-                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getFirstName();
+                return user(id, parameters, context).getFirstName();
             } else if("fullName".equals(attributeSegment)) {
-                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getFullName();
+                return user(id, parameters, context).getFullName();
             } else if("id".equals(attributeSegment)) {
-                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+                return user(id, parameters, context).getId();
             } else if("lastName".equals(attributeSegment)) {
-                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getLastName();
+                return user(id, parameters, context).getLastName();
             } else if("type".equals(attributeSegment)) {
-                return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+                return user(id, parameters, context).getType();
             } else {
                 return null;
             }
+        }
+
+        private UserEntity user(String id, Parameters parameters,
+                Context context) throws SQLException {
+            return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth());
         }
     
         @Override

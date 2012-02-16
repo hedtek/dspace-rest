@@ -23,7 +23,6 @@ import org.dspace.rest.entities.GroupEntity;
 import org.dspace.rest.entities.GroupEntityId;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
-import org.dspace.rest.providers.GroupProvider.GroupBinder;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
 import org.sakaiproject.entitybus.entityprovider.EntityProviderManager;
@@ -44,22 +43,27 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
                 Context context, String attributeSegment) throws SQLException {
             
             if ("handle".equals(attributeSegment)) {
-                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getHandle();
+                return group(id, parameters, context).getHandle();
             } else if ("id".equals(attributeSegment)) {
-                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+                return group(id, parameters, context).getId();
             } else if ("isEmpty".equals(attributeSegment)) {
-                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getIsEmpty();
+                return group(id, parameters, context).getIsEmpty();
             } else if ("members".equals(attributeSegment)) {
-                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getMembers();
+                return group(id, parameters, context).getMembers();
             } else if ("memberGroups".equals(attributeSegment)) {
-                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getMemberGroups();
+                return group(id, parameters, context).getMemberGroups();
             } else if ("name".equals(attributeSegment)) {
-                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getName();
+                return group(id, parameters, context).getName();
             } else if ("type".equals(attributeSegment)) {
-                return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+                return group(id, parameters, context).getType();
             } else {
                 return null;
             }
+        }
+
+        private GroupEntity group(String id, Parameters parameters,
+                Context context) throws SQLException {
+            return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth());
         }
     
         @Override

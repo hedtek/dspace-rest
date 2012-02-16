@@ -29,7 +29,6 @@ import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
-import org.dspace.rest.providers.BitstreamProvider.BitstreamBinder;
 import org.sakaiproject.entitybus.EntityReference;
 import org.sakaiproject.entitybus.EntityView;
 import org.sakaiproject.entitybus.entityprovider.CoreEntityProvider;
@@ -50,38 +49,43 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
         protected Object value(String id, Parameters parameters,
                 Context context, String attributeSegment) throws SQLException {
             if("mimeType".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getMimeType();
+                return bitstream(id, parameters, context).getMimeType();
             } else if("bundles".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getBundles();
+                return bitstream(id, parameters, context).getBundles();
             } else if("checkSum".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCheckSum();
+                return bitstream(id, parameters, context).getCheckSum();
             } else if("checkSumAlgorithm".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getCheckSumAlgorithm();
+                return bitstream(id, parameters, context).getCheckSumAlgorithm();
             } else if("description".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getDescription();
+                return bitstream(id, parameters, context).getDescription();
             } else if("formatDescription".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getFormatDescription();
+                return bitstream(id, parameters, context).getFormatDescription();
             } else if("sequenceId".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSequenceId();
+                return bitstream(id, parameters, context).getSequenceId();
             } else if("size".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSize();
+                return bitstream(id, parameters, context).getSize();
             } else if("source".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getSource();
+                return bitstream(id, parameters, context).getSource();
             } else if("storeNumber".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getStoreNumber();
+                return bitstream(id, parameters, context).getStoreNumber();
             } else if("userFormatDescription".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getUserFormatDescription();
+                return bitstream(id, parameters, context).getUserFormatDescription();
             } else if("name".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getName();
+                return bitstream(id, parameters, context).getName();
             } else if("handle".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getHandle();
+                return bitstream(id, parameters, context).getHandle();
             } else if("id".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getId();
+                return bitstream(id, parameters, context).getId();
             } else if("type".equals(attributeSegment)) {
-                return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth()).getType();
+                return bitstream(id, parameters, context).getType();
             } else {
                 return null;
             }
+        }
+
+        private BitstreamEntity bitstream(String id, Parameters parameters,
+                Context context) throws SQLException {
+            return new BitstreamEntity(id, context, 1, parameters.getDetailDepth().getDepth());
         }
     
         @Override
