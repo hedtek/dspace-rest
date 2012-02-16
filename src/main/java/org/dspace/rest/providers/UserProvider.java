@@ -60,7 +60,7 @@ public class UserProvider extends AbstractBaseProvider  implements CoreEntityPro
 
         private UserEntity user(String id, Parameters parameters,
                 Context context) throws SQLException {
-            return new UserEntity(id, context, 1, parameters.getDetailDepth().getDepth());
+            return new UserEntity(id, context);
         }
     
         @Override
@@ -132,7 +132,7 @@ public class UserProvider extends AbstractBaseProvider  implements CoreEntityPro
                     if (parameters.getEntityBuild().isIdOnly()) {
                         return new UserEntityId(id);
                     } else {
-                        return new UserEntity(id, context, 1);
+                        return new UserEntity(id, context);
                     }
                 } else {
                     if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);

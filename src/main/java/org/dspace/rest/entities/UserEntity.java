@@ -32,13 +32,8 @@ public class UserEntity extends UserEntityId {
    private final String lastName;
    private final String fullName;
    private final int type;
-   
-
-   public UserEntity(String uid, Context context, int level, final DetailDepth requiredForReflection) throws SQLException {
-       this(uid, context, level);
-   }
-   
-   public UserEntity(String uid, Context context, int level) throws SQLException {
+      
+   public UserEntity(String uid, Context context) throws SQLException {
        this(findEPerson(uid, context));
    }
 

@@ -105,7 +105,7 @@ public class EntityBuildParameters {
     
             case Constants.EPERSON:
             {
-                entities.add(idOnly ? new UserEntityId(queryResults.getHitIds().get(x).toString()) : new UserEntity(queryResults.getHitIds().get(x).toString(), context,1));
+                entities.add(idOnly ? new UserEntityId(queryResults.getHitIds().get(x).toString()) : new UserEntity(queryResults.getHitIds().get(x).toString(), context));
             }
             break;
     
