@@ -8,22 +8,18 @@
 
 package org.dspace.rest.entities;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.dspace.rest.providers.SearchProvider;
 
 /**
  * Entity decribing search results
- * @see SearchProvider
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class SearchResultsInfoEntity {
 
-    int resultsCount;
-    List<Object> resultTypes = new ArrayList<Object>();
-    List<Object> resultHandles = new ArrayList<Object>();
-    List<Object> resultsIDs = new ArrayList<Object>();
+    private final int resultsCount;
+    private final List<Object> resultTypes;
+    private final List<Object> resultHandles;
+    private final List<Object> resultsIDs;
 
     /**
      * Constructs SearchResultsInfoEntity, which should contain basic info
@@ -34,7 +30,7 @@ public class SearchResultsInfoEntity {
      * @param handles list including handles (DAO handle) of results
      * @param ids list including ids of results
      */
-    public SearchResultsInfoEntity(int res, List types, List handles, List ids) {
+    public SearchResultsInfoEntity(int res, List<Object> types, List<Object> handles, List<Object> ids) {
         this.resultsCount = res;
         this.resultTypes = types;
         this.resultHandles = handles;
@@ -45,15 +41,15 @@ public class SearchResultsInfoEntity {
         return this.resultsCount;
     }
 
-    public List<?> getResultTypes() {
+    public List<Object> getResultTypes() {
         return this.resultTypes;
     }
 
-    public List<?> getResultHandles() {
+    public List<Object> getResultHandles() {
         return this.resultHandles;
     }
 
-    public List<?> getResultIDs() {
+    public List<Object> getResultIDs() {
         return this.resultsIDs;
     }
 
