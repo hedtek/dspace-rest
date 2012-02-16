@@ -37,6 +37,39 @@ import org.sakaiproject.entitybus.entityprovider.annotations.EntityTitle;
  */
 public class CommunityEntity extends CommunityEntityId {
 
+
+    private static Object logo(Community community) throws SQLException {
+        final Object logo;
+        if (community.getLogo() == null) {
+            logo = null;
+        } else {
+            logo = new BitstreamEntityId(community.getLogo());
+        }
+        return logo;
+    }
+
+    private static List<Object> collections(Community community, int level,
+            final DetailDepth depth, final boolean includeFullNextLevel)
+            throws SQLException {
+        List<Object> collections = new ArrayList<Object>();
+        Collection[] cols = community.getCollections();
+        for (Collection c : cols) {
+            collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
+        }
+        return collections;
+    }
+
+    private static List<Object> subcommunities(Community community, int level,
+            final DetailDepth depth, final boolean includeFullNextLevel)
+            throws SQLException {
+        List<Object> subCommunities = new ArrayList<Object>();
+        Community[] coms = community.getSubcommunities();
+        for (Community c : coms) {
+            subCommunities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
+        }
+        return subCommunities;
+    }
+    
     private static Logger log = Logger.getLogger(CommunityEntity.class);
     
     @EntityId
@@ -70,23 +103,17 @@ public class CommunityEntity extends CommunityEntityId {
             final boolean includeFullNextLevel = depth.includeFullDetails(++level);
             if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
             
-            if (community.getLogo() != null)
-            //this.logo = includeFull ? new BitstreamEntity(Integer.toString(res.getLogo().getID()), context, level, uparams) : new BitstreamEntityId(Integer.toString(res.getLogo().getID()), context);
-            this.logo = new BitstreamEntityId(Integer.toString(community.getLogo().getID()), context);
+            this.logo = logo(community);
             this.short_description = community.getMetadata("short_description");
             this.introductory_text = community.getMetadata("introductory_text");
             this.copyright_text = community.getMetadata("copyright_text");
             this.side_bar_text = community.getMetadata("side_bar_text");
 
-                Collection[] cols = community.getCollections();
-            for (Collection c : cols) {
-                this.collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
-            }
+            this.collections = collections(community, level, depth,
+                    includeFullNextLevel);
             
-            Community[] coms = community.getSubcommunities();
-            for (Community c : coms) {
-                this.subCommunities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
-            }
+            this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);
+            
             try {
                 Community parentCommunity = community.getParentCommunity();
                 if(parentCommunity == null) {
@@ -102,6 +129,7 @@ public class CommunityEntity extends CommunityEntityId {
             } catch (NullPointerException ex) {
                 this.parent = null;
             }
+            
             try {
                 Item[] recentSubmissions = recentSubmissions(community, context);
                 for (Item i : recentSubmissions) {
@@ -133,24 +161,18 @@ public class CommunityEntity extends CommunityEntityId {
         this.copyright_text = community.getMetadata("copyright_text");
         this.side_bar_text = community.getMetadata("side_bar_text");
 
-        if (community.getLogo() != null)
-        //this.logo = includeFull ? new BitstreamEntity(community.getLogo(), level, uparams) : new BitstreamEntityId(community.getLogo());
-        this.logo = new BitstreamEntityId(community.getLogo());
+        this.logo = logo(community);
+        this.collections = collections(community, level, depth, includeFullNextLevel);
+        this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);
         
-        Collection[] cols = community.getCollections();
-        for (Collection c : cols) {
-            this.collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
-        }
-        Community[] coms = community.getSubcommunities();
-        for (Community c : coms) {
-            this.subCommunities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
-        }
+        
         try {
             this.parent = includeFullNextLevel ? new CommunityEntity(community.getParentCommunity(), level, depth) : new CommunityEntityId(community.getParentCommunity());
         } catch (NullPointerException ne) {
             this.parent = null;
         }
     }
+
 
     public List<?> getCollections() {
         return this.collections;
@@ -179,7 +201,6 @@ public class CommunityEntity extends CommunityEntityId {
 
     public Object getLogo() {
         return this.logo;
-        //return null;
     }
 
     @Override
