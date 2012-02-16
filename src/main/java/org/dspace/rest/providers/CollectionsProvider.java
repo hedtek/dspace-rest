@@ -82,7 +82,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
 
         private CollectionEntity collection(String id, Parameters parameters,
                 Context context) throws SQLException {
-            return new CollectionEntity(id, context, parameters.getDetailDepth().getDepth());
+            return CollectionEntity.build(id, context, parameters.getDetailDepth().getDepth());
         }
     
         @Override
@@ -152,7 +152,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                     if (parameters.getEntityBuild().isIdOnly()) {
                         return new CollectionEntityId(id, context);
                     } else {
-                        return new CollectionEntity(id, context, parameters.getDetailDepth().getDepth());
+                        return CollectionEntity.build(id, context, parameters.getDetailDepth().getDepth());
                     }
 
                 } else {

@@ -25,6 +25,12 @@ import org.dspace.core.Context;
  */
 public class CollectionEntity {
 
+
+    public static CollectionEntity build(final String uid, final Context context, final DetailDepth depth) throws SQLException {
+        return new CollectionEntity(Collection.find(context, Integer.parseInt(uid)), 1, depth);
+    }
+
+    
     private static Logger log = Logger.getLogger(CollectionEntity.class);
 
     private final int id;
@@ -41,10 +47,6 @@ public class CollectionEntity {
     private final String sidebar_text;
     private final String provenance;
     private final Object logo;
-
-    public CollectionEntity(final String uid, final Context context, final DetailDepth depth) throws SQLException {
-        this(Collection.find(context, Integer.parseInt(uid)), 1, depth);
-    }
 
     public CollectionEntity(final Collection collection, int level, final DetailDepth depth) throws SQLException {
         log.debug("Creating collection entity.");
