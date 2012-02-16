@@ -63,7 +63,7 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
 
         private GroupEntity group(String id, Parameters parameters,
                 Context context) throws SQLException {
-            return new GroupEntity(id, context, 1, parameters.getDetailDepth().getDepth());
+            return new GroupEntity(id, context, parameters.getDetailDepth().getDepth());
         }
     
         @Override
@@ -134,7 +134,7 @@ public class GroupProvider extends AbstractBaseProvider  implements CoreEntityPr
                 if (parameters.getEntityBuild().isIdOnly()) {
                     return new GroupEntityId(id, context);
                 } else {
-                    return new GroupEntity(id, context,1, parameters.getDetailDepth().getDepth());
+                    return new GroupEntity(id, context, parameters.getDetailDepth().getDepth());
                 }
 
             } else {

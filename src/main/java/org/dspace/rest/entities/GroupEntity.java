@@ -48,8 +48,8 @@ public class GroupEntity extends GroupEntityId {
     private final List<Object> memberGroups;
     private final List<Object> members;
 
-    public GroupEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
-        this(Group.find(context, Integer.parseInt(uid)), level, depth);
+    public GroupEntity(String uid, Context context, final DetailDepth depth) throws SQLException {
+        this(Group.find(context, Integer.parseInt(uid)), 1, depth);
     }
 
     public GroupEntity(Group egroup, int level, final DetailDepth depth) throws SQLException {
