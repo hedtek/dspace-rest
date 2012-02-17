@@ -36,16 +36,25 @@ public class DSpace {
         return context;
     }
 
-    public static CollectionEntity build(final String uid, final Context context, final DetailDepth depth) throws SQLException {
-        return new CollectionEntity(Collection.find(context, Integer.parseInt(uid)), 1, depth);
-    }
+    public static class Collections {
 
-    public static Entity build(String uid, Context context) throws SQLException {
-        return DSpace.build(Collection.find(context, Integer.parseInt(uid)));
-    }
+        public static CollectionEntity build(final String uid, final Context context, final DetailDepth depth) throws SQLException {
+            return new CollectionEntity(Collection.find(context, Integer.parseInt(uid)), 1, depth);
+        }
 
-    public static CollectionEntityId build(final Collection collection) {
-        return new CollectionEntityId(collection.getID());
-    }
+        public static Entity build(final String uid, final Context context) throws SQLException {
+            return Collections.build(Collection.find(context, Integer.parseInt(uid)));
+        }
 
+        public static Entity build(final Collection collection) {
+            return new CollectionEntityId(collection.getID());
+        }
+
+        public static Entity build(final Context context, final DetailDepth depth,
+                final String uid, final boolean idOnly) throws SQLException {
+            return idOnly ? build(uid, context) : build(uid, context, depth);
+        }
+        
+    }
+    
 }

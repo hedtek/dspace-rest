@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
-import org.dspace.rest.data.DSpace;
+import org.dspace.rest.data.DSpace.Collections;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.rest.entities.BundleEntity;
@@ -96,7 +96,7 @@ public class EntityBuildParameters {
     
             case Constants.COLLECTION:
             {
-                hit = (idOnly ? DSpace.build(hitId, context) : DSpace.build(hitId, context, depth));
+                hit = Collections.build(context, depth, hitId, idOnly);
                 break;
             }
     

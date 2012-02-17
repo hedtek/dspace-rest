@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
 import org.dspace.core.Context;
 import org.dspace.rest.data.DSpace;
+import org.dspace.rest.data.DSpace.Collections;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
@@ -82,7 +83,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
 
         private CollectionEntity collection(String id, Parameters parameters,
                 Context context) throws SQLException {
-            return DSpace.build(id, context, parameters.getDetailDepth().getDepth());
+            return Collections.build(id, context, parameters.getDetailDepth().getDepth());
         }
     
         @Override
@@ -150,9 +151,9 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                 if (entityExists(id)) {
                     // return basic entity or full info
                     if (parameters.getEntityBuild().isIdOnly()) {
-                        return DSpace.build(id, context);
+                        return Collections.build(id, context);
                     } else {
-                        return DSpace.build(id, context, parameters.getDetailDepth().getDepth());
+                        return Collections.build(id, context, parameters.getDetailDepth().getDepth());
                     }
 
                 } else {
@@ -189,7 +190,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             final Collection[] collections = Collection.findAll(context);
             final boolean idOnly = parameters.getEntityBuild().isIdOnly();
             for (Collection c : collections) {
-                entities.add(idOnly ? DSpace.build(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
+                entities.add(idOnly ? Collections.build(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
             }
 
             parameters.sort(entities);

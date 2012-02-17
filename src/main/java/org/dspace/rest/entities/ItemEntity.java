@@ -22,7 +22,7 @@ import org.dspace.content.DCValue;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
-import org.dspace.rest.data.DSpace;
+import org.dspace.rest.data.DSpace.Collections;
 
 /**
  * Entity describing item
@@ -50,7 +50,7 @@ public class ItemEntity extends ItemEntityId {
         if (ownCol == null) {
             owningCollection = null;
         } else {
-            owningCollection = includeFullNextLevel ? new CollectionEntity(ownCol, level, depth) : DSpace.build(ownCol);
+            owningCollection = includeFullNextLevel ? new CollectionEntity(ownCol, level, depth) : Collections.build(ownCol);
         }
         return owningCollection;
     }
@@ -112,7 +112,7 @@ public class ItemEntity extends ItemEntityId {
         
         final Collection[] col = item.getCollections();
         for (Collection c : col) {
-            this.collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : DSpace.build(c));
+            this.collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : Collections.build(c));
         }
         
         final Community[] com = item.getCommunities();
