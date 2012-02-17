@@ -23,6 +23,7 @@ import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
+import org.dspace.rest.data.DSpace;
 import org.dspace.sort.SortException;
 import org.dspace.sort.SortOption;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
@@ -138,7 +139,7 @@ public class CommunityEntity extends CommunityEntityId {
         List<Object> collections = new ArrayList<Object>();
         Collection[] cols = community.getCollections();
         for (Collection c : cols) {
-            collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : CollectionEntityId.build(c));
+            collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : DSpace.build(c));
         }
         return collections;
     }

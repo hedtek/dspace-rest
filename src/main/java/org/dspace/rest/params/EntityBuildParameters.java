@@ -6,12 +6,11 @@ import java.util.List;
 
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
+import org.dspace.rest.data.DSpace;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.rest.entities.BundleEntity;
 import org.dspace.rest.entities.BundleEntityId;
-import org.dspace.rest.entities.CollectionEntity;
-import org.dspace.rest.entities.CollectionEntityId;
 import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.entities.CommunityEntityId;
 import org.dspace.rest.entities.DetailDepth;
@@ -97,7 +96,7 @@ public class EntityBuildParameters {
     
             case Constants.COLLECTION:
             {
-                hit = (idOnly ? CollectionEntityId.build(hitId, context) : CollectionEntity.build(hitId, context, depth));
+                hit = (idOnly ? DSpace.build(hitId, context) : DSpace.build(hitId, context, depth));
                 break;
             }
     

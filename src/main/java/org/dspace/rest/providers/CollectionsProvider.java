@@ -82,7 +82,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
 
         private CollectionEntity collection(String id, Parameters parameters,
                 Context context) throws SQLException {
-            return CollectionEntity.build(id, context, parameters.getDetailDepth().getDepth());
+            return DSpace.build(id, context, parameters.getDetailDepth().getDepth());
         }
     
         @Override
@@ -150,9 +150,9 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                 if (entityExists(id)) {
                     // return basic entity or full info
                     if (parameters.getEntityBuild().isIdOnly()) {
-                        return CollectionEntityId.build(id, context);
+                        return DSpace.build(id, context);
                     } else {
-                        return CollectionEntity.build(id, context, parameters.getDetailDepth().getDepth());
+                        return DSpace.build(id, context, parameters.getDetailDepth().getDepth());
                     }
 
                 } else {
@@ -189,7 +189,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             final Collection[] collections = Collection.findAll(context);
             final boolean idOnly = parameters.getEntityBuild().isIdOnly();
             for (Collection c : collections) {
-                entities.add(idOnly ? CollectionEntityId.build(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
+                entities.add(idOnly ? DSpace.build(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
             }
 
             parameters.sort(entities);

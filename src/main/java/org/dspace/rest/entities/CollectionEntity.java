@@ -14,23 +14,13 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
-import org.dspace.content.ItemIterator;
-import org.dspace.core.Context;
 
 /**
- * Entity describing collection
- * @see CollectionEntityId
- * @see Collection
+ * Represents a collection for rendering.
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class CollectionEntity {
 
-
-    public static CollectionEntity build(final String uid, final Context context, final DetailDepth depth) throws SQLException {
-        return new CollectionEntity(Collection.find(context, Integer.parseInt(uid)), 1, depth);
-    }
-
-    
     private static Logger log = Logger.getLogger(CollectionEntity.class);
 
     private final int id;
@@ -49,10 +39,9 @@ public class CollectionEntity {
     private final Object logo;
 
     public CollectionEntity(final Collection collection, int level, final DetailDepth depth) throws SQLException {
-        log.debug("Creating collection entity.");
         // Only include full when above maximum depth
         final boolean includeFullNextLevel = depth.includeFullDetails(++level);
-        if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
+        if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
         
         this.id = collection.getID();
         this.canEdit = collection.canEditBoolean();
@@ -71,8 +60,7 @@ public class CollectionEntity {
             this.logo = new BitstreamEntityId(collection.getLogo());
         }
         
-        final ItemIterator i = collection.getAllItems();
-        this.items = ItemBuilder.builder(!includeFullNextLevel, depth).build(i, level);
+        this.items = ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getAllItems(), level);
         this.countItems = items.size();
 
         for (Community c : collection.getCommunities()) {

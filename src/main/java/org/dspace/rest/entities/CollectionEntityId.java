@@ -8,28 +8,12 @@
 
 package org.dspace.rest.entities;
 
-
-import java.sql.SQLException;
-
-import org.dspace.content.Collection;
-import org.dspace.core.Context;
-
 /**
  * Entity describing collection, basic version
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class CollectionEntityId  {
 
-
-    public static CollectionEntityId build(String uid, Context context) throws SQLException {
-        return build(Collection.find(context, Integer.parseInt(uid)));
-    }
-    
-    public static CollectionEntityId build(final Collection collection) {
-        return new CollectionEntityId(collection.getID());
-    }
-    
-    
     private final int id;
 
     public CollectionEntityId(final int id) {
