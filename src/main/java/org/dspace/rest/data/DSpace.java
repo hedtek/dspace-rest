@@ -9,6 +9,7 @@ import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CollectionEntityId;
 import org.dspace.rest.entities.DetailDepth;
+import org.dspace.rest.entities.Entity;
 
 public class DSpace {
 
@@ -39,7 +40,7 @@ public class DSpace {
         return new CollectionEntity(Collection.find(context, Integer.parseInt(uid)), 1, depth);
     }
 
-    public static CollectionEntityId build(String uid, Context context) throws SQLException {
+    public static Entity build(String uid, Context context) throws SQLException {
         return DSpace.build(Collection.find(context, Integer.parseInt(uid)));
     }
 

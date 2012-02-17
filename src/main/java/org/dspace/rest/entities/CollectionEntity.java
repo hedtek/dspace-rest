@@ -19,11 +19,10 @@ import org.dspace.content.Community;
  * Represents a collection for rendering.
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class CollectionEntity {
+public class CollectionEntity extends Entity {
 
     private static Logger log = Logger.getLogger(CollectionEntity.class);
 
-    private final int id;
     private final String name;
     private final Boolean canEdit;
     private final String handle, licence;
@@ -39,11 +38,11 @@ public class CollectionEntity {
     private final Object logo;
 
     public CollectionEntity(final Collection collection, int level, final DetailDepth depth) throws SQLException {
+        super (collection.getID(), Type.COLLECTION);
         // Only include full when above maximum depth
         final boolean includeFullNextLevel = depth.includeFullDetails(++level);
         if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
         
-        this.id = collection.getID();
         this.canEdit = collection.canEditBoolean();
         this.handle = collection.getHandle();
         this.name = collection.getName();
@@ -92,9 +91,6 @@ public class CollectionEntity {
         return this.canEdit;
     }
 
-    public int getId() {
-        return this.id;
-    }
 
     public int getType() {
         return this.type;
@@ -126,10 +122,5 @@ public class CollectionEntity {
 
     public Object getLogo() {
         return this.logo;
-    }
-
-    @Override
-    public String toString() {
-        return "collection id:" + this.id + ", stuff.....";
     }
 }
