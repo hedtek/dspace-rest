@@ -22,14 +22,14 @@ import org.json.simple.JSONObject;
 
 public class AllSearchMatchers {
 	
-	private static final Matcher<JSONObject> emptySearchResultInfo = isSearchResultInfoWith(-1, new int [0]);
+	private static final Matcher<JSONObject> emptySearchResultInfo = isSearchResultInfoWith(0, new int [0]);
 	
 	public static final ArrayList<Matcher<JSONObject>> emptySearchResultList = new ArrayList<Matcher<JSONObject>>(){{
 		add(emptySearchResultInfo);
 	}};
 	
 	private static final int[] resultIdsForJavaCommunity = {2};
-	private static final Matcher<JSONObject> searchResultInfoWithJavaCommunity = isSearchResultInfoWith(0, resultIdsForJavaCommunity);
+	private static final Matcher<JSONObject> searchResultInfoWithJavaCommunity = isSearchResultInfoWith(1, resultIdsForJavaCommunity);
 
 	public static final ArrayList<Matcher<JSONObject>> searchResultListWithJavaCommunity = new ArrayList<Matcher<JSONObject>>(){{
 		add(searchResultInfoWithJavaCommunity);
@@ -42,7 +42,7 @@ public class AllSearchMatchers {
 	}};
 	
 	private static final int[] resultIdsForSinatraCollection = {2, 5};
-	private static final Matcher<JSONObject> searchResultInfoWithSinatraCollection = isSearchResultInfoWith(1, resultIdsForSinatraCollection);
+	private static final Matcher<JSONObject> searchResultInfoWithSinatraCollection = isSearchResultInfoWith(2, resultIdsForSinatraCollection);
 
 	public static final ArrayList<Matcher<JSONObject>> searchResultListWithSinatraCollection = new ArrayList<Matcher<JSONObject>>(){{
 		add(searchResultInfoWithSinatraCollection);
@@ -57,7 +57,7 @@ public class AllSearchMatchers {
 	}};
 
 	private static final int[] resultIdsForProductBacklogItem = { 18 };
-	private static final Matcher<JSONObject> searchResultInfoWithProductBacklogItem = isSearchResultInfoWith(0, resultIdsForProductBacklogItem);
+	private static final Matcher<JSONObject> searchResultInfoWithProductBacklogItem = isSearchResultInfoWith(1, resultIdsForProductBacklogItem);
 
 	public static final ArrayList<Matcher<JSONObject>> searchResultListWithProductBacklogItem = new ArrayList<Matcher<JSONObject>>(){{
 		add(searchResultInfoWithProductBacklogItem);
@@ -70,7 +70,7 @@ public class AllSearchMatchers {
 	}};
 	
 	private static final int[] resultIdsForTutorialItems = { 5,	3, 7, 10, 14, 19, 23, 24 };
-	private static final Matcher<JSONObject> searchResultInfoWithTutorialItems = isSearchResultInfoWith(7, resultIdsForTutorialItems);
+	private static final Matcher<JSONObject> searchResultInfoWithTutorialItems = isSearchResultInfoWith(8, resultIdsForTutorialItems);
 	
 	public static final ArrayList<Matcher<JSONObject>> searchResultListWithTutorialItem = new ArrayList<Matcher<JSONObject>>(){{
 		add(searchResultInfoWithTutorialItems);
@@ -85,7 +85,7 @@ public class AllSearchMatchers {
 	}};
 	
 	private static final int[] resultIdsForScrumTutorialItems = { 19 };
-	private static final Matcher<JSONObject> searchResultInfoWithScrumTutorialItems = isSearchResultInfoWith(0, resultIdsForScrumTutorialItems);
+	private static final Matcher<JSONObject> searchResultInfoWithScrumTutorialItems = isSearchResultInfoWith(1, resultIdsForScrumTutorialItems);
 
 	public static final ArrayList<Matcher<JSONObject>> searchResultListWithScrumTutorialItem = new ArrayList<Matcher<JSONObject>>(){{
 		add(searchResultInfoWithScrumTutorialItems);
@@ -94,7 +94,7 @@ public class AllSearchMatchers {
 	
 
 	private static final int[] resultIdsForPomSprintItems = { 12, 17 };
-	private static final Matcher<JSONObject> searchResultInfoWithPomSprintItems = isSearchResultInfoWith(1, resultIdsForPomSprintItems);
+	private static final Matcher<JSONObject> searchResultInfoWithPomSprintItems = isSearchResultInfoWith(2, resultIdsForPomSprintItems);
 
 	public static final ArrayList<Matcher<JSONObject>> searchResultListWithPomSprintItems = new ArrayList<Matcher<JSONObject>>(){{
 		add(searchResultInfoWithPomSprintItems);

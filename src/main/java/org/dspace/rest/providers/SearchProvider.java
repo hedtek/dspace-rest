@@ -96,7 +96,7 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
     }
 
     private SearchResultsInfoEntity buildInfo(final QueryResults queryResults) {
-        return new SearchResultsInfoEntity(queryResults.getHitCount() - 1, queryResults.getHitTypes(), queryResults.getHitHandles(), queryResults.getHitIds());
+        return new SearchResultsInfoEntity(queryResults.getHitCount(), queryResults.getHitTypes(), queryResults.getHitHandles(), queryResults.getHitIds());
     }
 
     private QueryResults doQuery(final Context context) throws IOException {
