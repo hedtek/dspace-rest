@@ -49,7 +49,7 @@ public class ItemEntity extends ItemEntityId {
         if (ownCol == null) {
             owningCollection = null;
         } else {
-            owningCollection = includeFullNextLevel ? new CollectionEntity(ownCol, level, depth) : new CollectionEntityId(ownCol);
+            owningCollection = includeFullNextLevel ? new CollectionEntity(ownCol, level, depth) : CollectionEntityId.build(ownCol);
         }
         return owningCollection;
     }
@@ -111,7 +111,7 @@ public class ItemEntity extends ItemEntityId {
         
         final Collection[] col = item.getCollections();
         for (Collection c : col) {
-            this.collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
+            this.collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : CollectionEntityId.build(c));
         }
         
         final Community[] com = item.getCommunities();

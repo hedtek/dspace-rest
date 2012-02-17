@@ -189,7 +189,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             final Collection[] collections = Collection.findAll(context);
             final boolean idOnly = parameters.getEntityBuild().isIdOnly();
             for (Collection c : collections) {
-                entities.add(idOnly ? new CollectionEntityId(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
+                entities.add(idOnly ? CollectionEntityId.build(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
             }
 
             parameters.sort(entities);

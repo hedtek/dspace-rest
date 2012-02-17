@@ -22,13 +22,18 @@ public class CollectionEntityId  {
 
 
     public static CollectionEntityId build(String uid, Context context) throws SQLException {
-        return new CollectionEntityId(Collection.find(context, Integer.parseInt(uid)));
+        return build(Collection.find(context, Integer.parseInt(uid)));
     }
+    
+    public static CollectionEntityId build(final Collection collection) {
+        return new CollectionEntityId(collection.getID());
+    }
+    
     
     private final int id;
 
-    public CollectionEntityId(Collection collection) {
-        this.id = collection.getID();
+    public CollectionEntityId(final int id) {
+        this.id = id;
     }
 
     public final int getId() {

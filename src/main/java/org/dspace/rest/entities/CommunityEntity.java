@@ -138,7 +138,7 @@ public class CommunityEntity extends CommunityEntityId {
         List<Object> collections = new ArrayList<Object>();
         Collection[] cols = community.getCollections();
         for (Collection c : cols) {
-            collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : new CollectionEntityId(c));
+            collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : CollectionEntityId.build(c));
         }
         return collections;
     }
