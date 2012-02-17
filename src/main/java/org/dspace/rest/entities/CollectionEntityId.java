@@ -16,28 +16,27 @@ import org.dspace.core.Context;
 
 /**
  * Entity describing collection, basic version
- * @see CollectionEntity
- * @see Collection
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class CollectionEntityId  {
 
+
+    public static CollectionEntityId build(String uid, Context context) throws SQLException {
+        return new CollectionEntityId(Collection.find(context, Integer.parseInt(uid)));
+    }
+    
     private final int id;
 
-    public CollectionEntityId(String uid, Context context) throws SQLException {
-        this(Collection.find(context, Integer.parseInt(uid)));
-    }
-
-    public CollectionEntityId(Collection collection) throws SQLException {
+    public CollectionEntityId(Collection collection) {
         this.id = collection.getID();
     }
 
-    public int getId() {
+    public final int getId() {
         return this.id;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (null == obj) {
             return false;
         }
@@ -50,15 +49,12 @@ public class CollectionEntityId  {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        return result;
+    public final int hashCode() {
+        return id;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return "id:" + this.id;
     }
 }
