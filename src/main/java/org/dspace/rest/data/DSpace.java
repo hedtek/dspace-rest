@@ -1,6 +1,7 @@
 package org.dspace.rest.data;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.dspace.content.Collection;
 import org.dspace.core.Context;
@@ -10,6 +11,7 @@ import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CollectionEntityId;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.Entity;
+import org.dspace.rest.params.Parameters;
 
 public class DSpace {
 
@@ -53,6 +55,11 @@ public class DSpace {
         public static Entity build(final Context context, final DetailDepth depth,
                 final String uid, final boolean idOnly) throws SQLException {
             return idOnly ? build(uid, context) : build(uid, context, depth);
+        }
+
+        public static List<?> items(String id, Parameters parameters,
+                Context context) throws SQLException {
+            return build(id, context, parameters.getDetailDepth().getDepth()).getItems();
         }
         
     }
