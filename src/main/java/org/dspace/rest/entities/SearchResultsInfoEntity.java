@@ -52,13 +52,4 @@ public class SearchResultsInfoEntity {
     public List<Object> getResultIDs() {
         return this.resultsIDs;
     }
-
-    // these are added for sorting management
-    public String getName() {
-        return "";
-    }
-
-    public int getId() {
-        return 0;
-    }
 }

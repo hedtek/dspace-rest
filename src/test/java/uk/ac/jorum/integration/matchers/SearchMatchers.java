@@ -23,13 +23,12 @@ import org.json.simple.JSONObject;
 public class SearchMatchers {
 	@Factory
 	public static Matcher<JSONObject> isSearchResultInfoWith(int resultsCount, int[] resultIds) {
-		String[] searchResultKeys = { "id", "name", "resultHandles", "resultTypes" };
+		String[] searchResultKeys = { "resultHandles", "resultTypes" };
 		ArrayList<Matcher<Long>> ids = new ArrayList<Matcher<Long>>();
 		for(int id:resultIds) {
 			ids.add(equalTo(new Long(id)));
 		}
 		return allOf(	        
-	        hasId(0),
 	        hasResultsCount(resultsCount),
 	        hasArray("resultIDs", ids),
 	        hasKeys(searchResultKeys)
