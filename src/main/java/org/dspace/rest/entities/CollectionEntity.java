@@ -59,7 +59,7 @@ public class CollectionEntity extends Entity {
             this.logo = new BitstreamEntityId(collection.getLogo());
         }
         
-        this.items = ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getAllItems(), level);
+        this.items = ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), level);
         this.countItems = items.size();
 
         for (Community c : collection.getCommunities()) {
