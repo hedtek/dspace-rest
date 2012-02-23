@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.dspace.browse.BrowseEngine;
 import org.dspace.browse.BrowseException;
@@ -157,11 +158,8 @@ public class CommunityEntity extends CommunityEntityId {
     
     private static Logger log = Logger.getLogger(CommunityEntity.class);
     
-    @EntityId
     private int id;
-    @EntityFieldRequired
-    public String name;
-    @EntityFieldRequired
+    private String name;
     private Boolean canEdit;
     private String handle;
     private int type;
@@ -178,6 +176,7 @@ public class CommunityEntity extends CommunityEntityId {
         log.debug("Creating community entity.");
         try {
             final Community community = Community.find(context, Integer.parseInt(uid));
+            
             this.id = community.getID();
             this.canEdit = community.canEditBoolean();
             this.handle = community.getHandle();
@@ -205,7 +204,11 @@ public class CommunityEntity extends CommunityEntityId {
     }
 
     public CommunityEntity(Community community, int level, final DetailDepth depth) throws SQLException {
-        log.debug("Creating community");
+        this(community, level, depth, new ArrayList<Object>());
+    }
+
+
+    public CommunityEntity(Community community, int level, final DetailDepth depth, final List<Object> recentSubmissions) throws SQLException {
         // Only include full when above maximum depth
         final boolean includeFullNextLevel = depth.includeFullDetails(++level);
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
@@ -225,8 +228,10 @@ public class CommunityEntity extends CommunityEntityId {
         this.collections = collections(community, level, depth, includeFullNextLevel);
         this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);        
         this.parent = parent(level, depth, community, includeFullNextLevel);
+        this.recentSubmissions = recentSubmissions;
     }
 
+    
 
     public List<?> getCollections() {
         return this.collections;
