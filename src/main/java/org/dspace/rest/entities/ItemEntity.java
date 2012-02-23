@@ -28,7 +28,7 @@ import org.dspace.rest.data.DSpace.Collections;
  * Entity describing item
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class ItemEntity extends ItemEntityId {
+public class ItemEntity extends LightweightItemEntity {
 
     private static Logger log = Logger.getLogger(ItemEntity.class);
 
@@ -65,7 +65,6 @@ public class ItemEntity extends ItemEntityId {
         }
     }
     
-    private final String name;
     private final Boolean canEdit;
     private final String handle;
     private final int type;
@@ -73,7 +72,6 @@ public class ItemEntity extends ItemEntityId {
     private final List<BitstreamEntityId> bitstreams = new ArrayList<BitstreamEntityId>();
     private final List<Object> collections = new ArrayList<Object>();
     private final List<CommunityEntityId> communities = new ArrayList<CommunityEntityId>();
-    private final List<MetadataEntity> metadata = new ArrayList<MetadataEntity>();
     private final Date lastModified;
     private final Object owningCollection;
     private final boolean isArchived;
@@ -92,7 +90,6 @@ public class ItemEntity extends ItemEntityId {
         
         this.canEdit = item.canEdit();
         this.handle = item.getHandle();
-        this.name = item.getName();
         this.type = item.getType();
         this.lastModified = item.getLastModified();
         
@@ -119,17 +116,6 @@ public class ItemEntity extends ItemEntityId {
         for (Community c : com) {
             this.communities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
         }
-
-        final DCValue[] dcValues = item.getMetadata(Item.ANY, Item.ANY, Item.ANY, Item.ANY);
-        for (DCValue dcValue : dcValues)
-        {
-            this.metadata.add(new MetadataEntity(dcValue));
-        }
-    }
-
-    public List<MetadataEntity> getMetadata()
-    {
-        return this.metadata;
     }
 
     public UserEntity getSubmitter() {
@@ -158,10 +144,6 @@ public class ItemEntity extends ItemEntityId {
 
     public List<CommunityEntityId> getCommunities() {
         return this.communities;
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     public List<BitstreamEntityId> getBitstreams() {
