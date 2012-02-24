@@ -146,7 +146,6 @@ public class CommunityEntity extends CommunityEntityId {
     
     private static Logger log = Logger.getLogger(CommunityEntity.class);
     
-    private int id;
     private String name;
     private Boolean canEdit;
     private String handle;
@@ -161,7 +160,7 @@ public class CommunityEntity extends CommunityEntityId {
     private Object logo;
 
     public CommunityEntity(Community community, Context context, int level, final DetailDepth depth) throws SQLException {
-            this.id = community.getID();
+            super(community.getID());
             this.canEdit = community.canEditBoolean();
             this.handle = community.getHandle();
             this.name = community.getName();
@@ -191,6 +190,7 @@ public class CommunityEntity extends CommunityEntityId {
 
 
     public CommunityEntity(Community community, int level, final DetailDepth depth, final List<Object> recentSubmissions) throws SQLException {
+        super(community.getID());
         // Only include full when above maximum depth
         final boolean includeFullNextLevel = depth.includeFullDetails(++level);
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
@@ -199,7 +199,6 @@ public class CommunityEntity extends CommunityEntityId {
         this.handle = community.getHandle();
         this.name = community.getName();
         this.type = community.getType();
-        this.id = community.getID();
         this.countItems = community.countItems();
         this.short_description = community.getMetadata("short_description");
         this.introductory_text = community.getMetadata("introductory_text");
@@ -244,11 +243,6 @@ public class CommunityEntity extends CommunityEntityId {
         return this.logo;
     }
 
-    @Override
-    public int getId() {
-        return this.id;
-    }
-
     public int getType() {
         return this.type;
     }
@@ -279,10 +273,5 @@ public class CommunityEntity extends CommunityEntityId {
 
     public String getIntroductoryText() {
         return this.introductory_text;
-    }
-
-    @Override
-    public String toString() {
-        return "id:" + this.id + ", stuff.....";
     }
 }

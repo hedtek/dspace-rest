@@ -12,56 +12,18 @@ package org.dspace.rest.entities;
 import java.sql.SQLException;
 
 import org.dspace.content.Community;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing community, basic version
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class CommunityEntityId {
-
-    @EntityId
-    private int id;
-
-    protected CommunityEntityId() {
-    }
+public class CommunityEntityId extends Entity {
 
     public CommunityEntityId(int id) {
-        this.id = id;
+        super(id, Type.COMMUNITY);
     }
 
     public CommunityEntityId(Community community) throws SQLException {
         this(community.getID());
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (null == obj) {
-            return false;
-        }
-        if (!(obj instanceof CommunityEntityId)) {
-            return false;
-        } else {
-            CommunityEntityId castObj = (CommunityEntityId) obj;
-            return (this.id == castObj.id);
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        return result;
-    }
-
-
-    @Override
-    public String toString() {
-        return "id:" + this.id;
     }
 }
