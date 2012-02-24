@@ -96,7 +96,7 @@ public class Collections {
             case LIGHT:
                 return lightCollectionWithItems(id, context);
             default:
-                return new Builder(fetch(id, context)).full(1, parameters.getDetailDepth().getDepth()).getItems();
+                return collection(id, parameters, context).getItems();
         }
     }
 
@@ -104,8 +104,7 @@ public class Collections {
         return null;
     }
 
-    public static CollectionEntity collection(String id, Parameters parameters,
-            Context context) throws SQLException {
+    public static CollectionEntity collection(String id, Parameters parameters, Context context) throws SQLException {
         return new Builder(fetch(id, context)).full(1, parameters.getDetailDepth().getDepth());
     }
 
