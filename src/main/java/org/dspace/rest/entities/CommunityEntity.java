@@ -188,11 +188,12 @@ public class CommunityEntity extends CommunityEntityId {
     }
 
     public CommunityEntity(Community community, int level, final DetailDepth depth) throws SQLException {
-        this(community, level, depth, new ArrayList<Object>());
+        this(community, level, depth, new ArrayList<Object>(), community.countItems());
     }
 
 
-    public CommunityEntity(Community community, int level, final DetailDepth depth, final List<Object> recentSubmissions) throws SQLException {
+    public CommunityEntity(Community community, int level, final DetailDepth depth, final List<Object> recentSubmissions,
+            int itemsCount) throws SQLException {
         super(community.getID());
         // Only include full when above maximum depth
         final boolean includeFullNextLevel = depth.includeFullDetails(++level);
@@ -202,7 +203,7 @@ public class CommunityEntity extends CommunityEntityId {
         this.handle = community.getHandle();
         this.name = community.getName();
         this.type = community.getType();
-        this.countItems = community.countItems();
+        this.countItems = itemsCount;
         this.short_description = community.getMetadata("short_description");
         this.introductory_text = community.getMetadata("introductory_text");
         this.copyright_text = community.getMetadata("copyright_text");
