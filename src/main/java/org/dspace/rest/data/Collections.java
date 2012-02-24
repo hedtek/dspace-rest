@@ -18,7 +18,52 @@ import org.dspace.rest.entities.ItemBuilder;
 import org.dspace.rest.params.Parameters;
 
 public class Collections {
+    
+    private static class Builder {
+        private final Collection collection;
+        private boolean isIdOnly = false;
 
+        private Builder(Collection collection) {
+            super();
+            this.collection = collection;
+        }
+        
+        public boolean isIdOnly() {
+            return isIdOnly;
+        }
+
+        public void setIdOnly(boolean isIdOnly) {
+            this.isIdOnly = isIdOnly;
+        }
+
+        public Builder withIdOnly(boolean isIdOnly) {
+            this.isIdOnly = isIdOnly;
+            return this;
+        }
+        
+        public Builder withFull(boolean isFullNextLevel) {
+            setIdOnly(!isFullNextLevel);
+            return this;
+        }
+
+        public Entity idOnly() {
+            return new CollectionEntityId(collection.getID());
+        }
+
+        public CollectionEntity full(final int level, final DetailDepth depth) throws SQLException {
+            return new CollectionEntity(collection, level, depth);
+        }
+
+        public Entity build(final int level, final DetailDepth depth) throws SQLException {
+            if (isIdOnly()) {
+                return idOnly();
+            } else {
+                return full(level, depth);
+            }
+        }
+    }
+    
+    
     private static CollectionEntity build(final String uid, final Context context, final DetailDepth depth) throws SQLException {
         return new CollectionEntity(fetch(uid, context), 1, depth);
     }
@@ -30,11 +75,7 @@ public class Collections {
     }
 
     private static Entity build(final String uid, final Context context) throws SQLException {
-        return Collections.build(fetch(uid, context));
-    }
-
-    public static Entity build(final Collection collection) {
-        return new CollectionEntityId(collection.getID());
+        return new Builder(fetch(uid, context)).idOnly();
     }
 
     public static Entity build(final Context context, final DetailDepth depth,
@@ -70,12 +111,11 @@ public class Collections {
         }
     }
 
-    public static List<Object> build(final Parameters parameters,
-            final Collection[] collections) throws SQLException {
-        final List<Object> entities = new ArrayList<Object>();
+    public static List<Entity> build(final Parameters parameters, final Collection[] collections) throws SQLException {
+        final List<Entity> entities = new ArrayList<Entity>();
         final boolean idOnly = parameters.getEntityBuild().isIdOnly();
-        for (Collection c : collections) {
-            entities.add(idOnly ? build(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
+        for (Collection collection : collections) {
+            entities.add(new Builder(collection).withIdOnly(idOnly).build(1, DetailDepth.FOR_ALL_INDEX));
         }
         return entities;
     }
@@ -90,38 +130,38 @@ public class Collections {
         return communities;
     }
 
-    public static List<Object> collections(Community community, int level,
+    public static List<Entity> collections(Community community, int level,
             final DetailDepth depth, final boolean includeFullNextLevel)
             throws SQLException {
-        List<Object> collections = new ArrayList<Object>();
-        Collection[] cols = community.getCollections();
-        for (Collection c : cols) {
-            collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : build(c));
+        final List<Entity> entities = new ArrayList<Entity>();
+        final Collection[] collections = community.getCollections();
+        for (Collection collection : collections) {
+            entities.add(new Builder(collection).withFull(includeFullNextLevel).build(level, depth));
         }
-        return collections;
+        return entities;
     }
 
-    public static Object buildOwningCollection(Item item, int level,
+    public static Entity buildOwningCollection(Item item, int level,
             final DetailDepth depth, final boolean includeFullNextLevel)
             throws SQLException {
-        Object owningCollection;
-        final Collection ownCol = item.getOwningCollection();
-        if (ownCol == null) {
+        Entity owningCollection;
+        final Collection parent = item.getOwningCollection();
+        if (parent == null) {
             owningCollection = null;
         } else {
-            owningCollection = includeFullNextLevel ? new CollectionEntity(ownCol, level, depth) : build(ownCol);
+            owningCollection = new Builder(parent).withFull(includeFullNextLevel).build(level, depth);
         }
         return owningCollection;
     }
 
-    public static List<Object> build(final int level, final DetailDepth depth, final Collection[] col)
+    public static List<Entity> build(final int level, final DetailDepth depth, final Collection[] collections)
             throws SQLException {
         final boolean includeFullNextLevel = depth.includeFullDetails(level);
-        final List<Object> collections = new ArrayList<Object>();
-        for (Collection c : col) {
-            collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : build(c));
+        final List<Entity> entities = new ArrayList<Entity>();
+        for (Collection collection : collections) {
+            entities.add(new Builder(collection).withFull(includeFullNextLevel).build(level, depth));
         }
-        return collections;
+        return entities;
     }
 
     public static List<Object> items(final Collection collection,

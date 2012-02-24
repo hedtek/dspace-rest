@@ -22,6 +22,7 @@ import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CollectionEntityId;
+import org.dspace.rest.entities.Entity;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
 import org.sakaiproject.entitybus.EntityReference;
@@ -176,7 +177,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         try {
             final Collection[] collections = Collection.findAll(context);
             
-            final List<Object> entities = Collections.build(parameters, collections);
+            final List<Entity> entities = Collections.build(parameters, collections);
             
             parameters.sort(entities);
             parameters.removeTrailing(entities);

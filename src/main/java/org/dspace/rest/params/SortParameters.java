@@ -119,7 +119,7 @@ public class SortParameters {
     }
 
     @SuppressWarnings({ "unchecked", "unused" })
-    public void sort(final List<Object> entities) {
+    public void sort(final List<?> entities) {
         if (SORT && sortOptions.size() > 0) {
             Collections.sort(entities, new FlexibleComparator(sortOptions));
         }

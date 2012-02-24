@@ -55,7 +55,7 @@ public class ItemEntity extends LightweightItemEntity {
     private final int type;
     private final List<BundleEntityId> bundles;
     private final List<BitstreamEntityId> bitstreams = new ArrayList<BitstreamEntityId>();
-    private final List<Object> collections;
+    private final List<Entity> collections;
     private final List<CommunityEntityId> communities = new ArrayList<CommunityEntityId>();
     private final Date lastModified;
     private final Object owningCollection;
@@ -121,7 +121,7 @@ public class ItemEntity extends LightweightItemEntity {
         return this.lastModified;
     }
 
-    public List<Object> getCollections() {
+    public List<Entity> getCollections() {
         return this.collections;
     }
 

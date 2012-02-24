@@ -57,7 +57,7 @@ public class Parameters {
         getPagination().removeTrailing(entities);
     }
     
-    public void sort(final List<Object> entities) {
+    public void sort(final List<?> entities) {
         /**
          * if the full info are requested and there are sorting requirements
          * process entities through sorting filter first

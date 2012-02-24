@@ -152,7 +152,7 @@ public class CommunityEntity extends CommunityEntityId {
     private String handle;
     private int type;
     private int countItems;
-    private List<Object> collections = new ArrayList<Object>();
+    private List<Entity> collections = new ArrayList<Entity>();
     private List<Object> subCommunities = new ArrayList<Object>();
     private List<Object> recentSubmissions = new ArrayList<Object>();
     private Object administrators;
@@ -221,7 +221,7 @@ public class CommunityEntity extends CommunityEntityId {
 
     
 
-    public List<?> getCollections() {
+    public List<Entity> getCollections() {
         return this.collections;
     }
 
