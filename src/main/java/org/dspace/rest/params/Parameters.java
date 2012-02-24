@@ -83,4 +83,8 @@ private final RequestStorage requestStore;
     public CollectionEntity collectionEntity(String id, Context context) throws SQLException {
         return Collections.collection(id, context, getDetailDepth().getDepth());
     }
+
+    public Object lightCollectionWithItems(String uid, Context context) throws SQLException {
+        return Collections.collectionWithItems(uid, context, getPagination().pagination());
+    }
 }

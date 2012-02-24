@@ -54,9 +54,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             } else if("items".equals(attributeSegment)) {
                 switch (parameters.getEntityBuild().getFetchGroup()) {
                     case LIGHT:
-                        final int start = parameters.getPagination().getStart();
-                        final int limit = parameters.getPagination().getLimit();
-                        return Collections.lightCollectionWithItems(collectionId, context, start, limit);
+                        return parameters.lightCollectionWithItems(collectionId, context);
                     default:
                         return parameters.collectionEntity(collectionId, context).getItems();
                 }

@@ -91,7 +91,7 @@ public class Collections {
             return communities;
         }
 
-        public Entity light(int start, int limit) throws SQLException {
+        public Entity light(final Pagination pagination) throws SQLException {
             final List<Object> communities = new ArrayList<Object>();
             for (Community community : collection.getCommunities()) {
                 communities.add(new BasicEntity(community.getID(), Type.COMMUNITY, community.getName(), community.getType()));
@@ -101,7 +101,9 @@ public class Collections {
             final ItemIterator it = collection.getItems();
             while (it.hasNext()) {
                 final Item item = it.next();
-                items.add(new ItemWithMetadataEntity(item));
+                if (pagination.isInPage(itemCount)) {
+                    items.add(new ItemWithMetadataEntity(item));
+                }
                 itemCount++;
             }
             return new CollectionWithItemsEntity(collection.getID(), collection.getName(), collection.getType(), 
@@ -121,8 +123,8 @@ public class Collections {
         return new Builder(fetch(uid, context)).withIdOnly(idOnly).build(depth);
     }
 
-    public static Entity lightCollectionWithItems(String id, Context context, int start, int limit) throws SQLException {
-        return new Builder(fetch(id, context)).light(start, limit);
+    public static Entity collectionWithItems(String id, Context context, Pagination pagination) throws SQLException {
+        return new Builder(fetch(id, context)).light(pagination);
     }
 
     public static CollectionEntity collection(String id, Context context,

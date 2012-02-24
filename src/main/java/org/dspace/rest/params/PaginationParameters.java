@@ -3,6 +3,8 @@ package org.dspace.rest.params;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.dspace.rest.data.Pagination;
+import org.dspace.rest.data.Pagination.Builder;
 import org.dspace.search.QueryArgs;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
@@ -60,13 +62,21 @@ public class PaginationParameters {
         return limit;
     }
 
-    public  void configure(final QueryArgs arg) {
+    public void configure(final QueryArgs arg) {
         if (perpage > 0) {
             arg.setPageSize(perpage);
         }
         arg.setStart(getStartPosition());
     }
 
+    public Pagination pagination() {
+        final Builder builder = new Pagination.Builder().startAt(getStartPosition());
+        if (perpage > 0) {
+            builder.perPage(perpage);
+        }
+        return builder.build();
+    }
+    
     /**
      * The effective start position for the page
      * of results to be queried.

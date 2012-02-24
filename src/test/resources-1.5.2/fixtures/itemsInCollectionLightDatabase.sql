@@ -1782,20 +1782,20 @@ INSERT INTO collection2item VALUES (6, 2, 5);
 INSERT INTO collection2item VALUES (7, 3, 6);
 INSERT INTO collection2item VALUES (8, 3, 7);
 INSERT INTO collection2item VALUES (9, 3, 8);
-INSERT INTO collection2item VALUES (10, 4, 9);
-INSERT INTO collection2item VALUES (11, 4, 10);
-INSERT INTO collection2item VALUES (12, 4, 11);
-INSERT INTO collection2item VALUES (13, 5, 12);
-INSERT INTO collection2item VALUES (14, 5, 13);
-INSERT INTO collection2item VALUES (15, 5, 14);
-INSERT INTO collection2item VALUES (16, 6, 16);
-INSERT INTO collection2item VALUES (17, 6, 17);
-INSERT INTO collection2item VALUES (18, 6, 18);
-INSERT INTO collection2item VALUES (19, 6, 19);
-INSERT INTO collection2item VALUES (20, 7, 21);
-INSERT INTO collection2item VALUES (21, 7, 22);
-INSERT INTO collection2item VALUES (22, 7, 23);
-INSERT INTO collection2item VALUES (23, 8, 24);
+INSERT INTO collection2item VALUES (10, 1, 9);
+INSERT INTO collection2item VALUES (11, 1, 10);
+INSERT INTO collection2item VALUES (12, 1, 11);
+INSERT INTO collection2item VALUES (13, 1, 12);
+INSERT INTO collection2item VALUES (14, 1, 13);
+INSERT INTO collection2item VALUES (15, 1, 14);
+INSERT INTO collection2item VALUES (16, 1, 16);
+INSERT INTO collection2item VALUES (17, 1, 17);
+INSERT INTO collection2item VALUES (18, 1, 18);
+INSERT INTO collection2item VALUES (19, 1, 19);
+INSERT INTO collection2item VALUES (20, 1, 21);
+INSERT INTO collection2item VALUES (21, 1, 22);
+INSERT INTO collection2item VALUES (22, 1, 23);
+INSERT INTO collection2item VALUES (23, 1, 24);
 
 
 --

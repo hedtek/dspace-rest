@@ -29,4 +29,19 @@ public class ItemsInCollectionLightTest extends RestApiBaseTest {
       String result = makeRequest("/collections/1/items?fetch=light");
       assertTrue(result, true);
     }
+	
+
+    @Test
+    public void smoke2() throws Exception {
+      String result = makeRequest("/collections/2/items?fetch=light");
+      assertTrue(result, true);
+    }
+
+
+    @Test
+    public void smoke3() throws Exception {
+      String result = makeRequest("/collections/3/items?fetch=light");
+      assertTrue(result, true);
+    }
+
 }
