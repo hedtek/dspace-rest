@@ -64,23 +64,15 @@ public class Collections {
     }
     
     
-    private static CollectionEntity build(final String uid, final Context context, final DetailDepth depth) throws SQLException {
-        return new CollectionEntity(fetch(uid, context), 1, depth);
-    }
-
     private static Collection fetch(final String uid, final Context context)
             throws SQLException {
         final int id = Integer.parseInt(uid);
         return Collection.find(context, id);
     }
 
-    private static Entity build(final String uid, final Context context) throws SQLException {
-        return new Builder(fetch(uid, context)).idOnly();
-    }
-
     public static Entity build(final Context context, final DetailDepth depth,
             final String uid, final boolean idOnly) throws SQLException {
-        return idOnly ? build(uid, context) : build(uid, context, depth);
+        return new Builder(fetch(uid, context)).withIdOnly(idOnly).build(1, depth);
     }
 
     public static Object items(String id, Parameters parameters,
@@ -89,7 +81,7 @@ public class Collections {
             case LIGHT:
                 return lightCollectionWithItems(id, context);
             default:
-                return build(id, context, parameters.getDetailDepth().getDepth()).getItems();
+                return new Builder(fetch(id, context)).full(1, parameters.getDetailDepth().getDepth()).getItems();
         }
     }
 
@@ -99,16 +91,13 @@ public class Collections {
 
     public static CollectionEntity collection(String id, Parameters parameters,
             Context context) throws SQLException {
-        return build(id, context, parameters.getDetailDepth().getDepth());
+        return new Builder(fetch(id, context)).full(1, parameters.getDetailDepth().getDepth());
     }
 
-    public static Entity build(final String id, final Context context,
-            final Parameters parameters) throws SQLException {
-        if (parameters.getEntityBuild().isIdOnly()) {
-            return build(id, context);
-        } else {
-            return build(id, context, parameters.getDetailDepth().getDepth());
-        }
+    public static Entity build(final String id, final Context context, final Parameters parameters) throws SQLException {
+        final boolean idOnly = parameters.getEntityBuild().isIdOnly();
+        final DetailDepth depth = parameters.getDetailDepth().getDepth();
+        return new Builder(fetch(id, context)).withIdOnly(idOnly).build(1, depth);
     }
 
     public static List<Entity> build(final Parameters parameters, final Collection[] collections) throws SQLException {
