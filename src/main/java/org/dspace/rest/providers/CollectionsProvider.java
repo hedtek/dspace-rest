@@ -52,7 +52,14 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             } else if("licence".equals(attributeSegment)) {
                 return Collections.collection(collectionId, parameters, context).getLicence();
             } else if("items".equals(attributeSegment)) {
-                return Collections.items(collectionId, parameters, context);
+                switch (parameters.getEntityBuild().getFetchGroup()) {
+                    case LIGHT:
+                        final int start = parameters.getPagination().getStart();
+                        final int limit = parameters.getPagination().getLimit();
+                        return Collections.lightCollectionWithItems(collectionId, context, start, limit);
+                    default:
+                        return Collections.collection(collectionId, parameters, context).getItems();
+                }
             } else if("handle".equals(attributeSegment)) {
                 return Collections.collection(collectionId, parameters, context).getHandle();
             } else if("canedit".equals(attributeSegment)) {

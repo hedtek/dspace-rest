@@ -98,17 +98,7 @@ public class Collections {
         return new Builder(fetch(uid, context)).withIdOnly(idOnly).build(depth);
     }
 
-    public static Object items(String id, Parameters parameters,
-            Context context) throws SQLException {
-        switch (parameters.getEntityBuild().getFetchGroup()) {
-            case LIGHT:
-                return lightCollectionWithItems(id, context);
-            default:
-                return collection(id, parameters, context).getItems();
-        }
-    }
-
-    private static Entity lightCollectionWithItems(String id, Context context) {
+    public static Entity lightCollectionWithItems(String id, Context context, int start, int limit) {
         return null;
     }
 

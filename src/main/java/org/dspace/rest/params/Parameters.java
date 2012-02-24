@@ -8,8 +8,9 @@ import org.dspace.rest.entities.ItemBuilder;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class Parameters {
+    
 
-    private final RequestStorage requestStore;
+private final RequestStorage requestStore;
     
     public Parameters(RequestStorage requestStore) {
         super();

@@ -23,10 +23,6 @@ import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class EntityBuildParameters {
     
-    public enum Fetch {
-        DEFAULT, LIGHT
-    }
-    
     public static EntityBuildParameters build(RequestStorage requestStore) {
         final boolean idOnly = valueInStoreIsTrue(requestStore, "idOnly");
         final boolean immediateOnly = !valueInStoreIsFalse(requestStore, "immediateOnly");
