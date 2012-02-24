@@ -26,7 +26,7 @@ import org.dspace.rest.data.Collections;
  * Entity describing item
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class ItemEntity extends LightweightItemEntity {
+public class ItemEntity extends ItemWithMetadataEntity {
 
     private static Logger log = Logger.getLogger(ItemEntity.class);
 

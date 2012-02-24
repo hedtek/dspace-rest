@@ -7,12 +7,12 @@ import java.util.List;
 import org.dspace.content.DCValue;
 import org.dspace.content.Item;
 
-public class LightweightItemEntity extends ItemEntityId {
+public class ItemWithMetadataEntity extends ItemEntityId {
 
     private final String name;
     private final List<MetadataEntity> metadata;
 
-    public LightweightItemEntity(Item item) throws SQLException {
+    public ItemWithMetadataEntity(Item item) throws SQLException {
         super(item);
         this.name = item.getName();
 

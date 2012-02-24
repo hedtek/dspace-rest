@@ -12,21 +12,17 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
-import org.dspace.rest.data.Collections;
 
 /**
  * Represents a collection for rendering.
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class CollectionEntity extends BasicEntity {
+public class CollectionEntity extends CollectionWithItemsEntity {
 
     private static Logger log = Logger.getLogger(CollectionEntity.class);
 
     private final Boolean canEdit;
     private final String handle, licence;
-    private final int countItems;
-    private final List<Object> items;
-    private final List<Object> communities;
     private final String short_description;
     private final String intro_text;
     private final String copyright_text;
@@ -36,7 +32,7 @@ public class CollectionEntity extends BasicEntity {
 
     public CollectionEntity(final Collection collection, final int level, final DetailDepth depth,  final List<Object> items,
     final List<Object> communities, final int itemsCount) throws SQLException {
-        super (collection.getID(), Type.COLLECTION, collection.getName(), collection.getType());
+        super (collection.getID(), Type.COLLECTION, collection.getName(), collection.getType(), items, communities, itemsCount);
         // Only include full when above maximum depth
         final int nextLevel = level + 1;
         if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth + "; include full? " + depth.includeFullDetails(nextLevel) + "; next level " + nextLevel);
@@ -54,22 +50,10 @@ public class CollectionEntity extends BasicEntity {
         } else {
             this.logo = new BitstreamEntityId(collection.getLogo());
         }
-        
-        this.communities = communities;
-        this.items = items;
-        this.countItems = itemsCount;
     }
 
     public String getLicence() {
         return this.licence;
-    }
-
-    public List<?> getItems() {
-        return this.items;
-    }
-
-    public List<?> getCommunities() {
-        return this.communities;
     }
 
     public String getHandle() {
@@ -80,10 +64,6 @@ public class CollectionEntity extends BasicEntity {
         return this.canEdit;
     }
 
-
-    public int getCountItems() {
-        return this.countItems;
-    }
 
     public String getShortDescription() {
         return this.short_description;
