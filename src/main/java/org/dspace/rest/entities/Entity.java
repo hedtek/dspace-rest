@@ -3,7 +3,7 @@ package org.dspace.rest.entities;
 public class Entity {
 
     public enum Type {
-        COLLECTION
+        COLLECTION, COMMUNITY, ITEM
     }
     
     private final int id;

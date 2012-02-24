@@ -32,7 +32,7 @@ public class CollectionEntity extends CollectionWithItemsEntity {
 
     public CollectionEntity(final Collection collection, final int level, final DetailDepth depth,  final List<Object> items,
     final List<Object> communities, final int itemsCount) throws SQLException {
-        super (collection.getID(), Type.COLLECTION, collection.getName(), collection.getType(), items, communities, itemsCount);
+        super (collection.getID(), collection.getName(), collection.getType(), items, communities, itemsCount);
         // Only include full when above maximum depth
         final int nextLevel = level + 1;
         if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth + "; include full? " + depth.includeFullDetails(nextLevel) + "; next level " + nextLevel);

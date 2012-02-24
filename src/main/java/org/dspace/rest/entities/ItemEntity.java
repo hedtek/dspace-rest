@@ -52,7 +52,6 @@ public class ItemEntity extends ItemWithMetadataEntity {
     
     private final Boolean canEdit;
     private final String handle;
-    private final int type;
     private final List<BundleEntityId> bundles;
     private final List<BitstreamEntityId> bitstreams = new ArrayList<BitstreamEntityId>();
     private final List<Entity> collections;
@@ -76,7 +75,6 @@ public class ItemEntity extends ItemWithMetadataEntity {
         
         this.canEdit = item.canEdit();
         this.handle = item.getHandle();
-        this.type = item.getType();
         this.lastModified = item.getLastModified();
         
         this.owningCollection = Collections.buildOwningCollection(item, level, depth, includeFullNextLevel);
@@ -139,10 +137,6 @@ public class ItemEntity extends ItemWithMetadataEntity {
 
     public boolean getCanEdit() {
         return this.canEdit;
-    }
-
-    public int getType() {
-        return this.type;
     }
 
     public List<BundleEntityId> getBundles() {

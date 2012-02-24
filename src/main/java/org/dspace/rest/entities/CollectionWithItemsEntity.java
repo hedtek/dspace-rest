@@ -8,10 +8,10 @@ public class CollectionWithItemsEntity extends BasicEntity {
     private final List<Object> items;
     private final List<Object> communities;
 
-    public CollectionWithItemsEntity(int id, Type type, String name,
+    public CollectionWithItemsEntity(int id, String name,
             int dspaceEntityTypeId, final List<Object> items,
             final List<Object> communities, final int itemsCount) {
-        super(id, type, name, dspaceEntityTypeId);
+        super(id, Type.COLLECTION, name, dspaceEntityTypeId);
         
         this.communities = communities;
         this.items = items;

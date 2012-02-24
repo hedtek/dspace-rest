@@ -4,16 +4,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bouncycastle.x509.X509CollectionStoreParameters;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
+import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
+import org.dspace.rest.entities.BasicEntity;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CollectionEntityId;
+import org.dspace.rest.entities.CollectionWithItemsEntity;
 import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.entities.CommunityEntityId;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.Entity;
+import org.dspace.rest.entities.ItemWithMetadataEntity;
+import org.dspace.rest.entities.Entity.Type;
 import org.dspace.rest.entities.ItemBuilder;
 import org.dspace.rest.params.Parameters;
 
@@ -85,6 +91,23 @@ public class Collections {
             return communities;
         }
 
+        public Entity light(int start, int limit) throws SQLException {
+            final List<Object> communities = new ArrayList<Object>();
+            for (Community community : collection.getCommunities()) {
+                communities.add(new BasicEntity(community.getID(), Type.COMMUNITY, community.getName(), community.getType()));
+            }
+            final List<Object> items = new ArrayList<Object>();
+            int itemCount = 0;
+            final ItemIterator it = collection.getItems();
+            while (it.hasNext()) {
+                final Item item = it.next();
+                items.add(new ItemWithMetadataEntity(item));
+                itemCount++;
+            }
+            return new CollectionWithItemsEntity(collection.getID(), collection.getName(), collection.getType(), 
+                    items, communities, itemCount);
+        }
+
     }
     
     private static Collection fetch(final String uid, final Context context)
@@ -98,8 +121,8 @@ public class Collections {
         return new Builder(fetch(uid, context)).withIdOnly(idOnly).build(depth);
     }
 
-    public static Entity lightCollectionWithItems(String id, Context context, int start, int limit) {
-        return null;
+    public static Entity lightCollectionWithItems(String id, Context context, int start, int limit) throws SQLException {
+        return new Builder(fetch(id, context)).light(start, limit);
     }
 
     public static CollectionEntity collection(String id, Context context,

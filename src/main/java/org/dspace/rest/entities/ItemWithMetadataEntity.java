@@ -11,10 +11,12 @@ public class ItemWithMetadataEntity extends ItemEntityId {
 
     private final String name;
     private final List<MetadataEntity> metadata;
+    private final int type;
 
     public ItemWithMetadataEntity(Item item) throws SQLException {
         super(item);
         this.name = item.getName();
+        this.type = item.getType();
 
         metadata = new ArrayList<MetadataEntity>();
         final DCValue[] dcValues = item.getMetadata(Item.ANY, Item.ANY, Item.ANY, Item.ANY);
@@ -24,12 +26,16 @@ public class ItemWithMetadataEntity extends ItemEntityId {
         }
     }
 
-    public List<MetadataEntity> getMetadata() {
+    public final List<MetadataEntity> getMetadata() {
         return this.metadata;
     }
 
-    public String getName() {
+    public final  String getName() {
         return this.name;
+    }
+
+    public final int getType() {
+        return this.type;
     }
 
 }

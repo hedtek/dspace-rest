@@ -38,7 +38,7 @@ public class EntityBuildParameters {
             return Fetch.DEFAULT;
         } else {
             try {
-                return Fetch.valueOf(storedValue.toString());
+                return Fetch.valueOf(storedValue.toString().toUpperCase());
             } catch (IllegalArgumentException e) {
                 // value not recognized
                 return Fetch.DEFAULT;
