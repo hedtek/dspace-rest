@@ -22,7 +22,7 @@ import org.dspace.content.DCValue;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
-import org.dspace.rest.data.DSpace.Collections;
+import org.dspace.rest.data.Collections;
 
 /**
  * Entity describing item

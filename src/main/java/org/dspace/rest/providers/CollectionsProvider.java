@@ -16,8 +16,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
 import org.dspace.core.Context;
+import org.dspace.rest.data.Collections;
 import org.dspace.rest.data.DSpace;
-import org.dspace.rest.data.DSpace.Collections;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
@@ -145,11 +145,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             } else {
                 if (entityExists(id)) {
                     // return basic entity or full info
-                    if (parameters.getEntityBuild().isIdOnly()) {
-                        return Collections.build(id, context);
-                    } else {
-                        return Collections.build(id, context, parameters.getDetailDepth().getDepth());
-                    }
+                    return Collections.build(id, context, parameters);
 
                 } else {
                     if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);

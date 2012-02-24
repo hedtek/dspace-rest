@@ -24,7 +24,7 @@ import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
-import org.dspace.rest.data.DSpace.Collections;
+import org.dspace.rest.data.Collections;
 import org.dspace.sort.SortException;
 import org.dspace.sort.SortOption;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;

@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
-import org.dspace.rest.data.DSpace.Collections;
+import org.dspace.rest.data.Collections;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.rest.entities.BundleEntity;
