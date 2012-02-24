@@ -9,7 +9,6 @@
 package org.dspace.rest.providers;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -164,12 +163,7 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
         final Parameters parameters = new Parameters(requestStore);
         final Context context = DSpace.context();
         try {
-            final List<Object> entities = new ArrayList<Object>();
-            
-            final Community[] communities = parameters.getEntityBuild().isTopLevelOnly() ? Community.findAllTop(context) : Community.findAll(context);
-            for (Community c : communities) {
-                entities.add(parameters.getEntityBuild().isIdOnly() ? new CommunityEntityId(c) : new CommunityEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
-            }
+            final List<Object> entities = parameters.communities(context);
 
             parameters.sort(entities);
             parameters.removeTrailing(entities);

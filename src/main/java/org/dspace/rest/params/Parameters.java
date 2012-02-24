@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.dspace.core.Context;
 import org.dspace.rest.data.Collections;
+import org.dspace.rest.data.Communities;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.Entity;
@@ -86,5 +87,12 @@ private final RequestStorage requestStore;
 
     public Object lightCollectionWithItems(String uid, Context context) throws SQLException {
         return Collections.collectionWithItems(uid, context, getPagination().pagination());
+    }
+
+    public List<Object> communities(
+            final Context context) throws SQLException {
+        final boolean topLevelOnly = getEntityBuild().isTopLevelOnly();
+        final boolean idOnly = getEntityBuild().isIdOnly();        
+        return Communities.build(context, topLevelOnly, idOnly);
     }
 }
