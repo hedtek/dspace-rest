@@ -45,47 +45,42 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         protected Object value(String collectionId, Parameters parameters,
                 Context context, String attributeSegment) throws SQLException {
             if("id".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getId();
+                return Collections.collection(collectionId, parameters, context).getId();
             } else if("id".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getId();
+                return Collections.collection(collectionId, parameters, context).getId();
             } else if("name".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getName();
+                return Collections.collection(collectionId, parameters, context).getName();
             } else if("licence".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getLicence();
+                return Collections.collection(collectionId, parameters, context).getLicence();
             } else if("items".equals(attributeSegment)) {
                 return Collections.items(collectionId, parameters, context);
             } else if("handle".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getHandle();
+                return Collections.collection(collectionId, parameters, context).getHandle();
             } else if("canedit".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getCanEdit();
+                return Collections.collection(collectionId, parameters, context).getCanEdit();
             } else if("communities".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getCommunities();
+                return Collections.collection(collectionId, parameters, context).getCommunities();
             } else if("countItems".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getCountItems();
+                return Collections.collection(collectionId, parameters, context).getCountItems();
             } else if("type".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getType();
+                return Collections.collection(collectionId, parameters, context).getType();
             } else if("shortDescription".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getShortDescription();
+                return Collections.collection(collectionId, parameters, context).getShortDescription();
             } else if("introText".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getIntroText();
+                return Collections.collection(collectionId, parameters, context).getIntroText();
             } else if("copyrightText".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getCopyrightText();
+                return Collections.collection(collectionId, parameters, context).getCopyrightText();
             } else if("sidebarText".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getSidebarText();
+                return Collections.collection(collectionId, parameters, context).getSidebarText();
             } else if("provenance".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getProvenance();
+                return Collections.collection(collectionId, parameters, context).getProvenance();
             } else if("logo".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getLogo();
+                return Collections.collection(collectionId, parameters, context).getLogo();
             } else {
                 return null;
             }
         }
 
-        private CollectionEntity collection(String id, Parameters parameters,
-                Context context) throws SQLException {
-            return Collections.build(id, context, parameters.getDetailDepth().getDepth());
-        }
-    
         @Override
         protected Operation operation() {
             return Operation.GET_COLLECTIONS;

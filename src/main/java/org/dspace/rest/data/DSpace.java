@@ -41,11 +41,17 @@ public class DSpace {
     public static class Collections {
 
         public static CollectionEntity build(final String uid, final Context context, final DetailDepth depth) throws SQLException {
-            return new CollectionEntity(Collection.find(context, Integer.parseInt(uid)), 1, depth);
+            return new CollectionEntity(fetch(uid, context), 1, depth);
+        }
+
+        private static Collection fetch(final String uid, final Context context)
+                throws SQLException {
+            final int id = Integer.parseInt(uid);
+            return Collection.find(context, id);
         }
 
         public static Entity build(final String uid, final Context context) throws SQLException {
-            return Collections.build(Collection.find(context, Integer.parseInt(uid)));
+            return Collections.build(fetch(uid, context));
         }
 
         public static Entity build(final Collection collection) {
@@ -60,6 +66,11 @@ public class DSpace {
         public static List<?> items(String id, Parameters parameters,
                 Context context) throws SQLException {
             return build(id, context, parameters.getDetailDepth().getDepth()).getItems();
+        }
+
+        public static CollectionEntity collection(String id, Parameters parameters,
+                Context context) throws SQLException {
+            return build(id, context, parameters.getDetailDepth().getDepth());
         }
         
     }

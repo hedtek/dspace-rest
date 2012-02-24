@@ -23,11 +23,31 @@ import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class EntityBuildParameters {
     
+    enum Fetch {
+        DEFAULT, LIGHT
+    }
+    
     public static EntityBuildParameters build(RequestStorage requestStore) {
         final boolean idOnly = valueInStoreIsTrue(requestStore, "idOnly");
         final boolean immediateOnly = !valueInStoreIsFalse(requestStore, "immediateOnly");
         final boolean topLevelOnly = !valueInStoreIsFalse(requestStore, "topLevelOnly");
-        return new EntityBuildParameters(idOnly, immediateOnly, topLevelOnly);
+        final Fetch fetch;
+        fetch = fetch(requestStore);
+        return new EntityBuildParameters(idOnly, immediateOnly, topLevelOnly, fetch);
+    }
+
+    private static Fetch fetch(RequestStorage requestStore) {
+        final Object storedValue = requestStore.getStoredValue("fetch");
+        if (storedValue == null) {
+            return Fetch.DEFAULT;
+        } else {
+            try {
+                return Fetch.valueOf(storedValue.toString());
+            } catch (IllegalArgumentException e) {
+                // value not recognized
+                return Fetch.DEFAULT;
+            }
+        }
     }
 
     private static boolean valueInStoreIsFalse(RequestStorage requestStore,
@@ -45,14 +65,16 @@ public class EntityBuildParameters {
         return expectedValue.equals(requestStore.getStoredValue(key));
     }
 
+    private final Fetch fetchGroup;
     private final boolean idOnly;
     private final boolean topLevelOnly; 
     
     private EntityBuildParameters(boolean idOnly, boolean topLevelOnly,
-            boolean immediateOnly) {
+            boolean immediateOnly, final Fetch fetchGroup) {
         super();
         this.idOnly = idOnly;
         this.topLevelOnly = topLevelOnly;
+        this.fetchGroup = fetchGroup;
         // immediate only is unsupported
     }
 
@@ -62,6 +84,10 @@ public class EntityBuildParameters {
 
     public boolean isTopLevelOnly() {
         return topLevelOnly;
+    }
+
+    public Fetch getFetchGroup() {
+        return fetchGroup;
     }
 
     public List<Object> build(final Context context, final DetailDepth depth, final QueryResults queryResults) throws SQLException {
