@@ -8,12 +8,11 @@
 package org.dspace.rest.entities;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
-import org.dspace.content.Community;
+import org.dspace.rest.data.Collections;
 
 /**
  * Represents a collection for rendering.
@@ -27,7 +26,7 @@ public class CollectionEntity extends BasicEntity {
     private final String handle, licence;
     private final int countItems;
     private final List<Object> items;
-    private final List<Object> communities = new ArrayList<Object>();
+    private final List<Object> communities;
     private final String short_description;
     private final String intro_text;
     private final String copyright_text;
@@ -35,10 +34,11 @@ public class CollectionEntity extends BasicEntity {
     private final String provenance;
     private final Object logo;
 
-    public CollectionEntity(final Collection collection, int level, final DetailDepth depth) throws SQLException {
+    public CollectionEntity(final Collection collection, final int level, final DetailDepth depth) throws SQLException {
         super (collection.getID(), Type.COLLECTION, collection.getName(), collection.getType());
         // Only include full when above maximum depth
-        final boolean includeFullNextLevel = depth.includeFullDetails(++level);
+        final int nextLevel = level + 1;
+        final boolean includeFullNextLevel = depth.includeFullDetails(nextLevel);
         if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
         
         this.canEdit = collection.canEditBoolean();
@@ -55,12 +55,10 @@ public class CollectionEntity extends BasicEntity {
             this.logo = new BitstreamEntityId(collection.getLogo());
         }
         
-        this.items = ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), level);
+        this.items = ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), nextLevel);
         this.countItems = items.size();
-
-        for (Community c : collection.getCommunities()) {
-            communities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
-        }
+        
+        this.communities = Collections.communities(collection, nextLevel, depth);
     }
 
     public String getLicence() {

@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dspace.content.Collection;
+import org.dspace.content.Community;
 import org.dspace.core.Context;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CollectionEntityId;
+import org.dspace.rest.entities.CommunityEntity;
+import org.dspace.rest.entities.CommunityEntityId;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.Entity;
 import org.dspace.rest.params.Parameters;
@@ -73,6 +76,16 @@ public class Collections {
             entities.add(idOnly ? build(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
         }
         return entities;
+    }
+
+    public static List<Object> communities(final Collection collection, final int level, final DetailDepth depth)
+            throws SQLException {
+        final boolean includeFullNextLevel = depth.includeFullDetails(level);
+        final List<Object> communities = new ArrayList<Object>();
+        for (Community community : collection.getCommunities()) {
+            communities.add(includeFullNextLevel ? new CommunityEntity(community, level, depth) : new CommunityEntityId(community));
+        }
+        return communities;
     }
     
 }
