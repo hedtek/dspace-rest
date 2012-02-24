@@ -177,7 +177,7 @@ public class CommunityEntity extends CommunityEntityId {
             this.side_bar_text = community.getMetadata("side_bar_text");
 
             this.logo = logo(community);
-            this.collections = Collections.collections(community, level, depth, includeFullNextLevel);
+            this.collections = Collections.collections(community, level, depth);
             this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);
             this.parent = parent(level, depth, community, includeFullNextLevel);
             
@@ -210,7 +210,7 @@ public class CommunityEntity extends CommunityEntityId {
         this.side_bar_text = community.getMetadata("side_bar_text");
 
         this.logo = logo(community);
-        this.collections = Collections.collections(community, level, depth, includeFullNextLevel);
+        this.collections = Collections.collections(community, level, depth);
         this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);        
         this.parent = parent(level, depth, community, includeFullNextLevel);
         this.recentSubmissions = recentSubmissions;

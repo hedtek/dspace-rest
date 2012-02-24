@@ -149,13 +149,12 @@ public class Collections {
         return entities;
     }
 
-    public static List<Entity> collections(Community community, int level,
-            final DetailDepth depth, final boolean includeFullNextLevel)
+    public static List<Entity> collections(Community community, int level, final DetailDepth depth)
             throws SQLException {
-        final List<Entity> entities = new ArrayList<Entity>();
         final Collection[] collections = community.getCollections();
+        final List<Entity> entities = new ArrayList<Entity>();
         for (Collection collection : collections) {
-            entities.add(new Builder(collection).withFull(includeFullNextLevel).build(level, depth));
+            entities.add(new Builder(collection).withFull(depth.includeFullDetails(level + 1)).build(level, depth));
         }
         return entities;
     }
