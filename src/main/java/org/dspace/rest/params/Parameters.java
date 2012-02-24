@@ -80,7 +80,7 @@ private final RequestStorage requestStore;
         return Collections.build(uid, context, getDetailDepth().getDepth(), getEntityBuild().isIdOnly());
     }
 
-    public CollectionEntity fullCollection(String id, Context context) throws SQLException {
+    public CollectionEntity collectionEntity(String id, Context context) throws SQLException {
         return Collections.collection(id, context, getDetailDepth().getDepth());
     }
 }

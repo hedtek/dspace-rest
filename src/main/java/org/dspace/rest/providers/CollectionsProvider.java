@@ -44,13 +44,13 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         protected Object value(String collectionId, Parameters parameters,
                 Context context, String attributeSegment) throws SQLException {
             if("id".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getId();
+                return parameters.collectionEntity(collectionId, context).getId();
             } else if("id".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getId();
+                return parameters.collectionEntity(collectionId, context).getId();
             } else if("name".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getName();
+                return parameters.collectionEntity(collectionId, context).getName();
             } else if("licence".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getLicence();
+                return parameters.collectionEntity(collectionId, context).getLicence();
             } else if("items".equals(attributeSegment)) {
                 switch (parameters.getEntityBuild().getFetchGroup()) {
                     case LIGHT:
@@ -58,30 +58,30 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                         final int limit = parameters.getPagination().getLimit();
                         return Collections.lightCollectionWithItems(collectionId, context, start, limit);
                     default:
-                        return parameters.fullCollection(collectionId, context).getItems();
+                        return parameters.collectionEntity(collectionId, context).getItems();
                 }
             } else if("handle".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getHandle();
+                return parameters.collectionEntity(collectionId, context).getHandle();
             } else if("canedit".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getCanEdit();
+                return parameters.collectionEntity(collectionId, context).getCanEdit();
             } else if("communities".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getCommunities();
+                return parameters.collectionEntity(collectionId, context).getCommunities();
             } else if("countItems".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getCountItems();
+                return parameters.collectionEntity(collectionId, context).getCountItems();
             } else if("type".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getType();
+                return parameters.collectionEntity(collectionId, context).getType();
             } else if("shortDescription".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getShortDescription();
+                return parameters.collectionEntity(collectionId, context).getShortDescription();
             } else if("introText".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getIntroText();
+                return parameters.collectionEntity(collectionId, context).getIntroText();
             } else if("copyrightText".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getCopyrightText();
+                return parameters.collectionEntity(collectionId, context).getCopyrightText();
             } else if("sidebarText".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getSidebarText();
+                return parameters.collectionEntity(collectionId, context).getSidebarText();
             } else if("provenance".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getProvenance();
+                return parameters.collectionEntity(collectionId, context).getProvenance();
             } else if("logo".equals(attributeSegment)) {
-                return parameters.fullCollection(collectionId, context).getLogo();
+                return parameters.collectionEntity(collectionId, context).getLogo();
             } else {
                 return null;
             }
