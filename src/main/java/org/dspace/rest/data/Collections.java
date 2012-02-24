@@ -51,7 +51,7 @@ public class Collections {
         }
 
         public CollectionEntity full(final int level, final DetailDepth depth) throws SQLException {
-            return new CollectionEntity(collection, level, depth);
+            return new CollectionEntity(collection, level, depth, items(collection, depth, level), communities(collection, level, depth));
         }
 
         public Entity build(final int level, final DetailDepth depth) throws SQLException {
@@ -62,7 +62,6 @@ public class Collections {
             }
         }
     }
-    
     
     private static Collection fetch(final String uid, final Context context)
             throws SQLException {
@@ -109,7 +108,7 @@ public class Collections {
         return entities;
     }
 
-    public static List<Object> communities(final Collection collection, final int level, final DetailDepth depth)
+    private static List<Object> communities(final Collection collection, final int level, final DetailDepth depth)
             throws SQLException {
         final boolean includeFullNextLevel = depth.includeFullDetails(level);
         final List<Object> communities = new ArrayList<Object>();
@@ -153,7 +152,7 @@ public class Collections {
         return entities;
     }
 
-    public static List<Object> items(final Collection collection,
+    private static List<Object> items(final Collection collection,
             final DetailDepth depth, final int nextLevel) throws SQLException {
         final boolean includeFullNextLevel = depth.includeFullDetails(nextLevel);
         return ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), nextLevel);
