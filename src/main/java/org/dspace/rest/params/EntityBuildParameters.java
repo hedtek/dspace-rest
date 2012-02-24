@@ -23,7 +23,7 @@ import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class EntityBuildParameters {
     
-    enum Fetch {
+    public enum Fetch {
         DEFAULT, LIGHT
     }
     

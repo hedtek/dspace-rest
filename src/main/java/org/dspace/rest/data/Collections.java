@@ -13,7 +13,7 @@ import org.dspace.rest.params.Parameters;
 
 public class Collections {
 
-    public static CollectionEntity build(final String uid, final Context context, final DetailDepth depth) throws SQLException {
+    private static CollectionEntity build(final String uid, final Context context, final DetailDepth depth) throws SQLException {
         return new CollectionEntity(fetch(uid, context), 1, depth);
     }
 
@@ -23,7 +23,7 @@ public class Collections {
         return Collection.find(context, id);
     }
 
-    public static Entity build(final String uid, final Context context) throws SQLException {
+    private static Entity build(final String uid, final Context context) throws SQLException {
         return Collections.build(fetch(uid, context));
     }
 
@@ -36,9 +36,18 @@ public class Collections {
         return idOnly ? build(uid, context) : build(uid, context, depth);
     }
 
-    public static List<?> items(String id, Parameters parameters,
+    public static Object items(String id, Parameters parameters,
             Context context) throws SQLException {
-        return build(id, context, parameters.getDetailDepth().getDepth()).getItems();
+        switch (parameters.getEntityBuild().getFetchGroup()) {
+            case LIGHT:
+                return lightCollectionWithItems(id, context);
+            default:
+                return build(id, context, parameters.getDetailDepth().getDepth()).getItems();
+        }
+    }
+
+    private static Entity lightCollectionWithItems(String id, Context context) {
+        return null;
     }
 
     public static CollectionEntity collection(String id, Parameters parameters,
@@ -46,7 +55,7 @@ public class Collections {
         return build(id, context, parameters.getDetailDepth().getDepth());
     }
 
-    public static Object build(final String id, final Context context,
+    public static Entity build(final String id, final Context context,
             final Parameters parameters) throws SQLException {
         if (parameters.getEntityBuild().isIdOnly()) {
             return build(id, context);
