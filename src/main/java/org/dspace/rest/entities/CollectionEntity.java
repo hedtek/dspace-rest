@@ -38,8 +38,7 @@ public class CollectionEntity extends BasicEntity {
         super (collection.getID(), Type.COLLECTION, collection.getName(), collection.getType());
         // Only include full when above maximum depth
         final int nextLevel = level + 1;
-        final boolean includeFullNextLevel = depth.includeFullDetails(nextLevel);
-        if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
+        if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth + "; include full? " + depth.includeFullDetails(nextLevel) + "; next level " + nextLevel);
         
         this.canEdit = collection.canEditBoolean();
         this.handle = collection.getHandle();
@@ -55,7 +54,7 @@ public class CollectionEntity extends BasicEntity {
             this.logo = new BitstreamEntityId(collection.getLogo());
         }
         
-        this.items = ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), nextLevel);
+        this.items = Collections.items(collection, depth, nextLevel);
         this.countItems = items.size();
         
         this.communities = Collections.communities(collection, nextLevel, depth);

@@ -14,6 +14,7 @@ import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.entities.CommunityEntityId;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.Entity;
+import org.dspace.rest.entities.ItemBuilder;
 import org.dspace.rest.params.Parameters;
 
 public class Collections {
@@ -121,6 +122,12 @@ public class Collections {
             collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : build(c));
         }
         return collections;
+    }
+
+    public static List<Object> items(final Collection collection,
+            final DetailDepth depth, final int nextLevel) throws SQLException {
+        final boolean includeFullNextLevel = depth.includeFullDetails(nextLevel);
+        return ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), nextLevel);
     }
     
 }
