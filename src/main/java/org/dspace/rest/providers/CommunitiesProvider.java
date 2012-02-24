@@ -135,12 +135,7 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
                 return binder.resolve(id, route, parameters, context);
             } else {
                 if (entityExists(id)) {
-                    // return just entity containing id or full info
-                    if (parameters.getEntityBuild().isIdOnly()) {
-                        return new CommunityEntityId(id, context);
-                    } else {
-                        return new CommunityEntity(id, context, 1, parameters.getDetailDepth().getDepth());
-                    }
+                    return parameters.community(id, context);
                 } else {
                     if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
                     throw new EntityNotFoundException(operation);

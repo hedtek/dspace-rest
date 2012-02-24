@@ -34,12 +34,16 @@ public class Communities {
             setIdOnly(idOnly);
             return this;
         }
+
+        public CommunityEntityId build() throws SQLException {
+            return build(DetailDepth.FOR_ALL_INDEX);
+        }
         
-        public Object build() throws SQLException {
+        public CommunityEntityId build(final DetailDepth depth) throws SQLException {
             if (isIdOnly()) {
                 return new CommunityEntityId(community);
             } else {
-                return new CommunityEntity(community, 1, DetailDepth.FOR_ALL_INDEX);
+                return new CommunityEntity(community, 1, depth);
             }
         }
     }
@@ -62,6 +66,15 @@ public class Communities {
     private static Community[] all(final Context context,
             final boolean topLevelOnly) throws SQLException {
         return topLevelOnly ? Community.findAllTop(context) : Community.findAll(context);
+    }
+
+    public static CommunityEntityId build(final String uid, final Context context,
+            final DetailDepth depth, final boolean idOnly) throws SQLException {
+        if (idOnly) {
+            return new CommunityEntityId(uid, context);
+        } else {
+            return new CommunityEntity(uid, context, 1, depth);
+        }
     }
 
 }

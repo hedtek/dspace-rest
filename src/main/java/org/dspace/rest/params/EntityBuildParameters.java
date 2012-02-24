@@ -7,12 +7,11 @@ import java.util.List;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.rest.data.Collections;
+import org.dspace.rest.data.Communities;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.rest.entities.BundleEntity;
 import org.dspace.rest.entities.BundleEntityId;
-import org.dspace.rest.entities.CommunityEntity;
-import org.dspace.rest.entities.CommunityEntityId;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.ItemEntity;
 import org.dspace.rest.entities.ItemEntityId;
@@ -112,7 +111,7 @@ public class EntityBuildParameters {
     
             case Constants.COMMUNITY:
             {
-                hit = (idOnly ? new CommunityEntityId(hitId, context) : new CommunityEntity(hitId, context,1, depth));
+                hit = Communities.build(hitId, context, depth, idOnly);
                 break;
             }
     
@@ -147,5 +146,4 @@ public class EntityBuildParameters {
         }
         return hit;
     }
-
 }

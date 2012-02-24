@@ -17,8 +17,6 @@ import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
  * Entity describing community, basic version
- * @see CommunityEntity
- * @see Community
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class CommunityEntityId {

@@ -7,6 +7,7 @@ import org.dspace.core.Context;
 import org.dspace.rest.data.Collections;
 import org.dspace.rest.data.Communities;
 import org.dspace.rest.entities.CollectionEntity;
+import org.dspace.rest.entities.CommunityEntityId;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.Entity;
 import org.dspace.rest.entities.ItemBuilder;
@@ -94,5 +95,9 @@ private final RequestStorage requestStore;
         final boolean topLevelOnly = getEntityBuild().isTopLevelOnly();
         final boolean idOnly = getEntityBuild().isIdOnly();        
         return Communities.build(context, topLevelOnly, idOnly);
+    }
+
+    public CommunityEntityId community(final String id, final Context context) throws SQLException {
+        return Communities.build(id, context, getDetailDepth().getDepth(), getEntityBuild().isIdOnly());
     }
 }
