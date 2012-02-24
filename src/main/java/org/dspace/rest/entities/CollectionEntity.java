@@ -19,14 +19,12 @@ import org.dspace.content.Community;
  * Represents a collection for rendering.
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class CollectionEntity extends Entity {
+public class CollectionEntity extends BasicEntity {
 
     private static Logger log = Logger.getLogger(CollectionEntity.class);
 
-    private final String name;
     private final Boolean canEdit;
     private final String handle, licence;
-    private final int type;
     private final int countItems;
     private final List<Object> items;
     private final List<Object> communities = new ArrayList<Object>();
@@ -38,15 +36,13 @@ public class CollectionEntity extends Entity {
     private final Object logo;
 
     public CollectionEntity(final Collection collection, int level, final DetailDepth depth) throws SQLException {
-        super (collection.getID(), Type.COLLECTION);
+        super (collection.getID(), Type.COLLECTION, collection.getName(), collection.getType());
         // Only include full when above maximum depth
         final boolean includeFullNextLevel = depth.includeFullDetails(++level);
         if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
         
         this.canEdit = collection.canEditBoolean();
         this.handle = collection.getHandle();
-        this.name = collection.getName();
-        this.type = collection.getType();
         this.licence = collection.getLicense();
         this.short_description = collection.getMetadata("short_description");
         this.intro_text = collection.getMetadata("introductory_text");
@@ -79,10 +75,6 @@ public class CollectionEntity extends Entity {
         return this.communities;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
     public String getHandle() {
         return this.handle;
     }
@@ -91,10 +83,6 @@ public class CollectionEntity extends Entity {
         return this.canEdit;
     }
 
-
-    public int getType() {
-        return this.type;
-    }
 
     public int getCountItems() {
         return this.countItems;
