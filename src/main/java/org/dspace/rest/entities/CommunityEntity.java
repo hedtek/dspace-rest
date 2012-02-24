@@ -160,11 +160,7 @@ public class CommunityEntity extends CommunityEntityId {
     private String short_description, introductory_text, copyright_text, side_bar_text;
     private Object logo;
 
-    public CommunityEntity(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
-        log.debug("Creating community entity.");
-        try {
-            final Community community = Community.find(context, Integer.parseInt(uid));
-            
+    public CommunityEntity(Community community, Context context, int level, final DetailDepth depth) throws SQLException {
             this.id = community.getID();
             this.canEdit = community.canEditBoolean();
             this.handle = community.getHandle();
@@ -187,8 +183,6 @@ public class CommunityEntity extends CommunityEntityId {
             this.parent = parent(level, depth, community, includeFullNextLevel);
             
             this.recentSubmissions = recentSubmissions(context, level, depth, community, includeFullNextLevel);
-        } catch (NumberFormatException ex) {
-        }
     }
 
     public CommunityEntity(Community community, int level, final DetailDepth depth) throws SQLException {

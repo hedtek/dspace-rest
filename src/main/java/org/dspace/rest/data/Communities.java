@@ -74,12 +74,17 @@ public class Communities {
             final Community community = Community.find(context, Integer.parseInt(uid));
             return new CommunityEntityId(community);
         } else {
-            return new CommunityEntity(uid, context, 1, depth);
+            return build(uid, context, 1, depth);
         }
     }
 
     public static CommunityEntity community(String id, Context context,
             final DetailDepth depth) throws SQLException {
-        return new CommunityEntity(id, context, 1, depth);
+        return build(id, context, 1, depth);
+    }
+
+    public static CommunityEntity build(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
+        final Community community = Community.find(context, Integer.parseInt(uid));
+        return new CommunityEntity(community, context, level, depth);
     }
 }
