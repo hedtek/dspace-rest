@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.dspace.browse.BrowseEngine;
 import org.dspace.browse.BrowseException;
@@ -26,9 +25,6 @@ import org.dspace.core.Context;
 import org.dspace.rest.data.Collections;
 import org.dspace.sort.SortException;
 import org.dspace.sort.SortOption;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityFieldRequired;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
-import org.sakaiproject.entitybus.entityprovider.annotations.EntityTitle;
 
 /**
  * Entity describing community, basic version
@@ -146,18 +142,22 @@ public class CommunityEntity extends CommunityEntityId {
     
     private static Logger log = Logger.getLogger(CommunityEntity.class);
     
-    private String name;
-    private Boolean canEdit;
-    private String handle;
-    private int type;
-    private int countItems;
-    private List<Entity> collections = new ArrayList<Entity>();
-    private List<Object> subCommunities = new ArrayList<Object>();
-    private List<Object> recentSubmissions = new ArrayList<Object>();
-    private Object administrators;
-    private Object parent;
-    private String short_description, introductory_text, copyright_text, side_bar_text;
-    private Object logo;
+    private final String name;
+    private final Boolean canEdit;
+    private final String handle;
+    private final int type;
+    private final int countItems;
+    private final List<Entity> collections;
+    private final List<Object> subCommunities;
+    private final List<Object> recentSubmissions;
+ // Is this intentional?
+    private final Object administrators = null;
+    private final Object parent;
+    private final String short_description;
+    private final String introductory_text;
+    private final String copyright_text;
+    private final String side_bar_text;
+    private final Object logo;
 
     public CommunityEntity(Community community, Context context, int level, final DetailDepth depth) throws SQLException {
             super(community.getID());
@@ -182,6 +182,9 @@ public class CommunityEntity extends CommunityEntityId {
             this.parent = parent(level, depth, community, includeFullNextLevel);
             
             this.recentSubmissions = recentSubmissions(context, level, depth, community, includeFullNextLevel);
+            
+            // Is this intentional?
+            this.countItems = 0;
     }
 
     public CommunityEntity(Community community, int level, final DetailDepth depth) throws SQLException {
@@ -230,7 +233,6 @@ public class CommunityEntity extends CommunityEntityId {
         return this.name;
     }
 
-    @EntityTitle
     public String getHandle() {
         return this.handle;
     }
