@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bouncycastle.x509.X509CollectionStoreParameters;
+import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
@@ -18,12 +18,14 @@ import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.entities.CommunityEntityId;
 import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.entities.Entity;
-import org.dspace.rest.entities.ItemWithMetadataEntity;
 import org.dspace.rest.entities.Entity.Type;
 import org.dspace.rest.entities.ItemBuilder;
+import org.dspace.rest.entities.ItemWithMetadataEntity;
 import org.dspace.rest.params.Parameters;
 
 public class Collections {
+    
+    private static Logger log = Logger.getLogger(Collections.class);
     
     private static class Builder {
         private final Collection collection;
@@ -61,8 +63,12 @@ public class Collections {
         }
         
         public CollectionEntity full(final int level, final DetailDepth depth) throws SQLException {
-            final List<Object> items = items(depth, level);
-            return new CollectionEntity(collection, level, depth, items, communities(level, depth), items.size());
+            // Only include full when above maximum depth
+            final int nextLevel = level + 1;
+            if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth 
+                    + "; include full? " + depth.includeFullDetails(nextLevel) + "; next level " + nextLevel);
+            final List<Object> items = items(depth, nextLevel);
+            return new CollectionEntity(collection, items, communities(nextLevel, depth), items.size());
         }
 
         public Entity build(final DetailDepth depth) throws SQLException {
@@ -100,9 +106,11 @@ public class Collections {
             int itemCount = 0;
             final ItemIterator it = collection.getItems();
             while (it.hasNext()) {
-                final Item item = it.next();
                 if (pagination.isInPage(itemCount)) {
+                    final Item item = it.next();
                     items.add(new ItemWithMetadataEntity(item));
+                } else {
+                    it.skip();
                 }
                 itemCount++;
             }

@@ -10,7 +10,6 @@ package org.dspace.rest.entities;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
 
 /**
@@ -18,9 +17,7 @@ import org.dspace.content.Collection;
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class CollectionEntity extends CollectionWithItemsEntity {
-
-    private static Logger log = Logger.getLogger(CollectionEntity.class);
-
+    
     private final Boolean canEdit;
     private final String handle, licence;
     private final String short_description;
@@ -30,13 +27,9 @@ public class CollectionEntity extends CollectionWithItemsEntity {
     private final String provenance;
     private final Object logo;
 
-    public CollectionEntity(final Collection collection, final int level, final DetailDepth depth,  final List<Object> items,
+    public CollectionEntity(final Collection collection, final List<Object> items,
     final List<Object> communities, final int itemsCount) throws SQLException {
         super (collection.getID(), collection.getName(), collection.getType(), items, communities, itemsCount);
-        // Only include full when above maximum depth
-        final int nextLevel = level + 1;
-        if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth + "; include full? " + depth.includeFullDetails(nextLevel) + "; next level " + nextLevel);
-        
         this.canEdit = collection.canEditBoolean();
         this.handle = collection.getHandle();
         this.licence = collection.getLicense();
