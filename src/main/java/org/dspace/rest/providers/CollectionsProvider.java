@@ -44,13 +44,13 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         protected Object value(String collectionId, Parameters parameters,
                 Context context, String attributeSegment) throws SQLException {
             if("id".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getId();
+                return parameters.fullCollection(collectionId, context).getId();
             } else if("id".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getId();
+                return parameters.fullCollection(collectionId, context).getId();
             } else if("name".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getName();
+                return parameters.fullCollection(collectionId, context).getName();
             } else if("licence".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getLicence();
+                return parameters.fullCollection(collectionId, context).getLicence();
             } else if("items".equals(attributeSegment)) {
                 switch (parameters.getEntityBuild().getFetchGroup()) {
                     case LIGHT:
@@ -58,30 +58,30 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
                         final int limit = parameters.getPagination().getLimit();
                         return Collections.lightCollectionWithItems(collectionId, context, start, limit);
                     default:
-                        return Collections.collection(collectionId, parameters, context).getItems();
+                        return parameters.fullCollection(collectionId, context).getItems();
                 }
             } else if("handle".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getHandle();
+                return parameters.fullCollection(collectionId, context).getHandle();
             } else if("canedit".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getCanEdit();
+                return parameters.fullCollection(collectionId, context).getCanEdit();
             } else if("communities".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getCommunities();
+                return parameters.fullCollection(collectionId, context).getCommunities();
             } else if("countItems".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getCountItems();
+                return parameters.fullCollection(collectionId, context).getCountItems();
             } else if("type".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getType();
+                return parameters.fullCollection(collectionId, context).getType();
             } else if("shortDescription".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getShortDescription();
+                return parameters.fullCollection(collectionId, context).getShortDescription();
             } else if("introText".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getIntroText();
+                return parameters.fullCollection(collectionId, context).getIntroText();
             } else if("copyrightText".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getCopyrightText();
+                return parameters.fullCollection(collectionId, context).getCopyrightText();
             } else if("sidebarText".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getSidebarText();
+                return parameters.fullCollection(collectionId, context).getSidebarText();
             } else if("provenance".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getProvenance();
+                return parameters.fullCollection(collectionId, context).getProvenance();
             } else if("logo".equals(attributeSegment)) {
-                return Collections.collection(collectionId, parameters, context).getLogo();
+                return parameters.fullCollection(collectionId, context).getLogo();
             } else {
                 return null;
             }
@@ -151,7 +151,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             } else {
                 if (entityExists(id)) {
                     // return basic entity or full info
-                    return Collections.build(id, context, parameters);
+                    return parameters.collection(id, context);
 
                 } else {
                     if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);

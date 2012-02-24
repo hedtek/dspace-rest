@@ -93,8 +93,8 @@ public class Collections {
         return Collection.find(context, id);
     }
 
-    public static Entity build(final Context context, final DetailDepth depth,
-            final String uid, final boolean idOnly) throws SQLException {
+    public static Entity build(final String uid, final Context context,
+            final DetailDepth depth, final boolean idOnly) throws SQLException {
         return new Builder(fetch(uid, context)).withIdOnly(idOnly).build(depth);
     }
 
@@ -102,14 +102,9 @@ public class Collections {
         return null;
     }
 
-    public static CollectionEntity collection(String id, Parameters parameters, Context context) throws SQLException {
-        return new Builder(fetch(id, context)).full(parameters.getDetailDepth().getDepth());
-    }
-
-    public static Entity build(final String id, final Context context, final Parameters parameters) throws SQLException {
-        final boolean idOnly = parameters.getEntityBuild().isIdOnly();
-        final DetailDepth depth = parameters.getDetailDepth().getDepth();
-        return new Builder(fetch(id, context)).withIdOnly(idOnly).build(depth);
+    public static CollectionEntity collection(String id, Context context,
+            final DetailDepth depth) throws SQLException {
+        return new Builder(fetch(id, context)).full(depth);
     }
 
     public static List<Entity> build(final Parameters parameters, final Collection[] collections) throws SQLException {
