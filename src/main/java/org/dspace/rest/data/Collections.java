@@ -1,6 +1,7 @@
 package org.dspace.rest.data;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.dspace.content.Collection;
@@ -62,6 +63,16 @@ public class Collections {
         } else {
             return build(id, context, parameters.getDetailDepth().getDepth());
         }
+    }
+
+    public static List<Object> build(final Parameters parameters,
+            final Collection[] collections) throws SQLException {
+        final List<Object> entities = new ArrayList<Object>();
+        final boolean idOnly = parameters.getEntityBuild().isIdOnly();
+        for (Collection c : collections) {
+            entities.add(idOnly ? build(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
+        }
+        return entities;
     }
     
 }

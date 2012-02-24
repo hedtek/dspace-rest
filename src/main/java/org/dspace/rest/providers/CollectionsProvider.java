@@ -10,7 +10,6 @@
 package org.dspace.rest.providers;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -23,7 +22,6 @@ import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CollectionEntityId;
-import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
 import org.sakaiproject.entitybus.EntityReference;
@@ -176,14 +174,10 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         final Parameters parameters = new Parameters(requestStore);
         final Context context = DSpace.context();
         try {
-
-            final List<Object> entities = new ArrayList<Object>();
             final Collection[] collections = Collection.findAll(context);
-            final boolean idOnly = parameters.getEntityBuild().isIdOnly();
-            for (Collection c : collections) {
-                entities.add(idOnly ? Collections.build(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
-            }
-
+            
+            final List<Object> entities = Collections.build(parameters, collections);
+            
             parameters.sort(entities);
             parameters.removeTrailing(entities);
 
