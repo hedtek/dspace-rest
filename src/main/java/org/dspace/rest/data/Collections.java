@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
+import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.rest.entities.CollectionEntity;
 import org.dspace.rest.entities.CollectionEntityId;
@@ -86,6 +87,40 @@ public class Collections {
             communities.add(includeFullNextLevel ? new CommunityEntity(community, level, depth) : new CommunityEntityId(community));
         }
         return communities;
+    }
+
+    public static List<Object> collections(Community community, int level,
+            final DetailDepth depth, final boolean includeFullNextLevel)
+            throws SQLException {
+        List<Object> collections = new ArrayList<Object>();
+        Collection[] cols = community.getCollections();
+        for (Collection c : cols) {
+            collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : build(c));
+        }
+        return collections;
+    }
+
+    public static Object buildOwningCollection(Item item, int level,
+            final DetailDepth depth, final boolean includeFullNextLevel)
+            throws SQLException {
+        Object owningCollection;
+        final Collection ownCol = item.getOwningCollection();
+        if (ownCol == null) {
+            owningCollection = null;
+        } else {
+            owningCollection = includeFullNextLevel ? new CollectionEntity(ownCol, level, depth) : build(ownCol);
+        }
+        return owningCollection;
+    }
+
+    public static List<Object> build(final int level, final DetailDepth depth, final Collection[] col)
+            throws SQLException {
+        final boolean includeFullNextLevel = depth.includeFullDetails(level);
+        final List<Object> collections = new ArrayList<Object>();
+        for (Collection c : col) {
+            collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : build(c));
+        }
+        return collections;
     }
     
 }

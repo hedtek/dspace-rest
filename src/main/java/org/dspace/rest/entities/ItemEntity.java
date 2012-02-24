@@ -16,9 +16,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
-import org.dspace.content.Collection;
 import org.dspace.content.Community;
-import org.dspace.content.DCValue;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
@@ -42,19 +40,6 @@ public class ItemEntity extends LightweightItemEntity {
         return bundles;
     }
 
-    private static Object buildOwningCollection(Item item, int level,
-            final DetailDepth depth, final boolean includeFullNextLevel)
-            throws SQLException {
-        Object owningCollection;
-        final Collection ownCol = item.getOwningCollection();
-        if (ownCol == null) {
-            owningCollection = null;
-        } else {
-            owningCollection = includeFullNextLevel ? new CollectionEntity(ownCol, level, depth) : Collections.build(ownCol);
-        }
-        return owningCollection;
-    }
-
     private static UserEntity buildUserEntity(Item item) throws SQLException {
         final EPerson submitter = item.getSubmitter();
         if(submitter == null) {
@@ -70,7 +55,7 @@ public class ItemEntity extends LightweightItemEntity {
     private final int type;
     private final List<BundleEntityId> bundles;
     private final List<BitstreamEntityId> bitstreams = new ArrayList<BitstreamEntityId>();
-    private final List<Object> collections = new ArrayList<Object>();
+    private final List<Object> collections;
     private final List<CommunityEntityId> communities = new ArrayList<CommunityEntityId>();
     private final Date lastModified;
     private final Object owningCollection;
@@ -85,6 +70,7 @@ public class ItemEntity extends LightweightItemEntity {
     public ItemEntity(Item item, int level, final DetailDepth depth) throws SQLException {
         super(item);
         // Only include full when above maximum depth
+        
         final boolean includeFullNextLevel = depth.includeFullDetails(++level);
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
         
@@ -93,7 +79,7 @@ public class ItemEntity extends LightweightItemEntity {
         this.type = item.getType();
         this.lastModified = item.getLastModified();
         
-        this.owningCollection = buildOwningCollection(item, level, depth, includeFullNextLevel);
+        this.owningCollection = Collections.buildOwningCollection(item, level, depth, includeFullNextLevel);
         
         this.isArchived = item.isArchived();
         this.isWithdrawn = item.isWithdrawn();
@@ -107,10 +93,7 @@ public class ItemEntity extends LightweightItemEntity {
             this.bitstreams.add(includeFullNextLevel ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
         }
         
-        final Collection[] col = item.getCollections();
-        for (Collection c : col) {
-            this.collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : Collections.build(c));
-        }
+        this.collections = Collections.build(level, depth, item.getCollections());
         
         final Community[] com = item.getCommunities();
         for (Community c : com) {

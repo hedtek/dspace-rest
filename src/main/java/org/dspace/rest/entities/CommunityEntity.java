@@ -19,7 +19,6 @@ import org.dspace.browse.BrowseException;
 import org.dspace.browse.BrowseIndex;
 import org.dspace.browse.BrowseInfo;
 import org.dspace.browse.BrowserScope;
-import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.core.ConfigurationManager;
@@ -134,17 +133,6 @@ public class CommunityEntity extends CommunityEntityId {
         return logo;
     }
 
-    private static List<Object> collections(Community community, int level,
-            final DetailDepth depth, final boolean includeFullNextLevel)
-            throws SQLException {
-        List<Object> collections = new ArrayList<Object>();
-        Collection[] cols = community.getCollections();
-        for (Collection c : cols) {
-            collections.add(includeFullNextLevel ? new CollectionEntity(c, level, depth) : Collections.build(c));
-        }
-        return collections;
-    }
-
     private static List<Object> subcommunities(Community community, int level,
             final DetailDepth depth, final boolean includeFullNextLevel)
             throws SQLException {
@@ -194,7 +182,7 @@ public class CommunityEntity extends CommunityEntityId {
             this.side_bar_text = community.getMetadata("side_bar_text");
 
             this.logo = logo(community);
-            this.collections = collections(community, level, depth, includeFullNextLevel);
+            this.collections = Collections.collections(community, level, depth, includeFullNextLevel);
             this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);
             this.parent = parent(level, depth, community, includeFullNextLevel);
             
@@ -225,7 +213,7 @@ public class CommunityEntity extends CommunityEntityId {
         this.side_bar_text = community.getMetadata("side_bar_text");
 
         this.logo = logo(community);
-        this.collections = collections(community, level, depth, includeFullNextLevel);
+        this.collections = Collections.collections(community, level, depth, includeFullNextLevel);
         this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);        
         this.parent = parent(level, depth, community, includeFullNextLevel);
         this.recentSubmissions = recentSubmissions;
