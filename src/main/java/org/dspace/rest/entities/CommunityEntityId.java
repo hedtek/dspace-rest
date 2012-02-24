@@ -12,7 +12,6 @@ package org.dspace.rest.entities;
 import java.sql.SQLException;
 
 import org.dspace.content.Community;
-import org.dspace.core.Context;
 import org.sakaiproject.entitybus.entityprovider.annotations.EntityId;
 
 /**
@@ -27,14 +26,12 @@ public class CommunityEntityId {
     protected CommunityEntityId() {
     }
 
-    public CommunityEntityId(String uid, Context context) throws SQLException {
-        Community res = Community.find(context, Integer.parseInt(uid));
-        this.id = res.getID();
-        //context.complete();
+    public CommunityEntityId(int id) {
+        this.id = id;
     }
 
     public CommunityEntityId(Community community) throws SQLException {
-        this.id = community.getID();
+        this(community.getID());
     }
 
     public int getId() {

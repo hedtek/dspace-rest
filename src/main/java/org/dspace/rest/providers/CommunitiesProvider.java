@@ -14,6 +14,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Community;
 import org.dspace.core.Context;
+import org.dspace.rest.data.Communities;
 import org.dspace.rest.data.DSpace;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
@@ -42,45 +43,40 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
                 String attributeSegment) throws SQLException {
             final DetailDepth depth = parameters.getDetailDepth().getDepth();
             if ("id".equals(attributeSegment)) {
-                return community(id, context, depth).getId();
+                return Communities.community(id, context, depth).getId();
             } else if ("name".equals(attributeSegment)) {
-                return community(id, context, depth).getName();
+                return Communities.community(id, context, depth).getName();
             } else if ("countItems".equals(attributeSegment)) {
-                return community(id, context, depth).getCountItems();
+                return Communities.community(id, context, depth).getCountItems();
             } else if ("handle".equals(attributeSegment)) {
-                return community(id, context, depth).getHandle();
+                return Communities.community(id, context, depth).getHandle();
             } else if ("type".equals(attributeSegment)) {
-                return community(id, context, depth).getType();
+                return Communities.community(id, context, depth).getType();
             } else if ("collections".equals(attributeSegment)) {
-                return community(id, context, depth).getCollections();
+                return Communities.community(id, context, depth).getCollections();
             } else if ("canedit".equals(attributeSegment)) {
-                return community(id, context, depth).getCanEdit();
+                return Communities.community(id, context, depth).getCanEdit();
             } else if ("anchestor".equals(attributeSegment)) {
-                return community(id, context, depth).getParentCommunity();
+                return Communities.community(id, context, depth).getParentCommunity();
             } else if ("children".equals(attributeSegment)) {
-                return community(id, context, depth).getSubCommunities();
+                return Communities.community(id, context, depth).getSubCommunities();
             } else if ("recent".equals(attributeSegment)) {
-                return community(id, context, depth).getRecentSubmissions();
+                return Communities.community(id, context, depth).getRecentSubmissions();
             } else if ("shortDescription".equals(attributeSegment)) {
-                return community(id, context, depth).getShortDescription();
+                return Communities.community(id, context, depth).getShortDescription();
             } else if ("copyrightText".equals(attributeSegment)) {
-                return community(id, context, depth).getCopyrightText();
+                return Communities.community(id, context, depth).getCopyrightText();
             } else if ("sidebarText".equals(attributeSegment)) {
-                return community(id, context, depth).getSidebarText();
+                return Communities.community(id, context, depth).getSidebarText();
             } else if ("introductoryText".equals(attributeSegment)) {
-                return community(id, context, depth).getIntroductoryText();
+                return Communities.community(id, context, depth).getIntroductoryText();
             } else if ("logo".equals(attributeSegment)) {
-                return community(id, context, depth).getLogo();
+                return Communities.community(id, context, depth).getLogo();
             } else {
                 return null;
             }
         }
 
-        private CommunityEntity community(String id, Context context,
-                final DetailDepth depth) throws SQLException {
-            return new CommunityEntity(id, context, 1, depth);
-        }
-    
         protected Operation operation() {
             return Operation.GET_COMMUNITIES;
         }

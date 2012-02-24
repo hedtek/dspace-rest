@@ -71,10 +71,15 @@ public class Communities {
     public static CommunityEntityId build(final String uid, final Context context,
             final DetailDepth depth, final boolean idOnly) throws SQLException {
         if (idOnly) {
-            return new CommunityEntityId(uid, context);
+            final Community community = Community.find(context, Integer.parseInt(uid));
+            return new CommunityEntityId(community);
         } else {
             return new CommunityEntity(uid, context, 1, depth);
         }
     }
 
+    public static CommunityEntity community(String id, Context context,
+            final DetailDepth depth) throws SQLException {
+        return new CommunityEntity(id, context, 1, depth);
+    }
 }
