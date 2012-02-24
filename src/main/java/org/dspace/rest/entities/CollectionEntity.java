@@ -35,7 +35,7 @@ public class CollectionEntity extends BasicEntity {
     private final Object logo;
 
     public CollectionEntity(final Collection collection, final int level, final DetailDepth depth,  final List<Object> items,
-    final List<Object> communities) throws SQLException {
+    final List<Object> communities, final int itemsCount) throws SQLException {
         super (collection.getID(), Type.COLLECTION, collection.getName(), collection.getType());
         // Only include full when above maximum depth
         final int nextLevel = level + 1;
@@ -57,7 +57,7 @@ public class CollectionEntity extends BasicEntity {
         
         this.communities = communities;
         this.items = items;
-        this.countItems = items.size();
+        this.countItems = itemsCount;
     }
 
     public String getLicence() {

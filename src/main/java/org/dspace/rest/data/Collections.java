@@ -51,7 +51,8 @@ public class Collections {
         }
 
         public CollectionEntity full(final int level, final DetailDepth depth) throws SQLException {
-            return new CollectionEntity(collection, level, depth, items(collection, depth, level), communities(collection, level, depth));
+            final List<Object> items = items(depth, level);
+            return new CollectionEntity(collection, level, depth, items, communities(level, depth), items.size());
         }
 
         public Entity build(final int level, final DetailDepth depth) throws SQLException {
@@ -60,7 +61,22 @@ public class Collections {
             } else {
                 return full(level, depth);
             }
+        } 
+
+        private List<Object> items(final DetailDepth depth, final int nextLevel) throws SQLException {
+            final boolean includeFullNextLevel = depth.includeFullDetails(nextLevel);
+            return ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), nextLevel);
         }
+
+        private List<Object> communities(final int level, final DetailDepth depth) throws SQLException {
+            final boolean includeFullNextLevel = depth.includeFullDetails(level);
+            final List<Object> communities = new ArrayList<Object>();
+            for (Community community : collection.getCommunities()) {
+                communities.add(includeFullNextLevel ? new CommunityEntity(community, level, depth) : new CommunityEntityId(community));
+            }
+            return communities;
+        }
+
     }
     
     private static Collection fetch(final String uid, final Context context)
@@ -108,16 +124,6 @@ public class Collections {
         return entities;
     }
 
-    private static List<Object> communities(final Collection collection, final int level, final DetailDepth depth)
-            throws SQLException {
-        final boolean includeFullNextLevel = depth.includeFullDetails(level);
-        final List<Object> communities = new ArrayList<Object>();
-        for (Community community : collection.getCommunities()) {
-            communities.add(includeFullNextLevel ? new CommunityEntity(community, level, depth) : new CommunityEntityId(community));
-        }
-        return communities;
-    }
-
     public static List<Entity> collections(Community community, int level,
             final DetailDepth depth, final boolean includeFullNextLevel)
             throws SQLException {
@@ -150,12 +156,6 @@ public class Collections {
             entities.add(new Builder(collection).withFull(includeFullNextLevel).build(level, depth));
         }
         return entities;
-    }
-
-    private static List<Object> items(final Collection collection,
-            final DetailDepth depth, final int nextLevel) throws SQLException {
-        final boolean includeFullNextLevel = depth.includeFullDetails(nextLevel);
-        return ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), nextLevel);
     }
     
 }
