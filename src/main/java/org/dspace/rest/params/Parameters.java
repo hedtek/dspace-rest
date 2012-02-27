@@ -93,13 +93,8 @@ private final RequestStorage requestStore;
     public List<Entity> communities(
             final Context context) throws SQLException {
         final boolean topLevelOnly = getEntityBuild().isTopLevelOnly();
-        final Fetch fetch;
-        if (getEntityBuild().isIdOnly()) {
-            fetch = Fetch.MINIMAL;
-        } else {
-            fetch = Fetch.DEFAULT;
-        }
-        final List<Entity> entities = new Communities(context).get(topLevelOnly, fetch);
+        final Fetch fetchGroup = getEntityBuild().getFetchGroup();
+        final List<Entity> entities = new Communities(context).get(topLevelOnly, fetchGroup);
         sort(entities);
         removeTrailing(entities);
         return entities;

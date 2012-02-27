@@ -28,20 +28,26 @@ public class EntityBuildParameters {
         final boolean immediateOnly = !valueInStoreIsFalse(requestStore, "immediateOnly");
         final boolean topLevelOnly = !valueInStoreIsFalse(requestStore, "topLevelOnly");
         final Fetch fetch;
-        fetch = fetch(requestStore);
+        fetch = fetch(requestStore, idOnly);
         return new EntityBuildParameters(idOnly, immediateOnly, topLevelOnly, fetch);
     }
-
-    private static Fetch fetch(RequestStorage requestStore) {
+    private static Fetch fetch(RequestStorage requestStore, final boolean isIdOnly) {
+        final Fetch defaultFetch;
+        if (isIdOnly) {
+            defaultFetch = Fetch.MINIMAL;
+        } else {
+            defaultFetch = Fetch.DEFAULT;
+        }
+        
         final Object storedValue = requestStore.getStoredValue("fetch");
         if (storedValue == null) {
-            return Fetch.DEFAULT;
+            return defaultFetch;
         } else {
             try {
                 return Fetch.valueOf(storedValue.toString().toUpperCase());
             } catch (IllegalArgumentException e) {
                 // value not recognized
-                return Fetch.DEFAULT;
+                return defaultFetch;
             }
         }
     }
