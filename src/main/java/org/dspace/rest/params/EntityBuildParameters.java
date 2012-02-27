@@ -13,6 +13,7 @@ import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
 import org.dspace.rest.data.item.ItemEntity;
 import org.dspace.rest.data.item.ItemEntityId;
+import org.dspace.rest.data.item.Items;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.rest.entities.BundleEntity;
@@ -113,7 +114,7 @@ public class EntityBuildParameters {
         switch (hitType) {
             case Constants.ITEM:
             {
-                hit = (idOnly ? new ItemEntityId(hitId, context) : new ItemEntity(hitId, context, depth));
+                hit = item(context, hitId, depth);
                 break;
             }
     
@@ -153,6 +154,11 @@ public class EntityBuildParameters {
 
         }
         return hit;
+    }
+    
+    Entity item(final Context context, final String uid,
+            final DetailDepth depth) throws SQLException {
+        return new Items(context).build(depth, uid, getFetchGroup());
     }
     
     Entity community(String uid, Context context, DetailDepth depth) throws SQLException {

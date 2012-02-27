@@ -11,6 +11,8 @@ import org.dspace.rest.data.collection.CollectionEntity;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
 import org.dspace.rest.data.item.ItemBuilder;
+import org.dspace.rest.data.item.ItemEntity;
+import org.dspace.rest.data.item.ItemEntityId;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class Parameters {
@@ -102,5 +104,10 @@ private final RequestStorage requestStore;
 
     public Entity community(final String uid, final Context context) throws SQLException {
         return getEntityBuild().community(uid, context, getDetailDepth().getDepth());
+    }
+
+    public Entity item(String uid, Context context) throws SQLException {
+        final DetailDepth depth = getDetailDepth().getDepth();
+        return getEntityBuild().item(context, uid, depth);
     }
 }

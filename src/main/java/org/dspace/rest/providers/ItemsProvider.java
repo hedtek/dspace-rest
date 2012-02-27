@@ -144,12 +144,7 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
                 return binder.resolve(id, route, parameters, context);
             } else {
                 if (entityExists(id)) {
-                    // return basic or full info, according to requirements
-                    if (parameters.getEntityBuild().isIdOnly()) {
-                        return new ItemEntityId(id, context);
-                    } else {
-                        return new ItemEntity(id, context, parameters.getDetailDepth().getDepth());
-                    }
+                    return parameters.item(id, context);
                 } else {
                     if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
                     throw new EntityNotFoundException(operation);
