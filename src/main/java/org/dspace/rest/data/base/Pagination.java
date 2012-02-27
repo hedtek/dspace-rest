@@ -1,4 +1,4 @@
-package org.dspace.rest.data;
+package org.dspace.rest.data.base;
 
 public class Pagination {
     

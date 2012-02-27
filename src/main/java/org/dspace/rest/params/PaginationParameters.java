@@ -3,8 +3,8 @@ package org.dspace.rest.params;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.dspace.rest.data.Pagination;
-import org.dspace.rest.data.Pagination.Builder;
+import org.dspace.rest.data.base.Pagination;
+import org.dspace.rest.data.base.Pagination.Builder;
 import org.dspace.search.QueryArgs;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 

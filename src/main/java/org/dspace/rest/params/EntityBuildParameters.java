@@ -7,6 +7,7 @@ import java.util.List;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.base.Fetch;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
 import org.dspace.rest.data.item.ItemEntity;
