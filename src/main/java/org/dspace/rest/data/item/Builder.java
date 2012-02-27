@@ -34,6 +34,13 @@ class Builder extends AbstractBuilder {
     }
     
     public Entity build() throws SQLException {
-        return getFetch() == FetchGroup.MINIMAL ? new ItemEntityId(item) : buildFull();
+        switch (getFetch()) {
+        case MINIMAL:
+            return new ItemEntityId(item);
+        case LIGHT:
+            return new ItemWithMetadataEntity(item);
+        default:
+            return buildFull();
+        }
     }
 }
