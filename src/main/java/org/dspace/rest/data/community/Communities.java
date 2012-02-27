@@ -39,7 +39,8 @@ public class Communities {
 
     public static CommunityEntity build(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
         final Community community = fetch(uid, context);
-        return new CommunityEntity(community, context, level, depth);
+        return new CommunityEntity(community, context, level, depth, 
+                new Communities(context).recentSubmissions(level, depth, community));
     }
 
     public static List<Entity> subcommunities(Community community, int level, final DetailDepth depth) throws SQLException {
