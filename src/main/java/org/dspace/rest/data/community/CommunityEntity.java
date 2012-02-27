@@ -18,7 +18,6 @@ import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.collection.Collections;
-import org.dspace.rest.entities.BitstreamEntityId;
 
 /**
  * Entity describing community, basic version
@@ -28,16 +27,6 @@ import org.dspace.rest.entities.BitstreamEntityId;
  */
 public class CommunityEntity extends CommunityEntityId {
     
-    private static Object logo(Community community) throws SQLException {
-        final Object logo;
-        if (community.getLogo() == null) {
-            logo = null;
-        } else {
-            logo = new BitstreamEntityId(community.getLogo());
-        }
-        return logo;
-    }
-
     static Logger log = Logger.getLogger(CommunityEntity.class);
     
     private final String name;
@@ -78,7 +67,7 @@ public class CommunityEntity extends CommunityEntityId {
         this.copyright_text = community.getMetadata("copyright_text");
         this.side_bar_text = community.getMetadata("side_bar_text");
 
-        this.logo = logo(community);
+        this.logo = Communities.logo(community);
         
         this.recentSubmissions = recentSubmissions;
         

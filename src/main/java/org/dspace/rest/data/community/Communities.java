@@ -18,10 +18,21 @@ import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.Fetch;
 import org.dspace.rest.data.item.ItemEntity;
 import org.dspace.rest.data.item.ItemEntityId;
+import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.sort.SortException;
 import org.dspace.sort.SortOption;
 
 public class Communities {
+
+    static Object logo(Community community) throws SQLException {
+        final Object logo;
+        if (community.getLogo() == null) {
+            logo = null;
+        } else {
+            logo = new BitstreamEntityId(community.getLogo());
+        }
+        return logo;
+    }
     
     public static Entity fetch(final String uid, final Context context,
             final DetailDepth depth, final boolean idOnly) throws SQLException {
