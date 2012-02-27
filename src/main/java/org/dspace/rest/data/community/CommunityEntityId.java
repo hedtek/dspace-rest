@@ -7,11 +7,13 @@
  */
 
 
-package org.dspace.rest.entities;
+package org.dspace.rest.data.community;
 
 import java.sql.SQLException;
 
 import org.dspace.content.Community;
+import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.base.Entity.Type;
 
 /**
  * Entity describing community, basic version

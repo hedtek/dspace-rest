@@ -6,7 +6,7 @@
  * http://www.dspace.org/license/
  */
 
-package org.dspace.rest.entities;
+package org.dspace.rest.data.community;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,8 +22,12 @@ import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
-import org.dspace.rest.data.Collections;
-import org.dspace.rest.data.Communities;
+import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.collection.Collections;
+import org.dspace.rest.data.item.ItemEntity;
+import org.dspace.rest.data.item.ItemEntityId;
+import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.sort.SortException;
 import org.dspace.sort.SortOption;
 

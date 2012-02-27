@@ -1,6 +1,9 @@
-package org.dspace.rest.entities;
+package org.dspace.rest.data.collection;
 
 import java.util.List;
+
+import org.dspace.rest.data.base.BasicEntity;
+import org.dspace.rest.data.base.Entity.Type;
 
 public class CollectionWithItemsEntity extends BasicEntity {
 

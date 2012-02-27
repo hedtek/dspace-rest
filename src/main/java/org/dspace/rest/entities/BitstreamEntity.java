@@ -15,6 +15,7 @@ import java.util.List;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
 import org.dspace.core.Context;
+import org.dspace.rest.data.base.DetailDepth;
 
 /**
  * Entity describing Bitstreams

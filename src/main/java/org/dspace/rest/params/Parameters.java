@@ -4,12 +4,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.dspace.core.Context;
-import org.dspace.rest.data.Collections;
-import org.dspace.rest.data.Communities;
-import org.dspace.rest.entities.CollectionEntity;
-import org.dspace.rest.entities.DetailDepth;
-import org.dspace.rest.entities.Entity;
-import org.dspace.rest.entities.ItemBuilder;
+import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.collection.CollectionEntity;
+import org.dspace.rest.data.collection.Collections;
+import org.dspace.rest.data.community.Communities;
+import org.dspace.rest.data.item.ItemBuilder;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class Parameters {

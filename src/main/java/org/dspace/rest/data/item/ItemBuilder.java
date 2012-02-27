@@ -1,4 +1,4 @@
-package org.dspace.rest.entities;
+package org.dspace.rest.data.item;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
+import org.dspace.rest.data.base.DetailDepth;
 
 public class ItemBuilder {
     private final static Logger log = Logger.getLogger(ItemBuilder.class);

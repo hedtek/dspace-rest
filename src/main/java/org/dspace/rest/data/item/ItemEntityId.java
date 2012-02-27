@@ -7,7 +7,7 @@
  */
 
 
-package org.dspace.rest.entities;
+package org.dspace.rest.data.item;
 
 import java.sql.SQLException;
 

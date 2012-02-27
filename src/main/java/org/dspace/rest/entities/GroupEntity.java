@@ -15,6 +15,7 @@ import java.util.List;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
 import org.dspace.eperson.Group;
+import org.dspace.rest.data.base.DetailDepth;
 
 /**
  * Entity describing users registered on the system

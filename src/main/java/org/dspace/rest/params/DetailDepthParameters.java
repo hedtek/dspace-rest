@@ -1,6 +1,6 @@
 package org.dspace.rest.params;
 
-import org.dspace.rest.entities.DetailDepth;
+import org.dspace.rest.data.base.DetailDepth;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class DetailDepthParameters {

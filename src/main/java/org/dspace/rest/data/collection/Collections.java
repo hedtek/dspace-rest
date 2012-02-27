@@ -1,4 +1,4 @@
-package org.dspace.rest.data;
+package org.dspace.rest.data.collection;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,17 +10,15 @@ import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
-import org.dspace.rest.entities.BasicEntity;
-import org.dspace.rest.entities.CollectionEntity;
-import org.dspace.rest.entities.CollectionEntityId;
-import org.dspace.rest.entities.CollectionWithItemsEntity;
-import org.dspace.rest.entities.CommunityEntity;
-import org.dspace.rest.entities.CommunityEntityId;
-import org.dspace.rest.entities.DetailDepth;
-import org.dspace.rest.entities.Entity;
-import org.dspace.rest.entities.Entity.Type;
-import org.dspace.rest.entities.ItemBuilder;
-import org.dspace.rest.entities.ItemWithMetadataEntity;
+import org.dspace.rest.data.Pagination;
+import org.dspace.rest.data.base.BasicEntity;
+import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.base.Entity.Type;
+import org.dspace.rest.data.community.CommunityEntity;
+import org.dspace.rest.data.community.CommunityEntityId;
+import org.dspace.rest.data.item.ItemBuilder;
+import org.dspace.rest.data.item.ItemWithMetadataEntity;
 import org.dspace.rest.params.Parameters;
 
 public class Collections {

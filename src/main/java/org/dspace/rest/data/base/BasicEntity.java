@@ -1,4 +1,6 @@
-package org.dspace.rest.entities;
+package org.dspace.rest.data.base;
+
+import org.dspace.rest.data.base.Entity.Type;
 
 public class BasicEntity extends Entity {
 

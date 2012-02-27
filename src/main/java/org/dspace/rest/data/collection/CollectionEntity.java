@@ -5,12 +5,13 @@
  *
  * http://www.dspace.org/license/
  */
-package org.dspace.rest.entities;
+package org.dspace.rest.data.collection;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import org.dspace.content.Collection;
+import org.dspace.rest.entities.BitstreamEntityId;
 
 /**
  * Represents a collection for rendering.

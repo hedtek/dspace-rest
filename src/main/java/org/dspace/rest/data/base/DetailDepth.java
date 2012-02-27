@@ -1,4 +1,4 @@
-package org.dspace.rest.entities;
+package org.dspace.rest.data.base;
 
 public enum DetailDepth {
     

@@ -6,13 +6,13 @@
  * http://www.dspace.org/license/
  */
 
-package org.dspace.rest.entities;
+package org.dspace.rest.data.item;
 
 import org.dspace.content.DCValue;
 
 /**
  * Entity describing DCValue
- * @see org.dspace.rest.entities.ItemEntityId
+ * @see org.dspace.rest.data.item.ItemEntityId
  * @see org.dspace.content.DCValue
  * @author Bojan Suzic, bojan.suzic@gmail.com
  * @author Robin Taylor

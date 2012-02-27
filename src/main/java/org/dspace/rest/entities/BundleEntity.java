@@ -16,6 +16,9 @@ import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
+import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.item.ItemEntity;
+import org.dspace.rest.data.item.ItemEntityId;
 
 /**
  * Entity describing bundle

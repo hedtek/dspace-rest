@@ -1,4 +1,4 @@
-package org.dspace.rest.data;
+package org.dspace.rest.data.community;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -6,10 +6,8 @@ import java.util.List;
 
 import org.dspace.content.Community;
 import org.dspace.core.Context;
-import org.dspace.rest.entities.CommunityEntity;
-import org.dspace.rest.entities.CommunityEntityId;
-import org.dspace.rest.entities.DetailDepth;
-import org.dspace.rest.entities.Entity;
+import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.base.Entity;
 
 public class Communities {
 

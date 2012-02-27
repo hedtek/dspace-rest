@@ -6,7 +6,10 @@
  * http://www.dspace.org/license/
  */
 
-package org.dspace.rest.entities;
+package org.dspace.rest.data.collection;
+
+import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.base.Entity.Type;
 
 /**
  * Entity describing collection, basic version
