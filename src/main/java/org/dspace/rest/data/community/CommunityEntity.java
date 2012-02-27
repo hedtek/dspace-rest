@@ -130,7 +130,7 @@ public class CommunityEntity extends CommunityEntityId {
     private final String side_bar_text;
     private final Object logo;
 
-    public CommunityEntity(Community community, Context context, int level, final DetailDepth depth) throws SQLException {
+    CommunityEntity(Community community, Context context, int level, final DetailDepth depth) throws SQLException {
             super(community.getID());
             this.canEdit = community.canEditBoolean();
             this.handle = community.getHandle();
@@ -164,7 +164,7 @@ public class CommunityEntity extends CommunityEntityId {
     }
 
 
-    public CommunityEntity(final Community community, final int level, final DetailDepth depth, final List<Object> recentSubmissions,
+    private CommunityEntity(final Community community, final int level, final DetailDepth depth, final List<Object> recentSubmissions,
             final int itemsCount) throws SQLException {
         super(community.getID());
 
