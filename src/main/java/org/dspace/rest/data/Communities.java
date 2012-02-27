@@ -82,15 +82,13 @@ public class Communities {
         }
     }
     
-    public static List<Object> build(final Context context,
-            final boolean topLevelOnly, final boolean idOnly)
+    public static List<Entity> build(final Context context, final boolean topLevelOnly, final boolean idOnly)
             throws SQLException {
         return build(idOnly, all(context, topLevelOnly));
     }
 
-    private static List<Object> build(final boolean idOnly,
-            final Community[] communities) throws SQLException {
-        final List<Object> entities = new ArrayList<Object>();
+    private static List<Entity> build(final boolean idOnly, final Community[] communities) throws SQLException {
+        final List<Entity> entities = new ArrayList<Entity>();
         for (Community community : communities) {    
             entities.add(new Builder(community).withIdOnly(idOnly).build());
         }
@@ -102,14 +100,13 @@ public class Communities {
         return topLevelOnly ? Community.findAllTop(context) : Community.findAll(context);
     }
 
-    public static CommunityEntityId build(final String uid, final Context context,
+    public static Entity fetch(final String uid, final Context context,
             final DetailDepth depth, final boolean idOnly) throws SQLException {
-        if (idOnly) {
-            final Community community = Community.find(context, Integer.parseInt(uid));
-            return new CommunityEntityId(community);
-        } else {
-            return build(uid, context, 1, depth);
-        }
+        return new Builder(fetch(uid, context)).withIdOnly(idOnly).build();
+    }
+
+    private static Community fetch(final String uid, final Context context) throws SQLException {
+        return Community.find(context, Integer.parseInt(uid));
     }
 
     public static CommunityEntity community(String id, Context context,
@@ -118,7 +115,7 @@ public class Communities {
     }
 
     public static CommunityEntity build(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
-        final Community community = Community.find(context, Integer.parseInt(uid));
+        final Community community = fetch(uid, context);
         return new CommunityEntity(community, context, level, depth);
     }
 

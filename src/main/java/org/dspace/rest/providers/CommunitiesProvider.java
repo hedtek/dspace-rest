@@ -22,6 +22,7 @@ import org.dspace.rest.diagnose.SQLFailureEntityException;
 import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.entities.CommunityEntityId;
 import org.dspace.rest.entities.DetailDepth;
+import org.dspace.rest.entities.Entity;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
 import org.sakaiproject.entitybus.EntityReference;
@@ -145,16 +146,16 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
         }
     }
 
-    public List<?> getEntities(EntityReference ref, Search search) {
+    public List<Entity> getEntities(EntityReference ref, Search search) {
         return getAllCommunities();
     }
 
     
-    private List<?> getAllCommunities() {
+    private List<Entity> getAllCommunities() {
         final Parameters parameters = new Parameters(requestStore);
         final Context context = DSpace.context();
         try {
-            final List<Object> entities = parameters.communities(context);
+            final List<Entity> entities = parameters.communities(context);
 
             parameters.sort(entities);
             parameters.removeTrailing(entities);

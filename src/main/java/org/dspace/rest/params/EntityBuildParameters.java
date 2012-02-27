@@ -94,12 +94,12 @@ public class EntityBuildParameters {
         for (int x = 0; x < queryResults.getHitTypes().size(); x++) {
             final String hitId = queryResults.getHitIds().get(x).toString();
             final Integer hitType = (Integer) (queryResults.getHitTypes().get(x));
-            entities.add(build(context, depth, hitId, hitType));
+            entities.add(fetch(context, depth, hitId, hitType));
         }
         return entities;
     }
 
-    private Object build(final Context context, final DetailDepth depth,
+    private Object fetch(final Context context, final DetailDepth depth,
             final String hitId, final Integer hitType) throws SQLException {
         final Object hit;
         switch (hitType) {
@@ -111,7 +111,7 @@ public class EntityBuildParameters {
     
             case Constants.COMMUNITY:
             {
-                hit = Communities.build(hitId, context, depth, idOnly);
+                hit = Communities.fetch(hitId, context, depth, idOnly);
                 break;
             }
     
