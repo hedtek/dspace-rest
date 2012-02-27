@@ -13,23 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.dspace.browse.BrowseEngine;
-import org.dspace.browse.BrowseException;
-import org.dspace.browse.BrowseIndex;
-import org.dspace.browse.BrowseInfo;
-import org.dspace.browse.BrowserScope;
 import org.dspace.content.Community;
-import org.dspace.content.Item;
-import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.collection.Collections;
-import org.dspace.rest.data.item.ItemEntity;
-import org.dspace.rest.data.item.ItemEntityId;
 import org.dspace.rest.entities.BitstreamEntityId;
-import org.dspace.sort.SortException;
-import org.dspace.sort.SortOption;
 
 /**
  * Entity describing community, basic version
@@ -39,68 +28,6 @@ import org.dspace.sort.SortOption;
  */
 public class CommunityEntity extends CommunityEntityId {
     
-    private static List<Object> recentSubmissions(Context context, int level,
-            final DetailDepth depth, final Community community) throws SQLException {
-        List<Object> recentSubmissions = new ArrayList<Object>();
-        try {
-            Item[] recentItems = recentSubmissions(community, context);
-            for (Item i : recentItems) {
-                recentSubmissions.add(depth.includeFullDetails(level) ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
-            }
-        } catch (BrowseException e) {
-            log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
-        } catch (SortException e) {
-            log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
-        }
-        return recentSubmissions;
-    }
-    
-    private static BrowserScope scope(final Community community, final Context context)
-            throws BrowseException, SortException {
-        final BrowserScope bs = new BrowserScope(context);
-        final BrowseIndex bi = BrowseIndex.getItemBrowseIndex();
-    
-        // get our configuration
-        final String source = ConfigurationManager.getProperty("recent.submissions.sort-option");
-        final String count = ConfigurationManager.getProperty("recent.submissions.count");
-    
-        // fill in the scope
-        bs.setBrowseIndex(bi);
-        bs.setOrder(SortOption.DESCENDING);
-        bs.setResultsPerPage(Integer.parseInt(count));
-        bs.setBrowseContainer(community);
-        for (SortOption so : SortOption.getSortOptions())
-        {
-            if (so.getName().equals(source))
-            {
-                bs.setSortBy(so.getNumber());
-            }
-        }
-        return bs;
-    }
-
-    /**
-     * Obtain the recent submissions from the given container object.  This
-     * method uses the configuration to determine which field and how many
-     * items to retrieve from the DSpace Object.
-     * 
-     * If the object you pass in is not a Community or Collection (e.g. an Item
-     * is a DSpaceObject which cannot be used here), an exception will be thrown
-     * 
-     * @param dso   DSpaceObject: Community or Collection
-     * @return      The recently submitted items
-     * @throws RecentSubmissionsException
-     * @throws BrowseException 
-     * @throws SortException 
-     */
-    private static Item[] recentSubmissions(final Community community, final Context context)
-        throws BrowseException, SortException
-    {
-    
-        final BrowseInfo results = new BrowseEngine(context).browseMini(scope(community, context));
-        return results.getItemResults(context);
-    }
-
     private static Object logo(Community community) throws SQLException {
         final Object logo;
         if (community.getLogo() == null) {
@@ -111,7 +38,7 @@ public class CommunityEntity extends CommunityEntityId {
         return logo;
     }
 
-    private static Logger log = Logger.getLogger(CommunityEntity.class);
+    static Logger log = Logger.getLogger(CommunityEntity.class);
     
     private final String name;
     private final Boolean canEdit;
@@ -131,31 +58,31 @@ public class CommunityEntity extends CommunityEntityId {
     private final Object logo;
 
     CommunityEntity(Community community, Context context, int level, final DetailDepth depth) throws SQLException {
-            super(community.getID());
-            this.canEdit = community.canEditBoolean();
-            this.handle = community.getHandle();
-            this.name = community.getName();
-            this.type = community.getType();
-            // Is this intentional?
-            this.countItems = 0;
+        super(community.getID());
+        this.canEdit = community.canEditBoolean();
+        this.handle = community.getHandle();
+        this.name = community.getName();
+        this.type = community.getType();
+        // Is this intentional?
+        this.countItems = 0;
 
-            this.short_description = community.getMetadata("short_description");
-            this.introductory_text = community.getMetadata("introductory_text");
-            this.copyright_text = community.getMetadata("copyright_text");
-            this.side_bar_text = community.getMetadata("side_bar_text");
-            
-            this.logo = logo(community);
-            
+        this.short_description = community.getMetadata("short_description");
+        this.introductory_text = community.getMetadata("introductory_text");
+        this.copyright_text = community.getMetadata("copyright_text");
+        this.side_bar_text = community.getMetadata("side_bar_text");
 
-            // Only include full when above maximum depth
-            final int nextLevel = level + 1;
-            if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; next level " + nextLevel);
-            
-            this.collections = Collections.collections(community, nextLevel, depth);
-            this.subCommunities = Communities.subcommunities(community, nextLevel, depth);
-            this.parent = Communities.parent(nextLevel, depth, community);
-            
-            this.recentSubmissions = recentSubmissions(context, level, depth, community);
+        this.logo = logo(community);
+
+
+        // Only include full when above maximum depth
+        final int nextLevel = level + 1;
+        if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; next level " + nextLevel);
+
+        this.collections = Collections.collections(community, nextLevel, depth);
+        this.subCommunities = Communities.subcommunities(community, nextLevel, depth);
+        this.parent = Communities.parent(nextLevel, depth, community);
+
+        this.recentSubmissions = new Communities(context).recentSubmissions(level, depth, community);
             
     }
 
