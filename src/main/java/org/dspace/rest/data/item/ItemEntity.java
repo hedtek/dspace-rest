@@ -16,15 +16,13 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
-import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.collection.Collections;
-import org.dspace.rest.data.community.CommunityEntity;
-import org.dspace.rest.data.community.CommunityEntityId;
+import org.dspace.rest.data.community.Communities;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.rest.entities.BundleEntity;
@@ -64,7 +62,7 @@ public class ItemEntity extends ItemWithMetadataEntity {
     private final List<BundleEntityId> bundles;
     private final List<BitstreamEntityId> bitstreams = new ArrayList<BitstreamEntityId>();
     private final List<Entity> collections;
-    private final List<CommunityEntityId> communities = new ArrayList<CommunityEntityId>();
+    private final List<Entity> communities;
     private final Date lastModified;
     private final Object owningCollection;
     private final boolean isArchived;
@@ -102,10 +100,7 @@ public class ItemEntity extends ItemWithMetadataEntity {
         
         this.collections = Collections.build(level, depth, item.getCollections());
         
-        final Community[] com = item.getCommunities();
-        for (Community c : com) {
-            this.communities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
-        }
+        this.communities = Communities.toEntities(level, depth, includeFullNextLevel, item.getCommunities());
     }
 
     public UserEntity getSubmitter() {
@@ -132,7 +127,7 @@ public class ItemEntity extends ItemWithMetadataEntity {
         return this.collections;
     }
 
-    public List<CommunityEntityId> getCommunities() {
+    public List<Entity> getCommunities() {
         return this.communities;
     }
 

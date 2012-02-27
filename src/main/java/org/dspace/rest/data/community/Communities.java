@@ -36,6 +36,16 @@ public class Communities {
         }
         return logo;
     }
+
+    public static List<Entity> toEntities(int level, final DetailDepth depth,
+            final boolean includeFullNextLevel, final Community[] communities)
+            throws SQLException {
+        final List<Entity> results = new ArrayList<Entity>();
+        for (Community community : communities) {
+            results.add(new Builder(community).withFull(includeFullNextLevel).build(level, depth));
+        }
+        return results;
+    }
     
     public static Entity fetch(final String uid, final Context context,
             final DetailDepth depth, final boolean idOnly) throws SQLException {
