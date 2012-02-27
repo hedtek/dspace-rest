@@ -14,20 +14,17 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.dspace.content.Community;
-import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.collection.Collections;
 
 /**
- * Entity describing community, basic version
- * @see CommunityEntityId
- * @see Community
+ * Presents a detailed view of a community
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class CommunityEntity extends CommunityEntityId {
     
-    static Logger log = Logger.getLogger(CommunityEntity.class);
+    private static Logger log = Logger.getLogger(CommunityEntity.class);
     
     private final String name;
     private final Boolean canEdit;

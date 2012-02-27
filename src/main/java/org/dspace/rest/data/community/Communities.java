@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.dspace.browse.BrowseEngine;
 import org.dspace.browse.BrowseException;
 import org.dspace.browse.BrowseIndex;
@@ -24,6 +25,8 @@ import org.dspace.sort.SortOption;
 
 public class Communities {
 
+    private static Logger log = Logger.getLogger(Communities.class);
+    
     static Object logo(Community community) throws SQLException {
         final Object logo;
         if (community.getLogo() == null) {
@@ -113,9 +116,9 @@ public class Communities {
                 recentSubmissions.add(depth.includeFullDetails(level) ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
             }
         } catch (BrowseException e) {
-            CommunityEntity.log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
+            log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
         } catch (SortException e) {
-            CommunityEntity.log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
+            log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
         }
         return recentSubmissions;
     }
