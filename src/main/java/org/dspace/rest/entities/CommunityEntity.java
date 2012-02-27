@@ -36,13 +36,12 @@ import org.dspace.sort.SortOption;
 public class CommunityEntity extends CommunityEntityId {
     
     private static List<Object> recentSubmissions(Context context, int level,
-            final DetailDepth depth, final Community community,
-            final boolean includeFullNextLevel) throws SQLException {
+            final DetailDepth depth, final Community community) throws SQLException {
         List<Object> recentSubmissions = new ArrayList<Object>();
         try {
             Item[] recentItems = recentSubmissions(community, context);
             for (Item i : recentItems) {
-                recentSubmissions.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
+                recentSubmissions.add(depth.includeFullDetails(level) ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
             }
         } catch (BrowseException e) {
             log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
@@ -143,15 +142,16 @@ public class CommunityEntity extends CommunityEntityId {
             
             this.logo = logo(community);
             
+
             // Only include full when above maximum depth
-            final boolean includeFullNextLevel = depth.includeFullDetails(++level);
-            if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
+            final int nextLevel = level + 1;
+            if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; next level " + nextLevel);
             
-            this.collections = Collections.collections(community, level, depth);
-            this.subCommunities = Communities.subcommunities(community, level, depth);
-            this.parent = Communities.parent(level, depth, community);
+            this.collections = Collections.collections(community, nextLevel, depth);
+            this.subCommunities = Communities.subcommunities(community, nextLevel, depth);
+            this.parent = Communities.parent(nextLevel, depth, community);
             
-            this.recentSubmissions = recentSubmissions(context, level, depth, community, includeFullNextLevel);
+            this.recentSubmissions = recentSubmissions(context, level, depth, community);
             
     }
 
@@ -160,8 +160,8 @@ public class CommunityEntity extends CommunityEntityId {
     }
 
 
-    public CommunityEntity(Community community, int level, final DetailDepth depth, final List<Object> recentSubmissions,
-            int itemsCount) throws SQLException {
+    public CommunityEntity(final Community community, final int level, final DetailDepth depth, final List<Object> recentSubmissions,
+            final int itemsCount) throws SQLException {
         super(community.getID());
 
         this.canEdit = community.canEditBoolean();
@@ -179,18 +179,16 @@ public class CommunityEntity extends CommunityEntityId {
 
         this.logo = logo(community);
         
-        // Only include full when above maximum depth
-        final boolean includeFullNextLevel = depth.includeFullDetails(++level);
-        if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
-
-        this.collections = Collections.collections(community, level, depth);
-        this.subCommunities = Communities.subcommunities(community, level, depth);        
-        this.parent = Communities.parent(level, depth, community);
-        
         this.recentSubmissions = recentSubmissions;
-    }
+        
+        // Only include full when above maximum depth
+        final int nextLevel = level + 1;
+        if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; next level " + nextLevel);
 
-    
+        this.collections = Collections.collections(community, nextLevel, depth);
+        this.subCommunities = Communities.subcommunities(community, nextLevel, depth);        
+        this.parent = Communities.parent(nextLevel, depth, community);
+    }
 
     public List<Entity> getCollections() {
         return this.collections;
