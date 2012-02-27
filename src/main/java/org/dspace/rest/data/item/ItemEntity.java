@@ -100,7 +100,7 @@ public class ItemEntity extends ItemWithMetadataEntity {
         
         this.collections = Collections.build(level, depth, item.getCollections());
         
-        this.communities = Communities.toEntities(level, depth, includeFullNextLevel, item.getCommunities());
+        this.communities = Communities.toEntities(level, depth, item.getCommunities());
     }
 
     public UserEntity getSubmitter() {

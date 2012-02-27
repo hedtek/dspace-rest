@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dspace.content.Community;
+import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.Fetch;
 
@@ -21,6 +22,10 @@ class BulkBuilder extends AbstractBuilder {
         return this;
     }
 
+    public BulkBuilder withFull(boolean includeFull) {
+        return withIdOnly(!includeFull);
+    }
+    
     public BulkBuilder with(Fetch fetch) {
         setFetch(fetch);
         return this;
@@ -34,4 +39,11 @@ class BulkBuilder extends AbstractBuilder {
         return entities;
     }
     
+    public List<Entity> all(int level, final DetailDepth depth) throws SQLException {
+        final List<Entity> entities = new ArrayList<Entity>();
+        for (Community community : communities) {    
+            entities.add(new Builder(community).with(getFetch()).build(level, depth));
+        }
+        return entities;
+    }
 }
