@@ -106,6 +106,16 @@ public class Collections {
                     items, communities, itemCount);
         }
 
+        public Entity withNoItems() throws SQLException {
+            int itemCount = 0;
+            final ItemIterator it = collection.getItems();
+            while (it.hasNext()) {
+                it.skip();
+                itemCount++;
+            }
+            return new CollectionWithNoItems(collection.getID(), collection.getName(), collection.getType(), itemCount);
+        }
+
     }
     
     private static Collection fetch(final String uid, final Context context)
@@ -137,6 +147,16 @@ public class Collections {
         return entities;
     }
 
+    public static List<Entity> toNoItemEntities(Collection[] collections)
+            throws SQLException {
+        final List<Entity> entities = new ArrayList<Entity>();
+        for (Collection collection : collections) {
+            entities.add(new Builder(collection).withNoItems());
+        }
+        return entities;
+    }
+
+    
     public static List<Entity> collections(Community community, int level, final DetailDepth depth)
             throws SQLException {
         final Collection[] collections = community.getCollections();

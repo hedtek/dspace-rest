@@ -44,7 +44,7 @@ public class Communities {
     
     public static Entity fetch(final String uid, final Context context,
             final DetailDepth depth, final FetchGroup fetchGroup) throws SQLException {
-        return new Builder(new Communities(context).fetch(uid)).with(fetchGroup).build();
+        return new Builder(new Communities(context).fetch(uid)).with(fetchGroup).build(depth);
     }
 
     public static List<Entity> subcommunities(Community community, int level, final DetailDepth depth) throws SQLException {

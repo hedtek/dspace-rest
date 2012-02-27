@@ -8,6 +8,7 @@ import org.dspace.content.Community;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
+import org.dspace.rest.data.collection.Collections;
 
 class Builder extends AbstractBuilder {
     
@@ -27,20 +28,20 @@ class Builder extends AbstractBuilder {
         return withIdOnly(!includeFull);
     }
     
-    public CommunityEntityId build() throws SQLException {
+    public Entity build() throws SQLException {
         return build(DetailDepth.FOR_ALL_INDEX);
     }
     
-    public CommunityEntityId build(final DetailDepth depth) throws SQLException {
+    public Entity build(final DetailDepth depth) throws SQLException {
         return build(1, depth);
     }
 
-    public CommunityEntityId build(final int level, final DetailDepth depth) throws SQLException {
+    public Entity build(final int level, final DetailDepth depth) throws SQLException {
         switch (getFetch()) {
         case MINIMAL:
             return new CommunityEntityId(community);
         case LIGHT:
-            return new LightCommunity(community, new ArrayList<Entity>());
+            return new LightCommunity(community, Collections.toNoItemEntities(community.getCollections()));
         default:
             return new CommunityEntity(community, level, depth);
         }
