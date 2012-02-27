@@ -36,15 +36,23 @@ public class Communities {
             return this;
         }
 
+        public Builder withFull(final boolean includeFull) {
+            return withIdOnly(!includeFull);
+        }
+        
         public CommunityEntityId build() throws SQLException {
             return build(DetailDepth.FOR_ALL_INDEX);
         }
         
         public CommunityEntityId build(final DetailDepth depth) throws SQLException {
+            return build(1, depth);
+        }
+
+        public CommunityEntityId build(final int level, final DetailDepth depth) throws SQLException {
             if (isIdOnly()) {
                 return new CommunityEntityId(community);
             } else {
-                return new CommunityEntity(community, 1, depth);
+                return new CommunityEntity(community, level, depth);
             }
         }
         
@@ -58,6 +66,16 @@ public class Communities {
             return subCommunities;
         }
 
+        public Entity parent(int level, final DetailDepth depth) throws SQLException {
+            final Entity parent;
+            final Community parentCommunity = community.getParentCommunity();
+            if(parentCommunity == null) {
+                parent = null;
+            } else {
+                parent = new Builder(parentCommunity).withFull(depth.includeFullDetails(level)).build(level, depth);
+            }
+            return parent;
+        }
     }
     
     public static List<Object> build(final Context context,
@@ -102,5 +120,9 @@ public class Communities {
 
     public static List<Entity> subcommunities(Community community, int level, final DetailDepth depth) throws SQLException {
         return new Builder(community).subcommunities(level, depth);
+    }
+
+    public static Entity parent(final int level, final DetailDepth depth, final Community community) throws SQLException {
+        return new Builder(community).parent(level, depth);
     }
 }

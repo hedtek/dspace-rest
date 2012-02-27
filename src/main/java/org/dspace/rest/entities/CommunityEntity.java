@@ -98,28 +98,6 @@ public class CommunityEntity extends CommunityEntityId {
         return results.getItemResults(context);
     }
 
-    private static Object parent(int level, final DetailDepth depth,
-            final Community community, final boolean includeFullNextLevel)
-            throws SQLException {
-        Object parent;
-        try {
-            Community parentCommunity = community.getParentCommunity();
-            if(parentCommunity == null) {
-                parent = null;
-            } else {
-                if(includeFullNextLevel) {
-                    parent = new CommunityEntity(parentCommunity, level, depth);
-                } else {
-                    parent = new CommunityEntityId(parentCommunity);
-                }
-            }
-
-        } catch (NullPointerException ex) {
-            parent = null;
-        }
-        return parent;
-    }
-
     private static Object logo(Community community) throws SQLException {
         final Object logo;
         if (community.getLogo() == null) {
@@ -171,7 +149,7 @@ public class CommunityEntity extends CommunityEntityId {
             
             this.collections = Collections.collections(community, level, depth);
             this.subCommunities = Communities.subcommunities(community, level, depth);
-            this.parent = parent(level, depth, community, includeFullNextLevel);
+            this.parent = Communities.parent(level, depth, community);
             
             this.recentSubmissions = recentSubmissions(context, level, depth, community, includeFullNextLevel);
             
@@ -207,7 +185,7 @@ public class CommunityEntity extends CommunityEntityId {
 
         this.collections = Collections.collections(community, level, depth);
         this.subCommunities = Communities.subcommunities(community, level, depth);        
-        this.parent = parent(level, depth, community, includeFullNextLevel);
+        this.parent = Communities.parent(level, depth, community);
         
         this.recentSubmissions = recentSubmissions;
     }
