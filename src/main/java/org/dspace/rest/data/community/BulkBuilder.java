@@ -29,7 +29,7 @@ class BulkBuilder extends AbstractBuilder {
     public List<Entity> all() throws SQLException {
         final List<Entity> entities = new ArrayList<Entity>();
         for (Community community : communities) {    
-            entities.add(new Builder(community).withIdOnly(isIdOnly()).build());
+            entities.add(new Builder(community).with(getFetch()).build());
         }
         return entities;
     }

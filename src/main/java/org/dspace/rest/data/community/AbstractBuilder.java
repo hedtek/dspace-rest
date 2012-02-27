@@ -29,5 +29,4 @@ class AbstractBuilder {
     public final void setFetch(Fetch fetch) {
         this.fetch = fetch;
     }
-
 }

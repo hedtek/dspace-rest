@@ -6,6 +6,7 @@ import java.util.List;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.base.Fetch;
 import org.dspace.rest.data.collection.CollectionEntity;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
@@ -92,8 +93,13 @@ private final RequestStorage requestStore;
     public List<Entity> communities(
             final Context context) throws SQLException {
         final boolean topLevelOnly = getEntityBuild().isTopLevelOnly();
-        final boolean idOnly = getEntityBuild().isIdOnly();    
-        final List<Entity> entities = new Communities(context).get(topLevelOnly, idOnly);
+        final Fetch fetch;
+        if (getEntityBuild().isIdOnly()) {
+            fetch = Fetch.MINIMAL;
+        } else {
+            fetch = Fetch.DEFAULT;
+        }
+        final List<Entity> entities = new Communities(context).get(topLevelOnly, fetch);
         sort(entities);
         removeTrailing(entities);
         return entities;

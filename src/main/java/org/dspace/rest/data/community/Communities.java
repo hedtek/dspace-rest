@@ -7,6 +7,7 @@ import org.dspace.content.Community;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.base.Fetch;
 
 public class Communities {
     
@@ -44,8 +45,8 @@ public class Communities {
         this.context = context;
     }
     
-    public List<Entity> get(final boolean onlyTopLevel, final boolean idOnly) throws SQLException {
-        return new BulkBuilder(get(onlyTopLevel)).withIdOnly(idOnly).all();
+    public List<Entity> get(final boolean onlyTopLevel, final Fetch fetch) throws SQLException {
+        return new BulkBuilder(get(onlyTopLevel)).with(fetch).all();
     }
 
     private Community[] get(final boolean onlyTopLevel) throws SQLException {
