@@ -25,22 +25,7 @@ public class Communities {
     
     public static Entity fetch(final String uid, final Context context,
             final DetailDepth depth, final boolean idOnly) throws SQLException {
-        return new Builder(fetch(uid, context)).withIdOnly(idOnly).build();
-    }
-
-    private static Community fetch(final String uid, final Context context) throws SQLException {
-        return Community.find(context, Integer.parseInt(uid));
-    }
-
-    public static CommunityEntity community(String id, Context context,
-            final DetailDepth depth) throws SQLException {
-        return build(id, context, 1, depth);
-    }
-
-    public static CommunityEntity build(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
-        final Community community = fetch(uid, context);
-        return new CommunityEntity(community, context, level, depth, 
-                new Communities(context).recentSubmissions(level, depth, community));
+        return new Builder(new Communities(context).fetch(uid)).withIdOnly(idOnly).build();
     }
 
     public static List<Entity> subcommunities(Community community, int level, final DetailDepth depth) throws SQLException {
@@ -80,13 +65,13 @@ public class Communities {
      * @throws BrowseException 
      * @throws SortException 
      */
-    Item[] recentSubmissions(final Community community) throws BrowseException, SortException
+    private Item[] recentSubmissions(final Community community) throws BrowseException, SortException
     {
         final BrowseInfo results = new BrowseEngine(context).browseMini(scope(community));
         return results.getItemResults(context);
     }
 
-    BrowserScope scope(final Community community) throws BrowseException, SortException {
+    private BrowserScope scope(final Community community) throws BrowseException, SortException {
         final BrowserScope bs = new BrowserScope(context);
         final BrowseIndex bi = BrowseIndex.getItemBrowseIndex();
     
@@ -109,7 +94,7 @@ public class Communities {
         return bs;
     }
 
-    List<Object> recentSubmissions(final int level, final DetailDepth depth, final Community community) throws SQLException {
+    private List<Object> recentSubmissions(final int level, final DetailDepth depth, final Community community) throws SQLException {
         List<Object> recentSubmissions = new ArrayList<Object>();
         try {
             Item[] recentItems = recentSubmissions(community);
@@ -123,4 +108,19 @@ public class Communities {
         }
         return recentSubmissions;
     }
+    
+
+    public CommunityEntity community(String uid, final DetailDepth depth) throws SQLException {
+        return build(uid, 1, depth);
+    }
+
+    private CommunityEntity build(String uid, int level, final DetailDepth depth) throws SQLException {
+        final Community community = fetch(uid);
+        return new CommunityEntity(community, context, level, depth, recentSubmissions(level, depth, community));
+    }
+
+    private Community fetch(final String uid) throws SQLException {
+        return Community.find(context, Integer.parseInt(uid));
+    }
+
 }
