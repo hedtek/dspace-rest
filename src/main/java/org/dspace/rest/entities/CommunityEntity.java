@@ -165,26 +165,26 @@ public class CommunityEntity extends CommunityEntityId {
             this.handle = community.getHandle();
             this.name = community.getName();
             this.type = community.getType();
+            // Is this intentional?
+            this.countItems = 0;
 
-            // Only include full when above maximum depth
-            final boolean includeFullNextLevel = depth.includeFullDetails(++level);
-            if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
-            
-            
             this.short_description = community.getMetadata("short_description");
             this.introductory_text = community.getMetadata("introductory_text");
             this.copyright_text = community.getMetadata("copyright_text");
             this.side_bar_text = community.getMetadata("side_bar_text");
-
+            
             this.logo = logo(community);
+            
+            // Only include full when above maximum depth
+            final boolean includeFullNextLevel = depth.includeFullDetails(++level);
+            if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
+            
             this.collections = Collections.collections(community, level, depth);
             this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);
             this.parent = parent(level, depth, community, includeFullNextLevel);
             
             this.recentSubmissions = recentSubmissions(context, level, depth, community, includeFullNextLevel);
             
-            // Is this intentional?
-            this.countItems = 0;
     }
 
     public CommunityEntity(Community community, int level, final DetailDepth depth) throws SQLException {
@@ -195,24 +195,30 @@ public class CommunityEntity extends CommunityEntityId {
     public CommunityEntity(Community community, int level, final DetailDepth depth, final List<Object> recentSubmissions,
             int itemsCount) throws SQLException {
         super(community.getID());
-        // Only include full when above maximum depth
-        final boolean includeFullNextLevel = depth.includeFullDetails(++level);
-        if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
 
         this.canEdit = community.canEditBoolean();
         this.handle = community.getHandle();
         this.name = community.getName();
         this.type = community.getType();
+        // See above
         this.countItems = itemsCount;
+
+
         this.short_description = community.getMetadata("short_description");
         this.introductory_text = community.getMetadata("introductory_text");
         this.copyright_text = community.getMetadata("copyright_text");
         this.side_bar_text = community.getMetadata("side_bar_text");
 
         this.logo = logo(community);
+        
+        // Only include full when above maximum depth
+        final boolean includeFullNextLevel = depth.includeFullDetails(++level);
+        if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
+
         this.collections = Collections.collections(community, level, depth);
         this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);        
         this.parent = parent(level, depth, community, includeFullNextLevel);
+        
         this.recentSubmissions = recentSubmissions;
     }
 
