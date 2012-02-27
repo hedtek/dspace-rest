@@ -3,17 +3,17 @@ package org.dspace.rest.data.collection;
 import java.util.List;
 
 import org.dspace.rest.data.base.BasicEntity;
-import org.dspace.rest.data.base.Entity.Type;
+import org.dspace.rest.data.base.Entity;
 
 public class CollectionWithItemsEntity extends BasicEntity {
 
     private final int countItems;
     private final List<Object> items;
-    private final List<Object> communities;
+    private final List<Entity> communities;
 
     public CollectionWithItemsEntity(int id, String name,
             int dspaceEntityTypeId, final List<Object> items,
-            final List<Object> communities, final int itemsCount) {
+            final List<Entity> communities, final int itemsCount) {
         super(id, Type.COLLECTION, name, dspaceEntityTypeId);
         
         this.communities = communities;
@@ -25,7 +25,7 @@ public class CollectionWithItemsEntity extends BasicEntity {
         return this.items;
     }
 
-    public final List<?> getCommunities() {
+    public final List<Entity> getCommunities() {
         return this.communities;
     }
 

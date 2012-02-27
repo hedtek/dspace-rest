@@ -13,10 +13,9 @@ import org.dspace.core.Context;
 import org.dspace.rest.data.base.BasicEntity;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
-import org.dspace.rest.data.base.Pagination;
 import org.dspace.rest.data.base.Entity.Type;
-import org.dspace.rest.data.community.CommunityEntity;
-import org.dspace.rest.data.community.CommunityEntityId;
+import org.dspace.rest.data.base.Pagination;
+import org.dspace.rest.data.community.Communities;
 import org.dspace.rest.data.item.ItemBuilder;
 import org.dspace.rest.data.item.ItemWithMetadataEntity;
 import org.dspace.rest.params.Parameters;
@@ -66,7 +65,7 @@ public class Collections {
             if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth 
                     + "; include full? " + depth.includeFullDetails(nextLevel) + "; next level " + nextLevel);
             final List<Object> items = items(depth, nextLevel);
-            return new CollectionEntity(collection, items, communities(nextLevel, depth), items.size());
+            return new CollectionEntity(collection, items, Communities.toEntities(nextLevel, depth, collection.getCommunities()), items.size());
         }
 
         public Entity build(final DetailDepth depth) throws SQLException {
@@ -86,17 +85,8 @@ public class Collections {
             return ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), nextLevel);
         }
 
-        private List<Object> communities(final int level, final DetailDepth depth) throws SQLException {
-            final boolean includeFullNextLevel = depth.includeFullDetails(level);
-            final List<Object> communities = new ArrayList<Object>();
-            for (Community community : collection.getCommunities()) {
-                communities.add(includeFullNextLevel ? new CommunityEntity(community, level, depth) : new CommunityEntityId(community));
-            }
-            return communities;
-        }
-
         public Entity light(final Pagination pagination) throws SQLException {
-            final List<Object> communities = new ArrayList<Object>();
+            final List<Entity> communities = new ArrayList<Entity>();
             for (Community community : collection.getCommunities()) {
                 communities.add(new BasicEntity(community.getID(), Type.COMMUNITY, community.getName(), community.getType()));
             }

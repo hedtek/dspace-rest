@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.dspace.content.Collection;
+import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.entities.BitstreamEntityId;
 
 /**
@@ -29,7 +30,7 @@ public class CollectionEntity extends CollectionWithItemsEntity {
     private final Object logo;
 
     public CollectionEntity(final Collection collection, final List<Object> items,
-    final List<Object> communities, final int itemsCount) throws SQLException {
+    final List<Entity> communities, final int itemsCount) throws SQLException {
         super (collection.getID(), collection.getName(), collection.getType(), items, communities, itemsCount);
         this.canEdit = collection.canEditBoolean();
         this.handle = collection.getHandle();
