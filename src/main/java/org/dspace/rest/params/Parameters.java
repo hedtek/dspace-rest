@@ -6,7 +6,7 @@ import java.util.List;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
-import org.dspace.rest.data.base.Fetch;
+import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.collection.CollectionEntity;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
@@ -93,7 +93,7 @@ private final RequestStorage requestStore;
     public List<Entity> communities(
             final Context context) throws SQLException {
         final boolean topLevelOnly = getEntityBuild().isTopLevelOnly();
-        final Fetch fetchGroup = getEntityBuild().getFetchGroup();
+        final FetchGroup fetchGroup = getEntityBuild().getFetchGroup();
         final List<Entity> entities = new Communities(context).get(topLevelOnly, fetchGroup);
         sort(entities);
         removeTrailing(entities);

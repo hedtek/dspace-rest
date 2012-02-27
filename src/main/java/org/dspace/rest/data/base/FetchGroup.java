@@ -1,5 +1,5 @@
 package org.dspace.rest.data.base;
 
-public enum Fetch {
+public enum FetchGroup {
     DEFAULT, LIGHT, MINIMAL;
 }

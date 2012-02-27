@@ -1,32 +1,32 @@
 package org.dspace.rest.data.community;
 
-import org.dspace.rest.data.base.Fetch;
+import org.dspace.rest.data.base.FetchGroup;
 
 class AbstractBuilder {
 
-    private Fetch fetch;
+    private FetchGroup fetch;
 
     public AbstractBuilder() {
         super();
     }
     
     public final boolean isIdOnly() {
-        return fetch == Fetch.MINIMAL;
+        return fetch == FetchGroup.MINIMAL;
     }
 
     public final void setIdOnly(boolean idOnly) {
         if (idOnly) {
-            fetch = Fetch.MINIMAL;
+            fetch = FetchGroup.MINIMAL;
         } else {
-            fetch = Fetch.DEFAULT;
+            fetch = FetchGroup.DEFAULT;
         }
     }
 
-    public final Fetch getFetch() {
+    public final FetchGroup getFetch() {
         return fetch;
     }
 
-    public final void setFetch(Fetch fetch) {
+    public final void setFetch(FetchGroup fetch) {
         this.fetch = fetch;
     }
 }

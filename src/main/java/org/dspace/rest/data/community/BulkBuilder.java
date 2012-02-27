@@ -7,7 +7,7 @@ import java.util.List;
 import org.dspace.content.Community;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
-import org.dspace.rest.data.base.Fetch;
+import org.dspace.rest.data.base.FetchGroup;
 
 class BulkBuilder extends AbstractBuilder {
 
@@ -26,7 +26,7 @@ class BulkBuilder extends AbstractBuilder {
         return withIdOnly(!includeFull);
     }
     
-    public BulkBuilder with(Fetch fetch) {
+    public BulkBuilder with(FetchGroup fetch) {
         setFetch(fetch);
         return this;
     }

@@ -16,7 +16,7 @@ import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
-import org.dspace.rest.data.base.Fetch;
+import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.item.ItemEntity;
 import org.dspace.rest.data.item.ItemEntityId;
 import org.dspace.rest.entities.BitstreamEntityId;
@@ -43,8 +43,8 @@ public class Communities {
     }
     
     public static Entity fetch(final String uid, final Context context,
-            final DetailDepth depth, final boolean idOnly) throws SQLException {
-        return new Builder(new Communities(context).fetch(uid)).withIdOnly(idOnly).build();
+            final DetailDepth depth, final FetchGroup fetchGroup) throws SQLException {
+        return new Builder(new Communities(context).fetch(uid)).with(fetchGroup).build();
     }
 
     public static List<Entity> subcommunities(Community community, int level, final DetailDepth depth) throws SQLException {
@@ -62,7 +62,7 @@ public class Communities {
         this.context = context;
     }
     
-    public List<Entity> get(final boolean onlyTopLevel, final Fetch fetch) throws SQLException {
+    public List<Entity> get(final boolean onlyTopLevel, final FetchGroup fetch) throws SQLException {
         return new BulkBuilder(get(onlyTopLevel)).with(fetch).all();
     }
 

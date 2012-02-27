@@ -7,7 +7,7 @@ import java.util.List;
 import org.dspace.content.Community;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
-import org.dspace.rest.data.base.Fetch;
+import org.dspace.rest.data.base.FetchGroup;
 
 class Builder extends AbstractBuilder {
     
@@ -71,7 +71,7 @@ class Builder extends AbstractBuilder {
         return new Builder(community).withFull(depth.includeFullDetails(level)).build(level, depth);
     }
 
-    public Builder with(Fetch fetch) {
+    public Builder with(FetchGroup fetch) {
         setFetch(fetch);
         return this;
     }

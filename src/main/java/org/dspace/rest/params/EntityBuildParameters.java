@@ -8,7 +8,7 @@ import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
-import org.dspace.rest.data.base.Fetch;
+import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
 import org.dspace.rest.data.item.ItemEntity;
@@ -28,16 +28,16 @@ public class EntityBuildParameters {
         final boolean idOnly = valueInStoreIsTrue(requestStore, "idOnly");
         final boolean immediateOnly = !valueInStoreIsFalse(requestStore, "immediateOnly");
         final boolean topLevelOnly = !valueInStoreIsFalse(requestStore, "topLevelOnly");
-        final Fetch fetch;
+        final FetchGroup fetch;
         fetch = fetch(requestStore, idOnly);
         return new EntityBuildParameters(idOnly, immediateOnly, topLevelOnly, fetch);
     }
-    private static Fetch fetch(RequestStorage requestStore, final boolean isIdOnly) {
-        final Fetch defaultFetch;
+    private static FetchGroup fetch(RequestStorage requestStore, final boolean isIdOnly) {
+        final FetchGroup defaultFetch;
         if (isIdOnly) {
-            defaultFetch = Fetch.MINIMAL;
+            defaultFetch = FetchGroup.MINIMAL;
         } else {
-            defaultFetch = Fetch.DEFAULT;
+            defaultFetch = FetchGroup.DEFAULT;
         }
         
         final Object storedValue = requestStore.getStoredValue("fetch");
@@ -45,7 +45,7 @@ public class EntityBuildParameters {
             return defaultFetch;
         } else {
             try {
-                return Fetch.valueOf(storedValue.toString().toUpperCase());
+                return FetchGroup.valueOf(storedValue.toString().toUpperCase());
             } catch (IllegalArgumentException e) {
                 // value not recognized
                 return defaultFetch;
@@ -68,12 +68,12 @@ public class EntityBuildParameters {
         return expectedValue.equals(requestStore.getStoredValue(key));
     }
 
-    private final Fetch fetchGroup;
+    private final FetchGroup fetchGroup;
     private final boolean idOnly;
     private final boolean topLevelOnly; 
     
     private EntityBuildParameters(boolean idOnly, boolean topLevelOnly,
-            boolean immediateOnly, final Fetch fetchGroup) {
+            boolean immediateOnly, final FetchGroup fetchGroup) {
         super();
         this.idOnly = idOnly;
         this.topLevelOnly = topLevelOnly;
@@ -89,7 +89,7 @@ public class EntityBuildParameters {
         return topLevelOnly;
     }
 
-    public Fetch getFetchGroup() {
+    public FetchGroup getFetchGroup() {
         return fetchGroup;
     }
 
@@ -156,6 +156,6 @@ public class EntityBuildParameters {
     }
     
     Entity community(String uid, Context context, DetailDepth depth) throws SQLException {
-        return Communities.fetch(uid, context, depth, isIdOnly());
+        return Communities.fetch(uid, context, depth, getFetchGroup());
     }
 }
