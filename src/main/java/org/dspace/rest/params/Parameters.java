@@ -93,7 +93,7 @@ private final RequestStorage requestStore;
             final Context context) throws SQLException {
         final boolean topLevelOnly = getEntityBuild().isTopLevelOnly();
         final boolean idOnly = getEntityBuild().isIdOnly();        
-        final List<Entity> entities = Communities.build(context, topLevelOnly, idOnly);
+        final List<Entity> entities = new Communities(context).get(topLevelOnly, idOnly);
         sort(entities);
         removeTrailing(entities);
         return entities;
