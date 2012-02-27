@@ -9,10 +9,7 @@
 
 package org.dspace.rest.data.item;
 
-import java.sql.SQLException;
-
 import org.dspace.content.Item;
-import org.dspace.core.Context;
 import org.dspace.rest.data.base.Entity;
 
 /**
@@ -20,10 +17,6 @@ import org.dspace.rest.data.base.Entity;
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class ItemEntityId extends Entity {
-
-    public ItemEntityId(String uid, Context context) throws SQLException {
-        this(Item.find(context, Integer.parseInt(uid)));
-    }
 
     public ItemEntityId(Item item) {
         super(item.getID(), Type.ITEM);

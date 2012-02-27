@@ -2,6 +2,7 @@ package org.dspace.rest.data.item;
 
 import java.sql.SQLException;
 
+import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
@@ -18,8 +19,10 @@ public class Items {
 
     public Entity build(final DetailDepth depth, final String uid, final FetchGroup fetchGroup)
             throws SQLException {
-        return fetchGroup == FetchGroup.MINIMAL ? new ItemEntityId(uid, context) : new ItemEntity(uid, context, depth);
+        return fetchGroup == FetchGroup.MINIMAL ? new ItemEntityId(fetch(uid)) : new ItemEntity(uid, context, depth);
     }
     
-    
+    private Item fetch(final String uid) throws NumberFormatException, SQLException {
+        return Item.find(context, Integer.parseInt(uid));
+    }
 }
