@@ -36,9 +36,12 @@ class Builder extends AbstractBuilder {
     }
 
     public CommunityEntityId build(final int level, final DetailDepth depth) throws SQLException {
-        if (isIdOnly()) {
+        switch (getFetch()) {
+        case MINIMAL:
             return new CommunityEntityId(community);
-        } else {
+        case LIGHT:
+            return new LightCommunity(community, new ArrayList<Entity>());
+        default:
             return new CommunityEntity(community, level, depth);
         }
     }

@@ -26,13 +26,13 @@ public class CommunityLightTest extends RestApiBaseTest {
 
 	@Test
     public void smoke1() throws Exception {
-      String result = makeRequest("/communities/1");
+      String result = makeRequest("/communities/1?fetch=light");
       assertTrue(result, true);
     }
 	
     @Test
     public void smoke2() throws Exception {
-      String result = makeRequest("/communities/2");
+      String result = makeRequest("/communities/2?fetch=light");
       assertTrue(result, true);
     }
 

@@ -100,7 +100,7 @@ private final RequestStorage requestStore;
         return entities;
     }
 
-    public Entity community(final String id, final Context context) throws SQLException {
-        return Communities.fetch(id, context, getDetailDepth().getDepth(), getEntityBuild().isIdOnly());
+    public Entity community(final String uid, final Context context) throws SQLException {
+        return getEntityBuild().community(uid, context, getDetailDepth().getDepth());
     }
 }

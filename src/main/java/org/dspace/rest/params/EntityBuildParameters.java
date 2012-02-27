@@ -7,6 +7,7 @@ import java.util.List;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.Fetch;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
@@ -118,7 +119,7 @@ public class EntityBuildParameters {
     
             case Constants.COMMUNITY:
             {
-                hit = Communities.fetch(hitId, context, depth, idOnly);
+                hit = community(hitId, context, depth);
                 break;
             }
     
@@ -152,5 +153,9 @@ public class EntityBuildParameters {
 
         }
         return hit;
+    }
+    
+    Entity community(String uid, Context context, DetailDepth depth) throws SQLException {
+        return Communities.fetch(uid, context, depth, isIdOnly());
     }
 }
