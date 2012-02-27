@@ -93,7 +93,10 @@ private final RequestStorage requestStore;
             final Context context) throws SQLException {
         final boolean topLevelOnly = getEntityBuild().isTopLevelOnly();
         final boolean idOnly = getEntityBuild().isIdOnly();        
-        return Communities.build(context, topLevelOnly, idOnly);
+        final List<Entity> entities = Communities.build(context, topLevelOnly, idOnly);
+        sort(entities);
+        removeTrailing(entities);
+        return entities;
     }
 
     public Entity community(final String id, final Context context) throws SQLException {

@@ -155,11 +155,7 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
         final Parameters parameters = new Parameters(requestStore);
         final Context context = DSpace.context();
         try {
-            final List<Entity> entities = parameters.communities(context);
-
-            parameters.sort(entities);
-            parameters.removeTrailing(entities);
-            return entities;
+            return parameters.communities(context);
             
         } catch (SQLException cause) {
             throw new SQLFailureEntityException(Operation.GET_COMMUNITIES, cause);
