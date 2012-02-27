@@ -22,16 +22,13 @@ import org.dspace.rest.data.collection.Collections;
  * Presents a detailed view of a community
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class CommunityEntity extends CommunityEntityId {
+public class CommunityEntity extends LightCommunity {
     
     private static Logger log = Logger.getLogger(CommunityEntity.class);
     
-    private final String name;
     private final Boolean canEdit;
     private final String handle;
-    private final int type;
     private final int countItems;
-    private final List<Entity> collections;
     private final List<Entity> subCommunities;
     private final List<Object> recentSubmissions;
  // Is this intentional?
@@ -49,13 +46,10 @@ public class CommunityEntity extends CommunityEntityId {
 
     CommunityEntity(final Community community, final int level, final DetailDepth depth, final List<Object> recentSubmissions,
             final int itemsCount) throws SQLException {
-        super(community.getID());
+        super(community, Collections.collections(community, level + 1, depth));
 
         this.canEdit = community.canEditBoolean();
         this.handle = community.getHandle();
-        this.name = community.getName();
-        this.type = community.getType();
-        // See above
         this.countItems = itemsCount;
 
 
@@ -72,25 +66,16 @@ public class CommunityEntity extends CommunityEntityId {
         final int nextLevel = level + 1;
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; next level " + nextLevel);
 
-        this.collections = Collections.collections(community, nextLevel, depth);
         this.subCommunities = Communities.subcommunities(community, nextLevel, depth);        
         this.parent = Communities.parent(nextLevel, depth, community);
     }
-
-    public List<Entity> getCollections() {
-        return this.collections;
-    }
-
+    
     public List<Entity> getSubCommunities() {
         return this.subCommunities;
     }
 
     public Object getParentCommunity() {
         return this.parent;
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     public String getHandle() {
@@ -103,10 +88,6 @@ public class CommunityEntity extends CommunityEntityId {
 
     public Object getLogo() {
         return this.logo;
-    }
-
-    public int getType() {
-        return this.type;
     }
 
     public int getCountItems() {
