@@ -1,8 +1,7 @@
-package org.dspace.rest.data.community;
+package org.dspace.rest.data.base;
 
-import org.dspace.rest.data.base.FetchGroup;
 
-class AbstractBuilder {
+public class AbstractBuilder {
 
     private FetchGroup fetch;
 

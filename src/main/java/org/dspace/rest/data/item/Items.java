@@ -9,7 +9,7 @@ import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
 
 public class Items {
-
+    
     private final Context context;
 
     public Items(final Context context) {
@@ -19,20 +19,14 @@ public class Items {
 
     public Entity fetch(final DetailDepth depth, final String uid, final FetchGroup fetchGroup)
             throws SQLException {
-        final Item item = fetch(uid);
-        return fetchGroup == FetchGroup.MINIMAL ? new ItemEntityId(item) : build(item, depth);
+        return new Builder(fetch(uid)).till(depth).with(fetchGroup).build();
     }
 
-    private ItemEntity build(final Item item, final DetailDepth depth)
-            throws SQLException {
-        return new ItemEntity(item, depth);
-    }
-    
     private Item fetch(final String uid) throws NumberFormatException, SQLException {
         return Item.find(context, Integer.parseInt(uid));
     }
 
     public ItemEntity fetch(DetailDepth depth, String uid) throws NumberFormatException, SQLException {
-        return build(fetch(uid), depth);
+        return new Builder(fetch(uid)).till(depth).buildFull();
     }
 }
