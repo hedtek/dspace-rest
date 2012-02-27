@@ -68,11 +68,11 @@ public class ItemEntity extends ItemWithMetadataEntity {
     private final boolean isArchived;
     private final boolean isWithdrawn;
     private final UserEntity submitter;
-    
-    public ItemEntity(String uid, Context context, final DetailDepth depth) throws SQLException {
-        this(Item.find(context, Integer.parseInt(uid)), 1, depth);
-    } 
 
+    ItemEntity(Item item, final DetailDepth depth) throws SQLException {
+        this(item, 1, depth);
+    }
+    
     public ItemEntity(Item item, int level, final DetailDepth depth) throws SQLException {
         super(item);
         // Only include full when above maximum depth

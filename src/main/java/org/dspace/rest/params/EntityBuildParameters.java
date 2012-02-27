@@ -158,7 +158,7 @@ public class EntityBuildParameters {
     
     Entity item(final Context context, final String uid,
             final DetailDepth depth) throws SQLException {
-        return new Items(context).build(depth, uid, getFetchGroup());
+        return new Items(context).fetch(depth, uid, getFetchGroup());
     }
     
     Entity community(String uid, Context context, DetailDepth depth) throws SQLException {

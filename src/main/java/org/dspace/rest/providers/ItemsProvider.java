@@ -19,6 +19,7 @@ import org.dspace.rest.data.DSpace;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.item.ItemEntity;
 import org.dspace.rest.data.item.ItemEntityId;
+import org.dspace.rest.data.item.Items;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
@@ -77,9 +78,9 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
             }
         }
 
-        private ItemEntity item(String id, Parameters parameters,
+        private ItemEntity item(String uid, Parameters parameters,
                 Context context) throws SQLException {
-            return new ItemEntity(id, context, parameters.getDetailDepth().getDepth());
+            return new Items(context).fetch(parameters.getDetailDepth().getDepth(), uid);
         }
     
         @Override

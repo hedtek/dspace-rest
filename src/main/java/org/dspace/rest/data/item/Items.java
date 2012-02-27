@@ -17,12 +17,22 @@ public class Items {
         this.context = context;
     }
 
-    public Entity build(final DetailDepth depth, final String uid, final FetchGroup fetchGroup)
+    public Entity fetch(final DetailDepth depth, final String uid, final FetchGroup fetchGroup)
             throws SQLException {
-        return fetchGroup == FetchGroup.MINIMAL ? new ItemEntityId(fetch(uid)) : new ItemEntity(uid, context, depth);
+        final Item item = fetch(uid);
+        return fetchGroup == FetchGroup.MINIMAL ? new ItemEntityId(item) : build(item, depth);
+    }
+
+    private ItemEntity build(final Item item, final DetailDepth depth)
+            throws SQLException {
+        return new ItemEntity(item, depth);
     }
     
     private Item fetch(final String uid) throws NumberFormatException, SQLException {
         return Item.find(context, Integer.parseInt(uid));
+    }
+
+    public ItemEntity fetch(DetailDepth depth, String uid) throws NumberFormatException, SQLException {
+        return build(fetch(uid), depth);
     }
 }
