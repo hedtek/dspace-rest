@@ -116,7 +116,7 @@ public class Communities {
 
     private CommunityEntity build(String uid, int level, final DetailDepth depth) throws SQLException {
         final Community community = fetch(uid);
-        return new CommunityEntity(community, context, level, depth, recentSubmissions(level, depth, community));
+        return new CommunityEntity(community, level, depth, recentSubmissions(level, depth, community), 0);
     }
 
     private Community fetch(final String uid) throws SQLException {

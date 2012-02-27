@@ -57,41 +57,11 @@ public class CommunityEntity extends CommunityEntityId {
     private final String side_bar_text;
     private final Object logo;
 
-    CommunityEntity(Community community, Context context, int level, final DetailDepth depth, 
-            final List<Object> recentSubmissions) throws SQLException {
-        super(community.getID());
-        this.canEdit = community.canEditBoolean();
-        this.handle = community.getHandle();
-        this.name = community.getName();
-        this.type = community.getType();
-        // Is this intentional?
-        this.countItems = 0;
-
-        this.short_description = community.getMetadata("short_description");
-        this.introductory_text = community.getMetadata("introductory_text");
-        this.copyright_text = community.getMetadata("copyright_text");
-        this.side_bar_text = community.getMetadata("side_bar_text");
-
-        this.logo = logo(community);
-
-
-        // Only include full when above maximum depth
-        final int nextLevel = level + 1;
-        if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; next level " + nextLevel);
-
-        this.collections = Collections.collections(community, nextLevel, depth);
-        this.subCommunities = Communities.subcommunities(community, nextLevel, depth);
-        this.parent = Communities.parent(nextLevel, depth, community);
-        this.recentSubmissions = recentSubmissions;
-            
-    }
-
     public CommunityEntity(Community community, int level, final DetailDepth depth) throws SQLException {
         this(community, level, depth, new ArrayList<Object>(), community.countItems());
     }
 
-
-    private CommunityEntity(final Community community, final int level, final DetailDepth depth, final List<Object> recentSubmissions,
+    CommunityEntity(final Community community, final int level, final DetailDepth depth, final List<Object> recentSubmissions,
             final int itemsCount) throws SQLException {
         super(community.getID());
 
