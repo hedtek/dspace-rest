@@ -8,23 +8,13 @@ import org.dspace.content.Community;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 
-class Builder {
+class Builder extends AbstractBuilder {
     
     private final Community community;
-
-    private boolean idOnly = false;
     
     public Builder(final Community community) {
         super();
         this.community = community;
-    }
-
-    public boolean isIdOnly() {
-        return idOnly;
-    }
-
-    public void setIdOnly(boolean idOnly) {
-        this.idOnly = idOnly;
     }
     
     public Builder withIdOnly(boolean idOnly) {
