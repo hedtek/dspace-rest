@@ -9,6 +9,7 @@ import org.dspace.core.Context;
 import org.dspace.rest.entities.CommunityEntity;
 import org.dspace.rest.entities.CommunityEntityId;
 import org.dspace.rest.entities.DetailDepth;
+import org.dspace.rest.entities.Entity;
 
 public class Communities {
 
@@ -46,6 +47,17 @@ public class Communities {
                 return new CommunityEntity(community, 1, depth);
             }
         }
+        
+        public List<Entity> subcommunities(int level, final DetailDepth depth)
+                throws SQLException {
+            final List<Entity> subCommunities = new ArrayList<Entity>();
+            final Community[] subcommunities = community.getSubcommunities();
+            for (Community subcommunity : subcommunities) {
+                subCommunities.add(depth.includeFullDetails(level) ? new CommunityEntity(subcommunity, level, depth) : new CommunityEntityId(subcommunity));
+            }
+            return subCommunities;
+        }
+
     }
     
     public static List<Object> build(final Context context,
@@ -86,5 +98,9 @@ public class Communities {
     public static CommunityEntity build(String uid, Context context, int level, final DetailDepth depth) throws SQLException {
         final Community community = Community.find(context, Integer.parseInt(uid));
         return new CommunityEntity(community, context, level, depth);
+    }
+
+    public static List<Entity> subcommunities(Community community, int level, final DetailDepth depth) throws SQLException {
+        return new Builder(community).subcommunities(level, depth);
     }
 }

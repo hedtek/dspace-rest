@@ -23,6 +23,7 @@ import org.dspace.content.Item;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.rest.data.Collections;
+import org.dspace.rest.data.Communities;
 import org.dspace.sort.SortException;
 import org.dspace.sort.SortOption;
 
@@ -129,17 +130,6 @@ public class CommunityEntity extends CommunityEntityId {
         return logo;
     }
 
-    private static List<Object> subcommunities(Community community, int level,
-            final DetailDepth depth, final boolean includeFullNextLevel)
-            throws SQLException {
-        List<Object> subCommunities = new ArrayList<Object>();
-        Community[] coms = community.getSubcommunities();
-        for (Community c : coms) {
-            subCommunities.add(includeFullNextLevel ? new CommunityEntity(c, level, depth) : new CommunityEntityId(c));
-        }
-        return subCommunities;
-    }
-    
     private static Logger log = Logger.getLogger(CommunityEntity.class);
     
     private final String name;
@@ -148,7 +138,7 @@ public class CommunityEntity extends CommunityEntityId {
     private final int type;
     private final int countItems;
     private final List<Entity> collections;
-    private final List<Object> subCommunities;
+    private final List<Entity> subCommunities;
     private final List<Object> recentSubmissions;
  // Is this intentional?
     private final Object administrators = null;
@@ -180,7 +170,7 @@ public class CommunityEntity extends CommunityEntityId {
             if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
             
             this.collections = Collections.collections(community, level, depth);
-            this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);
+            this.subCommunities = Communities.subcommunities(community, level, depth);
             this.parent = parent(level, depth, community, includeFullNextLevel);
             
             this.recentSubmissions = recentSubmissions(context, level, depth, community, includeFullNextLevel);
@@ -216,7 +206,7 @@ public class CommunityEntity extends CommunityEntityId {
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
 
         this.collections = Collections.collections(community, level, depth);
-        this.subCommunities = subcommunities(community, level, depth, includeFullNextLevel);        
+        this.subCommunities = Communities.subcommunities(community, level, depth);        
         this.parent = parent(level, depth, community, includeFullNextLevel);
         
         this.recentSubmissions = recentSubmissions;
