@@ -196,7 +196,7 @@ public class CommunityEntity extends CommunityEntityId {
         return this.collections;
     }
 
-    public List<?> getSubCommunities() {
+    public List<Entity> getSubCommunities() {
         return this.subCommunities;
     }
 

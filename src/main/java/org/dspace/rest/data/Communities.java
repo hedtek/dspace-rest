@@ -61,7 +61,7 @@ public class Communities {
             final List<Entity> subCommunities = new ArrayList<Entity>();
             final Community[] subcommunities = community.getSubcommunities();
             for (Community subcommunity : subcommunities) {
-                subCommunities.add(depth.includeFullDetails(level) ? new CommunityEntity(subcommunity, level, depth) : new CommunityEntityId(subcommunity));
+                subCommunities.add(toEntity(level, depth, subcommunity));
             }
             return subCommunities;
         }
@@ -72,9 +72,13 @@ public class Communities {
             if(parentCommunity == null) {
                 parent = null;
             } else {
-                parent = new Builder(parentCommunity).withFull(depth.includeFullDetails(level)).build(level, depth);
+                parent = toEntity(level, depth, parentCommunity);
             }
             return parent;
+        }
+
+        private Entity toEntity(int level, final DetailDepth depth, final Community community) throws SQLException {
+            return new Builder(community).withFull(depth.includeFullDetails(level)).build(level, depth);
         }
     }
     
