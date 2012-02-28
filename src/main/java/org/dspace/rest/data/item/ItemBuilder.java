@@ -7,6 +7,7 @@ import org.dspace.rest.data.base.AbstractBuilder;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
+import org.dspace.rest.data.collection.Collections;
 
 public class ItemBuilder extends AbstractBuilder {
     
@@ -31,7 +32,8 @@ public class ItemBuilder extends AbstractBuilder {
     }
     
     public ItemEntity buildFull() throws SQLException {
-        return new ItemEntity(item, level, depth);
+        final int nextLevel = level + 1;
+        return new ItemEntity(item, level, depth, Collections.buildOwningCollection(item, nextLevel, depth));
     }
 
     public ItemBuilder with(FetchGroup fetchGroup) {

@@ -63,16 +63,15 @@ public class ItemEntity extends ItemWithMetadataEntity {
     private final List<Entity> collections;
     private final List<Entity> communities;
     private final Date lastModified;
-    private final Object owningCollection;
+    private final Entity owningCollection;
     private final boolean isArchived;
     private final boolean isWithdrawn;
     private final UserEntity submitter;
     
-    ItemEntity(Item item, int level, final DetailDepth depth) throws SQLException {
+    ItemEntity(Item item, int level, final DetailDepth depth, final Entity owningCollection) throws SQLException {
         super(item);
         
-        final int nextLevel = level + 1;
-        this.owningCollection = Collections.buildOwningCollection(item, nextLevel, depth);
+        this.owningCollection = owningCollection;
         
         // Only include full when above maximum depth
         
@@ -112,7 +111,7 @@ public class ItemEntity extends ItemWithMetadataEntity {
         return this.isWithdrawn;
     }
 
-    public Object getOwningCollection() {
+    public Entity getOwningCollection() {
         return this.owningCollection;
     }
 
