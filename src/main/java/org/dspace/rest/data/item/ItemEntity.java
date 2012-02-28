@@ -36,11 +36,6 @@ public class ItemEntity extends ItemWithMetadataEntity {
 
     private static Logger log = Logger.getLogger(ItemEntity.class);
 
-    private static List<BundleEntityId> build(int level, final DetailDepth depth, final Bundle[] bundles)
-            throws SQLException {
-        return new BulkBundleBuilder(bundles).till(depth).on(level).withFull(depth.includeFullDetails(level)).build();
-    }
-
     private static UserEntity buildUserEntity(Item item) throws SQLException {
         final EPerson submitter = item.getSubmitter();
         if(submitter == null) {
@@ -63,11 +58,12 @@ public class ItemEntity extends ItemWithMetadataEntity {
     private final boolean isWithdrawn;
     private final UserEntity submitter;
     
-    ItemEntity(Item item, int level, final DetailDepth depth, final Entity owningCollection) throws SQLException {
+    ItemEntity(Item item, int level, final DetailDepth depth, final Entity owningCollection, 
+            final List<BundleEntityId> bundles) throws SQLException {
         super(item);
         
         this.owningCollection = owningCollection;
-        this.bundles = build(level + 1, depth, item.getBundles());
+        this.bundles = bundles;
         
         // Only include full when above maximum depth
         

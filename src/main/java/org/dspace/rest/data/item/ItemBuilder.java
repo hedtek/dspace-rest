@@ -1,12 +1,15 @@
 package org.dspace.rest.data.item;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.dspace.content.Item;
 import org.dspace.rest.data.base.AbstractBuilder;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
+import org.dspace.rest.data.bundle.BulkBundleBuilder;
+import org.dspace.rest.data.bundle.BundleEntityId;
 import org.dspace.rest.data.collection.Collections;
 
 public class ItemBuilder extends AbstractBuilder {
@@ -33,7 +36,9 @@ public class ItemBuilder extends AbstractBuilder {
     
     public ItemEntity buildFull() throws SQLException {
         final int nextLevel = level + 1;
-        return new ItemEntity(item, level, depth, Collections.buildOwningCollection(item, nextLevel, depth));
+        final List<BundleEntityId> bundles 
+            = new BulkBundleBuilder(item.getBundles()).till(depth).on(nextLevel).withFull(depth.includeFullDetails(nextLevel)).build();
+        return new ItemEntity(item, level, depth, Collections.buildOwningCollection(item, nextLevel, depth), bundles);
     }
 
     public ItemBuilder with(FetchGroup fetchGroup) {
