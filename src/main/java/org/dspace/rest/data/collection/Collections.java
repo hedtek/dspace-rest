@@ -64,7 +64,7 @@ public class Collections {
             final int nextLevel = level + 1;
             if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth 
                     + "; include full? " + depth.includeFullDetails(nextLevel) + "; next level " + nextLevel);
-            final List<Object> items = items(depth, nextLevel);
+            final List<Entity> items = items(depth, nextLevel);
             return new CollectionEntity(collection, items, Communities.toEntities(nextLevel, depth, collection.getCommunities()), items.size());
         }
 
@@ -80,7 +80,7 @@ public class Collections {
             }
         } 
 
-        private List<Object> items(final DetailDepth depth, final int nextLevel) throws SQLException {
+        private List<Entity> items(final DetailDepth depth, final int nextLevel) throws SQLException {
             final boolean includeFullNextLevel = depth.includeFullDetails(nextLevel);
             return ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), nextLevel);
         }
@@ -90,7 +90,7 @@ public class Collections {
             for (Community community : collection.getCommunities()) {
                 communities.add(new BasicEntity(community.getID(), Type.COMMUNITY, community.getName(), community.getType()));
             }
-            final List<Object> items = new ArrayList<Object>();
+            final List<Entity> items = new ArrayList<Entity>();
             int itemCount = 0;
             final ItemIterator it = collection.getItems();
             while (it.hasNext()) {

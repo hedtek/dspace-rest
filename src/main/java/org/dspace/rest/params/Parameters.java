@@ -105,16 +105,10 @@ private final RequestStorage requestStore;
         return getEntityBuild().item(context, uid, depth);
     }
 
-    public List<Object> items(final Context context) throws SQLException {
-        final List<Object> entities = build(context);
+    public List<Entity> items(final Context context) throws SQLException {
+        final List<Entity> entities = getEntityBuild().items(context);
         sort(entities);
         removeTrailing(entities);
-        return entities;
-    }
-
-    private List<Object> build(final Context context) throws SQLException {
-        final ItemIterator items = Item.findAll(context);
-        final List<Object> entities = ItemBuilder.builder(getEntityBuild().isIdOnly(), DetailDepth.FOR_ALL_INDEX).build(items);
         return entities;
     }
 }

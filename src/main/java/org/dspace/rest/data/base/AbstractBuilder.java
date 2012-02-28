@@ -17,7 +17,7 @@ public class AbstractBuilder {
         if (idOnly) {
             fetch = FetchGroup.MINIMAL;
         } else {
-            fetch = FetchGroup.DEFAULT;
+            fetch = FetchGroup.FULL;
         }
     }
 

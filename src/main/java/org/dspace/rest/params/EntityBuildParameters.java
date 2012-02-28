@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dspace.content.Item;
+import org.dspace.content.ItemIterator;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
@@ -11,6 +13,7 @@ import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
+import org.dspace.rest.data.item.ItemBuilder;
 import org.dspace.rest.data.item.ItemEntity;
 import org.dspace.rest.data.item.ItemEntityId;
 import org.dspace.rest.data.item.Items;
@@ -38,7 +41,7 @@ public class EntityBuildParameters {
         if (isIdOnly) {
             defaultFetch = FetchGroup.MINIMAL;
         } else {
-            defaultFetch = FetchGroup.DEFAULT;
+            defaultFetch = FetchGroup.FULL;
         }
         
         final Object storedValue = requestStore.getStoredValue("fetch");
@@ -164,4 +167,12 @@ public class EntityBuildParameters {
     Entity community(String uid, Context context, DetailDepth depth) throws SQLException {
         return Communities.fetch(uid, context, depth, getFetchGroup());
     }
+    
+
+    List<Entity> items(final Context context) throws SQLException {
+        final ItemIterator items = Item.findAll(context);
+        final List<Entity> entities = ItemBuilder.builder(isIdOnly(), DetailDepth.FOR_ALL_INDEX).build(items);
+        return entities;
+    }
+
 }

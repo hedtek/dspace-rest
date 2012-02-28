@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.base.Entity;
 
 public class ItemBuilder {
     private final static Logger log = Logger.getLogger(ItemBuilder.class);
@@ -31,13 +32,13 @@ public class ItemBuilder {
         this.depth = depth;
     }
 
-    public List<Object> build(final ItemIterator items) throws SQLException {
+    public List<Entity> build(final ItemIterator items) throws SQLException {
         return build(items, 1);
     }
 
-    public List<Object> build(final ItemIterator items, final int level)
+    public List<Entity> build(final ItemIterator items, final int level)
             throws SQLException {
-        final List<Object> entities = new ArrayList<Object>(HARD_LIMIT);
+        final List<Entity> entities = new ArrayList<Entity>(HARD_LIMIT);
         int limit = HARD_LIMIT;
         while (items.hasNext() && (--limit >= 0)) {
             entities.add(build(items.next(), level));

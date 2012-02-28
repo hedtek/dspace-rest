@@ -29,7 +29,7 @@ public class CollectionEntity extends CollectionWithItemsEntity {
     private final String provenance;
     private final Object logo;
 
-    public CollectionEntity(final Collection collection, final List<Object> items,
+    public CollectionEntity(final Collection collection, final List<Entity> items,
     final List<Entity> communities, final int itemsCount) throws SQLException {
         super (collection.getID(), collection.getName(), collection.getType(), items, communities, itemsCount);
         this.canEdit = collection.canEditBoolean();

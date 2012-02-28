@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.rest.data.DSpace;
+import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.item.ItemEntity;
 import org.dspace.rest.data.item.ItemEntityId;
 import org.dspace.rest.data.item.Items;
@@ -158,11 +159,11 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
         }
     }
 
-    public List<?> getEntities(EntityReference ref, Search search) {
-        return getAllItems();
+    public List<Entity> getEntities(EntityReference ref, Search search) {
+        return get();
     }
 
-    private List<?> getAllItems() {
+    private List<Entity> get() {
         final Context context = DSpace.context();
         try {
             
