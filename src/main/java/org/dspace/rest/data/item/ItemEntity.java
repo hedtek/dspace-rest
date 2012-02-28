@@ -20,12 +20,12 @@ import org.dspace.content.Item;
 import org.dspace.eperson.EPerson;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.bundle.BulkBundleBuilder;
+import org.dspace.rest.data.bundle.BundleEntityId;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
 import org.dspace.rest.entities.BitstreamEntity;
 import org.dspace.rest.entities.BitstreamEntityId;
-import org.dspace.rest.entities.BundleEntity;
-import org.dspace.rest.entities.BundleEntityId;
 import org.dspace.rest.entities.UserEntity;
 
 /**
@@ -36,14 +36,9 @@ public class ItemEntity extends ItemWithMetadataEntity {
 
     private static Logger log = Logger.getLogger(ItemEntity.class);
 
-    private static List<BundleEntityId> build(int level, final DetailDepth depth,
-            final boolean includeFullNextLevel, final Bundle[] bun)
+    private static List<BundleEntityId> build(int level, final DetailDepth depth, final Bundle[] bundles)
             throws SQLException {
-        List<BundleEntityId> bundles = new ArrayList<BundleEntityId>();
-        for (Bundle b : bun) {
-            bundles.add(includeFullNextLevel ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
-        }
-        return bundles;
+        return new BulkBundleBuilder(bundles).till(depth).on(level).withFull(depth.includeFullDetails(level)).build();
     }
 
     private static UserEntity buildUserEntity(Item item) throws SQLException {
@@ -72,6 +67,7 @@ public class ItemEntity extends ItemWithMetadataEntity {
         super(item);
         
         this.owningCollection = owningCollection;
+        this.bundles = build(level + 1, depth, item.getBundles());
         
         // Only include full when above maximum depth
         
@@ -86,8 +82,6 @@ public class ItemEntity extends ItemWithMetadataEntity {
         this.isWithdrawn = item.isWithdrawn();
         
         this.submitter = buildUserEntity(item);
-
-        this.bundles = build(level, depth, includeFullNextLevel, item.getBundles());
         
         final Bitstream[] bst = item.getNonInternalBitstreams();
         for (Bitstream b : bst) {

@@ -6,7 +6,7 @@
  * http://www.dspace.org/license/
  */
 
-package org.dspace.rest.entities;
+package org.dspace.rest.data.bundle;
 
 import java.sql.SQLException;
 

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.dspace.content.Bundle;
 import org.dspace.core.ConfigurationManager;
-import org.dspace.rest.entities.BundleEntityId;
+import org.dspace.rest.data.bundle.BundleEntityId;
 import org.dspace.rest.providers.AbstractBaseProvider;
 import org.dspace.rest.providers.BitstreamProvider;
 import org.dspace.rest.providers.CollectionsProvider;

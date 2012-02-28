@@ -6,7 +6,7 @@
  * http://www.dspace.org/license/
  */
 
-package org.dspace.rest.entities;
+package org.dspace.rest.data.bundle;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,6 +17,8 @@ import org.dspace.content.Bundle;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.item.Items;
+import org.dspace.rest.entities.BitstreamEntity;
+import org.dspace.rest.entities.BitstreamEntityId;
 
 /**
  * Entity describing bundle

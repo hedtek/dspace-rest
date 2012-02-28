@@ -16,6 +16,8 @@ import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.bundle.BundleEntity;
+import org.dspace.rest.data.bundle.BundleEntityId;
 
 /**
  * Entity describing Bitstreams
