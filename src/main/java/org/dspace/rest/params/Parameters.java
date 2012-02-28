@@ -3,6 +3,8 @@ package org.dspace.rest.params;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.dspace.content.Item;
+import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
@@ -48,15 +50,7 @@ private final RequestStorage requestStore;
     public DurationParameters getDuration() {
         return new DurationParameters(requestStore);
     }
-    
-    public ItemBuilder itemBuilder() {
-        return itemBuilder(getDetailDepth().getDepth());
-    }
 
-    public ItemBuilder itemBuilder(final DetailDepth depth) {
-        return ItemBuilder.builder(getEntityBuild().isIdOnly(), depth);
-    }
-    
     /**
      * Remove items from list in order to display only requested items
      * (according to _start, _limit etc.)
@@ -109,5 +103,18 @@ private final RequestStorage requestStore;
     public Entity item(String uid, Context context) throws SQLException {
         final DetailDepth depth = getDetailDepth().getDepth();
         return getEntityBuild().item(context, uid, depth);
+    }
+
+    public List<Object> items(final Context context) throws SQLException {
+        final List<Object> entities = build(context);
+        sort(entities);
+        removeTrailing(entities);
+        return entities;
+    }
+
+    private List<Object> build(final Context context) throws SQLException {
+        final ItemIterator items = Item.findAll(context);
+        final List<Object> entities = ItemBuilder.builder(getEntityBuild().isIdOnly(), DetailDepth.FOR_ALL_INDEX).build(items);
+        return entities;
     }
 }

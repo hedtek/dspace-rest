@@ -13,10 +13,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.dspace.content.Item;
-import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
 import org.dspace.rest.data.DSpace;
-import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.item.ItemEntity;
 import org.dspace.rest.data.item.ItemEntityId;
 import org.dspace.rest.data.item.Items;
@@ -167,14 +165,10 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
     private List<?> getAllItems() {
         final Context context = DSpace.context();
         try {
-            final Parameters parameters = new Parameters(requestStore);
             
-            final ItemIterator items = Item.findAll(context);
-            final List<Object> entities = parameters.itemBuilder(DetailDepth.FOR_ALL_INDEX).build(items);
-
-            parameters.sort(entities);
-            parameters.removeTrailing(entities);
-            return entities;
+            final Parameters parameters = new Parameters(requestStore);
+            return parameters.items(context);
+            
         } catch (SQLException cause) {
             throw new SQLFailureEntityException(Operation.GET_ITEMS, cause);
 
