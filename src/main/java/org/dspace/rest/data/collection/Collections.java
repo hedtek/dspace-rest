@@ -67,15 +67,14 @@ public class Collections {
         return entities;
     }
 
-    public static Entity buildOwningCollection(Item item, int level,
-            final DetailDepth depth, final boolean includeFullNextLevel)
+    public static Entity buildOwningCollection(Item item, int level, final DetailDepth depth)
             throws SQLException {
         Entity owningCollection;
         final Collection parent = item.getOwningCollection();
         if (parent == null) {
             owningCollection = null;
         } else {
-            owningCollection = new Builder(parent).withFull(includeFullNextLevel).build(level, depth);
+            owningCollection = new Builder(parent).withFull(depth.includeFullDetails(level)).build(level, depth);
         }
         return owningCollection;
     }

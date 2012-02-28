@@ -74,6 +74,10 @@ public class ItemEntity extends ItemWithMetadataEntity {
     
     public ItemEntity(Item item, int level, final DetailDepth depth) throws SQLException {
         super(item);
+        
+        final int nextLevel = level + 1;
+        this.owningCollection = Collections.buildOwningCollection(item, nextLevel, depth);
+        
         // Only include full when above maximum depth
         
         final boolean includeFullNextLevel = depth.includeFullDetails(++level);
@@ -82,8 +86,6 @@ public class ItemEntity extends ItemWithMetadataEntity {
         this.canEdit = item.canEdit();
         this.handle = item.getHandle();
         this.lastModified = item.getLastModified();
-        
-        this.owningCollection = Collections.buildOwningCollection(item, level, depth, includeFullNextLevel);
         
         this.isArchived = item.isArchived();
         this.isWithdrawn = item.isWithdrawn();
