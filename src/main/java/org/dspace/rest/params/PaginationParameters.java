@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.dspace.rest.data.base.Pagination;
-import org.dspace.rest.data.base.Pagination.Builder;
+import org.dspace.rest.data.base.Pagination.ZeroBasedBuilder;
 import org.dspace.search.QueryArgs;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
@@ -70,7 +70,7 @@ public class PaginationParameters {
     }
 
     public Pagination pagination() {
-        final Builder builder = new Pagination.Builder().startAt(getStartPosition());
+        final ZeroBasedBuilder builder = new Pagination.ZeroBasedBuilder().startAt(getStartPosition());
         if (perpage > 0) {
             builder.perPage(perpage);
         }

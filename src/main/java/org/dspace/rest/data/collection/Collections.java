@@ -8,115 +8,15 @@ import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
-import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
-import org.dspace.rest.data.base.BasicEntity;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
-import org.dspace.rest.data.base.Entity.Type;
 import org.dspace.rest.data.base.Pagination;
-import org.dspace.rest.data.community.Communities;
-import org.dspace.rest.data.item.ItemBuilder;
-import org.dspace.rest.data.item.ItemWithMetadataEntity;
 import org.dspace.rest.params.Parameters;
 
 public class Collections {
     
     private static Logger log = Logger.getLogger(Collections.class);
-    
-    private static class Builder {
-        private final Collection collection;
-        private boolean isIdOnly = false;
-
-        private Builder(Collection collection) {
-            super();
-            this.collection = collection;
-        }
-        
-        public boolean isIdOnly() {
-            return isIdOnly;
-        }
-
-        public void setIdOnly(boolean isIdOnly) {
-            this.isIdOnly = isIdOnly;
-        }
-
-        public Builder withIdOnly(boolean isIdOnly) {
-            this.isIdOnly = isIdOnly;
-            return this;
-        }
-        
-        public Builder withFull(boolean isFullNextLevel) {
-            setIdOnly(!isFullNextLevel);
-            return this;
-        }
-
-        public Entity idOnly() {
-            return new CollectionEntityId(collection.getID());
-        }
-
-        public CollectionEntity full(final DetailDepth depth) throws SQLException {
-            return full(1, depth);
-        }
-        
-        public CollectionEntity full(final int level, final DetailDepth depth) throws SQLException {
-            // Only include full when above maximum depth
-            final int nextLevel = level + 1;
-            if (log.isDebugEnabled()) log.debug("Creating collection entity: DepthDetail is " + depth 
-                    + "; include full? " + depth.includeFullDetails(nextLevel) + "; next level " + nextLevel);
-            final List<Entity> items = items(depth, nextLevel);
-            return new CollectionEntity(collection, items, Communities.toEntities(nextLevel, depth, collection.getCommunities()), items.size());
-        }
-
-        public Entity build(final DetailDepth depth) throws SQLException {
-            return build(1, depth);
-        }
-        
-        public Entity build(final int level, final DetailDepth depth) throws SQLException {
-            if (isIdOnly()) {
-                return idOnly();
-            } else {
-                return full(level, depth);
-            }
-        } 
-
-        private List<Entity> items(final DetailDepth depth, final int nextLevel) throws SQLException {
-            final boolean includeFullNextLevel = depth.includeFullDetails(nextLevel);
-            return ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), nextLevel);
-        }
-
-        public Entity light(final Pagination pagination) throws SQLException {
-            final List<Entity> communities = new ArrayList<Entity>();
-            for (Community community : collection.getCommunities()) {
-                communities.add(new BasicEntity(community.getID(), Type.COMMUNITY, community.getName(), community.getType()));
-            }
-            final List<Entity> items = new ArrayList<Entity>();
-            int itemCount = 0;
-            final ItemIterator it = collection.getItems();
-            while (it.hasNext()) {
-                if (pagination.isInPage(itemCount)) {
-                    final Item item = it.next();
-                    items.add(new ItemWithMetadataEntity(item));
-                } else {
-                    it.skip();
-                }
-                itemCount++;
-            }
-            return new CollectionWithItemsEntity(collection.getID(), collection.getName(), collection.getType(), 
-                    items, communities, itemCount);
-        }
-
-        public Entity withNoItems() throws SQLException {
-            int itemCount = 0;
-            final ItemIterator it = collection.getItems();
-            while (it.hasNext()) {
-                it.skip();
-                itemCount++;
-            }
-            return new CollectionWithNoItems(collection.getID(), collection.getName(), collection.getType(), itemCount);
-        }
-
-    }
     
     private static Collection fetch(final String uid, final Context context)
             throws SQLException {

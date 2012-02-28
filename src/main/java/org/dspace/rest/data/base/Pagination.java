@@ -2,22 +2,22 @@ package org.dspace.rest.data.base;
 
 public class Pagination {
     
-    public static class Builder {
+    public static class ZeroBasedBuilder {
         private int startAtPosition = 1;
         private int resultsPerPage = 10;
         
-        public Builder startAt(final int startAtPosition) {
+        public ZeroBasedBuilder startAt(final int startAtPosition) {
             this.startAtPosition = startAtPosition;
             return this;
         }
         
-        public Builder perPage(final int resultsPerPage) {
+        public ZeroBasedBuilder perPage(final int resultsPerPage) {
             this.resultsPerPage = resultsPerPage;
             return this;
         }
         
         public Pagination build() {
-            return new Pagination(startAtPosition, resultsPerPage);
+            return new Pagination(startAtPosition + 1, resultsPerPage);
         }
     }
     
@@ -30,15 +30,11 @@ public class Pagination {
         this.resultsPerPage = resultsPerPage;
     }
     
-    public boolean isInPage(final int zeroBasedIndex) {
-        return zeroBasedIndex >= zeroBasedStartPosition() && zeroBasedIndex <= zeroBasedEndPosition();
+    public boolean isInPage(final int oneBasedIndex) {
+        return oneBasedIndex >= startAtPosition && oneBasedIndex < oneBasedEndPosition();
     }
 
-    private int zeroBasedEndPosition() {
-        return zeroBasedStartPosition() + resultsPerPage;
-    }
-
-    private int zeroBasedStartPosition() {
-        return startAtPosition - 1;
+    private int oneBasedEndPosition() {
+        return startAtPosition + resultsPerPage;
     }
 }
