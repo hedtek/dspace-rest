@@ -16,8 +16,6 @@ import java.util.List;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.rest.data.DSpace;
-import org.dspace.rest.data.item.ItemEntity;
-import org.dspace.rest.data.item.ItemEntityId;
 import org.dspace.rest.diagnose.ErrorDetail;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.RequestFormatEntityException;
@@ -74,12 +72,8 @@ public class HarvestProvider extends AbstractBaseProvider implements CoreEntityP
 
             // check results and add entities
             entities.add(new HarvestResultsInfoEntity(harvestedItems.size()));
-            final boolean idOnly = parameters.getEntityBuild().isIdOnly();
-            for (final HarvestedItemInfo harvestedItemInfo: harvestedItems) {
-                final Item item = harvestedItemInfo.item;
-                entities.add(idOnly 
-                        ? new ItemEntityId(item) : 
-                            new ItemEntity(item, 1, parameters.getDetailDepth().getDepth()));
+            for (final HarvestedItemInfo harvest: harvestedItems) {
+                entities.add(parameters.toEntity(harvest.item));
             }
 
             // sort entities if the full info are requested and there are sorting fields

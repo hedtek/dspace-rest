@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.dspace.content.Item;
-import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
@@ -12,9 +11,6 @@ import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.collection.CollectionEntity;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
-import org.dspace.rest.data.item.ItemBuilder;
-import org.dspace.rest.data.item.ItemEntity;
-import org.dspace.rest.data.item.ItemEntityId;
 import org.sakaiproject.entitybus.entityprovider.extension.RequestStorage;
 
 public class Parameters {
@@ -110,5 +106,9 @@ private final RequestStorage requestStore;
         sort(entities);
         removeTrailing(entities);
         return entities;
+    }
+
+    public Entity toEntity(final Item item) throws SQLException {
+        return getEntityBuild().item(item, getDetailDepth().getDepth());
     }
 }

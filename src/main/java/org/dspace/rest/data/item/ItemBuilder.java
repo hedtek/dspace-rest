@@ -1,58 +1,46 @@
 package org.dspace.rest.data.item;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.dspace.content.Item;
-import org.dspace.content.ItemIterator;
+import org.dspace.rest.data.base.AbstractBuilder;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.base.FetchGroup;
 
-public class ItemBuilder {
-    private final static Logger log = Logger.getLogger(ItemBuilder.class);
+public class ItemBuilder extends AbstractBuilder {
+    
+    private final Item item;
 
-    /**
-     * Returning a large number of items causes memory problems for the 
-     * current implementation. 
-     */
-    private static final int HARD_LIMIT = 10000;
+    private DetailDepth depth  = DetailDepth.STANDARD;
     
-    public static ItemBuilder builder(boolean idOnly, DetailDepth depth) {
-        return new ItemBuilder(idOnly, depth);
-    }
-    
-    private final boolean idOnly; 
-    private final DetailDepth depth;
-    
-    private ItemBuilder(boolean idOnly, DetailDepth depth) {
+    public ItemBuilder(Item item) {
         super();
-        this.idOnly = idOnly;
+        this.item = item;
+    }
+    
+    public ItemBuilder till(final DetailDepth depth) {
         this.depth = depth;
+        return this;
+    }
+    
+    public ItemEntity buildFull() throws SQLException {
+        return new ItemEntity(item, depth);
     }
 
-    public List<Entity> build(final ItemIterator items) throws SQLException {
-        return build(items, 1);
+    public ItemBuilder with(FetchGroup fetchGroup) {
+        setFetch(fetchGroup);
+        return this;
     }
-
-    public List<Entity> build(final ItemIterator items, final int level)
-            throws SQLException {
-        final List<Entity> entities = new ArrayList<Entity>(HARD_LIMIT);
-        int limit = HARD_LIMIT;
-        while (items.hasNext() && (--limit >= 0)) {
-            entities.add(build(items.next(), level));
+    
+    public Entity build() throws SQLException {
+        switch (getFetch()) {
+        case MINIMAL:
+            return new ItemEntityId(item);
+        case LIGHT:
+            return new ItemWithMetadataEntity(item);
+        default:
+            return buildFull();
         }
-        if(limit<=0) {
-            if (log.isInfoEnabled()) {
-                log.info("Hard Limit (" + HARD_LIMIT + ") exceeded for item fetch. Returned only " + entities.size());
-            }
-        }
-        return entities;
-    }
-
-    private ItemEntityId build(final Item next, final int level)
-            throws SQLException {
-        return idOnly ? new ItemEntityId(next) : new ItemEntity(next, level, depth);
     }
 }

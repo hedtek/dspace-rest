@@ -13,6 +13,7 @@ import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
+import org.dspace.rest.data.item.BulkItemBuilder;
 import org.dspace.rest.data.item.ItemBuilder;
 import org.dspace.rest.data.item.ItemEntity;
 import org.dspace.rest.data.item.ItemEntityId;
@@ -159,6 +160,11 @@ public class EntityBuildParameters {
         return hit;
     }
     
+
+    Entity item(final Item item, final DetailDepth depth) throws SQLException {
+        return new ItemBuilder(item).till(depth).with(getFetchGroup()).build();
+    }
+    
     Entity item(final Context context, final String uid,
             final DetailDepth depth) throws SQLException {
         return new Items(context).fetch(depth, uid, getFetchGroup());
@@ -171,7 +177,7 @@ public class EntityBuildParameters {
 
     List<Entity> items(final Context context) throws SQLException {
         final ItemIterator items = Item.findAll(context);
-        final List<Entity> entities = ItemBuilder.builder(isIdOnly(), DetailDepth.FOR_ALL_INDEX).build(items);
+        final List<Entity> entities = BulkItemBuilder.builder(isIdOnly(), DetailDepth.FOR_ALL_INDEX).build(items);
         return entities;
     }
 

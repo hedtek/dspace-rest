@@ -1,6 +1,8 @@
 package org.dspace.rest.data.item;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.dspace.content.Item;
 import org.dspace.core.Context;
@@ -19,7 +21,7 @@ public class Items {
 
     public Entity fetch(final DetailDepth depth, final String uid, final FetchGroup fetchGroup)
             throws SQLException {
-        return new Builder(fetch(uid)).till(depth).with(fetchGroup).build();
+        return new ItemBuilder(fetch(uid)).till(depth).with(fetchGroup).build();
     }
 
     private Item fetch(final String uid) throws NumberFormatException, SQLException {
@@ -27,6 +29,15 @@ public class Items {
     }
 
     public ItemEntity fetch(DetailDepth depth, String uid) throws NumberFormatException, SQLException {
-        return new Builder(fetch(uid)).till(depth).buildFull();
+        return new ItemBuilder(fetch(uid)).till(depth).buildFull();
+    }
+
+    public static List<Object> build(int level, final DetailDepth depth,
+            final boolean includeFullNextLevel, Item[] item) throws SQLException {
+        final List<Object> items = new ArrayList<Object>();
+        for (Item i : item) {
+            items.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
+        }
+        return items;
     }
 }

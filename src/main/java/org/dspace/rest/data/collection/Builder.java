@@ -15,7 +15,7 @@ import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.Pagination;
 import org.dspace.rest.data.base.Entity.Type;
 import org.dspace.rest.data.community.Communities;
-import org.dspace.rest.data.item.ItemBuilder;
+import org.dspace.rest.data.item.BulkItemBuilder;
 import org.dspace.rest.data.item.ItemWithMetadataEntity;
 
 class Builder {
@@ -79,7 +79,7 @@ class Builder {
 
     private List<Entity> items(final DetailDepth depth, final int nextLevel) throws SQLException {
         final boolean includeFullNextLevel = depth.includeFullDetails(nextLevel);
-        return ItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), nextLevel);
+        return BulkItemBuilder.builder(!includeFullNextLevel, depth).build(collection.getItems(), nextLevel);
     }
 
     public Entity light(final Pagination pagination) throws SQLException {

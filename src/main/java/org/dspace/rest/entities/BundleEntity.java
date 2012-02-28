@@ -14,11 +14,9 @@ import java.util.List;
 
 import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
-import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
-import org.dspace.rest.data.item.ItemEntity;
-import org.dspace.rest.data.item.ItemEntityId;
+import org.dspace.rest.data.item.Items;
 
 /**
  * Entity describing bundle
@@ -38,15 +36,6 @@ public class BundleEntity extends BundleEntityId {
         return bitstreams;
     }
 
-    private static List<Object> build(int level, final DetailDepth depth,
-            final boolean includeFullNextLevel, Item[] item) throws SQLException {
-        final List<Object> items = new ArrayList<Object>();
-        for (Item i : item) {
-            items.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
-        }
-        return items;
-    }
-    
     private final String name;
     private final String handle;
     private final int type;
@@ -69,7 +58,7 @@ public class BundleEntity extends BundleEntityId {
         this.pid = bundle.getPrimaryBitstreamID();
         
         this.bitstreams = build(level, depth, includeFullNextLevel, bundle.getBitstreams());
-        this.items = build(level, depth, includeFullNextLevel, bundle.getItems());
+        this.items = Items.build(level, depth, includeFullNextLevel, bundle.getItems());
     }
     
     public List<Object> getItems() {
