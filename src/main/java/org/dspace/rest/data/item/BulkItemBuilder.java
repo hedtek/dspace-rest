@@ -41,7 +41,8 @@ public class BulkItemBuilder {
         final List<Entity> entities = new ArrayList<Entity>(HARD_LIMIT);
         int limit = HARD_LIMIT;
         while (items.hasNext() && (--limit >= 0)) {
-            entities.add(build(items.next(), level));
+            Item next = items.next();
+            entities.add(new ItemBuilder(next).withIdOnly(idOnly).till(depth).on(level).build());
         }
         if(limit<=0) {
             if (log.isInfoEnabled()) {
@@ -49,10 +50,5 @@ public class BulkItemBuilder {
             }
         }
         return entities;
-    }
-
-    private ItemEntityId build(final Item next, final int level)
-            throws SQLException {
-        return idOnly ? new ItemEntityId(next) : new ItemEntity(next, level, depth);
     }
 }

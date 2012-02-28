@@ -33,10 +33,10 @@ public class Items {
     }
 
     public static List<Object> build(int level, final DetailDepth depth,
-            final boolean includeFullNextLevel, Item[] item) throws SQLException {
+            final boolean includeFullNextLevel, Item[] dspaceItems) throws SQLException {
         final List<Object> items = new ArrayList<Object>();
-        for (Item i : item) {
-            items.add(includeFullNextLevel ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
+        for (Item item : dspaceItems) {
+            items.add(new ItemBuilder(item).till(depth).withFull(includeFullNextLevel).on(level).build());
         }
         return items;
     }

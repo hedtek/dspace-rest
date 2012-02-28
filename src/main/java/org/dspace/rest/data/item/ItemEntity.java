@@ -67,12 +67,8 @@ public class ItemEntity extends ItemWithMetadataEntity {
     private final boolean isArchived;
     private final boolean isWithdrawn;
     private final UserEntity submitter;
-
-    ItemEntity(Item item, final DetailDepth depth) throws SQLException {
-        this(item, 1, depth);
-    }
     
-    public ItemEntity(Item item, int level, final DetailDepth depth) throws SQLException {
+    ItemEntity(Item item, int level, final DetailDepth depth) throws SQLException {
         super(item);
         
         final int nextLevel = level + 1;

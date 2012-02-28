@@ -13,6 +13,7 @@ public class ItemBuilder extends AbstractBuilder {
     private final Item item;
 
     private DetailDepth depth  = DetailDepth.STANDARD;
+    private int level = 1;
     
     public ItemBuilder(Item item) {
         super();
@@ -24,8 +25,13 @@ public class ItemBuilder extends AbstractBuilder {
         return this;
     }
     
+    public ItemBuilder on(final int level) {
+        this.level = level;
+        return this;
+    }
+    
     public ItemEntity buildFull() throws SQLException {
-        return new ItemEntity(item, depth);
+        return new ItemEntity(item, level, depth);
     }
 
     public ItemBuilder with(FetchGroup fetchGroup) {
@@ -46,6 +52,11 @@ public class ItemBuilder extends AbstractBuilder {
 
     public ItemBuilder withFull(boolean includeFullDetails) {
         setFull(includeFullDetails);
+        return this;
+    }
+
+    public ItemBuilder withIdOnly(boolean idOnly) {
+        setIdOnly(idOnly);
         return this;
     }
 }
