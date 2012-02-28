@@ -43,4 +43,9 @@ public class ItemBuilder extends AbstractBuilder {
             return buildFull();
         }
     }
+
+    public ItemBuilder withFull(boolean includeFullDetails) {
+        setFull(includeFullDetails);
+        return this;
+    }
 }

@@ -13,6 +13,10 @@ public class AbstractBuilder {
         return fetch == FetchGroup.MINIMAL;
     }
 
+    public final void setFull(boolean includeFull) {
+        setIdOnly(!includeFull);
+    }
+    
     public final void setIdOnly(boolean idOnly) {
         if (idOnly) {
             fetch = FetchGroup.MINIMAL;

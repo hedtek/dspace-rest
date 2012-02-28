@@ -17,6 +17,7 @@ import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
+import org.dspace.rest.data.item.ItemBuilder;
 import org.dspace.rest.data.item.ItemEntity;
 import org.dspace.rest.data.item.ItemEntityId;
 import org.dspace.rest.entities.BitstreamEntityId;
@@ -117,8 +118,8 @@ public class Communities {
         List<Object> recentSubmissions = new ArrayList<Object>();
         try {
             Item[] recentItems = recentSubmissions(community);
-            for (Item i : recentItems) {
-                recentSubmissions.add(depth.includeFullDetails(level) ? new ItemEntity(i, level, depth) : new ItemEntityId(i));
+            for (final Item item : recentItems) {
+                recentSubmissions.add(new ItemBuilder(item).till(depth).withFull(depth.includeFullDetails(level)));
             }
         } catch (BrowseException e) {
             log.debug("Failed to find recent submissions. Continuing with entity retreival.", e);
