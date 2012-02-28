@@ -17,8 +17,8 @@ import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
+import org.dspace.rest.data.bitstream.BitstreamEntityId;
 import org.dspace.rest.data.item.ItemBuilder;
-import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.sort.SortException;
 import org.dspace.sort.SortOption;
 

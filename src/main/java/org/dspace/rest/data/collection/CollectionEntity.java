@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.dspace.content.Collection;
 import org.dspace.rest.data.base.Entity;
-import org.dspace.rest.entities.BitstreamEntityId;
+import org.dspace.rest.data.bitstream.BitstreamEntityId;
 
 /**
  * Represents a collection for rendering.

@@ -3,7 +3,7 @@ package org.dspace.rest.data.base;
 public class Entity {
 
     public enum Type {
-        COLLECTION, COMMUNITY, ITEM
+        COLLECTION, COMMUNITY, ITEM, BITSTREAM
     }
     
     private final int id;

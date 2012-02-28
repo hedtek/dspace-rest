@@ -20,12 +20,12 @@ import org.dspace.content.Item;
 import org.dspace.eperson.EPerson;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.bitstream.BitstreamEntity;
+import org.dspace.rest.data.bitstream.BitstreamEntityId;
 import org.dspace.rest.data.bundle.BulkBundleBuilder;
 import org.dspace.rest.data.bundle.BundleEntityId;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
-import org.dspace.rest.entities.BitstreamEntity;
-import org.dspace.rest.entities.BitstreamEntityId;
 import org.dspace.rest.entities.UserEntity;
 
 /**
