@@ -13,6 +13,7 @@ import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.bitstream.BitstreamEntity;
 import org.dspace.rest.data.bitstream.BitstreamEntityId;
+import org.dspace.rest.data.bitstream.Bitstreams;
 import org.dspace.rest.data.bundle.BundleEntityId;
 import org.dspace.rest.data.bundle.Bundles;
 import org.dspace.rest.data.collection.Collections;
@@ -134,7 +135,7 @@ public class EntityBuildParameters {
     
             case Constants.BITSTREAM:
             {
-                hit = (idOnly ? new BitstreamEntityId(hitId, context) : new BitstreamEntity(hitId, context, depth));
+                hit = bitstream(context, depth, hitId);
                 break;
             }
     
@@ -157,10 +158,14 @@ public class EntityBuildParameters {
         }
         return hit;
     }
+    private BitstreamEntityId bitstream(final Context context,
+            final DetailDepth depth, final String hitId) throws SQLException {
+        return new Bitstreams(context).with(getFetchGroup()).till(depth).build(hitId);
+    }
     
     private BundleEntityId bundle(final Context context,
             final DetailDepth depth, final String uid) throws SQLException {
-        return new Bundles(context).with(getFetchGroup()).build(uid);
+        return new Bundles(context).with(getFetchGroup()).till(depth).build(uid);
     }
     
 

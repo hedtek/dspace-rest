@@ -8,12 +8,12 @@ import org.dspace.content.Bundle;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.FetchGroup;
-import org.dspace.rest.data.item.ItemBuilder;
 
 public class Bundles {
 
     private final Context context;
     private FetchGroup fetchGroup = FetchGroup.FULL;
+    private DetailDepth depth = DetailDepth.STANDARD;
     
     public Bundles(Context context) {
         super();
@@ -30,7 +30,7 @@ public class Bundles {
     }
     
     public BundleEntityId build(String uid) throws SQLException {
-        return new BundleBuilder(fetch(uid)).with(fetchGroup).build();
+        return new BundleBuilder(fetch(uid)).with(fetchGroup).till(depth).build();
     }
 
     public static List<Object> bundles(int level, final DetailDepth depth,
@@ -41,5 +41,10 @@ public class Bundles {
             entities.add(new BundleBuilder(bundle).withFull(includeFullNextLevel).on(level).till(depth).build());
         }
         return entities;
+    }
+
+    public Bundles till(DetailDepth depth) {
+        this.depth = depth;
+        return this;
     }
 }
