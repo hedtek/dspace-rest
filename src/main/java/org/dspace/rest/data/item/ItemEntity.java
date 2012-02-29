@@ -9,20 +9,16 @@
 package org.dspace.rest.data.item;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.dspace.content.Bitstream;
-import org.dspace.content.Bundle;
 import org.dspace.content.Item;
 import org.dspace.eperson.EPerson;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
-import org.dspace.rest.data.bitstream.BitstreamEntity;
 import org.dspace.rest.data.bitstream.BitstreamEntityId;
-import org.dspace.rest.data.bundle.BulkBundleBuilder;
+import org.dspace.rest.data.bitstream.BulkBitstreamBuilder;
 import org.dspace.rest.data.bundle.BundleEntityId;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
@@ -49,7 +45,7 @@ public class ItemEntity extends ItemWithMetadataEntity {
     private final Boolean canEdit;
     private final String handle;
     private final List<BundleEntityId> bundles;
-    private final List<BitstreamEntityId> bitstreams = new ArrayList<BitstreamEntityId>();
+    private final List<BitstreamEntityId> bitstreams;
     private final List<Entity> collections;
     private final List<Entity> communities;
     private final Date lastModified;
@@ -64,6 +60,8 @@ public class ItemEntity extends ItemWithMetadataEntity {
         
         this.owningCollection = owningCollection;
         this.bundles = bundles;
+        this.bitstreams = BulkBitstreamBuilder.bitstreams(level + 1, depth,
+                depth.includeFullDetails(level + 1), item.getNonInternalBitstreams());
         
         // Only include full when above maximum depth
         
@@ -79,10 +77,8 @@ public class ItemEntity extends ItemWithMetadataEntity {
         
         this.submitter = buildUserEntity(item);
         
-        final Bitstream[] bst = item.getNonInternalBitstreams();
-        for (Bitstream b : bst) {
-            this.bitstreams.add(includeFullNextLevel ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
-        }
+        
+        
         
         this.collections = Collections.build(level, depth, item.getCollections());
         
