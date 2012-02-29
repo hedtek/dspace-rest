@@ -11,7 +11,6 @@ package org.dspace.rest.data.bitstream;
 import java.sql.SQLException;
 
 import org.dspace.content.Bitstream;
-import org.dspace.core.Context;
 import org.dspace.rest.data.base.Entity;
 
 
@@ -22,9 +21,6 @@ import org.dspace.rest.data.base.Entity;
  */
 
 public class BitstreamEntityId extends Entity {
-   public BitstreamEntityId (String uid, Context context) throws SQLException {
-       this(Bitstream.find(context, Integer.parseInt(uid)));
-   }
 
     public BitstreamEntityId(Bitstream bitstream) throws SQLException {
         super(bitstream.getID(), Type.BITSTREAM);
