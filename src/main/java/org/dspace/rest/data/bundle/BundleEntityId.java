@@ -8,8 +8,6 @@
 
 package org.dspace.rest.data.bundle;
 
-import java.sql.SQLException;
-
 import org.dspace.content.Bundle;
 import org.dspace.rest.data.base.Entity;
 
@@ -19,7 +17,7 @@ import org.dspace.rest.data.base.Entity;
  */
 public class BundleEntityId extends Entity {
 
-    BundleEntityId(Bundle bundle) throws SQLException {
+    BundleEntityId(Bundle bundle){
         super(bundle.getID(), Type.BUNDLE);
     }
 }
