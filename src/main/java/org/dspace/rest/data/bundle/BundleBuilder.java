@@ -6,6 +6,7 @@ import java.util.List;
 import org.dspace.content.Bundle;
 import org.dspace.rest.data.base.AbstractBuilder;
 import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.bitstream.Bitstreams;
 import org.dspace.rest.data.item.Items;
@@ -45,12 +46,15 @@ public class BundleBuilder extends AbstractBuilder {
         final int nextLevel = level + 1;
         final List<Object> items = Items.build(nextLevel, depth, bundle.getItems());
         final List<Object> bitstreams = Bitstreams.build(nextLevel, depth, bundle.getBitstreams());
-
         return new BundleEntity(bundle, items, bitstreams);
     }
 
     public BundleBuilder withFull(boolean includeFullNextLevel) {
         setFull(includeFullNextLevel);
         return this;
+    }
+
+    public Entity noItems() throws SQLException {
+        return full();
     }
 }

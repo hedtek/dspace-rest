@@ -9,7 +9,7 @@ import org.dspace.rest.data.bundle.BundleEntityId;
 
 public class ItemForDisplay extends ItemWithMetadataEntity {
 
-    private final List<BundleEntityId> bundles;
+    private final List<Entity> bundles;
     private final List<Entity> bitstreams;
     private final List<Entity> communities;
     private final Entity owningCollection;
@@ -17,7 +17,7 @@ public class ItemForDisplay extends ItemWithMetadataEntity {
 
     public ItemForDisplay(Item item, 
             final Entity owningCollection, 
-            final List<BundleEntityId> bundles, 
+            final List<Entity> bundles, 
             List<Entity> bitstreams, 
             List<Entity> communities) throws SQLException {
         super(item);
@@ -44,7 +44,7 @@ public class ItemForDisplay extends ItemWithMetadataEntity {
         return this.bitstreams;
     }
 
-    public final List<BundleEntityId> getBundles() {
+    public final List<Entity> getBundles() {
         return this.bundles;
     }
 

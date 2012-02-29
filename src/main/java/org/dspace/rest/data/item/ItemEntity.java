@@ -47,7 +47,7 @@ public class ItemEntity extends ItemForDisplay {
     private final UserEntity submitter;
     
     ItemEntity(Item item, int level, final DetailDepth depth, final Entity owningCollection, 
-            final List<BundleEntityId> bundles, List<Entity> bitstreams, List<Entity> communities) throws SQLException {
+            final List<Entity> bundles, List<Entity> bitstreams, List<Entity> communities) throws SQLException {
         super(item, owningCollection, bundles, bitstreams, communities);
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; level " + level);
         

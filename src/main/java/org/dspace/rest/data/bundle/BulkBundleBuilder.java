@@ -7,6 +7,7 @@ import java.util.List;
 import org.dspace.content.Bundle;
 import org.dspace.rest.data.base.AbstractBuilder;
 import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.base.Entity;
 
 public class BulkBundleBuilder extends AbstractBuilder {
 
@@ -35,10 +36,18 @@ public class BulkBundleBuilder extends AbstractBuilder {
         return this;
     }
     
-    public List<BundleEntityId> build() throws SQLException {
-        List<BundleEntityId> entities = new ArrayList<BundleEntityId>();
+    public List<Entity> build() throws SQLException {
+        List<Entity> entities = new ArrayList<Entity>();
         for (Bundle bundle : bundles) {
             entities.add(new BundleBuilder(bundle).till(depth).on(level).build());
+        }
+        return entities;
+    }
+
+    public List<Entity> noItems() throws SQLException {
+        final List<Entity> entities = new ArrayList<Entity>();
+        for (Bundle bundle : bundles) {
+            entities.add(new BundleBuilder(bundle).noItems());
         }
         return entities;
     }
