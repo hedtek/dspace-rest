@@ -8,7 +8,6 @@ import org.dspace.rest.data.base.AbstractBuilder;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.bitstream.Bitstreams;
-import org.dspace.rest.data.item.ItemBuilder;
 import org.dspace.rest.data.item.Items;
 
 public class BundleBuilder extends AbstractBuilder {
@@ -39,15 +38,15 @@ public class BundleBuilder extends AbstractBuilder {
     }
     
     public BundleEntityId build() throws SQLException {
-        return isIdOnly() ? new BundleEntityId(bundle) : full();
+        return isIdOnly() ? new BundleEntityId(bundle.getID()) : full();
     }
 
-    private BundleEntity full() throws SQLException {
+    private BundleNoItems full() throws SQLException {
         final int nextLevel = level + 1;
         final List<Object> items = Items.build(nextLevel, depth, bundle.getItems());
         final List<Object> bitstreams = Bitstreams.build(nextLevel, depth, bundle.getBitstreams());
 
-        return new BundleEntity(bundle, level, depth, items, bitstreams);
+        return new BundleEntity(bundle, items, bitstreams);
     }
 
     public BundleBuilder withFull(boolean includeFullNextLevel) {

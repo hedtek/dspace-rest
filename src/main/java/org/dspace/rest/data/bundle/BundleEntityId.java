@@ -8,7 +8,6 @@
 
 package org.dspace.rest.data.bundle;
 
-import org.dspace.content.Bundle;
 import org.dspace.rest.data.base.Entity;
 
 /**
@@ -17,7 +16,7 @@ import org.dspace.rest.data.base.Entity;
  */
 public class BundleEntityId extends Entity {
 
-    BundleEntityId(Bundle bundle){
-        super(bundle.getID(), Type.BUNDLE);
+    BundleEntityId(final int id){
+        super(id, Type.BUNDLE);
     }
 }
