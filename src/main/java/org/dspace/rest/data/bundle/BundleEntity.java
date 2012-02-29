@@ -22,8 +22,6 @@ import org.dspace.rest.data.item.Items;
 
 /**
  * Entity describing bundle
- * @see BundleEntityId
- * @see Bundle
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class BundleEntity extends BundleEntityId {
