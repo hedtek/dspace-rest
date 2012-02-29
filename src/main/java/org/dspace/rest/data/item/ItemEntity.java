@@ -45,7 +45,7 @@ public class ItemEntity extends ItemWithMetadataEntity {
     private final Boolean canEdit;
     private final String handle;
     private final List<BundleEntityId> bundles;
-    private final List<BitstreamEntityId> bitstreams;
+    private final List<Entity> bitstreams;
     private final List<Entity> collections;
     private final List<Entity> communities;
     private final Date lastModified;
@@ -55,13 +55,12 @@ public class ItemEntity extends ItemWithMetadataEntity {
     private final UserEntity submitter;
     
     ItemEntity(Item item, int level, final DetailDepth depth, final Entity owningCollection, 
-            final List<BundleEntityId> bundles) throws SQLException {
+            final List<BundleEntityId> bundles, List<Entity> bitstreams) throws SQLException {
         super(item);
         
         this.owningCollection = owningCollection;
         this.bundles = bundles;
-        this.bitstreams = BulkBitstreamBuilder.bitstreams(level + 1, depth,
-                depth.includeFullDetails(level + 1), item.getNonInternalBitstreams());
+        this.bitstreams = bitstreams;
         
         // Only include full when above maximum depth
         
@@ -113,7 +112,7 @@ public class ItemEntity extends ItemWithMetadataEntity {
         return this.communities;
     }
 
-    public List<BitstreamEntityId> getBitstreams() {
+    public List<Entity> getBitstreams() {
         return this.bitstreams;
     }
 
