@@ -3,14 +3,15 @@ package org.dspace.rest.data.bundle;
 import java.util.List;
 
 import org.dspace.content.Bundle;
+import org.dspace.rest.data.base.Entity;
 
 public class BundleNoItems extends BundleEntityId {
 
     private final String name;
     private final int type;
-    private final List<Object> bitstreams;
+    private final List<Entity> bitstreams;
 
-    public BundleNoItems(Bundle bundle, List<Object> bitstreams) {
+    public BundleNoItems(Bundle bundle, List<Entity> bitstreams) {
         super(bundle.getID());
         this.bitstreams = bitstreams;
         this.name = bundle.getName();
@@ -25,7 +26,7 @@ public class BundleNoItems extends BundleEntityId {
         return this.type;
     }
 
-    public List<Object> getBitstreams() {
+    public List<Entity> getBitstreams() {
         return this.bitstreams;
     }
 

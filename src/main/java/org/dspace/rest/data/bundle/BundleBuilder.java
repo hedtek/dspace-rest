@@ -9,6 +9,7 @@ import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.bitstream.Bitstreams;
+import org.dspace.rest.data.bitstream.BulkBitstreamBuilder;
 import org.dspace.rest.data.item.Items;
 
 public class BundleBuilder extends AbstractBuilder {
@@ -45,7 +46,7 @@ public class BundleBuilder extends AbstractBuilder {
     private BundleNoItems full() throws SQLException {
         final int nextLevel = level + 1;
         final List<Object> items = Items.build(nextLevel, depth, bundle.getItems());
-        final List<Object> bitstreams = Bitstreams.build(nextLevel, depth, bundle.getBitstreams());
+        final List<Entity> bitstreams = Bitstreams.build(nextLevel, depth, bundle.getBitstreams());
         return new BundleEntity(bundle, items, bitstreams);
     }
 
@@ -55,6 +56,7 @@ public class BundleBuilder extends AbstractBuilder {
     }
 
     public Entity noItems() throws SQLException {
-        return full();
+        final List<Entity> bitstreams = new BulkBitstreamBuilder(bundle.getBitstreams()).full();
+        return new BundleNoItems(bundle, bitstreams);
     }
 }

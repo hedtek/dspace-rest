@@ -67,13 +67,10 @@ public class ItemBuilder extends AbstractBuilder {
     }
 
     private Entity forDisplay() throws SQLException {
-        final int nextLevel = level + 1;
-        final List<Entity> bundles 
-            = new BulkBundleBuilder(item.getBundles()).noItems();
-        final List<Entity> bitstreams = new BulkBitstreamBuilder(item.getNonInternalBitstreams()).on(nextLevel).till(depth).build();
+        final List<Entity> bundles = new BulkBundleBuilder(item.getBundles()).noItems();
         final List<Entity> communities = new BulkCommunityBuilder(item.getCommunities()).basic();
         final Entity owningCollection = new CollectionBuilder(item.getOwningCollection()).minimal();
-        return new ItemForDisplay(item, owningCollection, bundles, bitstreams, communities);
+        return new ItemForDisplay(item, owningCollection, bundles, communities);
     }
 
 

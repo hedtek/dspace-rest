@@ -11,6 +11,7 @@ package org.dspace.rest.data.bundle;
 import java.util.List;
 
 import org.dspace.content.Bundle;
+import org.dspace.rest.data.base.Entity;
 
 /**
  * Entity describing bundle
@@ -22,7 +23,7 @@ public class BundleEntity extends BundleNoItems {
     private final int pid;
     private final List<Object> items;
 
-    BundleEntity(Bundle bundle, List<Object> items, List<Object> bitstreams) {
+    BundleEntity(Bundle bundle, List<Object> items, List<Entity> bitstreams) {
         super(bundle, bitstreams);
         this.items = items;
         this.handle = bundle.getHandle();

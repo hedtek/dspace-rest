@@ -6,12 +6,13 @@ import java.util.List;
 
 import org.dspace.content.Bitstream;
 import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.base.Entity;
 
 public class Bitstreams {
 
-    public static List<Object> build(final int level, final DetailDepth depth, Bitstream[] bst)
+    public static List<Entity> build(final int level, final DetailDepth depth, Bitstream[] bst)
             throws SQLException {
-        List<Object> bitstreams = new ArrayList<Object>();
+        final List<Entity> bitstreams = new ArrayList<Entity>();
         for (Bitstream b : bst) {
             bitstreams.add(depth.includeFullDetails(level) ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
         }

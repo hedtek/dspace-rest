@@ -17,7 +17,6 @@ import org.dspace.content.Item;
 import org.dspace.eperson.EPerson;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
-import org.dspace.rest.data.bundle.BundleEntityId;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.entities.UserEntity;
 
@@ -45,12 +44,13 @@ public class ItemEntity extends ItemForDisplay {
     private final Date lastModified;
     private final boolean isWithdrawn;
     private final UserEntity submitter;
+    private final List<Entity> bitstreams;
     
     ItemEntity(Item item, int level, final DetailDepth depth, final Entity owningCollection, 
             final List<Entity> bundles, List<Entity> bitstreams, List<Entity> communities) throws SQLException {
-        super(item, owningCollection, bundles, bitstreams, communities);
+        super(item, owningCollection, bundles, communities);
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; level " + level);
-        
+        this.bitstreams = bitstreams;
         this.canEdit = item.canEdit();
         this.handle = item.getHandle();
         this.lastModified = item.getLastModified();
@@ -83,5 +83,9 @@ public class ItemEntity extends ItemForDisplay {
 
     public boolean getCanEdit() {
         return this.canEdit;
+    }
+
+    public final List<Entity> getBitstreams() {
+        return this.bitstreams;
     }
 }
