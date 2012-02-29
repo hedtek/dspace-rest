@@ -42,5 +42,4 @@ public class BulkBundleBuilder extends AbstractBuilder {
         }
         return entities;
     }
-
 }

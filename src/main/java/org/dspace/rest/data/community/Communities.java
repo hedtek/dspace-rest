@@ -38,7 +38,7 @@ public class Communities {
 
     public static List<Entity> toEntities(int level, final DetailDepth depth, final Community[] communities)
             throws SQLException {
-        return new BulkBuilder(communities).withFull(depth.includeFullDetails(level)).all(level, depth);
+        return new BulkCommunityBuilder(communities).withFull(depth.includeFullDetails(level)).all(level, depth);
     }
     
     public static Entity fetch(final String uid, final Context context,
@@ -62,7 +62,7 @@ public class Communities {
     }
     
     public List<Entity> get(final boolean onlyTopLevel, final FetchGroup fetch) throws SQLException {
-        return new BulkBuilder(get(onlyTopLevel)).with(fetch).all();
+        return new BulkCommunityBuilder(get(onlyTopLevel)).with(fetch).all();
     }
 
     private Community[] get(final boolean onlyTopLevel) throws SQLException {

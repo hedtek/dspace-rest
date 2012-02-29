@@ -6,8 +6,10 @@ import java.util.List;
 
 import org.dspace.content.Community;
 import org.dspace.rest.data.base.AbstractBuilder;
+import org.dspace.rest.data.base.BasicEntity;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.base.Entity.Type;
 import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.collection.Collections;
 
@@ -43,6 +45,8 @@ class Builder extends AbstractBuilder {
             return new CommunityEntityId(community);
         case LIGHT:
             return new LightCommunity(community, Collections.toNoItemEntities(community.getCollections()));
+        case BASIC:
+            return new BasicEntity(community.getID(), Type.COMMUNITY, community.getName(), community.getType());
         default:
             return new CommunityEntity(community, level, depth);
         }

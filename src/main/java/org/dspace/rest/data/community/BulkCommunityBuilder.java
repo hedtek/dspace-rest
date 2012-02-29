@@ -10,24 +10,24 @@ import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
 
-class BulkBuilder extends AbstractBuilder {
+public class BulkCommunityBuilder extends AbstractBuilder {
 
     private final Community[] communities;
-    BulkBuilder(Community[] communities) {
+    public BulkCommunityBuilder(Community[] communities) {
         super();
         this.communities = communities;
     }
 
-    public BulkBuilder withIdOnly(boolean idOnly) {
+    public BulkCommunityBuilder withIdOnly(boolean idOnly) {
         setIdOnly(idOnly);
         return this;
     }
 
-    public BulkBuilder withFull(boolean includeFull) {
+    public BulkCommunityBuilder withFull(boolean includeFull) {
         return withIdOnly(!includeFull);
     }
     
-    public BulkBuilder with(FetchGroup fetch) {
+    public BulkCommunityBuilder with(FetchGroup fetch) {
         setFetch(fetch);
         return this;
     }
@@ -46,5 +46,9 @@ class BulkBuilder extends AbstractBuilder {
             entities.add(new Builder(community).with(getFetch()).build(level, depth));
         }
         return entities;
+    }
+
+    public List<Entity> basic() throws SQLException {
+        return with(FetchGroup.BASIC).all();
     }
 }

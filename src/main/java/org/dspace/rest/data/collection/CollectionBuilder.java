@@ -18,14 +18,14 @@ import org.dspace.rest.data.community.Communities;
 import org.dspace.rest.data.item.BulkItemBuilder;
 import org.dspace.rest.data.item.ItemWithMetadataEntity;
 
-class Builder {
+public class CollectionBuilder {
     
-    private static Logger log = Logger.getLogger(Builder.class);
+    private static Logger log = Logger.getLogger(CollectionBuilder.class);
     
     private final Collection collection;
     private boolean isIdOnly = false;
 
-    Builder(Collection collection) {
+    public CollectionBuilder(Collection collection) {
         super();
         this.collection = collection;
     }
@@ -38,12 +38,12 @@ class Builder {
         this.isIdOnly = isIdOnly;
     }
 
-    public Builder withIdOnly(boolean isIdOnly) {
+    public CollectionBuilder withIdOnly(boolean isIdOnly) {
         this.isIdOnly = isIdOnly;
         return this;
     }
     
-    public Builder withFull(boolean isFullNextLevel) {
+    public CollectionBuilder withFull(boolean isFullNextLevel) {
         setIdOnly(!isFullNextLevel);
         return this;
     }
@@ -112,4 +112,10 @@ class Builder {
         return new CollectionWithNoItems(collection.getID(), collection.getName(), collection.getType(), itemCount);
     }
 
+    public Entity minimal() throws SQLException {
+        if (collection == null) {
+            return null;
+        }
+        return new BasicEntity(collection.getID(), Type.COLLECTION, collection.getName(), collection.getType());
+    }
 }
