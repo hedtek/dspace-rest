@@ -19,9 +19,6 @@ import org.dspace.rest.data.base.Entity;
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class BundleEntityId extends Entity {
-    public BundleEntityId(String uid, Context context) throws SQLException {
-        this(Bundle.find(context, Integer.parseInt(uid)));
-    }
 
     public BundleEntityId(Bundle bundle) throws SQLException {
         super(bundle.getID(), Type.BUNDLE);
