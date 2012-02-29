@@ -19,8 +19,6 @@ import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
 import org.dspace.rest.data.item.BulkItemBuilder;
 import org.dspace.rest.data.item.ItemBuilder;
-import org.dspace.rest.data.item.ItemEntity;
-import org.dspace.rest.data.item.ItemEntityId;
 import org.dspace.rest.data.item.Items;
 import org.dspace.rest.entities.UserEntity;
 import org.dspace.rest.entities.UserEntityId;

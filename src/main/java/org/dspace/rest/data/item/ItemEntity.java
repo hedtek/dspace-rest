@@ -25,7 +25,7 @@ import org.dspace.rest.entities.UserEntity;
  * Entity describing item
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class ItemEntity extends ItemWithMetadataEntity {
+public class ItemEntity extends ItemForDisplay {
 
     private static Logger log = Logger.getLogger(ItemEntity.class);
 
@@ -41,30 +41,20 @@ public class ItemEntity extends ItemWithMetadataEntity {
     
     private final Boolean canEdit;
     private final String handle;
-    private final List<BundleEntityId> bundles;
-    private final List<Entity> bitstreams;
     private final List<Entity> collections;
-    private final List<Entity> communities;
     private final Date lastModified;
-    private final Entity owningCollection;
-    private final boolean isArchived;
     private final boolean isWithdrawn;
     private final UserEntity submitter;
     
     ItemEntity(Item item, int level, final DetailDepth depth, final Entity owningCollection, 
             final List<BundleEntityId> bundles, List<Entity> bitstreams, List<Entity> communities) throws SQLException {
-        super(item);
+        super(item, owningCollection, bundles, bitstreams, communities);
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; level " + level);
-        this.owningCollection = owningCollection;
-        this.bundles = bundles;
-        this.bitstreams = bitstreams;
-        this.communities = communities;
         
         this.canEdit = item.canEdit();
         this.handle = item.getHandle();
         this.lastModified = item.getLastModified();
         
-        this.isArchived = item.isArchived();
         this.isWithdrawn = item.isWithdrawn();
         
         this.submitter = buildUserEntity(item);
@@ -75,16 +65,8 @@ public class ItemEntity extends ItemWithMetadataEntity {
         return this.submitter;
     }
 
-    public boolean getIsArchived() {
-        return this.isArchived;
-    }
-
     public boolean getIsWithdrawn() {
         return this.isWithdrawn;
-    }
-
-    public Entity getOwningCollection() {
-        return this.owningCollection;
     }
 
     public Date getLastModified() {
@@ -95,23 +77,11 @@ public class ItemEntity extends ItemWithMetadataEntity {
         return this.collections;
     }
 
-    public List<Entity> getCommunities() {
-        return this.communities;
-    }
-
-    public List<Entity> getBitstreams() {
-        return this.bitstreams;
-    }
-
     public String getHandle() {
         return this.handle;
     }
 
     public boolean getCanEdit() {
         return this.canEdit;
-    }
-
-    public List<BundleEntityId> getBundles() {
-        return this.bundles;
     }
 }

@@ -13,7 +13,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.rest.data.DSpace;
 import org.dspace.rest.diagnose.ErrorDetail;

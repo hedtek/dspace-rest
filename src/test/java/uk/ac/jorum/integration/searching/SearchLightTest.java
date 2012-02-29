@@ -9,7 +9,8 @@
 
 package uk.ac.jorum.integration.searching;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 

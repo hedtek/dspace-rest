@@ -9,7 +9,6 @@
 package org.dspace.rest.data.collection;
 
 import org.dspace.rest.data.base.Entity;
-import org.dspace.rest.data.base.Entity.Type;
 
 /**
  * Entity describing collection, basic version
