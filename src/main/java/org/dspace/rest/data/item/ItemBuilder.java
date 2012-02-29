@@ -49,12 +49,12 @@ public class ItemBuilder extends AbstractBuilder {
     }
 
     public ItemBuilder with(FetchGroup fetchGroup) {
-        setFetch(fetchGroup);
+        setFetchGroup(fetchGroup);
         return this;
     }
     
     public Entity build() throws SQLException {
-        switch (getFetch()) {
+        switch (getFetchGroup()) {
         case MINIMAL:
             return new ItemEntityId(item);
         case LIGHT:

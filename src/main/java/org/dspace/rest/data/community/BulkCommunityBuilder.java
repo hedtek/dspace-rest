@@ -28,14 +28,14 @@ public class BulkCommunityBuilder extends AbstractBuilder {
     }
     
     public BulkCommunityBuilder with(FetchGroup fetch) {
-        setFetch(fetch);
+        setFetchGroup(fetch);
         return this;
     }
     
     public List<Entity> all() throws SQLException {
         final List<Entity> entities = new ArrayList<Entity>();
         for (Community community : communities) {    
-            entities.add(new Builder(community).with(getFetch()).build());
+            entities.add(new Builder(community).with(getFetchGroup()).build());
         }
         return entities;
     }
@@ -43,7 +43,7 @@ public class BulkCommunityBuilder extends AbstractBuilder {
     public List<Entity> all(int level, final DetailDepth depth) throws SQLException {
         final List<Entity> entities = new ArrayList<Entity>();
         for (Community community : communities) {    
-            entities.add(new Builder(community).with(getFetch()).build(level, depth));
+            entities.add(new Builder(community).with(getFetchGroup()).build(level, depth));
         }
         return entities;
     }

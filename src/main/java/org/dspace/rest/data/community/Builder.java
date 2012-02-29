@@ -40,7 +40,7 @@ class Builder extends AbstractBuilder {
     }
 
     public Entity build(final int level, final DetailDepth depth) throws SQLException {
-        switch (getFetch()) {
+        switch (getFetchGroup()) {
         case MINIMAL:
             return new CommunityEntityId(community);
         case LIGHT:
@@ -78,7 +78,7 @@ class Builder extends AbstractBuilder {
     }
 
     public Builder with(FetchGroup fetch) {
-        setFetch(fetch);
+        setFetchGroup(fetch);
         return this;
     }
 }

@@ -37,8 +37,8 @@ public class BulkBundleBuilder extends AbstractBuilder {
     
     public List<BundleEntityId> build() throws SQLException {
         List<BundleEntityId> entities = new ArrayList<BundleEntityId>();
-        for (Bundle b : bundles) {
-            entities.add(isIdOnly() ? new BundleEntityId(b) : new BundleEntity(b, level, depth));
+        for (Bundle bundle : bundles) {
+            entities.add(new BundleBuilder(bundle).till(depth).on(level).build());
         }
         return entities;
     }

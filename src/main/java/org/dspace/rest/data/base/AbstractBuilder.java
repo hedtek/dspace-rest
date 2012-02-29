@@ -25,11 +25,11 @@ public class AbstractBuilder {
         }
     }
 
-    public final FetchGroup getFetch() {
+    public final FetchGroup getFetchGroup() {
         return fetch;
     }
 
-    public final void setFetch(FetchGroup fetch) {
+    public final void setFetchGroup(FetchGroup fetch) {
         this.fetch = fetch;
     }
 }
