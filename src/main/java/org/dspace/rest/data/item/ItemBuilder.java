@@ -13,6 +13,7 @@ import org.dspace.rest.data.bitstream.BulkBitstreamBuilder;
 import org.dspace.rest.data.bundle.BulkBundleBuilder;
 import org.dspace.rest.data.bundle.BundleEntityId;
 import org.dspace.rest.data.collection.Collections;
+import org.dspace.rest.data.community.Communities;
 
 public class ItemBuilder extends AbstractBuilder {
     
@@ -42,7 +43,8 @@ public class ItemBuilder extends AbstractBuilder {
             = new BulkBundleBuilder(item.getBundles()).till(depth).on(nextLevel).withFull(depth.includeFullDetails(nextLevel)).build();
         final List<Entity> bitstreams = BulkBitstreamBuilder.bitstreams(nextLevel, depth,
                 depth.includeFullDetails(nextLevel), item.getNonInternalBitstreams());
-        return new ItemEntity(item, level, depth, Collections.buildOwningCollection(item, nextLevel, depth), bundles, bitstreams);
+        final List<Entity> communities = Communities.toEntities(level + 1, depth, item.getCommunities());
+        return new ItemEntity(item, level, depth, Collections.buildOwningCollection(item, nextLevel, depth), bundles, bitstreams, communities);
     }
 
     public ItemBuilder with(FetchGroup fetchGroup) {

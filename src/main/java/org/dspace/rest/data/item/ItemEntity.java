@@ -17,11 +17,8 @@ import org.dspace.content.Item;
 import org.dspace.eperson.EPerson;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
-import org.dspace.rest.data.bitstream.BitstreamEntityId;
-import org.dspace.rest.data.bitstream.BulkBitstreamBuilder;
 import org.dspace.rest.data.bundle.BundleEntityId;
 import org.dspace.rest.data.collection.Collections;
-import org.dspace.rest.data.community.Communities;
 import org.dspace.rest.entities.UserEntity;
 
 /**
@@ -55,18 +52,13 @@ public class ItemEntity extends ItemWithMetadataEntity {
     private final UserEntity submitter;
     
     ItemEntity(Item item, int level, final DetailDepth depth, final Entity owningCollection, 
-            final List<BundleEntityId> bundles, List<Entity> bitstreams) throws SQLException {
+            final List<BundleEntityId> bundles, List<Entity> bitstreams, List<Entity> communities) throws SQLException {
         super(item);
-        
+        if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; level " + level);
         this.owningCollection = owningCollection;
         this.bundles = bundles;
         this.bitstreams = bitstreams;
-        this.communities = Communities.toEntities(level + 1, depth, item.getCommunities());
-        
-        // Only include full when above maximum depth
-        
-        final boolean includeFullNextLevel = depth.includeFullDetails(++level);
-        if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; include full? " + includeFullNextLevel + "; next level " + level);
+        this.communities = communities;
         
         this.canEdit = item.canEdit();
         this.handle = item.getHandle();
@@ -76,12 +68,7 @@ public class ItemEntity extends ItemWithMetadataEntity {
         this.isWithdrawn = item.isWithdrawn();
         
         this.submitter = buildUserEntity(item);
-        
-        
-        
-        
-        this.collections = Collections.build(level, depth, item.getCollections());
-        
+        this.collections = Collections.build(level + 1, depth, item.getCollections());
     }
 
     public UserEntity getSubmitter() {
