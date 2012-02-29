@@ -9,15 +9,12 @@
 package org.dspace.rest.data.bitstream;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.dspace.content.Bitstream;
-import org.dspace.content.Bundle;
 import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
-import org.dspace.rest.data.bundle.BundleEntity;
-import org.dspace.rest.data.bundle.BundleEntityId;
+import org.dspace.rest.data.bundle.Bundles;
 
 /**
  * Entity describing Bitstreams
@@ -25,17 +22,6 @@ import org.dspace.rest.data.bundle.BundleEntityId;
  */
 public class BitstreamEntity extends BitstreamEntityId {
 
-    private static List<Object> bundles(int level, final DetailDepth depth,
-            final boolean includeFullNextLevel, final Bundle[] bnd)
-            throws SQLException {
-        final List<Object> bundles = new ArrayList<Object>();
-        for (Bundle b : bnd) {
-            bundles.add(includeFullNextLevel ? new BundleEntity(b, level, depth) : new BundleEntityId(b));
-        }
-        return bundles;
-    }
-
-    
     private final String name;
     private final String handle;
     private final int type;
@@ -72,7 +58,7 @@ public class BitstreamEntity extends BitstreamEntityId {
         this.source = bitstream.getSource();
         this.storeNumber = bitstream.getStoreNumber();
         this.userFormatDescription = bitstream.getUserFormatDescription();
-        this.bundles = bundles(level, depth, includeFullNextLevel, bitstream.getBundles());
+        this.bundles = Bundles.bundles(level, depth, includeFullNextLevel, bitstream.getBundles());
         this.mimeType = bitstream.getFormat().getMIMEType();
     }
 

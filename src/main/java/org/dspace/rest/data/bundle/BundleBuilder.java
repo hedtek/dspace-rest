@@ -6,6 +6,7 @@ import org.dspace.content.Bundle;
 import org.dspace.rest.data.base.AbstractBuilder;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.FetchGroup;
+import org.dspace.rest.data.item.ItemBuilder;
 
 public class BundleBuilder extends AbstractBuilder {
 
@@ -36,5 +37,10 @@ public class BundleBuilder extends AbstractBuilder {
     
     public BundleEntityId build() throws SQLException {
         return isIdOnly() ? new BundleEntityId(bundle) : new BundleEntity(bundle, level, depth);
+    }
+
+    public BundleBuilder withFull(boolean includeFullNextLevel) {
+        setFull(includeFullNextLevel);
+        return this;
     }
 }

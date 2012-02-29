@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
-import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.bitstream.BitstreamEntity;
 import org.dspace.rest.data.bitstream.BitstreamEntityId;
@@ -43,7 +42,7 @@ public class BundleEntity extends BundleEntityId {
     private final List<Object> items;
 
 
-    public BundleEntity(Bundle bundle, int level, final DetailDepth depth) throws SQLException {
+    BundleEntity(Bundle bundle, int level, final DetailDepth depth) throws SQLException {
         super(bundle);
         
         this.bitstreams = build(level + 1, depth, bundle.getBitstreams());
