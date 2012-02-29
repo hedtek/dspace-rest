@@ -61,4 +61,11 @@ public class BulkBitstreamBuilder extends AbstractBuilder {
         return entities;
     }
 
+    public List<Entity> noBundles() {
+        final List<Entity> entities = new ArrayList<Entity>();
+        for (Bitstream bitstream : bitstreams) {
+            entities.add(new BitstreamNoBundles(bitstream));
+        }
+        return entities;    
+    }
 }

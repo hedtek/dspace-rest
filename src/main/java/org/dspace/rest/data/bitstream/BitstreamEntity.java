@@ -20,7 +20,7 @@ import org.dspace.rest.data.bundle.Bundles;
  * Entity describing Bitstreams
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
-public class BitstreamEntity extends BitstreamsNoBundles {
+public class BitstreamEntity extends BitstreamNoBundles {
 
     private final List<Object> bundles;
 

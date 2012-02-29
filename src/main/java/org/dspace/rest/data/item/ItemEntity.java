@@ -45,12 +45,14 @@ public class ItemEntity extends ItemForDisplay {
     private final boolean isWithdrawn;
     private final UserEntity submitter;
     private final List<Entity> bitstreams;
+    private final List<Entity> communities;
     
     ItemEntity(Item item, int level, final DetailDepth depth, final Entity owningCollection, 
             final List<Entity> bundles, List<Entity> bitstreams, List<Entity> communities) throws SQLException {
-        super(item, owningCollection, bundles, communities);
+        super(item, owningCollection, bundles);
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; level " + level);
         this.bitstreams = bitstreams;
+        this.communities = communities;
         this.canEdit = item.canEdit();
         this.handle = item.getHandle();
         this.lastModified = item.getLastModified();
@@ -87,5 +89,9 @@ public class ItemEntity extends ItemForDisplay {
 
     public final List<Entity> getBitstreams() {
         return this.bitstreams;
+    }
+
+    public final List<Entity> getCommunities() {
+        return this.communities;
     }
 }

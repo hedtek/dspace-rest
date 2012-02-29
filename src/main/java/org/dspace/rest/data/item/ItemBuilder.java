@@ -10,10 +10,8 @@ import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.bitstream.BulkBitstreamBuilder;
 import org.dspace.rest.data.bundle.BulkBundleBuilder;
-import org.dspace.rest.data.bundle.BundleEntityId;
 import org.dspace.rest.data.collection.CollectionBuilder;
 import org.dspace.rest.data.collection.Collections;
-import org.dspace.rest.data.community.BulkCommunityBuilder;
 import org.dspace.rest.data.community.Communities;
 
 public class ItemBuilder extends AbstractBuilder {
@@ -68,12 +66,9 @@ public class ItemBuilder extends AbstractBuilder {
 
     private Entity forDisplay() throws SQLException {
         final List<Entity> bundles = new BulkBundleBuilder(item.getBundles()).noItems();
-        final List<Entity> communities = new BulkCommunityBuilder(item.getCommunities()).basic();
-        final Entity owningCollection = new CollectionBuilder(item.getOwningCollection()).minimal();
-        return new ItemForDisplay(item, owningCollection, bundles, communities);
+        final Entity owningCollection = new CollectionBuilder(item.getOwningCollection()).basicCommunities();
+        return new ItemForDisplay(item, owningCollection, bundles);
     }
-
-
     
     public ItemBuilder withFull(boolean includeFullDetails) {
         setFull(includeFullDetails);

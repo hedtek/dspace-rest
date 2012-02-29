@@ -56,7 +56,7 @@ public class BundleBuilder extends AbstractBuilder {
     }
 
     public Entity noItems() throws SQLException {
-        final List<Entity> bitstreams = new BulkBitstreamBuilder(bundle.getBitstreams()).full();
+        final List<Entity> bitstreams = new BulkBitstreamBuilder(bundle.getBitstreams()).noBundles();
         return new BundleNoItems(bundle, bitstreams);
     }
 }

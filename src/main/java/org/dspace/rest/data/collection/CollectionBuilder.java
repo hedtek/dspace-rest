@@ -118,4 +118,16 @@ public class CollectionBuilder {
         }
         return new BasicEntity(collection.getID(), Type.COLLECTION, collection.getName(), collection.getType());
     }
+    
+
+    public Entity basicCommunities() throws SQLException {
+        if (collection == null) {
+            return null;
+        }
+        final List<Entity> communities = new ArrayList<Entity>();
+        for (Community community : collection.getCommunities()) {
+            communities.add(new BasicEntity(community.getID(), Type.COMMUNITY, community.getName(), community.getType()));
+        }
+        return new CollectionWithCommunities(collection.getID(), collection.getName(), collection.getType(), communities);
+    }
 }

@@ -8,8 +8,6 @@
 
 package org.dspace.rest.data.bitstream;
 
-import java.sql.SQLException;
-
 import org.dspace.content.Bitstream;
 import org.dspace.rest.data.base.Entity;
 
@@ -22,7 +20,7 @@ import org.dspace.rest.data.base.Entity;
 
 public class BitstreamEntityId extends Entity {
 
-    public BitstreamEntityId(Bitstream bitstream) throws SQLException {
+    public BitstreamEntityId(Bitstream bitstream) {
         super(bitstream.getID(), Type.BITSTREAM);
    }
 }
