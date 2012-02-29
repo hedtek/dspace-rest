@@ -28,12 +28,11 @@ import org.dspace.rest.data.item.Items;
  */
 public class BundleEntity extends BundleEntityId {
     
-    private static List<Object> build(int level, final DetailDepth depth,
-            final boolean includeFullNextLevel, Bitstream[] bst)
+    private static List<Object> build(final int level, final DetailDepth depth, Bitstream[] bst)
             throws SQLException {
         List<Object> bitstreams = new ArrayList<Object>();
         for (Bitstream b : bst) {
-            bitstreams.add(includeFullNextLevel ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
+            bitstreams.add(depth.includeFullDetails(level) ? new BitstreamEntity(b, level, depth) : new BitstreamEntityId(b));
         }
         return bitstreams;
     }
@@ -51,16 +50,13 @@ public class BundleEntity extends BundleEntityId {
 
     public BundleEntity(Bundle bundle, int level, final DetailDepth depth) throws SQLException {
         super(bundle);
-        // Only include full when above maximum depth
-        final boolean includeFullNextLevel = depth.includeFullDetails(++level);
-
+        
+        this.bitstreams = build(level + 1, depth, bundle.getBitstreams());
+        this.items = Items.build(level + 1, depth, bundle.getItems());
         this.handle = bundle.getHandle();
         this.name = bundle.getName();
         this.type = bundle.getType();
         this.pid = bundle.getPrimaryBitstreamID();
-        
-        this.bitstreams = build(level, depth, includeFullNextLevel, bundle.getBitstreams());
-        this.items = Items.build(level, depth, includeFullNextLevel, bundle.getItems());
     }
     
     public List<Object> getItems() {

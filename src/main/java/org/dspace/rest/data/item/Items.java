@@ -32,9 +32,9 @@ public class Items {
         return new ItemBuilder(fetch(uid)).till(depth).buildFull();
     }
 
-    public static List<Object> build(int level, final DetailDepth depth,
-            final boolean includeFullNextLevel, Item[] dspaceItems) throws SQLException {
+    public static List<Object> build(int level, final DetailDepth depth, final Item[] dspaceItems) throws SQLException {
         final List<Object> items = new ArrayList<Object>();
+        final boolean includeFullNextLevel = depth.includeFullDetails(level);
         for (Item item : dspaceItems) {
             items.add(new ItemBuilder(item).till(depth).withFull(includeFullNextLevel).on(level).build());
         }
