@@ -8,7 +8,6 @@ import org.dspace.rest.data.base.AbstractBuilder;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
-import org.dspace.rest.data.bitstream.BitstreamEntityId;
 import org.dspace.rest.data.bitstream.BulkBitstreamBuilder;
 import org.dspace.rest.data.bundle.BulkBundleBuilder;
 import org.dspace.rest.data.bundle.BundleEntityId;
@@ -41,10 +40,10 @@ public class ItemBuilder extends AbstractBuilder {
         final int nextLevel = level + 1;
         final List<BundleEntityId> bundles 
             = new BulkBundleBuilder(item.getBundles()).till(depth).on(nextLevel).withFull(depth.includeFullDetails(nextLevel)).build();
-        final List<Entity> bitstreams = BulkBitstreamBuilder.bitstreams(nextLevel, depth,
-                depth.includeFullDetails(nextLevel), item.getNonInternalBitstreams());
-        final List<Entity> communities = Communities.toEntities(level + 1, depth, item.getCommunities());
-        return new ItemEntity(item, level, depth, Collections.buildOwningCollection(item, nextLevel, depth), bundles, bitstreams, communities);
+        final List<Entity> bitstreams = new BulkBitstreamBuilder(item.getNonInternalBitstreams()).on(nextLevel).till(depth).build();
+        final List<Entity> communities = Communities.toEntities(nextLevel, depth, item.getCommunities());
+        final Entity owningCollection = Collections.owner(item, nextLevel, depth);
+        return new ItemEntity(item, level, depth, owningCollection, bundles, bitstreams, communities);
     }
 
     public ItemBuilder with(FetchGroup fetchGroup) {

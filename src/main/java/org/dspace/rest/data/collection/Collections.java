@@ -67,7 +67,7 @@ public class Collections {
         return entities;
     }
 
-    public static Entity buildOwningCollection(Item item, int level, final DetailDepth depth)
+    public static Entity owner(Item item, int level, final DetailDepth depth)
             throws SQLException {
         Entity owningCollection;
         final Collection parent = item.getOwningCollection();
