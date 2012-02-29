@@ -23,7 +23,6 @@ import org.dspace.content.Bitstream;
 import org.dspace.core.Context;
 import org.dspace.rest.data.DSpace;
 import org.dspace.rest.data.bitstream.BitstreamEntity;
-import org.dspace.rest.data.bitstream.BitstreamEntityId;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
@@ -209,11 +208,7 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
             }
 
             if (entityExists(id)) {
-                if (parameters.getEntityBuild().isIdOnly()) {
-                    return new BitstreamEntityId(id, context);
-                } else {
-                    return new BitstreamEntity(id, context, parameters.getDetailDepth().getDepth());
-                }
+                return parameters.bitstream(id, context);
 
             } else {
                 throw new EntityNotFoundException(operation);

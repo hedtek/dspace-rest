@@ -158,8 +158,8 @@ public class EntityBuildParameters {
         }
         return hit;
     }
-    private BitstreamEntityId bitstream(final Context context,
-            final DetailDepth depth, final String hitId) throws SQLException {
+    
+    BitstreamEntityId bitstream(final Context context, final DetailDepth depth, final String hitId) throws SQLException {
         return new Bitstreams(context).with(getFetchGroup()).till(depth).build(hitId);
     }
     

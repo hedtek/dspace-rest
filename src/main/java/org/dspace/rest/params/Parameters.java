@@ -8,6 +8,8 @@ import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
+import org.dspace.rest.data.bitstream.BitstreamEntity;
+import org.dspace.rest.data.bitstream.BitstreamEntityId;
 import org.dspace.rest.data.collection.CollectionEntity;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
@@ -110,5 +112,10 @@ private final RequestStorage requestStore;
 
     public Entity toEntity(final Item item) throws SQLException {
         return getEntityBuild().item(item, getDetailDepth().getDepth());
+    }
+
+    public Entity bitstream(final String id, final Context context) throws SQLException {
+        final DetailDepth depth = getDetailDepth().getDepth();
+        return getEntityBuild().bitstream(context, depth, id);
     }
 }
