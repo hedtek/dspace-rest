@@ -61,6 +61,7 @@ public class ItemEntity extends ItemWithMetadataEntity {
         this.owningCollection = owningCollection;
         this.bundles = bundles;
         this.bitstreams = bitstreams;
+        this.communities = Communities.toEntities(level + 1, depth, item.getCommunities());
         
         // Only include full when above maximum depth
         
@@ -81,7 +82,6 @@ public class ItemEntity extends ItemWithMetadataEntity {
         
         this.collections = Collections.build(level, depth, item.getCollections());
         
-        this.communities = Communities.toEntities(level, depth, item.getCommunities());
     }
 
     public UserEntity getSubmitter() {
