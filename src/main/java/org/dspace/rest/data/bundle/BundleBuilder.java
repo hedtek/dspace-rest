@@ -8,7 +8,6 @@ import org.dspace.rest.data.base.AbstractBuilder;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
-import org.dspace.rest.data.bitstream.Bitstreams;
 import org.dspace.rest.data.bitstream.BulkBitstreamBuilder;
 import org.dspace.rest.data.item.Items;
 
@@ -43,10 +42,10 @@ public class BundleBuilder extends AbstractBuilder {
         return isIdOnly() ? new BundleEntityId(bundle.getID()) : full();
     }
 
-    private BundleNoItems full() throws SQLException {
+    private BundleEntity full() throws SQLException {
         final int nextLevel = level + 1;
         final List<Object> items = Items.build(nextLevel, depth, bundle.getItems());
-        final List<Entity> bitstreams = Bitstreams.build(nextLevel, depth, bundle.getBitstreams());
+        final List<Entity> bitstreams =  new BulkBitstreamBuilder(bundle.getBitstreams()).till(depth).on(nextLevel).build();
         return new BundleEntity(bundle, items, bitstreams);
     }
 

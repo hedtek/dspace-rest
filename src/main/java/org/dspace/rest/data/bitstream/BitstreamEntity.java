@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.dspace.content.Bitstream;
-import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.bundle.Bundles;
 
