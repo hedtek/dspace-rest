@@ -49,4 +49,8 @@ public class Bitstreams {
         return this;
     }
 
+    public BitstreamEntity full(String uid) throws NumberFormatException, SQLException {
+        return new BitstreamBuilder(fetch(uid)).till(depth).full();
+    }
+
 }

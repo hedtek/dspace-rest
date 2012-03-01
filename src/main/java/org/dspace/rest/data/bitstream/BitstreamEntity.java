@@ -24,10 +24,6 @@ public class BitstreamEntity extends BitstreamNoBundles {
 
     private final List<Object> bundles;
 
-    public BitstreamEntity(String uid, Context context, final DetailDepth depth) throws SQLException {
-        this(Bitstream.find(context, Integer.parseInt(uid)), 1, depth);
-    }
-
     public BitstreamEntity(Bitstream bitstream, int level, final DetailDepth depth) throws SQLException {
         super(bitstream);
         // Only include full when above maximum depth

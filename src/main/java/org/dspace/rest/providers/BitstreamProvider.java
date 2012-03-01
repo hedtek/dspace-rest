@@ -22,7 +22,9 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Bitstream;
 import org.dspace.core.Context;
 import org.dspace.rest.data.DSpace;
+import org.dspace.rest.data.bitstream.BitstreamBuilder;
 import org.dspace.rest.data.bitstream.BitstreamEntity;
+import org.dspace.rest.data.bitstream.Bitstreams;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
@@ -82,9 +84,9 @@ public class BitstreamProvider extends AbstractBaseProvider  implements CoreEnti
             }
         }
 
-        private BitstreamEntity bitstream(String id, Parameters parameters,
+        private static BitstreamEntity bitstream(String uid, Parameters parameters,
                 Context context) throws SQLException {
-            return new BitstreamEntity(id, context, parameters.getDetailDepth().getDepth());
+            return new Bitstreams(context).till(parameters.getDetailDepth().getDepth()).full(uid);
         }
     
         @Override

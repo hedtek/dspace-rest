@@ -32,7 +32,11 @@ public class BitstreamBuilder extends AbstractBuilder {
         case MINIMAL:
             return new BitstreamEntityId(bitstream);
         default:
-            return new BitstreamEntity(bitstream, 1, depth);
+            return full();
         }
+    }
+
+    public BitstreamEntity full() throws SQLException {
+        return new BitstreamEntity(bitstream, 1, depth);
     }
 }
