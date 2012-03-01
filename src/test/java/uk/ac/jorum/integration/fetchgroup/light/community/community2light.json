@@ -1,0 +1,28 @@
+ {
+  "collections": [
+    {
+      "countItems": 0,
+      "id": 4,
+      "name": "Hibernate",
+      "type": 3
+    },
+    {
+      "countItems": 0,
+      "id": 5,
+      "name": "Maven",
+      "type": 3
+    },
+    {
+      "countItems": 3,
+      "id": 3,
+      "name": "Spring",
+      "type": 3
+    }
+  ],
+  "id": 2,
+  "name": "Java Community",
+  "type": 4,
+  "entityReference": "\/communities\/2",
+  "entityURL": "http:\/\/localhost:8080\/dspace-rest\/communities\/2",
+  "entityId": "2"
+}

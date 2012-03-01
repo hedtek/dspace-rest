@@ -11,6 +11,8 @@ package uk.ac.jorum.integration.fetchgroup.light.community;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -30,19 +32,21 @@ public class CommunityLightTest extends AbstractFetchGroupIntegrationTest {
 
 	@Test
     public void smoke1() throws Exception {
-      String result = makeRequest("/communities/1?fetch=light");
-      assertTrue(result, true);
+	    check(1);
     }
-	
+
     @Test
     public void smoke2() throws Exception {
-      String result = makeRequest("/communities/2?fetch=light");
-      assertTrue(result, true);
+        check(2);
     }
-    
+
     @Test
     public void smoke3() throws Exception {
-      String result = makeRequest("/communities/3?fetch=light");
-      assertTrue(result, true);
+        check(3);
+    }
+
+    private void check(final int community) throws Exception,
+            FileNotFoundException {
+        checkResponse("/communities/" + community + "?fetch=light", "community" + community + "light");
     }
 }

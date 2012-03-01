@@ -1,0 +1,28 @@
+ {
+  "collections": [
+    {
+      "countItems": 1,
+      "id": 6,
+      "name": "Scrum",
+      "type": 3
+    },
+    {
+      "countItems": 0,
+      "id": 8,
+      "name": "Waterfall",
+      "type": 3
+    },
+    {
+      "countItems": 0,
+      "id": 7,
+      "name": "XP",
+      "type": 3
+    }
+  ],
+  "id": 3,
+  "name": "Agile",
+  "type": 4,
+  "entityReference": "\/communities\/3",
+  "entityURL": "http:\/\/localhost:8080\/dspace-rest\/communities\/3",
+  "entityId": "3"
+}
