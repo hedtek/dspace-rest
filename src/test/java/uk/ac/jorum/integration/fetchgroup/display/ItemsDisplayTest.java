@@ -19,17 +19,17 @@ import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.ac.jorum.integration.RestApiBaseTest;
+import uk.ac.jorum.integration.fetchgroup.AbstractFetchGroupIntegrationTest;
 
-public class ItemsDisplayTest extends RestApiBaseTest {
+
+public class ItemsDisplayTest extends AbstractFetchGroupIntegrationTest {
 
 
 	@BeforeClass
     public static void createFixture() throws Exception {
-      loadFixture("lightCommunityDatabase");
-      startJetty();
+	    createFixture("lightCommunityDatabase");
     }
-
+	
     /**
      * For retrofitting new integration tests aimed at preventing regression.
      * @throws Exception

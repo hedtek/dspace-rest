@@ -7,7 +7,7 @@
  */
 
 
-package uk.ac.jorum.integration.retrieval.communities;
+package uk.ac.jorum.integration.fetchgroup.light;
 
 import static org.junit.Assert.assertTrue;
 
@@ -15,14 +15,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.jorum.integration.RestApiBaseTest;
+import uk.ac.jorum.integration.fetchgroup.AbstractFetchGroupIntegrationTest;
 
-public class CommunityLightTest extends RestApiBaseTest {
-
+public class CommunityLightTest extends AbstractFetchGroupIntegrationTest {
 
 	@BeforeClass
     public static void createFixture() throws Exception {
-      loadFixture("lightCommunityDatabase");
-      startJetty();
+      createFixture("lightCommunityDatabase");
     }
 
 	@Test
