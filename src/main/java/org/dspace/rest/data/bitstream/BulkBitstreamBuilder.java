@@ -38,17 +38,20 @@ public class BulkBitstreamBuilder extends AbstractBuilder {
     public List<Entity> build() throws SQLException {
         final List<Entity> entities = new ArrayList<Entity>();
         for (Bitstream bitstream : bitstreams) {
-            entities.add(depth.includeFullDetails(level) ? 
-                    new BitstreamEntity(bitstream, level, depth) : new BitstreamEntityId(bitstream));
+            entities.add(builderFor(bitstream).full(depth.includeFullDetails(level)).build());
         }
         return entities;
+    }
+
+    private BitstreamBuilder builderFor(Bitstream bitstream) {
+        return new BitstreamBuilder(bitstream).till(depth).on(level);
     }
 
 
     public List<Entity> idOnly() throws SQLException {
         final List<Entity> entities = new ArrayList<Entity>();
         for (Bitstream bitstream : bitstreams) {
-            entities.add(new BitstreamEntityId(bitstream));
+            entities.add(builderFor(bitstream).idOnly());
         }
         return entities;
     }
@@ -56,7 +59,7 @@ public class BulkBitstreamBuilder extends AbstractBuilder {
     public List<Entity> full() throws SQLException {
         final List<Entity> entities = new ArrayList<Entity>();
         for (Bitstream bitstream : bitstreams) {
-            entities.add(new BitstreamEntity(bitstream, level, depth));
+            entities.add(builderFor(bitstream).full());
         }
         return entities;
     }

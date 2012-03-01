@@ -8,12 +8,10 @@
 
 package org.dspace.rest.data.bitstream;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.dspace.content.Bitstream;
-import org.dspace.rest.data.base.DetailDepth;
-import org.dspace.rest.data.bundle.Bundles;
+import org.dspace.rest.data.base.Entity;
 
 /**
  * Entity describing Bitstreams
@@ -21,17 +19,15 @@ import org.dspace.rest.data.bundle.Bundles;
  */
 public class BitstreamEntity extends BitstreamNoBundles {
 
-    private final List<Object> bundles;
+    private final List<Entity> bundles;
 
-    public BitstreamEntity(Bitstream bitstream, int level, final DetailDepth depth) throws SQLException {
+    public BitstreamEntity(Bitstream bitstream, final List<Entity> bundles) {
         super(bitstream);
-        // Only include full when above maximum depth
-        final boolean includeFullNextLevel = depth.includeFullDetails(++level);        
-        this.bundles = Bundles.bundles(level, depth, includeFullNextLevel, bitstream.getBundles());
+        this.bundles = bundles;
     }
 
 
-    public List<?> getBundles() {
+    public List<Entity> getBundles() {
         return this.bundles;
     }
 }
