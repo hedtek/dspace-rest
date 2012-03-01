@@ -11,11 +11,8 @@ package uk.ac.jorum.integration.fetchgroup.display;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 
-import org.json.simple.JSONValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -25,7 +22,11 @@ import uk.ac.jorum.integration.fetchgroup.AbstractFetchGroupIntegrationTest;
 public class ItemsDisplayTest extends AbstractFetchGroupIntegrationTest {
 
 
-	@BeforeClass
+	public ItemsDisplayTest() {
+        super("/display/");
+    }
+
+    @BeforeClass
     public static void createFixture() throws Exception {
 	    createFixture("lightCommunityDatabase");
     }
@@ -93,17 +94,6 @@ public class ItemsDisplayTest extends AbstractFetchGroupIntegrationTest {
 
     private void checkItem(final int itemNumber) throws Exception,
             FileNotFoundException {
-        String result = makeRequest("/items/" + itemNumber + "?fetch=display");
-	    assertEquals(result, expectedJSon("item" + itemNumber + "display"), JSONValue.parse(result));
-    }
-
-    private Object expectedJSon(final String expected)
-            throws FileNotFoundException {
-        final String filename = "src/test/java/uk/ac/jorum/integration/fetchgroup/display/" + expected + ".json";
-        final Object json = JSONValue.parse(new FileReader(new File(filename)));
-        if (json == null) {
-            throw new RuntimeException ("Cannot parse json in: " + filename);
-        }
-        return json;
+        checkResponse("/items/" + itemNumber + "?fetch=display", "item" + itemNumber + "display");
     }
 }

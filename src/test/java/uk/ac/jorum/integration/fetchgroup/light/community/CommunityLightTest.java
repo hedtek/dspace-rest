@@ -7,7 +7,7 @@
  */
 
 
-package uk.ac.jorum.integration.fetchgroup.light;
+package uk.ac.jorum.integration.fetchgroup.light.community;
 
 import static org.junit.Assert.assertTrue;
 
@@ -19,7 +19,11 @@ import uk.ac.jorum.integration.fetchgroup.AbstractFetchGroupIntegrationTest;
 
 public class CommunityLightTest extends AbstractFetchGroupIntegrationTest {
 
-	@BeforeClass
+	public CommunityLightTest() {
+        super("/light/community/");
+    }
+
+    @BeforeClass
     public static void createFixture() throws Exception {
       createFixture("lightCommunityDatabase");
     }
