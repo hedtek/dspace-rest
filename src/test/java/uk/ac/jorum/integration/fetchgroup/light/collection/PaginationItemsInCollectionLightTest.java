@@ -7,7 +7,7 @@
  */
 
 
-package uk.ac.jorum.integration.retrieval.collections;
+package uk.ac.jorum.integration.fetchgroup.light.collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,7 +20,7 @@ import org.junit.Test;
 
 import uk.ac.jorum.integration.RestApiBaseTest;
 
-public class ItemsInCollectionLightTest extends RestApiBaseTest {
+public class PaginationItemsInCollectionLightTest extends RestApiBaseTest {
 
 
     private static final int COLLECTION1_ITEM_COUNT = 18;
@@ -69,40 +69,4 @@ public class ItemsInCollectionLightTest extends RestApiBaseTest {
     private String request(final String pageQueryExpression) throws Exception {
         return makeRequest("/collections/1/items?fetch=light" + pageQueryExpression);
     }
-
-    
-    @Test
-    public void smokePageOne() throws Exception {
-      String result = makeRequest("/collections/1/items?fetch=light&_page=1");
-      assertTrue(result, true);
-    }
-    
-    @Test
-    public void smokePageTwo() throws Exception {
-      String result = makeRequest("/collections/1/items?fetch=light&_page=2");
-      assertTrue(result, true);
-    }
-
-    
-	@Test
-    public void smoke() throws Exception {
-      String result = makeRequest("/collections/1/items?fetch=light");
-      assertTrue(result, true);
-    }
-	
-
-    @Test
-    public void smoke2() throws Exception {
-      String result = makeRequest("/collections/2/items?fetch=light");
-      assertTrue(result, true);
-    }
-
-
-    @Test
-    public void smoke3() throws Exception {
-      String result = makeRequest("/collections/3/items?fetch=light");
-      assertTrue(result, true);
-    }
-
-
 }

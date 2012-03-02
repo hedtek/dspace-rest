@@ -1,0 +1,243 @@
+ {
+  "communities": [
+    {
+      "id": 2,
+      "name": "Java Community",
+      "type": 4
+    }
+  ],
+  "countItems": 3,
+  "id": 3,
+  "items": [
+    {
+      "id": 8,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "Senna, Ayrton"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T17:37:50Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T17:37:50Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "2011-11-10T17:37:50Z"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/19"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:37:50Z No. of bitstreams: 1 orm.txt: 8 bytes, checksum: 4e6ad61b7c95e6f1926f837422619850 (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T17:37:50Z (GMT). No. of bitstreams: 1 orm.txt: 8 bytes, checksum: 4e6ad61b7c95e6f1926f837422619850 (MD5)"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "ORM"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "OMG its ORM!!!"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Working Paper"
+        }
+      ],
+      "name": "OMG its ORM!!!",
+      "type": 2
+    },
+    {
+      "id": 6,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "springer, jerry"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T17:31:36Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T17:31:36Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "2011-11-10T17:31:36Z"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/17"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:31:36Z No. of bitstreams: 2 ioc.txt: 8 bytes, checksum: 671c8bf2d92e1fdd7f809da10f007399 (MD5) di.txt: 7 bytes, checksum: 24c6cbbfd4215b77f96aaa8b11072b7c (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T17:31:36Z (GMT). No. of bitstreams: 2 ioc.txt: 8 bytes, checksum: 671c8bf2d92e1fdd7f809da10f007399 (MD5) di.txt: 7 bytes, checksum: 24c6cbbfd4215b77f96aaa8b11072b7c (MD5)"
+        },
+        {
+          "element": "language",
+          "qualifier": "iso",
+          "schema": "dc",
+          "value": "es"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "dependency injection"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "inversion of control"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "ioc and di"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Animation"
+        }
+      ],
+      "name": "ioc and di",
+      "type": 2
+    },
+    {
+      "id": 7,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "Mercury, Freddie"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T17:33:57Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T17:33:57Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "2011-11-10T17:33:57Z"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/18"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:33:57Z No. of bitstreams: 2 spring_guides.txt: 18 bytes, checksum: 18f2f8ae03cf0129490c592c4424bc04 (MD5) spring_tutorial.txt: 20 bytes, checksum: 9d1be970259d826ed105a1c2740798d6 (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T17:33:57Z (GMT). No. of bitstreams: 2 spring_guides.txt: 18 bytes, checksum: 18f2f8ae03cf0129490c592c4424bc04 (MD5) spring_tutorial.txt: 20 bytes, checksum: 9d1be970259d826ed105a1c2740798d6 (MD5)"
+        },
+        {
+          "element": "language",
+          "qualifier": "iso",
+          "schema": "dc",
+          "value": "en"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "spring"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "tutorials and guides"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "guides and tutorials"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Book"
+        }
+      ],
+      "name": "guides and tutorials",
+      "type": 2
+    }
+  ],
+  "name": "Spring",
+  "type": 3,
+  "entityReference": "\/collections\/3",
+  "entityURL": "http:\/\/localhost:8080\/dspace-rest\/collections\/3",
+  "entityId": "3"
+}
