@@ -22,7 +22,6 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Bitstream;
 import org.dspace.core.Context;
 import org.dspace.rest.data.DSpace;
-import org.dspace.rest.data.bitstream.BitstreamBuilder;
 import org.dspace.rest.data.bitstream.BitstreamEntity;
 import org.dspace.rest.data.bitstream.Bitstreams;
 import org.dspace.rest.diagnose.EntityNotFoundException;

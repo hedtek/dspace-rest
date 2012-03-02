@@ -9,7 +9,7 @@
 
 package uk.ac.jorum.integration.fetchgroup.display;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
 

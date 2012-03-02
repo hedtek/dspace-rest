@@ -8,8 +8,6 @@ import org.dspace.core.Context;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
-import org.dspace.rest.data.bitstream.BitstreamEntity;
-import org.dspace.rest.data.bitstream.BitstreamEntityId;
 import org.dspace.rest.data.collection.CollectionEntity;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;

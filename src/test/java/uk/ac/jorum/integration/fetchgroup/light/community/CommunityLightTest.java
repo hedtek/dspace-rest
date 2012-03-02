@@ -9,14 +9,11 @@
 
 package uk.ac.jorum.integration.fetchgroup.light.community;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.FileNotFoundException;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.ac.jorum.integration.RestApiBaseTest;
 import uk.ac.jorum.integration.fetchgroup.AbstractFetchGroupIntegrationTest;
 
 public class CommunityLightTest extends AbstractFetchGroupIntegrationTest {

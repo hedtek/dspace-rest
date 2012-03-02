@@ -9,7 +9,6 @@ import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.base.FetchGroup;
 import org.dspace.rest.data.bundle.BulkBundleBuilder;
-import org.dspace.rest.data.bundle.Bundles;
 
 public class BitstreamBuilder extends AbstractBuilder {
 
