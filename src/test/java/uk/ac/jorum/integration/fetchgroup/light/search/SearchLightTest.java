@@ -7,7 +7,7 @@
  */
 
 
-package uk.ac.jorum.integration.searching;
+package uk.ac.jorum.integration.fetchgroup.light.search;
 
 import static org.junit.Assert.assertTrue;
 
