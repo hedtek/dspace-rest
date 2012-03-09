@@ -63,3 +63,10 @@ Known Limitations
  * Areas of the original specification are not particularly RESTful. Those willing to 
    break compatibility should consider adding RESTful linking and pagination.
  * Exception handling has been improved but more work remains.
+ * Some regression tests rely on database order, and may be fragile.
+ * Repackaging incomplete. This is a logical fork, and packaging should reflect this.
+ * Build script not yet updated. This is a logical fork, and maven packaging should reflect this.
+ * This module builds against a fork of DSpace `1.5.2`. 
+   * A multi-module project would allow support for multiple versions.
+   * Some changes need to be fed back into core or a public fork created.
+ 
