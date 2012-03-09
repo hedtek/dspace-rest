@@ -5,11 +5,20 @@ This forks, refactors and [backports](#dspace "DSpace Version Support") the
 [original](scm.dspace.org/svn/repo/modules/dspace-rest/trunk/ "the source") 
 [DSpace REST API](https://wiki.duraspace.org/display/DSPACE/REST+API "the spec")
  
- * __adding__ integration tests and [fetch groups](#fetch-groups "Support For Fetch Groups");
+ * __adding__ [integration tests](#integration-tests "integration and regression tests") and [fetch groups](#fetch-groups "Support For Fetch Groups");
  * __removing__ write support; and 
  * __improving__ [pagination](#pagination "more support for pagination").
  
 For the most part, features have been fixed or cleanly removed. 
+
+<a name='integration-tests'>Running Integration And Regression Tests</a>
+-----------------
+
+PostgreSQL only.
+
+First time, run `create_integration_test_db.sh`.
+ 
+Then `mvn -DskipTests=false`
  
 <a name='dspace'>Which DSpace Version?</a>
 ------------------
@@ -22,7 +31,6 @@ A fork of DSpace `1.5.2`
  * __Cause__ &mdash; no fine control over richness of data  
  * __Solution__ &mdash; fetch groups
  * __Implementation__ &mdash; optional `fetch` parameter 
-
 
 <a name='pagination'>Pagination</a>
 -----------------
