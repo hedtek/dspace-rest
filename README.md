@@ -7,7 +7,7 @@ This forks, refactors and [backports](#dspace "DSpace Version Support") the
  
  * __adding__ integration tests and [fetch groups](#fetch-groups "Support For Fetch Groups");
  * __removing__ write support; and 
- * __improving__ pagination.
+ * __improving__ [pagination](#pagination "more support for pagination").
  
 For the most part, features have been fixed or cleanly removed. 
  
@@ -22,6 +22,15 @@ A fork of DSpace `1.5.2`
  * __Cause__ &mdash; no fine control over richness of data  
  * __Solution__ &mdash; fetch groups
  * __Implementation__ &mdash; optional `fetch` parameter 
+
+
+<a name='pagination'>Pagination</a>
+-----------------
+
+ * __Problem__ &mdash; too much data using too many resources to produce and consume
+ * __Cause__ &mdash; inefficient and absent pagination code 
+ * __Solution__ &mdash; push pagination into data access and pagination more end points 
+
 
 Known Limitations
 =================
