@@ -15,7 +15,7 @@ End Points
 ----------
 
 <table border="1">
-  <caption>Tested</caption>
+  <caption>Covered Well By Integration Tests</caption>
   <thead>
     <tr><th></th><th>GET</th><th>PUT</th><th>POST</th><th>DELETE</th>    
   </thead>
@@ -30,7 +30,7 @@ End Points
 </table> 
 
 <table border="1">
-  <caption>Untested</caption>
+  <caption>Light Or No Integration Tests</caption>
   <thead>
     <tr><th></th><th>GET</th><th>PUT</th><th>POST</th><th>DELETE</th>    
   </thead>
@@ -38,6 +38,19 @@ End Points
   <tr><td>users</td><td>&#10003;</td><td>&#10008;</td><td>&#10008;</td><td>&#10008;</td></tr>
   <tr><td>groups</td><td>&#10003;</td><td>&#10008;</td><td>&#10008;</td><td>&#10008;</td></tr>
   <tr><td>stats</td><td>&#10003;</td><td>&#10008;</td><td>&#10008;</td><td>&#10008;</td></tr>
+  <tbody>
+</table> 
+
+<table border="1">
+  <caption>Fetch Groups</caption>
+  <thead>
+    <tr><th></th><th>light</th><th>display</th>    
+  </thead>
+  <tbody>
+  <tr><td>items</td><td>&#10004;</td><td>&#10004;</td></tr>
+  <tr><td>search [items]</td><td>&#10004;</td><td>&#10004;</td></tr>
+  <tr><td>communities</td><td>&#10004;</td><td>&#10008;</td></tr>
+  <tr><td>collections/<em>x</em>/items</td><td>&#10004;</td><td>&#10008;</td></tr>
   <tbody>
 </table> 
 
