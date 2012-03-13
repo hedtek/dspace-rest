@@ -65,7 +65,7 @@ A fork of DSpace `1.5.2`
 
 
 <table border="1">
-  <caption>Fetch Groups</caption>
+  <caption>Supported Fetch Groups</caption>
   <thead>
     <tr><th></th><th>light</th><th>display</th><th>example</th>
   </thead>
