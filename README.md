@@ -55,6 +55,18 @@ Then `mvn -DskipTests=false`
 ------------------
 A fork of DSpace `1.5.2`
 
+In particular, to `ItemIterator` add 
+
+    public void skip() throws SQLException {
+        if (itemRows.hasNext())
+        {
+            itemRows.next();
+        }
+    }
+    
+(to support pagination).
+
+
 <a name='fetch-groups'>Fetch Groups</a>
 -----------------
 
