@@ -11,6 +11,21 @@ This forks, refactors and [backports](#dspace "DSpace Version Support") the
  
 For the most part, features have been fixed or cleanly removed. 
 
+<table border="1">
+  <caption>End Points (Tested)</caption>
+  <thead>
+    <tr><th></th><th>GET</th><th>PUT</th><th>POST</th><th>DELETE</th>    
+  </thead>
+  <tbody>
+  <tr><td>items</td><td>&#10004;</td><td>&#10008;</td><td>&#10008;</td><td>&#10008;</td></tr>
+  <tr><td>bitstream</td><td>&#10004;</td><td>&#10008;</td><td>&#10008;</td><td>&#10008;</td></tr>
+  <tr><td>collections</td><td>&#10004;</td><td>&#10008;</td><td>&#10008;</td><td>&#10008;</td></tr>
+  <tr><td>communities</td><td>&#10004;</td><td>&#10008;</td><td>&#10008;</td><td>&#10008;</td></tr>
+  <tr><td>search</td><td>&#10004;</td><td>&#10008;</td><td>&#10008;</td><td>&#10008;</td></tr>
+  <tr><td>harvest</td><td>&#10004;</td><td>&#10008;</td><td>&#10008;</td><td>&#10008;</td></tr>
+  <tbody>
+</table> 
+
 <a name='integration-tests'>Running Integration And Regression Tests</a>
 -----------------
 
