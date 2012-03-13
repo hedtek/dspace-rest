@@ -5,7 +5,9 @@ This forks, refactors and [backports](#dspace "DSpace Version Support") the
 [original](scm.dspace.org/svn/repo/modules/dspace-rest/trunk/ "the source") 
 [DSpace REST API](https://wiki.duraspace.org/display/DSPACE/REST+API "the spec")
  
- * __adding__ [integration tests](#integration-tests "integration and regression tests") and [fetch groups](#fetch-groups "Support For Fetch Groups");
+ * __adding__ [integration tests](#integration-tests "integration and regression tests"), 
+ [hard limit](#hardlimit "limits maximum number of items that can be rendered") 
+ and [fetch groups](#fetch-groups "Support For Fetch Groups");
  * __removing__ write support; and 
  * __improving__ [pagination](#pagination "more support for pagination").
  
@@ -110,6 +112,11 @@ In particular, to `ItemIterator` add
 </table> 
 
 
+<a name='hardlimit'>Hard Limit For Items</a>
+-----------------
+
+Hard coded limit (10000) for the maximum number of items that can be rendered to JSON.
+
 Known Limitations
 =================
 
@@ -139,4 +146,7 @@ Known Limitations
  * This module builds against a fork of DSpace `1.5.2`. 
    * A multi-module project would allow support for multiple versions.
    * Some changes need to be fed back into core or a public fork created.
+ * The [hard limit](#hardlimit "limits maximum number of items that can be rendered"): 
+   * is applied only to items, and
+   * is not configurable.
  
