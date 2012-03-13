@@ -15,7 +15,6 @@ For the most part, features have been fixed or cleanly removed.
 
 <strong>Please note</strong>
 that allowing use of some of the end points retained from the original design may be unwise.
-This may not be a good API 
 
 End Points
 ----------
