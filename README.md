@@ -44,13 +44,13 @@ End Points
 <table border="1">
   <caption>Fetch Groups</caption>
   <thead>
-    <tr><th></th><th>light</th><th>display</th>    
+    <tr><th></th><th>light</th><th>display</th><th>example</th>
   </thead>
   <tbody>
-  <tr><td>items</td><td>&#10004;</td><td>&#10004;</td></tr>
-  <tr><td>search [items]</td><td>&#10004;</td><td>&#10004;</td></tr>
-  <tr><td>communities</td><td>&#10004;</td><td>&#10008;</td></tr>
-  <tr><td>collections/<em>x</em>/items</td><td>&#10004;</td><td>&#10008;</td></tr>
+  <tr><td>items</td><td>&#10004;</td><td>&#10004;</td><td><code>/items/5.json?fetch=display</code></td></tr>
+  <tr><td>search [items]</td><td>&#10004;</td><td>&#10004;</td><td><code>/search.json?query=search.resourcetype:2&fetch=light</code></td></tr>
+  <tr><td>communities</td><td>&#10004;</td><td>&#10008;</td><td><code>/communities/25.json?fetch=light</code></td></tr>
+  <tr><td>collections/<em>x</em>/items</td><td>&#10004;</td><td>&#10008;</td><td><code>/collections/1/items.json?fetch=light</code></td></tr>
   <tbody>
 </table> 
 
