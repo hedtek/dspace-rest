@@ -98,6 +98,18 @@ In particular, to `ItemIterator` add
  * __Solution__ &mdash; push pagination into data access and pagination more end points 
 
 
+<table border="1">
+  <caption>Supported Pagination</caption>
+  <thead>
+    <tr><th></th><th>page</th><th>perpage</th><th>sort</th><th>example</th>
+  </thead>
+  <tbody>
+  <tr><td>search [items]</td><td>&#10004;</td><td>&#10004;</td><td>&#10008;</td><td><code>/search.json?query=search.resourcetype:2&_page=2&_perpage=20</code></td></tr>
+  <tr><td>collections/<em>x</em>/items</td><td>&#10004;</td><td>&#10003;</td><td>&#10008;</td><td><code>/collections/1/items.json?_page=2</code></td></tr>
+  <tbody>
+</table> 
+
+
 Known Limitations
 =================
 
