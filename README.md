@@ -13,6 +13,10 @@ This forks, refactors and [backports](#dspace "DSpace Version Support") the
  
 For the most part, features have been fixed or cleanly removed. 
 
+<strong>Please note</strong>
+that allowing use of some of the end points retained from the original design may be unwise.
+This may not be a good API 
+
 End Points
 ----------
 
@@ -149,4 +153,5 @@ Known Limitations
  * The [hard limit](#hardlimit "limits maximum number of items that can be rendered"): 
    * is applied only to items, and
    * is not configurable.
- 
+ * Cache header support poor. Ideally DSpace would expose a feed allowing upstream caches to be 
+   invalidated when data changes.
