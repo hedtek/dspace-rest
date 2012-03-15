@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.dspace.content.Item;
-import org.dspace.eperson.EPerson;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
 import org.dspace.rest.data.collection.Collections;
@@ -28,16 +27,6 @@ public class ItemEntity extends ItemForDisplay {
 
     private static Logger log = Logger.getLogger(ItemEntity.class);
 
-    private static UserEntity buildUserEntity(Item item) throws SQLException {
-        final EPerson submitter = item.getSubmitter();
-        if(submitter == null) {
-            return null;
-        }
-        else {
-            return new UserEntity(submitter);
-        }
-    }
-    
     private final Boolean canEdit;
     private final String handle;
     private final List<Entity> collections;
@@ -48,7 +37,8 @@ public class ItemEntity extends ItemForDisplay {
     private final List<Entity> communities;
     
     ItemEntity(Item item, int level, final DetailDepth depth, final Entity owningCollection, 
-            final List<Entity> bundles, List<Entity> bitstreams, List<Entity> communities) throws SQLException {
+            final List<Entity> bundles, List<Entity> bitstreams, List<Entity> communities,
+            final UserEntity submitter) throws SQLException {
         super(item, owningCollection, bundles);
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; level " + level);
         this.bitstreams = bitstreams;
@@ -59,7 +49,7 @@ public class ItemEntity extends ItemForDisplay {
         
         this.isWithdrawn = item.isWithdrawn();
         
-        this.submitter = buildUserEntity(item);
+        this.submitter = submitter;
         this.collections = Collections.build(level + 1, depth, item.getCollections());
     }
 

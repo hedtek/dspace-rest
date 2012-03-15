@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.dspace.content.Item;
+import org.dspace.eperson.EPerson;
 import org.dspace.rest.data.base.AbstractBuilder;
 import org.dspace.rest.data.base.DetailDepth;
 import org.dspace.rest.data.base.Entity;
@@ -13,6 +14,7 @@ import org.dspace.rest.data.bundle.BulkBundleBuilder;
 import org.dspace.rest.data.collection.CollectionBuilder;
 import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.data.community.Communities;
+import org.dspace.rest.entities.UserEntity;
 
 public class ItemBuilder extends AbstractBuilder {
     
@@ -43,7 +45,8 @@ public class ItemBuilder extends AbstractBuilder {
         final List<Entity> bitstreams = new BulkBitstreamBuilder(item.getNonInternalBitstreams()).on(nextLevel).till(depth).build();
         final List<Entity> communities = Communities.toEntities(nextLevel, depth, item.getCommunities());
         final Entity owningCollection = Collections.owner(item, nextLevel, depth);
-        return new ItemEntity(item, level, depth, owningCollection, bundles, bitstreams, communities);
+        final UserEntity submitter = buildUserEntity();
+        return new ItemEntity(item, level, depth, owningCollection, bundles, bitstreams, communities, submitter);
     }
 
     public ItemBuilder with(FetchGroup fetchGroup) {
@@ -78,5 +81,15 @@ public class ItemBuilder extends AbstractBuilder {
     public ItemBuilder withIdOnly(boolean idOnly) {
         setIdOnly(idOnly);
         return this;
+    }
+
+    private UserEntity buildUserEntity() throws SQLException {
+        final EPerson submitter = item.getSubmitter();
+        if(submitter == null) {
+            return null;
+        }
+        else {
+            return new UserEntity(submitter);
+        }
     }
 }
