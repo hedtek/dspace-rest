@@ -45,8 +45,7 @@ public class ItemBuilder extends AbstractBuilder {
         final List<Entity> bitstreams = new BulkBitstreamBuilder(item.getNonInternalBitstreams()).on(nextLevel).till(depth).build();
         final List<Entity> communities = Communities.toEntities(nextLevel, depth, item.getCommunities());
         final Entity owningCollection = Collections.owner(item, nextLevel, depth);
-        final UserEntity submitter = buildUserEntity();
-        return new ItemEntity(item, level, depth, owningCollection, bundles, bitstreams, communities, submitter);
+        return new ItemEntity(item, level, depth, owningCollection, bundles, bitstreams, communities, buildUserEntity());
     }
 
     public ItemBuilder with(FetchGroup fetchGroup) {
@@ -70,7 +69,7 @@ public class ItemBuilder extends AbstractBuilder {
     private Entity forDisplay() throws SQLException {
         final List<Entity> bundles = new BulkBundleBuilder(item.getBundles()).noItems();
         final Entity owningCollection = new CollectionBuilder(item.getOwningCollection()).basicCommunities();
-        return new ItemForDisplay(item, owningCollection, bundles);
+        return new ItemForDisplay(item, owningCollection, bundles, buildUserEntity());
     }
     
     public ItemBuilder withFull(boolean includeFullDetails) {

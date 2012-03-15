@@ -32,14 +32,13 @@ public class ItemEntity extends ItemForDisplay {
     private final List<Entity> collections;
     private final Date lastModified;
     private final boolean isWithdrawn;
-    private final UserEntity submitter;
     private final List<Entity> bitstreams;
     private final List<Entity> communities;
     
     ItemEntity(Item item, int level, final DetailDepth depth, final Entity owningCollection, 
             final List<Entity> bundles, List<Entity> bitstreams, List<Entity> communities,
             final UserEntity submitter) throws SQLException {
-        super(item, owningCollection, bundles);
+        super(item, owningCollection, bundles, submitter);
         if (log.isDebugEnabled()) log.debug("DepthDetail is " + depth + "; level " + level);
         this.bitstreams = bitstreams;
         this.communities = communities;
@@ -49,12 +48,7 @@ public class ItemEntity extends ItemForDisplay {
         
         this.isWithdrawn = item.isWithdrawn();
         
-        this.submitter = submitter;
         this.collections = Collections.build(level + 1, depth, item.getCollections());
-    }
-
-    public UserEntity getSubmitter() {
-        return this.submitter;
     }
 
     public boolean getIsWithdrawn() {
