@@ -1,4 +1,4 @@
- {
+{
   "bundles": [
     {
       "bitstreams": [
@@ -130,8 +130,15 @@
     "name": "Rails",
     "type": 3
   },
+  "submitter": {
+    "firstName": "dspace",
+    "fullName": "dspace dspace",
+    "id": 1,
+    "lastName": "dspace",
+    "type": 7
+  },
   "type": 2,
   "entityReference": "\/items\/4",
   "entityURL": "http:\/\/localhost:8080\/dspace-rest\/items\/4",
   "entityId": "4"
-}
+} 

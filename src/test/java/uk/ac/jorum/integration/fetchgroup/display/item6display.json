@@ -152,6 +152,13 @@
     "name": "Spring",
     "type": 3
   },
+  "submitter": {
+    "firstName": "dspace",
+    "fullName": "dspace dspace",
+    "id": 1,
+    "lastName": "dspace",
+    "type": 7
+  },
   "type": 2,
   "entityReference": "\/items\/6",
   "entityURL": "http:\/\/localhost:8080\/dspace-rest\/items\/6",
