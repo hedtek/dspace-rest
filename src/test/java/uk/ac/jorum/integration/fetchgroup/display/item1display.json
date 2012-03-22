@@ -1,0 +1,150 @@
+ {
+  "bundles": [
+    {
+      "bitstreams": [
+        {
+          "checkSum": "03395dc638b0566daed65002bb061cf9",
+          "checkSumAlgorithm": "MD5",
+          "description": "",
+          "formatDescription": "Text",
+          "handle": null,
+          "id": 1,
+          "mimeType": "text\/plain",
+          "name": "rails_guides.txt",
+          "sequenceId": 1,
+          "size": 17,
+          "source": "\/home\/ashish\/jorum_dspace\/dspace-rest\/target\/testResources\/upload\/rails_guides.txt",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 1,
+      "name": "ORIGINAL",
+      "type": 1
+    },
+    {
+      "bitstreams": [
+        {
+          "checkSum": "ea652d6b706a66b53541ee0d4a152b9b",
+          "checkSumAlgorithm": "MD5",
+          "description": null,
+          "formatDescription": "License",
+          "handle": null,
+          "id": 2,
+          "mimeType": "text\/plain  charset=utf-8",
+          "name": "license.txt",
+          "sequenceId": 2,
+          "size": 89,
+          "source": "Written by org.dspace.content.Item",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 2,
+      "name": "LICENSE",
+      "type": 1
+    }
+  ],
+  "id": 1,
+  "isArchived": true,
+  "metadata": [
+    {
+      "element": "contributor",
+      "qualifier": "author",
+      "schema": "dc",
+      "value": "smith, fred"
+    },
+    {
+      "element": "date",
+      "qualifier": "accessioned",
+      "schema": "dc",
+      "value": "2011-11-10T17:17:31Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "available",
+      "schema": "dc",
+      "value": "2011-11-10T17:17:31Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "issued",
+      "schema": "dc",
+      "value": "2011-11-10T17:17:31Z"
+    },
+    {
+      "element": "identifier",
+      "qualifier": "uri",
+      "schema": "dc",
+      "value": "http:\/\/hdl.handle.net\/123456789\/12"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:17:31Z No. of bitstreams: 1 rails_guides.txt: 17 bytes, checksum: 03395dc638b0566daed65002bb061cf9 (MD5)"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Made available in DSpace on 2011-11-10T17:17:31Z (GMT). No. of bitstreams: 1 rails_guides.txt: 17 bytes, checksum: 03395dc638b0566daed65002bb061cf9 (MD5)"
+    },
+    {
+      "element": "language",
+      "qualifier": "iso",
+      "schema": "dc",
+      "value": "fr"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "ruby"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "rails"
+    },
+    {
+      "element": "title",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "rails guide"
+    },
+    {
+      "element": "type",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "Book"
+    }
+  ],
+  "name": "rails guide",
+  "owningCollection": {
+    "communities": [
+      {
+        "id": 3,
+        "name": "Agile",
+        "type": 4
+      }
+    ],
+    "id": 6,
+    "name": "Scrum",
+    "type": 3
+  },
+  "submitter": {
+    "firstName": "dspace",
+    "fullName": "dspace dspace",
+    "id": 1,
+    "lastName": "dspace",
+    "type": 7
+  },
+  "type": 2,
+  "entityReference": "\/items\/1",
+  "entityURL": "http:\/\/localhost:8080\/dspace-rest\/items\/1",
+  "entityId": "1"
+}

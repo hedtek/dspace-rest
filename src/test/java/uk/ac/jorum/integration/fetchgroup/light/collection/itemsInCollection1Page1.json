@@ -1,0 +1,796 @@
+{
+  "communities": [
+    {
+      "id": 1,
+      "name": "Ruby",
+      "type": 4
+    }
+  ],
+  "countItems": 18,
+  "id": 1,
+  "items": [
+    {
+      "id": 11,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "Sauce, Tartare"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T17:48:42Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T17:48:42Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "2011-11-10T17:48:42Z"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/22"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:48:42Z No. of bitstreams: 2 sql.txt: 8 bytes, checksum: 71f47ea290e55742c5992996e49fa1f3 (MD5) driver.txt: 11 bytes, checksum: 68b4f1665cba6fb5ec05ddd81326006e (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T17:48:42Z (GMT). No. of bitstreams: 2 sql.txt: 8 bytes, checksum: 71f47ea290e55742c5992996e49fa1f3 (MD5) driver.txt: 11 bytes, checksum: 68b4f1665cba6fb5ec05ddd81326006e (MD5)"
+        },
+        {
+          "element": "language",
+          "qualifier": "iso",
+          "schema": "dc",
+          "value": "en_US"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "SQL"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Driver"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Hibernate"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "SQL and Driver"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Preprint"
+        }
+      ],
+      "name": "SQL and Driver",
+      "type": 2
+    },
+    {
+      "id": 4,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "burns, paul"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T17:26:48Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T17:26:48Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "2011-11-10T17:26:48Z"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/15"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:26:48Z No. of bitstreams: 1 awdwr.txt: 10 bytes, checksum: 01ef867ced6e7b0c8966211650adeee5 (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T17:26:48Z (GMT). No. of bitstreams: 1 awdwr.txt: 10 bytes, checksum: 01ef867ced6e7b0c8966211650adeee5 (MD5)"
+        },
+        {
+          "element": "language",
+          "qualifier": "iso",
+          "schema": "dc",
+          "value": "es"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "another rails book"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "agile web development with rails"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Dataset"
+        }
+      ],
+      "name": "agile web development with rails",
+      "type": 2
+    },
+    {
+      "id": 1,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "smith, fred"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T17:17:31Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T17:17:31Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "2011-11-10T17:17:31Z"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/12"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:17:31Z No. of bitstreams: 1 rails_guides.txt: 17 bytes, checksum: 03395dc638b0566daed65002bb061cf9 (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T17:17:31Z (GMT). No. of bitstreams: 1 rails_guides.txt: 17 bytes, checksum: 03395dc638b0566daed65002bb061cf9 (MD5)"
+        },
+        {
+          "element": "language",
+          "qualifier": "iso",
+          "schema": "dc",
+          "value": "fr"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "ruby"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "rails"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "rails guide"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Book"
+        }
+      ],
+      "name": "rails guide",
+      "type": 2
+    },
+    {
+      "id": 19,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "Beck, Martin"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T18:07:42Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T18:07:42Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "2011-11-10T18:07:42Z"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/29"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T18:07:42Z No. of bitstreams: 1 scrum_tutorial.txt: 19 bytes, checksum: eb756583f982101e713c5d416e912fe0 (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T18:07:42Z (GMT). No. of bitstreams: 1 scrum_tutorial.txt: 19 bytes, checksum: eb756583f982101e713c5d416e912fe0 (MD5)"
+        },
+        {
+          "element": "language",
+          "qualifier": "iso",
+          "schema": "dc",
+          "value": "de"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Tutorial"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Scrum"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Scrum Tutorials"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Book"
+        }
+      ],
+      "name": "Scrum Tutorials",
+      "type": 2
+    },
+    {
+      "id": 24,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "Zhao, Lau"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T18:22:53Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T18:22:53Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "2011-11-10T18:22:53Z"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/33"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T18:22:53Z No. of bitstreams: 1 waterfall_tutorial.txt: 23 bytes, checksum: 5af3a08e06ae717b8ed9defdafd56e19 (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T18:22:53Z (GMT). No. of bitstreams: 1 waterfall_tutorial.txt: 23 bytes, checksum: 5af3a08e06ae717b8ed9defdafd56e19 (MD5)"
+        },
+        {
+          "element": "language",
+          "qualifier": "iso",
+          "schema": "dc",
+          "value": "zh"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Tutorial"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Waterfall"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Waterfall Model Tutorial"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Presentation"
+        }
+      ],
+      "name": "Waterfall Model Tutorial",
+      "type": 2
+    },
+    {
+      "id": 12,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "Lopez, Maria"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T17:52:03Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T17:52:03Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "2011-11-10T17:52:03Z"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/23"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:52:03Z No. of bitstreams: 1 pom.txt: 8 bytes, checksum: f96725ffe5336c8bbda7d3fef04a076b (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T17:52:03Z (GMT). No. of bitstreams: 1 pom.txt: 8 bytes, checksum: f96725ffe5336c8bbda7d3fef04a076b (MD5)"
+        },
+        {
+          "element": "language",
+          "qualifier": "iso",
+          "schema": "dc",
+          "value": "es"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "POM.xml"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Maven"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Check out my POM"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Image"
+        }
+      ],
+      "name": "Check out my POM",
+      "type": 2
+    },
+    {
+      "id": 16,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "Harper, Charlie"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T18:01:00Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T18:01:00Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "2011-11-10T18:01:00Z"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/26"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T18:01:00Z No. of bitstreams: 1 smc.txt: 8 bytes, checksum: 99773f426a678c374b2e455affb11638 (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T18:01:00Z (GMT). No. of bitstreams: 1 smc.txt: 8 bytes, checksum: 99773f426a678c374b2e455affb11638 (MD5)"
+        },
+        {
+          "element": "language",
+          "qualifier": "iso",
+          "schema": "dc",
+          "value": "es"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "SMC"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Scrum"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Scrum Master Certification Guide"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Book"
+        }
+      ],
+      "name": "Scrum Master Certification Guide",
+      "type": 2
+    },
+    {
+      "id": 2,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "rooney, wayne"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T17:21:38Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T17:21:38Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "2011-11-10T17:21:38Z"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/13"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:21:38Z No. of bitstreams: 1 r3ia.txt: 9 bytes, checksum: 189e58744a3ffb0524bd81619800df90 (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T17:21:38Z (GMT). No. of bitstreams: 1 r3ia.txt: 9 bytes, checksum: 189e58744a3ffb0524bd81619800df90 (MD5)"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "action"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "book"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "rails 3 in action"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Book"
+        }
+      ],
+      "name": "rails 3 in action",
+      "type": 2
+    },
+    {
+      "id": 9,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "Zuck, Mark"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T17:42:56Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T17:42:56Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "2011-11-10T17:42:56Z"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/20"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:42:56Z No. of bitstreams: 1 jdbc.txt: 9 bytes, checksum: 73d08e075748d40cf205eaa490941600 (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T17:42:56Z (GMT). No. of bitstreams: 1 jdbc.txt: 9 bytes, checksum: 73d08e075748d40cf205eaa490941600 (MD5)"
+        },
+        {
+          "element": "language",
+          "qualifier": "iso",
+          "schema": "dc",
+          "value": "en_US"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "JDBC"
+        },
+        {
+          "element": "subject",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "hibernate"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "JDBC Zuck's"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Book chapter"
+        }
+      ],
+      "name": "JDBC Zuck's",
+      "type": 2
+    },
+    {
+      "id": 3,
+      "metadata": [
+        {
+          "element": "contributor",
+          "qualifier": "author",
+          "schema": "dc",
+          "value": "brown"
+        },
+        {
+          "element": "date",
+          "qualifier": "accessioned",
+          "schema": "dc",
+          "value": "2011-11-10T17:25:45Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "available",
+          "schema": "dc",
+          "value": "2011-11-10T17:25:45Z"
+        },
+        {
+          "element": "date",
+          "qualifier": "issued",
+          "schema": "dc",
+          "value": "1976-04-24"
+        },
+        {
+          "element": "identifier",
+          "qualifier": "uri",
+          "schema": "dc",
+          "value": "http:\/\/hdl.handle.net\/123456789\/14"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:25:45Z No. of bitstreams: 1 rails_tutorial.txt: 19 bytes, checksum: ff21fdbe9c1b7972f43411ce7cd9e80a (MD5)"
+        },
+        {
+          "element": "description",
+          "qualifier": "provenance",
+          "schema": "dc",
+          "value": "Made available in DSpace on 2011-11-10T17:25:45Z (GMT). No. of bitstreams: 1 rails_tutorial.txt: 19 bytes, checksum: ff21fdbe9c1b7972f43411ce7cd9e80a (MD5)   Previous issue date: 1976-04-24"
+        },
+        {
+          "element": "language",
+          "qualifier": "iso",
+          "schema": "dc",
+          "value": "zh"
+        },
+        {
+          "element": "publisher",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "pearson"
+        },
+        {
+          "element": "title",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "rails tutorial"
+        },
+        {
+          "element": "type",
+          "qualifier": null,
+          "schema": "dc",
+          "value": "Technical Report"
+        }
+      ],
+      "name": "rails tutorial",
+      "type": 2
+    }
+  ],
+  "name": "Rails",
+  "type": 3,
+  "entityReference": "\/collections\/1",
+  "entityURL": "http:\/\/localhost:8080\/dspace-rest\/collections\/1",
+  "entityId": "1"
+}

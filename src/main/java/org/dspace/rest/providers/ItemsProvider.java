@@ -13,15 +13,15 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.dspace.content.Item;
-import org.dspace.content.ItemIterator;
 import org.dspace.core.Context;
 import org.dspace.rest.data.DSpace;
+import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.item.ItemEntity;
+import org.dspace.rest.data.item.ItemEntityId;
+import org.dspace.rest.data.item.Items;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
-import org.dspace.rest.entities.DetailDepth;
-import org.dspace.rest.entities.ItemEntity;
-import org.dspace.rest.entities.ItemEntityId;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
 import org.sakaiproject.entitybus.EntityReference;
@@ -77,9 +77,9 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
             }
         }
 
-        private ItemEntity item(String id, Parameters parameters,
+        private ItemEntity item(String uid, Parameters parameters,
                 Context context) throws SQLException {
-            return new ItemEntity(id, context, parameters.getDetailDepth().getDepth());
+            return new Items(context).fetch(parameters.getDetailDepth().getDepth(), uid);
         }
     
         @Override
@@ -144,12 +144,7 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
                 return binder.resolve(id, route, parameters, context);
             } else {
                 if (entityExists(id)) {
-                    // return basic or full info, according to requirements
-                    if (parameters.getEntityBuild().isIdOnly()) {
-                        return new ItemEntityId(id, context);
-                    } else {
-                        return new ItemEntity(id, context, parameters.getDetailDepth().getDepth());
-                    }
+                    return parameters.item(id, context);
                 } else {
                     if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
                     throw new EntityNotFoundException(operation);
@@ -164,21 +159,17 @@ public class ItemsProvider extends AbstractBaseProvider  implements CoreEntityPr
         }
     }
 
-    public List<?> getEntities(EntityReference ref, Search search) {
-        return getAllItems();
+    public List<Entity> getEntities(EntityReference ref, Search search) {
+        return get();
     }
 
-    private List<?> getAllItems() {
+    private List<Entity> get() {
         final Context context = DSpace.context();
         try {
-            final Parameters parameters = new Parameters(requestStore);
             
-            final ItemIterator items = Item.findAll(context);
-            final List<Object> entities = parameters.itemBuilder(DetailDepth.FOR_ALL_INDEX).build(items);
-
-            parameters.sort(entities);
-            parameters.removeTrailing(entities);
-            return entities;
+            final Parameters parameters = new Parameters(requestStore);
+            return parameters.items(context);
+            
         } catch (SQLException cause) {
             throw new SQLFailureEntityException(Operation.GET_ITEMS, cause);
 

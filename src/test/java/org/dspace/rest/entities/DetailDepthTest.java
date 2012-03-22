@@ -3,7 +3,7 @@ package org.dspace.rest.entities;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.dspace.rest.entities.DetailDepth;
+import org.dspace.rest.data.base.DetailDepth;
 import org.junit.Test;
 
 public class DetailDepthTest {

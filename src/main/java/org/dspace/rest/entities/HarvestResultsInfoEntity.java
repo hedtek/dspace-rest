@@ -8,12 +8,9 @@
 
 package org.dspace.rest.entities;
 
-import org.dspace.rest.providers.HarvestProvider;
 
 /**
  * Entity describing Harvesting results
- * @see HarvestProvider
- * @see Harvest
  * @author Bojan Suzic, bojan.suzic@gmail.com
  */
 public class HarvestResultsInfoEntity {

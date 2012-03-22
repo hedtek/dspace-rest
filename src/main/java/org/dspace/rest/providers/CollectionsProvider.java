@@ -10,20 +10,19 @@
 package org.dspace.rest.providers;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
 import org.dspace.core.Context;
 import org.dspace.rest.data.DSpace;
-import org.dspace.rest.data.DSpace.Collections;
+import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.collection.CollectionEntity;
+import org.dspace.rest.data.collection.CollectionEntityId;
+import org.dspace.rest.data.collection.Collections;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
-import org.dspace.rest.entities.CollectionEntity;
-import org.dspace.rest.entities.CollectionEntityId;
-import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
 import org.sakaiproject.entitybus.EntityReference;
@@ -45,47 +44,47 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         protected Object value(String collectionId, Parameters parameters,
                 Context context, String attributeSegment) throws SQLException {
             if("id".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getId();
+                return parameters.collectionEntity(collectionId, context).getId();
             } else if("id".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getId();
+                return parameters.collectionEntity(collectionId, context).getId();
             } else if("name".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getName();
+                return parameters.collectionEntity(collectionId, context).getName();
             } else if("licence".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getLicence();
+                return parameters.collectionEntity(collectionId, context).getLicence();
             } else if("items".equals(attributeSegment)) {
-                return Collections.items(collectionId, parameters, context);
+                switch (parameters.getEntityBuild().getFetchGroup()) {
+                    case LIGHT:
+                        return parameters.lightCollectionWithItems(collectionId, context);
+                    default:
+                        return parameters.collectionEntity(collectionId, context).getItems();
+                }
             } else if("handle".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getHandle();
+                return parameters.collectionEntity(collectionId, context).getHandle();
             } else if("canedit".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getCanEdit();
+                return parameters.collectionEntity(collectionId, context).getCanEdit();
             } else if("communities".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getCommunities();
+                return parameters.collectionEntity(collectionId, context).getCommunities();
             } else if("countItems".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getCountItems();
+                return parameters.collectionEntity(collectionId, context).getCountItems();
             } else if("type".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getType();
+                return parameters.collectionEntity(collectionId, context).getType();
             } else if("shortDescription".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getShortDescription();
+                return parameters.collectionEntity(collectionId, context).getShortDescription();
             } else if("introText".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getIntroText();
+                return parameters.collectionEntity(collectionId, context).getIntroText();
             } else if("copyrightText".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getCopyrightText();
+                return parameters.collectionEntity(collectionId, context).getCopyrightText();
             } else if("sidebarText".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getSidebarText();
+                return parameters.collectionEntity(collectionId, context).getSidebarText();
             } else if("provenance".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getProvenance();
+                return parameters.collectionEntity(collectionId, context).getProvenance();
             } else if("logo".equals(attributeSegment)) {
-                return collection(collectionId, parameters, context).getLogo();
+                return parameters.collectionEntity(collectionId, context).getLogo();
             } else {
                 return null;
             }
         }
 
-        private CollectionEntity collection(String id, Parameters parameters,
-                Context context) throws SQLException {
-            return Collections.build(id, context, parameters.getDetailDepth().getDepth());
-        }
-    
         @Override
         protected Operation operation() {
             return Operation.GET_COLLECTIONS;
@@ -150,11 +149,7 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
             } else {
                 if (entityExists(id)) {
                     // return basic entity or full info
-                    if (parameters.getEntityBuild().isIdOnly()) {
-                        return Collections.build(id, context);
-                    } else {
-                        return Collections.build(id, context, parameters.getDetailDepth().getDepth());
-                    }
+                    return parameters.collection(id, context);
 
                 } else {
                     if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
@@ -185,14 +180,10 @@ public class CollectionsProvider extends AbstractBaseProvider implements CoreEnt
         final Parameters parameters = new Parameters(requestStore);
         final Context context = DSpace.context();
         try {
-
-            final List<Object> entities = new ArrayList<Object>();
             final Collection[] collections = Collection.findAll(context);
-            final boolean idOnly = parameters.getEntityBuild().isIdOnly();
-            for (Collection c : collections) {
-                entities.add(idOnly ? Collections.build(c) : new CollectionEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
-            }
-
+            
+            final List<Entity> entities = Collections.build(parameters, collections);
+            
             parameters.sort(entities);
             parameters.removeTrailing(entities);
 

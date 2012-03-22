@@ -1,0 +1,22 @@
+{
+  "collections": [
+    {
+      "countItems": 18,
+      "id": 1,
+      "name": "Rails",
+      "type": 3
+    },
+    {
+      "countItems": 1,
+      "id": 2,
+      "name": "Sinatra",
+      "type": 3
+    }
+  ],
+  "id": 1,
+  "name": "Ruby",
+  "type": 4,
+  "entityReference": "\/communities\/1",
+  "entityURL": "http:\/\/localhost:8080\/dspace-rest\/communities\/1",
+  "entityId": "1"
+}

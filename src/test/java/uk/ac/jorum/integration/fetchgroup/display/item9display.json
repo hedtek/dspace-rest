@@ -1,0 +1,150 @@
+{
+  "bundles": [
+    {
+      "bitstreams": [
+        {
+          "checkSum": "73d08e075748d40cf205eaa490941600",
+          "checkSumAlgorithm": "MD5",
+          "description": null,
+          "formatDescription": "Text",
+          "handle": null,
+          "id": 19,
+          "mimeType": "text\/plain",
+          "name": "jdbc.txt",
+          "sequenceId": 1,
+          "size": 9,
+          "source": "\/home\/ashish\/jorum_dspace\/dspace-rest\/target\/testResources\/upload\/jdbc.txt",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 17,
+      "name": "ORIGINAL",
+      "type": 1
+    },
+    {
+      "bitstreams": [
+        {
+          "checkSum": "b517840267b82d9d34e9f117ca804380",
+          "checkSumAlgorithm": "MD5",
+          "description": null,
+          "formatDescription": "License",
+          "handle": null,
+          "id": 20,
+          "mimeType": "text\/plain  charset=utf-8",
+          "name": "license.txt",
+          "sequenceId": 2,
+          "size": 89,
+          "source": "Written by org.dspace.content.Item",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 18,
+      "name": "LICENSE",
+      "type": 1
+    }
+  ],
+  "id": 9,
+  "isArchived": true,
+  "metadata": [
+    {
+      "element": "contributor",
+      "qualifier": "author",
+      "schema": "dc",
+      "value": "Zuck, Mark"
+    },
+    {
+      "element": "date",
+      "qualifier": "accessioned",
+      "schema": "dc",
+      "value": "2011-11-10T17:42:56Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "available",
+      "schema": "dc",
+      "value": "2011-11-10T17:42:56Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "issued",
+      "schema": "dc",
+      "value": "2011-11-10T17:42:56Z"
+    },
+    {
+      "element": "identifier",
+      "qualifier": "uri",
+      "schema": "dc",
+      "value": "http:\/\/hdl.handle.net\/123456789\/20"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:42:56Z No. of bitstreams: 1 jdbc.txt: 9 bytes, checksum: 73d08e075748d40cf205eaa490941600 (MD5)"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Made available in DSpace on 2011-11-10T17:42:56Z (GMT). No. of bitstreams: 1 jdbc.txt: 9 bytes, checksum: 73d08e075748d40cf205eaa490941600 (MD5)"
+    },
+    {
+      "element": "language",
+      "qualifier": "iso",
+      "schema": "dc",
+      "value": "en_US"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "JDBC"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "hibernate"
+    },
+    {
+      "element": "title",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "JDBC Zuck's"
+    },
+    {
+      "element": "type",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "Book chapter"
+    }
+  ],
+  "name": "JDBC Zuck's",
+  "owningCollection": {
+    "communities": [
+      {
+        "id": 2,
+        "name": "Java Community",
+        "type": 4
+      }
+    ],
+    "id": 4,
+    "name": "Hibernate",
+    "type": 3
+  },
+  "submitter": {
+    "firstName": "dspace",
+    "fullName": "dspace dspace",
+    "id": 1,
+    "lastName": "dspace",
+    "type": 7
+  },
+  "type": 2,
+  "entityReference": "\/items\/9",
+  "entityURL": "http:\/\/localhost:8080\/dspace-rest\/items\/9",
+  "entityId": "9"
+}

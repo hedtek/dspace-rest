@@ -9,19 +9,20 @@
 package org.dspace.rest.providers;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.dspace.content.Community;
 import org.dspace.core.Context;
 import org.dspace.rest.data.DSpace;
+import org.dspace.rest.data.base.DetailDepth;
+import org.dspace.rest.data.base.Entity;
+import org.dspace.rest.data.community.Communities;
+import org.dspace.rest.data.community.CommunityEntity;
+import org.dspace.rest.data.community.CommunityEntityId;
 import org.dspace.rest.diagnose.EntityNotFoundException;
 import org.dspace.rest.diagnose.Operation;
 import org.dspace.rest.diagnose.SQLFailureEntityException;
-import org.dspace.rest.entities.CommunityEntity;
-import org.dspace.rest.entities.CommunityEntityId;
-import org.dspace.rest.entities.DetailDepth;
 import org.dspace.rest.params.Parameters;
 import org.dspace.rest.params.Route;
 import org.sakaiproject.entitybus.EntityReference;
@@ -79,9 +80,9 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
 
         private CommunityEntity community(String id, Context context,
                 final DetailDepth depth) throws SQLException {
-            return new CommunityEntity(id, context, 1, depth);
+            return new Communities(context).community(id, depth);
         }
-    
+
         protected Operation operation() {
             return Operation.GET_COMMUNITIES;
         }
@@ -136,12 +137,7 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
                 return binder.resolve(id, route, parameters, context);
             } else {
                 if (entityExists(id)) {
-                    // return just entity containing id or full info
-                    if (parameters.getEntityBuild().isIdOnly()) {
-                        return new CommunityEntityId(id, context);
-                    } else {
-                        return new CommunityEntity(id, context, 1, parameters.getDetailDepth().getDepth());
-                    }
+                    return parameters.community(id, context);
                 } else {
                     if (log.isDebugEnabled()) log.debug("Cannot find entity " + id);
                     throw new EntityNotFoundException(operation);
@@ -155,25 +151,16 @@ public class CommunitiesProvider extends AbstractBaseProvider  implements CoreEn
         }
     }
 
-    public List<?> getEntities(EntityReference ref, Search search) {
+    public List<Entity> getEntities(EntityReference ref, Search search) {
         return getAllCommunities();
     }
 
     
-    private List<?> getAllCommunities() {
+    private List<Entity> getAllCommunities() {
         final Parameters parameters = new Parameters(requestStore);
         final Context context = DSpace.context();
         try {
-            final List<Object> entities = new ArrayList<Object>();
-            
-            final Community[] communities = parameters.getEntityBuild().isTopLevelOnly() ? Community.findAllTop(context) : Community.findAll(context);
-            for (Community c : communities) {
-                entities.add(parameters.getEntityBuild().isIdOnly() ? new CommunityEntityId(c) : new CommunityEntity(c, 1, DetailDepth.FOR_ALL_INDEX));
-            }
-
-            parameters.sort(entities);
-            parameters.removeTrailing(entities);
-            return entities;
+            return parameters.communities(context);
             
         } catch (SQLException cause) {
             throw new SQLFailureEntityException(Operation.GET_COMMUNITIES, cause);

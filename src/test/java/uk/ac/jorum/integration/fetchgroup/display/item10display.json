@@ -1,0 +1,150 @@
+{
+  "bundles": [
+    {
+      "bitstreams": [
+        {
+          "checkSum": "3be099dec9392a81a4a5bac0fa888c7b",
+          "checkSumAlgorithm": "MD5",
+          "description": null,
+          "formatDescription": "Text",
+          "handle": null,
+          "id": 21,
+          "mimeType": "text\/plain",
+          "name": "hibernate-tutorial.txt",
+          "sequenceId": 1,
+          "size": 23,
+          "source": "\/home\/ashish\/jorum_dspace\/dspace-rest\/target\/testResources\/upload\/hibernate-tutorial.txt",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 19,
+      "name": "ORIGINAL",
+      "type": 1
+    },
+    {
+      "bitstreams": [
+        {
+          "checkSum": "f32932ed22bf8925d764c4513dd001d9",
+          "checkSumAlgorithm": "MD5",
+          "description": null,
+          "formatDescription": "License",
+          "handle": null,
+          "id": 22,
+          "mimeType": "text\/plain  charset=utf-8",
+          "name": "license.txt",
+          "sequenceId": 2,
+          "size": 89,
+          "source": "Written by org.dspace.content.Item",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 20,
+      "name": "LICENSE",
+      "type": 1
+    }
+  ],
+  "id": 10,
+  "isArchived": true,
+  "metadata": [
+    {
+      "element": "contributor",
+      "qualifier": "author",
+      "schema": "dc",
+      "value": "Tutor, Hibernate"
+    },
+    {
+      "element": "date",
+      "qualifier": "accessioned",
+      "schema": "dc",
+      "value": "2011-11-10T17:45:18Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "available",
+      "schema": "dc",
+      "value": "2011-11-10T17:45:18Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "issued",
+      "schema": "dc",
+      "value": "2011-11-10T17:45:18Z"
+    },
+    {
+      "element": "identifier",
+      "qualifier": "uri",
+      "schema": "dc",
+      "value": "http:\/\/hdl.handle.net\/123456789\/21"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:45:18Z No. of bitstreams: 1 hibernate-tutorial.txt: 23 bytes, checksum: 3be099dec9392a81a4a5bac0fa888c7b (MD5)"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Made available in DSpace on 2011-11-10T17:45:18Z (GMT). No. of bitstreams: 1 hibernate-tutorial.txt: 23 bytes, checksum: 3be099dec9392a81a4a5bac0fa888c7b (MD5)"
+    },
+    {
+      "element": "language",
+      "qualifier": "iso",
+      "schema": "dc",
+      "value": "en"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "Tutorial"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "hibernate"
+    },
+    {
+      "element": "title",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "Hibernate tutorials"
+    },
+    {
+      "element": "type",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "Learning Object"
+    }
+  ],
+  "name": "Hibernate tutorials",
+  "owningCollection": {
+    "communities": [
+      {
+        "id": 2,
+        "name": "Java Community",
+        "type": 4
+      }
+    ],
+    "id": 4,
+    "name": "Hibernate",
+    "type": 3
+  },
+  "submitter": {
+    "firstName": "dspace",
+    "fullName": "dspace dspace",
+    "id": 1,
+    "lastName": "dspace",
+    "type": 7
+  },
+  "type": 2,
+  "entityReference": "\/items\/10",
+  "entityURL": "http:\/\/localhost:8080\/dspace-rest\/items\/10",
+  "entityId": "10"
+}

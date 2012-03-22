@@ -1,0 +1,144 @@
+ {
+  "bundles": [
+    {
+      "bitstreams": [
+        {
+          "checkSum": "189e58744a3ffb0524bd81619800df90",
+          "checkSumAlgorithm": "MD5",
+          "description": "",
+          "formatDescription": "Text",
+          "handle": null,
+          "id": 3,
+          "mimeType": "text\/plain",
+          "name": "r3ia.txt",
+          "sequenceId": 1,
+          "size": 9,
+          "source": "\/home\/ashish\/jorum_dspace\/dspace-rest\/target\/testResources\/upload\/r3ia.txt",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 3,
+      "name": "ORIGINAL",
+      "type": 1
+    },
+    {
+      "bitstreams": [
+        {
+          "checkSum": "ef19d6f7045e3a292e0e21d124ebc89c",
+          "checkSumAlgorithm": "MD5",
+          "description": null,
+          "formatDescription": "License",
+          "handle": null,
+          "id": 4,
+          "mimeType": "text\/plain  charset=utf-8",
+          "name": "license.txt",
+          "sequenceId": 2,
+          "size": 89,
+          "source": "Written by org.dspace.content.Item",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 4,
+      "name": "LICENSE",
+      "type": 1
+    }
+  ],
+  "id": 2,
+  "isArchived": true,
+  "metadata": [
+    {
+      "element": "contributor",
+      "qualifier": "author",
+      "schema": "dc",
+      "value": "rooney, wayne"
+    },
+    {
+      "element": "date",
+      "qualifier": "accessioned",
+      "schema": "dc",
+      "value": "2011-11-10T17:21:38Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "available",
+      "schema": "dc",
+      "value": "2011-11-10T17:21:38Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "issued",
+      "schema": "dc",
+      "value": "2011-11-10T17:21:38Z"
+    },
+    {
+      "element": "identifier",
+      "qualifier": "uri",
+      "schema": "dc",
+      "value": "http:\/\/hdl.handle.net\/123456789\/13"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:21:38Z No. of bitstreams: 1 r3ia.txt: 9 bytes, checksum: 189e58744a3ffb0524bd81619800df90 (MD5)"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Made available in DSpace on 2011-11-10T17:21:38Z (GMT). No. of bitstreams: 1 r3ia.txt: 9 bytes, checksum: 189e58744a3ffb0524bd81619800df90 (MD5)"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "action"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "book"
+    },
+    {
+      "element": "title",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "rails 3 in action"
+    },
+    {
+      "element": "type",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "Book"
+    }
+  ],
+  "name": "rails 3 in action",
+  "owningCollection": {
+    "communities": [
+      {
+        "id": 1,
+        "name": "Ruby",
+        "type": 4
+      }
+    ],
+    "id": 1,
+    "name": "Rails",
+    "type": 3
+  },
+  "submitter": {
+    "firstName": "dspace",
+    "fullName": "dspace dspace",
+    "id": 1,
+    "lastName": "dspace",
+    "type": 7
+  },
+  "type": 2,
+  "entityReference": "\/items\/2",
+  "entityURL": "http:\/\/localhost:8080\/dspace-rest\/items\/2",
+  "entityId": "2"
+} 

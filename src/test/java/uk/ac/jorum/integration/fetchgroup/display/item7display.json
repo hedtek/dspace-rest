@@ -1,0 +1,166 @@
+ {
+  "bundles": [
+    {
+      "bitstreams": [
+        {
+          "checkSum": "18f2f8ae03cf0129490c592c4424bc04",
+          "checkSumAlgorithm": "MD5",
+          "description": "spring guides",
+          "formatDescription": "Text",
+          "handle": null,
+          "id": 14,
+          "mimeType": "text\/plain",
+          "name": "spring_guides.txt",
+          "sequenceId": 1,
+          "size": 18,
+          "source": "\/home\/ashish\/jorum_dspace\/dspace-rest\/target\/testResources\/upload\/spring_guides.txt",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        },
+        {
+          "checkSum": "9d1be970259d826ed105a1c2740798d6",
+          "checkSumAlgorithm": "MD5",
+          "description": "spring tutorials",
+          "formatDescription": "Text",
+          "handle": null,
+          "id": 15,
+          "mimeType": "text\/plain",
+          "name": "spring_tutorial.txt",
+          "sequenceId": 2,
+          "size": 20,
+          "source": "\/home\/ashish\/jorum_dspace\/dspace-rest\/target\/testResources\/upload\/spring_tutorial.txt",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 13,
+      "name": "ORIGINAL",
+      "type": 1
+    },
+    {
+      "bitstreams": [
+        {
+          "checkSum": "ff2c19acd8857de50c919a440225b52c",
+          "checkSumAlgorithm": "MD5",
+          "description": null,
+          "formatDescription": "License",
+          "handle": null,
+          "id": 16,
+          "mimeType": "text\/plain  charset=utf-8",
+          "name": "license.txt",
+          "sequenceId": 3,
+          "size": 89,
+          "source": "Written by org.dspace.content.Item",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 14,
+      "name": "LICENSE",
+      "type": 1
+    }
+  ],
+  "id": 7,
+  "isArchived": true,
+  "metadata": [
+    {
+      "element": "contributor",
+      "qualifier": "author",
+      "schema": "dc",
+      "value": "Mercury, Freddie"
+    },
+    {
+      "element": "date",
+      "qualifier": "accessioned",
+      "schema": "dc",
+      "value": "2011-11-10T17:33:57Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "available",
+      "schema": "dc",
+      "value": "2011-11-10T17:33:57Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "issued",
+      "schema": "dc",
+      "value": "2011-11-10T17:33:57Z"
+    },
+    {
+      "element": "identifier",
+      "qualifier": "uri",
+      "schema": "dc",
+      "value": "http:\/\/hdl.handle.net\/123456789\/18"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:33:57Z No. of bitstreams: 2 spring_guides.txt: 18 bytes, checksum: 18f2f8ae03cf0129490c592c4424bc04 (MD5) spring_tutorial.txt: 20 bytes, checksum: 9d1be970259d826ed105a1c2740798d6 (MD5)"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Made available in DSpace on 2011-11-10T17:33:57Z (GMT). No. of bitstreams: 2 spring_guides.txt: 18 bytes, checksum: 18f2f8ae03cf0129490c592c4424bc04 (MD5) spring_tutorial.txt: 20 bytes, checksum: 9d1be970259d826ed105a1c2740798d6 (MD5)"
+    },
+    {
+      "element": "language",
+      "qualifier": "iso",
+      "schema": "dc",
+      "value": "en"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "spring"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "tutorials and guides"
+    },
+    {
+      "element": "title",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "guides and tutorials"
+    },
+    {
+      "element": "type",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "Book"
+    }
+  ],
+  "name": "guides and tutorials",
+  "owningCollection": {
+    "communities": [
+      {
+        "id": 2,
+        "name": "Java Community",
+        "type": 4
+      }
+    ],
+    "id": 3,
+    "name": "Spring",
+    "type": 3
+  },
+  "submitter": {
+    "firstName": "dspace",
+    "fullName": "dspace dspace",
+    "id": 1,
+    "lastName": "dspace",
+    "type": 7
+  },
+  "type": 2,
+  "entityReference": "\/items\/7",
+  "entityURL": "http:\/\/localhost:8080\/dspace-rest\/items\/7",
+  "entityId": "7"
+}

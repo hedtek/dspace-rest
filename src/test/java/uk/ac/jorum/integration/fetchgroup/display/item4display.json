@@ -1,0 +1,144 @@
+{
+  "bundles": [
+    {
+      "bitstreams": [
+        {
+          "checkSum": "01ef867ced6e7b0c8966211650adeee5",
+          "checkSumAlgorithm": "MD5",
+          "description": null,
+          "formatDescription": "Text",
+          "handle": null,
+          "id": 7,
+          "mimeType": "text\/plain",
+          "name": "awdwr.txt",
+          "sequenceId": 1,
+          "size": 10,
+          "source": "\/home\/ashish\/jorum_dspace\/dspace-rest\/target\/testResources\/upload\/awdwr.txt",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 7,
+      "name": "ORIGINAL",
+      "type": 1
+    },
+    {
+      "bitstreams": [
+        {
+          "checkSum": "c63c5610e7bde735c10718468b9e897d",
+          "checkSumAlgorithm": "MD5",
+          "description": null,
+          "formatDescription": "License",
+          "handle": null,
+          "id": 8,
+          "mimeType": "text\/plain  charset=utf-8",
+          "name": "license.txt",
+          "sequenceId": 2,
+          "size": 89,
+          "source": "Written by org.dspace.content.Item",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 8,
+      "name": "LICENSE",
+      "type": 1
+    }
+  ],
+  "id": 4,
+  "isArchived": true,
+  "metadata": [
+    {
+      "element": "contributor",
+      "qualifier": "author",
+      "schema": "dc",
+      "value": "burns, paul"
+    },
+    {
+      "element": "date",
+      "qualifier": "accessioned",
+      "schema": "dc",
+      "value": "2011-11-10T17:26:48Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "available",
+      "schema": "dc",
+      "value": "2011-11-10T17:26:48Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "issued",
+      "schema": "dc",
+      "value": "2011-11-10T17:26:48Z"
+    },
+    {
+      "element": "identifier",
+      "qualifier": "uri",
+      "schema": "dc",
+      "value": "http:\/\/hdl.handle.net\/123456789\/15"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:26:48Z No. of bitstreams: 1 awdwr.txt: 10 bytes, checksum: 01ef867ced6e7b0c8966211650adeee5 (MD5)"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Made available in DSpace on 2011-11-10T17:26:48Z (GMT). No. of bitstreams: 1 awdwr.txt: 10 bytes, checksum: 01ef867ced6e7b0c8966211650adeee5 (MD5)"
+    },
+    {
+      "element": "language",
+      "qualifier": "iso",
+      "schema": "dc",
+      "value": "es"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "another rails book"
+    },
+    {
+      "element": "title",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "agile web development with rails"
+    },
+    {
+      "element": "type",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "Dataset"
+    }
+  ],
+  "name": "agile web development with rails",
+  "owningCollection": {
+    "communities": [
+      {
+        "id": 1,
+        "name": "Ruby",
+        "type": 4
+      }
+    ],
+    "id": 1,
+    "name": "Rails",
+    "type": 3
+  },
+  "submitter": {
+    "firstName": "dspace",
+    "fullName": "dspace dspace",
+    "id": 1,
+    "lastName": "dspace",
+    "type": 7
+  },
+  "type": 2,
+  "entityReference": "\/items\/4",
+  "entityURL": "http:\/\/localhost:8080\/dspace-rest\/items\/4",
+  "entityId": "4"
+} 

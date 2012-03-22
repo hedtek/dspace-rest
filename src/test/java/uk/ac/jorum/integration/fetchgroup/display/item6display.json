@@ -1,0 +1,166 @@
+{
+  "bundles": [
+    {
+      "bitstreams": [
+        {
+          "checkSum": "671c8bf2d92e1fdd7f809da10f007399",
+          "checkSumAlgorithm": "MD5",
+          "description": "ioc tutorial",
+          "formatDescription": "Text",
+          "handle": null,
+          "id": 11,
+          "mimeType": "text\/plain",
+          "name": "ioc.txt",
+          "sequenceId": 1,
+          "size": 8,
+          "source": "\/home\/ashish\/jorum_dspace\/dspace-rest\/target\/testResources\/upload\/ioc.txt",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        },
+        {
+          "checkSum": "24c6cbbfd4215b77f96aaa8b11072b7c",
+          "checkSumAlgorithm": "MD5",
+          "description": "dependancy injection tutorial",
+          "formatDescription": "Text",
+          "handle": null,
+          "id": 12,
+          "mimeType": "text\/plain",
+          "name": "di.txt",
+          "sequenceId": 2,
+          "size": 7,
+          "source": "\/home\/ashish\/jorum_dspace\/dspace-rest\/target\/testResources\/upload\/di.txt",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 11,
+      "name": "ORIGINAL",
+      "type": 1
+    },
+    {
+      "bitstreams": [
+        {
+          "checkSum": "f626df773be781de11d74180f4a651b8",
+          "checkSumAlgorithm": "MD5",
+          "description": null,
+          "formatDescription": "License",
+          "handle": null,
+          "id": 13,
+          "mimeType": "text\/plain  charset=utf-8",
+          "name": "license.txt",
+          "sequenceId": 3,
+          "size": 89,
+          "source": "Written by org.dspace.content.Item",
+          "storeNumber": 0,
+          "type": 0,
+          "userFormatDescription": null
+        }
+      ],
+      "id": 12,
+      "name": "LICENSE",
+      "type": 1
+    }
+  ],
+  "id": 6,
+  "isArchived": true,
+  "metadata": [
+    {
+      "element": "contributor",
+      "qualifier": "author",
+      "schema": "dc",
+      "value": "springer, jerry"
+    },
+    {
+      "element": "date",
+      "qualifier": "accessioned",
+      "schema": "dc",
+      "value": "2011-11-10T17:31:36Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "available",
+      "schema": "dc",
+      "value": "2011-11-10T17:31:36Z"
+    },
+    {
+      "element": "date",
+      "qualifier": "issued",
+      "schema": "dc",
+      "value": "2011-11-10T17:31:36Z"
+    },
+    {
+      "element": "identifier",
+      "qualifier": "uri",
+      "schema": "dc",
+      "value": "http:\/\/hdl.handle.net\/123456789\/17"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Submitted by dspace dspace (dspace@example.com) on 2011-11-10T17:31:36Z No. of bitstreams: 2 ioc.txt: 8 bytes, checksum: 671c8bf2d92e1fdd7f809da10f007399 (MD5) di.txt: 7 bytes, checksum: 24c6cbbfd4215b77f96aaa8b11072b7c (MD5)"
+    },
+    {
+      "element": "description",
+      "qualifier": "provenance",
+      "schema": "dc",
+      "value": "Made available in DSpace on 2011-11-10T17:31:36Z (GMT). No. of bitstreams: 2 ioc.txt: 8 bytes, checksum: 671c8bf2d92e1fdd7f809da10f007399 (MD5) di.txt: 7 bytes, checksum: 24c6cbbfd4215b77f96aaa8b11072b7c (MD5)"
+    },
+    {
+      "element": "language",
+      "qualifier": "iso",
+      "schema": "dc",
+      "value": "es"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "dependency injection"
+    },
+    {
+      "element": "subject",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "inversion of control"
+    },
+    {
+      "element": "title",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "ioc and di"
+    },
+    {
+      "element": "type",
+      "qualifier": null,
+      "schema": "dc",
+      "value": "Animation"
+    }
+  ],
+  "name": "ioc and di",
+  "owningCollection": {
+    "communities": [
+      {
+        "id": 2,
+        "name": "Java Community",
+        "type": 4
+      }
+    ],
+    "id": 3,
+    "name": "Spring",
+    "type": 3
+  },
+  "submitter": {
+    "firstName": "dspace",
+    "fullName": "dspace dspace",
+    "id": 1,
+    "lastName": "dspace",
+    "type": 7
+  },
+  "type": 2,
+  "entityReference": "\/items\/6",
+  "entityURL": "http:\/\/localhost:8080\/dspace-rest\/items\/6",
+  "entityId": "6"
+}
