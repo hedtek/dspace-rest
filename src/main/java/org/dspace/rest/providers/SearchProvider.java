@@ -10,6 +10,7 @@ package org.dspace.rest.providers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.dspace.core.Context;
@@ -96,7 +97,25 @@ public class SearchProvider extends AbstractBaseProvider implements CoreEntityPr
     }
 
     private SearchResultsInfoEntity buildInfo(final QueryResults queryResults) {
-        return new SearchResultsInfoEntity(queryResults.getHitCount(), queryResults.getHitTypes(), queryResults.getHitHandles(), queryResults.getHitIds());
+        List<Integer> hh = queryResults.getHitTypes();
+        List<Object> hitTypes = new ArrayList<Object>(hh.size());
+        for (Integer e : hh) {
+            hitTypes.add((Object) e);
+        }
+
+        List<String> ii = queryResults.getHitHandles();
+        List<Object> hitHandles = new ArrayList<Object>(ii.size());
+        for (String e : ii) {
+            hitHandles.add((Object) e);
+        }
+
+        List<Integer> jj = queryResults.getHitIds();
+        List<Object> hitIds = new ArrayList<Object>(jj.size());
+        for (Integer e : jj) {
+            hitIds.add((Object) e);
+        }
+
+        return new SearchResultsInfoEntity(queryResults.getHitCount(), hitTypes, hitHandles, hitIds);
     }
 
     private QueryResults doQuery(final Context context) throws IOException {
